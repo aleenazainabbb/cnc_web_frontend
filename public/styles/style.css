@@ -35,8 +35,14 @@
     font-family: "Be Vietnam Pro", serif;
     font-weight: 700;
     font-style: normal;
+    
 }
-
+.be_vietnam-pro-normal {
+    font-family: "Be Vietnam Pro", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size:  "44px";
+}
 * {
     margin: 0;
     padding: 0;
@@ -992,7 +998,7 @@ input[type="number"] {
     align-items: center;
     justify-content: center;
     padding: 14px 20px;
-    border-radiuss: 10px;
+    border-radius: 10px;
     background: #ffffff;
     border: 2px solid #d3d8dd;
     color: #000000;

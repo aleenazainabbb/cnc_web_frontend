@@ -201,8 +201,9 @@ const Navbar: React.FC = () => {
               </ul>
             </li>
           </ul>
+         
           <Link
-            href="/request-service"
+            href="GetAquote"
             className="btn bg_green header_btn text-white headerBtn_green"
           >
             Get a quote
