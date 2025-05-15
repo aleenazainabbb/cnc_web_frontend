@@ -225,11 +225,12 @@
 
 // export default WhyChooseUsSection;
 
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const WhyChooseUsSection: React.FC = () => {
+const BenefitsOfDeepCleaning: React.FC = () => {
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
@@ -240,44 +241,28 @@ const WhyChooseUsSection: React.FC = () => {
               style={{
                 fontSize: "44px",
                 fontFamily: "'Be Vietnam Pro', sans-serif",
-                fontWeight: "500",
+                fontWeight: 500,
               }}
             >
-              Why Choose Us
+              Benefits of Deep Cleaning
             </h2>
-
-            <strong
-              className="mt-2 mb-4"
-              style={{
-                fontSize: "16px",
-                fontFamily: "'Be Vietnam Pro', sans-serif",
-                fontWeight: "700",
-              }}
-            >
-              We Will Make Absolutely Any Place Clean, Neat & Tidy.
-            </strong>
 
             <p
               className="text-justify mt-4 mb-2 text-muted why_choose_dec"
               style={{
                 fontSize: "16px",
                 fontFamily: "'Be Vietnam Pro', sans-serif",
-                fontWeight: "400",
+                fontWeight: 400,
               }}
             >
-              We, at Care n Clean, offer multiple options to use our platform and schedule the needed services on the go. Primarily, you can use the search bar, enter few keywords related to your desired services and fill out the form to schedule it.
+              Proficient cleaning techniques eliminate allergens and bacteria
+              alongside dust, producing cleaner air and minimizing infection
+              risks. The complete cleaning routine reaches every location that
+              regular maintenance fails to achieve, ensuring a
+              contamination-free environment. The cleaning method enhances
+              sanitation standards and comfort quality, which produces better
+              home and workplace health conditions.
             </p>
-
-            <strong
-              className="mt-2 mb-4"
-              style={{
-                fontSize: "16px",
-                fontFamily: "'Be Vietnam Pro', sans-serif",
-                fontWeight: "700",
-              }}
-            >
-              Our Best Handyman Services Dubai
-            </strong>
 
             <div className="row mt-3">
               <div className="col-md-6">
@@ -315,12 +300,13 @@ const WhyChooseUsSection: React.FC = () => {
             </Link>
           </div>
         </div>
+        
         <div className="col-12 col-lg-6 col-md-6">
           <div className="d-inline-block position-relative">
             <Image
               src="/images/WhyChooseUs/WhyChooseUs-1.png"
               alt="Main Image"
-              className="main-image shadow-left"
+              className=""
               width={468.63}
               height={505}
               style={{
@@ -331,13 +317,6 @@ const WhyChooseUsSection: React.FC = () => {
                 top: "3642px",
               }}
             />
-            <Image
-              src="/images/WhyChooseUs/WhyChooseUs-2.png"
-              alt="Overlay Image"
-              className="overlay-image overly-right"
-              width={200}
-              height={150}
-            />
           </div>
         </div>
       </div>
@@ -345,11 +324,7 @@ const WhyChooseUsSection: React.FC = () => {
   );
 };
 
-export default WhyChooseUsSection ;
-
-
-
-
+export default BenefitsOfDeepCleaning;
 
 
 
