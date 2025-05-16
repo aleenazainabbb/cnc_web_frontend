@@ -36,6 +36,11 @@ const Navbar: React.FC = () => {
                 HOME
               </Link>
             </li>
+            <li className="nav-item">
+                <Link href="BookAservice" className="nav-link be-vietnam-pro-regular">
+                  BookAService
+                </Link>
+              </li>
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -45,7 +50,7 @@ const Navbar: React.FC = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                MAINTENANCE SERVICES
+                MAINTENANCE
               </a>
               <ul
                 className="dropdown-menu"
@@ -116,7 +121,7 @@ const Navbar: React.FC = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                MOVING SERVICES
+                MOVING
               </a>
               <ul className="dropdown-menu" aria-labelledby="movingDropdown">
                 <li>
@@ -176,7 +181,7 @@ const Navbar: React.FC = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                DISINFECTION SERVICE
+                DISINFECTION 
               </a>
               <ul
                 className="dropdown-menu"
@@ -199,9 +204,13 @@ const Navbar: React.FC = () => {
                   </Link>
                 </li>
               </ul>
+
+              
+
             </li>
           </ul>
-         
+
+
           <Link
             href="GetAquote"
             className="btn bg_green header_btn text-white headerBtn_green"

@@ -1,6 +1,6 @@
 "use Client"
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
-import BestDeepCleaning from "@/components/Cleaning_service_page/DeepCleanBanner"
+import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import AchievementSection from "@/components/home_page_components/AchievementSection"
 import LifeMadeEasySection from "@/components/home_page_components/LifeMadeEasySection"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -8,6 +8,8 @@ import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitso
 import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
+import BannerSection from "@/components/home_page_components/BannerSection"
+import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 //import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
 const sixSections = [
   { title: "Home Deep Cleaning", content: "Dust together with dirt and germs gradually accumulates throughout your residence. The process of deep cleaning surpasses typical maintenance to eliminate all possible bacteria together with allergens from an environment. The home deep cleaning service provided by our team includes a clean-up of every living space, from living rooms through bedrooms and kitchens to bathrooms. We maintain our emphasis on major areas and contact zones to provide a safe and hygienic setting that serves your family." },
@@ -37,8 +39,13 @@ export default function ServicePage() {
 
       <BestDeepCleaning />
       <AchievementSection />
+      <BenefitsOfDeepCleaning
+        title="What is Deep Cleaning?"
+        content="Deep cleaning requires more effort than simple surface cleaning operations. Our team performs a thorough sanitization process that reaches every single area of your home or workplace. The method of deep cleaning extracts both dirt and bacteria from inaccessible areas that standard cleaning procedures cannot accomplish. Our cleaning process uses tile deep scrubbing while simultaneously covering high-surface dusting, air vent cleaning, and door handles alongside switch sanitization. Deep cleaning helps to improve your indoor air quality because it produces a hygienic setting that makes both your home and employees safe.
+"
+        imageLeft={true} />
       <OurBestDeepClean />
-
+      <BookYourService />
       <LifeMadeEasySection
         title="How We Work"
         description="Our service for deep cleaning requires an effortless booking process. You can reach out to us by phone or through our website to book an appointment time. A member of our staff develops a specialized cleaning plan after analyzing your space requirements. Our team appears on the appointed day with state-of-the-art devices and environmentally friendly cleaning materials. A systematic, complete cleaning of every space takes place before our team conducts an inspection to verify flawless results. We align our work to satisfy customers while assuring exceptional results in every service."
