@@ -34,9 +34,11 @@ const BestDeepClean: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Right Side Image (Only One) */}
+                {/* Right Side Image (Only One)
                 <div className="col-12 col-lg-6 col-md-6">
                     <div className="d-inline-block position-relative float-end mt-4 mt-lg-0 mt-md-0">
+                   
+                        
                         <Image
                             src="/images/deepclean.png"
                             alt="deep clean Image"
@@ -50,7 +52,28 @@ const BestDeepClean: React.FC = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div> */}
+<div className="col-12 col-md-6 col-lg-6">
+  <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
+    <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+      <Image
+        src="/images/deepclean.png"
+        alt="Deep Clean Image"
+        width={419}
+        height={451}
+        className="img-fluid"
+        style={{
+          borderRadius: "20px",
+          borderTop: "10px solid",
+          borderRight: "10px solid",
+        }}
+      />
+    </div>
+  </div>
+</div>
+
+
+
             </div>
         </div>
     );
