@@ -36,11 +36,13 @@ const Navbar: React.FC = () => {
                 HOME
               </Link>
             </li>
+
             <li className="nav-item">
-                <Link href="BookAservice" className="nav-link be-vietnam-pro-regular">
+                <Link href="BookAservicePage" className="nav-link be-vietnam-pro-regular">
                   BookAService
                 </Link>
               </li>
+
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
