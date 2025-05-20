@@ -262,6 +262,13 @@ input[type="number"] {
     background-color: rgba(33, 120, 60, 0.9);
     border-radius: 40px;
 }
+
+.billing{
+  /* font-family: Averta; */
+  font-size: 32px;
+  color: #12153A;
+  font-weight: 700px;
+}
 .service_main_content {
     position: relative;
     z-index: 2;
