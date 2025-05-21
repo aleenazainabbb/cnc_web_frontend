@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Suspense } from "react";
-import Navbar from "@/components/navbar/Navbar";
-import TopBar from "@/components/navbar/Topbar";
+import Navbar from "@/Components/navbar/Navbar";
+import TopBar from "@/Components/navbar/Topbar";
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
-import MiniFooter from "@/components/footer/MiniFooter";
+import Footer from "@/Components/footer/Footer";
+import MiniFooter from "@/Components/footer/MiniFooter";
 
 // Define Geist fonts
 const geistSans = Geist({

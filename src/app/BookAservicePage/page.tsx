@@ -1,8 +1,8 @@
 
 "use client";
-import BillingSummary from "@/components/Booking/billing";
-import Bookings from "@/components/Booking/booking";
-import BookingConfirmation from "@/components/Booking/bookingConfirmation";
+import BillingSummary from "@/Components/Booking/billing";
+import Bookings from "@/Components/Booking/booking";
+import BookingConfirmation from "@/Components/Booking/bookingConfirmation";
 
 export default function BookAservicePage() {
   return (

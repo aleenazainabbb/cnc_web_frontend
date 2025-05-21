@@ -1,5 +1,5 @@
-import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection";
-import GetAQuoteSection from "@/components/request_page_component/GetAQuoteSection";
+import QuoteBannerSection from "@/Components/request_page_component/QuoteBannerSection";
+import GetAQuoteSection from "@/Components/request_page_component/GetAQuoteSection";
 
 export default function GetAQuotePage() {
   return (
