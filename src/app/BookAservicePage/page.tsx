@@ -1,35 +1,27 @@
-// "use client";
-// import BillingSummary from "@/components/Booking/billing";
-// import Bookings from "@/components/Booking/booking";   
-// // import CleanTypeSelector from "@/components/Booking/test"  
-// export default function BookAservicePage() {
-//     return (
-//         <div>
-//             <BillingSummary />
-//             <Bookings/>
-//             {/* <CleanTypeSelector/> */}
-//         </div>
-//     );
 
-
-// }
 "use client";
 import BillingSummary from "@/components/Booking/billing";
 import Bookings from "@/components/Booking/booking";
+import BookingConfirmation from "@/components/Booking/bookingConfirmation";
 
 export default function BookAservicePage() {
   return (
-    <div className="flex justify-between">
-      {/* Booking Component */}
-      <div style={{ width: "878px", height: "1136px" }}>
+    <>
+      {/* <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
+      
+      <div className="md:col-span-8 w-full">
         <Bookings />
       </div>
 
-      {/* Fixed Billing Summary */}
-      <div className="fixed top-4 right-4" style={{ width: "500px", height: "922px" }}>
+      
+      <div className="md:col-span-4 w-full">
         <BillingSummary />
       </div>
-    </div>
+       
+    </div> */}
+      <Bookings />
+      <BillingSummary />
+      <BookingConfirmation />
+    </>
   );
 }
-
