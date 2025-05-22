@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Suspense } from "react";
-import Navbar from "@/Components/navbar/Navbar";
-import TopBar from "@/Components/navbar/Topbar";
+import Navbar from "@/components/navbar/Navbar";
+import TopBar from "@/components/navbar/Topbar";
 import "./globals.css";
-import Footer from "@/Components/footer/Footer";
-import MiniFooter from "@/Components/footer/MiniFooter";
+import Footer from "@/components/footer/Footer";
+import MiniFooter from "@/components/footer/MiniFooter";
+
 
 // Define Geist fonts
 const geistSans = Geist({
@@ -50,6 +51,11 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
         />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
+
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -19,8 +19,8 @@ export default function BookAservicePage() {
       </div>
        
     </div> */}
-      {/* <Bookings />
-      <BillingSummary /> */}
+       {/* <Bookings /> */}
+      {/* <BillingSummary />  */}
       <BookingConfirmation />
     </>
   );
