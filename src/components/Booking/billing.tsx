@@ -1,20 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 const BillingSummary: React.FC = () => {
+   
   return (
-    // <div className="flex justify-center items-center min-h-screen bg-[#f7fafd]">
+    
     <div
       style={{
-        // position: "fixed",
+        
         top: "0",
         right: 0,
-        // height: "100vh", 
-        // height: "auto",
-        // width:"auto",
-        // height: "922px",
-        // width: "500px",
+       
         backgroundColor: "#f7fafd",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
         padding: "46px",
@@ -118,55 +115,6 @@ const BillingSummary: React.FC = () => {
           Apply
         </button>
       </div>
-
-      {/* Pricing Breakdown */}
-      {/* <div className="bg-white p-4 rounded-md shadow-sm mb-6" style={{marginTop:"40px",borderRadius: "10px",
-            outline: "none",
-            border: "none"}}>
-        <div
-          className="flex justify-between mb-2 text-[16px]"
-          style={{ fontFamily: "Poppins" }}
-        >
-          <span>
-            Appointment Value <span className=" cursor-pointer" style={{font:"#1a73e8"}}>- Details</span>
-          </span>
-          <span style={{marginLeft:"4px"}}>$ 125.99</span>
-        </div>
-        <div
-          className="flex justify-between mb-2 text-[14px]"
-          style={{ fontFamily: "Poppins" }}
-        >
-          <span>
-            Discounts - <span className="text-[#1a73e8] cursor-pointer">Details</span>
-          </span>
-          <span className="text-red-500">- $ 15.89</span>
-        </div>
-        <div style={{ borderTop: "1px solid #e0e0e0", margin: "8px 0" }}></div>
-        <div
-          className="flex justify-between mb-2 text-[14px]"
-          style={{ fontFamily: "Poppins" }}
-        >
-          <span>Subtotal</span>
-          <span>$ 110.01</span>
-        </div>
-        <div
-          className="flex justify-between mb-4 text-[14px]"
-          style={{ fontFamily: "Poppins" }}
-        >
-          <span>Tax</span>
-          <span className="text-green-500">+ $ 5.20</span>
-        </div>
-        <div style={{ borderTop: "1px solid #e0e0e0", margin: "8px 0" }}></div>
-        <div
-          className="flex justify-between text-[16px] border-t pt-3"
-          style={{ fontFamily: "Poppins", fontWeight: 600 }}
-        >
-          
-          <span>Total</span>
-          <span>$610.00</span>
-        </div>
-      </div> */}
-      {/* Pricing Breakdown */}
 <div
   className="bg-white p-4 rounded-md shadow-sm mb-6"
   style={{
@@ -258,9 +206,12 @@ const BillingSummary: React.FC = () => {
           Next
         </button>
       </div>
+      
     </div>
     // </div>
   );
 };
 
 export default BillingSummary;
+
+

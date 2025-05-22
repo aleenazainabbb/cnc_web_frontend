@@ -13,16 +13,12 @@ const BookingConfirmation: React.FC = () => {
   return (
 
     <div className={confirm.container}>
-     
+      
 
 
       <div className={confirm.main} >
 
- <div className={confirm.outercircle}>
-        <div className={confirm.innercircle}>
-          <i className="fa-solid fa-check" style={{ color: "white" }}></i>
-        </div>
-      </div>
+
         {/* Go to Home link */}
         <div className={confirm.home} onClick={goToHome} > Go to Home</div>
 

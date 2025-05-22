@@ -1,0 +1,40 @@
+.main {
+    width: 878px;
+    height: 1136px;
+    padding: 60px;
+    font-family: Poppins, sans-serif;
+}
+
+.paragraph {
+    
+    font-size: 14px;
+    font-weight:600;
+}
+.customblock {
+  width: 500px;
+  height: 73px;
+  border: 1px solid #D3D8DD; 
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  padding: 10px;
+  
+}
+.customRadio {
+  width: 26px;
+  height: 26px;
+   appearance: none;          /* Remove default styling */
+  border: 2px solid #88939D;
+  border-radius: 50%;         /* Circular shape */
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+.title{
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 48px;
+
+
+}
