@@ -13,8 +13,16 @@ const BookingConfirmation: React.FC = () => {
   return (
 
     <div className={confirm.container}>
+     
+
+
       <div className={confirm.main} >
 
+ <div className={confirm.outercircle}>
+        <div className={confirm.innercircle}>
+          <i className="fa-solid fa-check" style={{ color: "white" }}></i>
+        </div>
+      </div>
         {/* Go to Home link */}
         <div className={confirm.home} onClick={goToHome} > Go to Home</div>
 
@@ -28,10 +36,10 @@ const BookingConfirmation: React.FC = () => {
         </p>
 
         {/* line */}
-        <hr className={confirm.line} style={{width:"65%"}}/>
+        <hr className={confirm.line} style={{ width: "65%" }} />
 
         {/* date and time */}
-      
+
         <div style={{ maxWidth: 'auto' }}>
           <div className={confirm.content} >
             <div style={{ display: 'flex', gap: "0px" }}>
@@ -46,21 +54,21 @@ const BookingConfirmation: React.FC = () => {
 
             <p>114 Broadway Newyork, NY 10005</p>
 
-          {/* </div> */}
-       
-        {/* line */}
-        <hr className={confirm.line}  style={{width:"100%"}}/>
- </div>
+            {/* </div> */}
 
-        {/* payment calculation */}
-        <div style={{ textAlign: 'center' }}>
-          {/* <div style={{ maxWidth: 'auto' }}> */}
-          <p className={confirm.paragraph}>Total Payment</p>
-          <h2 className={confirm.titletext} style={{ marginTop: "5px" }}> AED 610</h2>
-        </div>
+            {/* line */}
+            <hr className={confirm.line} style={{ width: "100%" }} />
+          </div>
 
-        <div className={confirm.content}>
-        
+          {/* payment calculation */}
+          <div style={{ textAlign: 'center' }}>
+            {/* <div style={{ maxWidth: 'auto' }}> */}
+            <p className={confirm.paragraph}>Total Payment</p>
+            <h2 className={confirm.titletext} style={{ marginTop: "5px" }}> AED 610</h2>
+          </div>
+
+          <div className={confirm.content}>
+
             <div style={{ marginTop: "20px" }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <p >
@@ -76,36 +84,36 @@ const BookingConfirmation: React.FC = () => {
                 <p >15.89</p>
               </div>
             </div>
-          
 
-          {/* line */}
-          <hr className={confirm.line} style={{ width: "auto" }} />
 
-          {/* values section */}
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <p style={{ color: "#88939D" }}>Subtotal</p>
-            <p style={{ color: "black" }}>110.01</p>
-          </div>
+            {/* line */}
+            <hr className={confirm.line} style={{ width: "auto" }} />
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: "10px" }}>
-            <p style={{ color: "#88939D" }}>Tax</p>
-            <p style={{ color: "black" }}>5.20</p>
-          </div>
+            {/* values section */}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <p style={{ color: "#88939D" }}>Subtotal</p>
+              <p style={{ color: "black" }}>110.01</p>
+            </div>
 
-          <hr className={confirm.line} style={{ width: "auto" }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: "10px" }}>
+              <p style={{ color: "#88939D" }}>Tax</p>
+              <p style={{ color: "black" }}>5.20</p>
+            </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <p >Total</p>
-            <p style={{ fontWeight: 700 }}>610.00</p>
+            <hr className={confirm.line} style={{ width: "auto" }} />
+
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <p >Total</p>
+              <p style={{ fontWeight: 700 }}>610.00</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button className={confirm.button} >
-        <i className="fa-solid fa-download" style={{ width: "39.7px", height: "39.7px" }}></i>
-        Get PDF Receipt
-      </button>
-    </div >
+        <button className={confirm.button} >
+          <i className="fa-solid fa-download" style={{ width: "39.7px", height: "39.7px" }}></i>
+          Get PDF Receipt
+        </button>
+      </div >
 
     </div >
   );
