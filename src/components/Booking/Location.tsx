@@ -11,7 +11,7 @@ const Location: React.FC = () => {
     const [selected, setSelected] = useState("");
     const options = ["Home", "Office", "Other"];
 
-    
+
     return (
         <div className={payment.main} style={{ height: "1136px" }}>
             <h2 className={payment.title} >Location</h2>
@@ -20,6 +20,7 @@ const Location: React.FC = () => {
                 <p>WHERE DO YOU NEED THE SERVICE?</p>
                 <p>HELP OUR TEAMS GET TO YOUR PLACE ON TIME BY LOCATING IT ON THE MAP BELOW.</p>
             </div>
+
             <div className={payment.subheading} style={{ color: "#9FA7B0", marginTop: "60px" }}>
                 <p>SAVE YOUR ADDRESS DETAILS</p>
             </div>
@@ -43,9 +44,18 @@ const Location: React.FC = () => {
 
 
             </div>
+            <div className={payment.subheading} style={{ color: "#9FA7B0", marginTop: "60px" }}>
+                <p>HOW DO WE GET IN?</p>   </div>
 
+                <div className={payment.subheading} style={{ color: "#9FA7B0", marginTop: "60px" }}>
+                <p>ANY PETS </p>
+                </div>
+                  <div className={payment.subheading} style={{ color: "#9FA7B0", marginTop: "60px" }}>
+                <p>ADDITIONAL NOTES </p>
+            </div>
+            </div>
 
-        </div>
+        
 
     );
 };
