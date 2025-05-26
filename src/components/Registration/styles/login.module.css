@@ -4,11 +4,14 @@
     padding-top: 5%;
     font-family: 'Inter', sans-serif;
 }
-.container{
+
+.container {
     display: flex;
-    
+    /* padding-right: 30px; */
+
 }
-.signupbackbutton{
+
+.signupbackbutton {
     color: #8692A6;
     font-size: 16px;
     background: none;
@@ -16,6 +19,7 @@
     font-weight: 600;
     padding-left: 48px;
 }
+
 .closeButton {
     display: flex;
     background: none;
@@ -62,7 +66,19 @@
 }
 
 .input {
+    /* background-color: white; */
     width: 426px;
+    height: 64px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #8692A6;
+    border: 1px solid #8692A6;
+    border-radius: 6px;
+    vertical-align: middle;
+    padding-left: 25px;
+}
+.smallinput {
+    width: 204px;
     height: 64px;
     font-weight: 500;
     font-size: 14px;
@@ -159,7 +175,7 @@
 
     .input {
         width: 250px;
-         height: 40px;
+        height: 40px;
     }
 
     .button {
@@ -207,7 +223,7 @@
 
     .input {
         width: 250px;
-         height: 40px;
+        height: 40px;
     }
 
     .button {
