@@ -29,14 +29,18 @@ const TopBar: React.FC = () => { //declares a React functional component TopBar
             EMERGENCY SERVICE |
           </span>
           <a href="tel:+971525280307" className="mx-lg-2 mx-md-2 text-white">
-            <i className="fa-solid fa-phone me-1"></i> 052 528 0307
+              <i className="fa-solid fa-phone me-1"></i> 052 528 0307 |
           </a>
-          <button
+           <a href="Login" className="mx-lg-2 mx-md-2 text-white">
+             Login
+          </a>
+          
+          {/* <button
             onClick={scrollToSection}
             className="btn header_btn btn-light ms-3 fw-600 text_green"
           >
             Contact Us
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

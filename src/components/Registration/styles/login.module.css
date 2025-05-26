@@ -1,0 +1,222 @@
+.main {
+    width: 1440px;
+    height: 831px;
+    padding-top: 5%;
+    font-family: 'Inter', sans-serif;
+}
+.container{
+    display: flex;
+    
+}
+.signupbackbutton{
+    color: #8692A6;
+    font-size: 16px;
+    background: none;
+    border: none;
+    font-weight: 600;
+    padding-left: 48px;
+}
+.closeButton {
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 90px;
+    padding-left: 40px;
+}
+
+.backsign {
+    color: #8692A6;
+    font-size: 18px;
+    font-weight: 600;
+    width: 20px;
+    height: 20px;
+}
+
+.backButton {
+    color: #8692A6;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    margin-top: 15%;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #696F79;
+    margin-top: 28px;
+}
+
+.minilabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1565D8;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.input {
+    width: 426px;
+    height: 64px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #8692A6;
+    border: 1px solid #8692A6;
+    border-radius: 6px;
+    vertical-align: middle;
+    padding-left: 25px;
+}
+
+.button {
+    margin-top: 15px;
+    width: 426px;
+    height: 64px;
+    border-radius: 6px;
+    background-color: #1565D8;
+    color: white;
+    border: #1565D8;
+}
+
+.footerlabel {
+    font-size: 12px;
+    font-weight: 400;
+    color: #5A5A5A;
+    margin-top: 120px;
+}
+
+.leftImage {
+    position: relative;
+    width: 100%;
+    max-width: 50%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .leftImage {
+        max-width: 70%;
+        height: 300px;
+    }
+}
+
+.imageFill {
+    object-fit: cover;
+}
+
+/* 🔽 RESPONSIVE STYLES 🔽 */
+@media (max-width: 1024px) {
+
+    .title {
+        margin-top: 5%;
+    }
+
+    .leftImage {
+        max-width: 500px;
+        height: 664;
+    }
+
+    .closeButton {
+        margin-top: 63px;
+        /* padding-left: 40px; */
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        /* flex-direction: column; */
+        width: 600px;
+        height: 600px;
+    }
+
+    .title {
+        margin-top: 3%;
+        font-size: 20px;
+    }
+
+    .leftImage {
+        max-width: 400px;
+        height: 600px;
+    }
+
+    .closeButton {
+        margin-top: 60px;
+        padding-left: 10px;
+    }
+
+    .backButton {
+        font-size: 13px;
+    }
+
+    .label {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .input {
+        width: 250px;
+         height: 40px;
+    }
+
+    .button {
+        width: 250px;
+        height: 40px;
+    }
+
+    .minilabel {
+        font-size: 12px;
+        /* margin-top: 5px; */
+    }
+}
+
+@media (min-width: 320px) and (max-width: 760px) {
+    /* .main {
+        
+        width: 600px;
+        height: 600px;
+    } */
+
+    .title {
+        margin-top: 3%;
+        font-size: 20px;
+    }
+
+    .leftImage {
+        max-width: 425px;
+        height: 600px;
+        display: none;
+    }
+
+    .closeButton {
+        margin-top: 20px;
+        padding-left: 8px;
+    }
+
+    .backButton {
+        font-size: 13px;
+    }
+
+    .label {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .input {
+        width: 250px;
+         height: 40px;
+    }
+
+    .button {
+        width: 250px;
+        height: 40px;
+    }
+
+    .minilabel {
+        font-size: 12px;
+
+    }
+}
