@@ -16,6 +16,7 @@ const Bookings: React.FC = () => {
   const [selectedStaff, setSelectedStaff] = useState<number | null>(null);
   const [selectedHours, setSelectedHours] = useState<number | null>(null);
   const [selectedFreq, setSelectedFreq] = useState<string>("");
+  const [selected, setSelected] = useState<"yes" | "no" | null>(null);
 
   return (
     <div className={booking.container}>
@@ -31,6 +32,7 @@ const Bookings: React.FC = () => {
                 height: 19,
                 color: "#555555",
                 marginRight: 8,
+                // backgroundColor:"white",
               }}
             />
             <input
@@ -91,7 +93,7 @@ const Bookings: React.FC = () => {
                 key={num}
                 onClick={() => setSelectedStaff(num)}
                 className={`${booking.optionButton} ${selectedStaff === num ? booking.selected : ""
-                  }`}
+                  }`} style={{ height: "55px", width: "84px" }}
                 type="button"
               >
                 {num}
@@ -109,7 +111,7 @@ const Bookings: React.FC = () => {
 
           <div
             id="no-of-hours"
-            className={`${booking.scrollContainer} ${booking.hideScrollbar}`}
+            className={`${booking.scrollContainer} ${booking.hideScrollbar}`} style={{ gap: "30px" }}
           >
             {[
               { hour: 1, price: 39 },
@@ -122,71 +124,107 @@ const Bookings: React.FC = () => {
                 <button
                   onClick={() => setSelectedHours(hour)}
                   className={`${booking.optionButton} ${selectedHours === hour ? booking.selected : ""
-                    }`}
+                    }`} style={{ height: "55px", width: "84px" }}
                   type="button"
                 >
                   {hour}
                 </button>
-                <span className={booking.optionLabel}>AED {price}/hr</span>
+                <span className={booking.optionLabel}>AED {price}/HR</span>
               </div>
             ))}
           </div>
         </div>
         {/* "Once", "Weekly", "Multiple times a week" */}
         <div className={booking.formGroup}>
-  <label className={booking.label}>How often do you need cleaning?</label>
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-    {["Once", "Weekly", "Multiple times a week"].map((freq) => (
-      <button
-        key={freq}
-        type="button"
-        onClick={() => setSelectedFreq(freq)}
-        className={`${booking.optionButton} ${
-          selectedFreq === freq ? booking.selected : ""
-        }`}
-        style={{
-          fontSize: "16px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          width: "500px",
-        }}
-      >
-        <span>{freq}</span>
+          <label className={booking.label}>How often do you need cleaning?</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {["Once", "Weekly", "Multiple times a week"].map((freq) => (
+              <button
+                key={freq}
+                type="button"
+                onClick={() => setSelectedFreq(freq)}
+                className={`${booking.optionButton} ${selectedFreq === freq ? booking.selected : ""}`}
+                style={{
+                  fontSize: "14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  color: "#4F6071",
+                  width: "auto", height: "auto"
+                }}
+              >
+                {freq === "Weekly" ? (
+                  <span className={booking.label} style={{ color: "#4F6071", display: 'flex', alignItems: 'center', gap: '30px' }} >
+                    <span>Weekly</span>
+                    <span
+                      style={{
+                        display: "flex",
+                        gap: "4px",
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <span className={booking.badgePopular}>Popular</span>
+                      <span className={booking.badgeDiscount}>10% off per visit</span>
+                    </span>
+                  </span>
+                ) : freq === "Multiple times a week" ? (
+                  <span className={booking.label} style={{ color: "#4F6071", display: 'flex', alignItems: 'center', gap: '30px' }}>
+                    <span>Multiple times a week</span>
+                    <span className={booking.badgeDiscount}>15% off per visit</span>
+                  </span>
+                ) : (
+                  <span>{freq}</span>
+                )}
 
-        {freq === "Weekly" && (
-          <div className={booking.badgeRow}>
-            <span className={booking.badgePopular}>Popular</span>
-            <span className={booking.badgeDiscountRed}>10% off per visit</span>
-          </div>
-        )}
+                {freq === "Once" && (
+                  <div className={booking.bulletLine} style={{ fontSize: "14px" }}>
+                    • Book a one time cleaning session
+                  </div>
+                )}
 
-        {freq === "Multiple times a week" && (
-          <div className={booking.badgeRow}>
-            <span className={booking.badgeDiscountOrange}>
-              15% off per visit
-            </span>
-          </div>
-        )}
+                {(freq === "Weekly" || freq === "Multiple times a week") && (
+                  <div className={booking.bulletLine} style={{ fontSize: "12px" }}>• Get the same cleaner each time
+                    <br />
+                    • Re-schedule easily through the app
+                  </div>
+                )}
+              </button>
+            ))}
 
-        {freq === "Once" && (
-          <div className={booking.bulletLine} style={{ fontSize: "14px" , color:"#000000B5"}}>
-            • Book a one time cleaning session
           </div>
-        )}
+        </div>
+        <div className={booking.label} style={{ marginTop: "20px", color: "#000000" }}>
+          <label> Do you need cleaning materials?</label>
+          <label style={{ fontWeight: "400" }}>An additional charge of AED 10/hr applies for cleaning materials.</label>
+        </div>
 
-        {(freq === "Weekly" || freq === "Multiple times a week") && (
-          <div className={booking.bulletLine} style={{ fontSize: "16px",color:"#000000B5" }}>
-            • Get the same cleaner each time
-            <br />
-            • Re-schedule easily through the app
-          </div>
-        )}
-      </button>
-    ))}
-  </div>
-</div>
-</div>
+        {/* buttons */}
+        <div style={{ display: "flex", gap: "18px", marginTop: "23px" }}>
+          <button
+            className={`${booking.button} ${selected === "no" ? booking.selected : ""}`}
+            onClick={() => setSelected("no")}
+          >
+            No
+          </button>
+          <button
+            className={`${booking.button} ${selected === "yes" ? booking.selected : ""}`}
+            onClick={() => setSelected("yes")}
+          >
+            Yes
+          </button>
+        </div>
+
+        <div className={booking.label} style={{ marginTop: "20px", color: "#000000" }}>
+          <label> Do you have any special instructions?</label>
+          <label style={{ fontWeight: "400" }}>An additional charge of AED 10/hr applies for cleaning materials.</label>
+        </div>
+
+        <textarea
+          placeholder="Example:..........."
+          className={booking.box} style={{ marginTop: "20px" }}>
+        </textarea>
+
+      </div>
     </div>
   );
 };

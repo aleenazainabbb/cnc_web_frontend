@@ -7,7 +7,6 @@
   max-width: 100vw;
   box-sizing: border-box;
   margin-top: 5px;
-
 }
 
 /* Header row */
@@ -57,8 +56,8 @@
   display: flex;
   align-items: center;
   background-color: white;
-  border: 1px solid #d1d5db;
-  border-radius: 9999px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
   padding: 6px 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   flex-grow: 1;
@@ -68,7 +67,8 @@
 
 /* Search input */
 .searchInput {
-  font-family: Poppins, sans-serif;
+  background-color: white;
+
   font-weight: 400;
   font-size: 16px;
   border: none;
@@ -93,9 +93,11 @@
   font-family: Poppins, sans-serif;
   color: #9fa7b0;
   font-size: 14px;
+  letter-spacing: 1%;
   padding-left: 0;
   /* remove extra padding */
   margin-left: 0;
+  margin-bottom: 10px;
 
 }
 
@@ -120,21 +122,21 @@
 }
 
 .optionButton {
+  width: 179px;
+  height: 55px;
   border: 2px solid #D3D8DD;
   border-radius: 10px;
   background-color: white;
   color: #4F6071;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   justify-content: center;
-  padding: 20px 20px;
-  /* padding: 10px; */
-  line-height: 22px;
-  white-space: normal;
+  padding: 15px 15px;
+  line-height: 25px;
   width: auto;
   /* content-based width */
   height: auto;
@@ -151,56 +153,90 @@
 /* Spacing for sections */
 .sectionSpacing {
   margin-top: 10px;
-  padding-left: 85px;
+  padding-left: 60px;
   padding-right: 16px;
 
 }
+
 .badgeRow {
   display: flex;
   gap: 8px;
+  margin-left: 10px;
   /* margin-top: 6px;
   margin-bottom: 10px;*/
-} 
+}
 
 .badgePopular {
-  background-color: #34d399; /* Tailwind green-400 */
+
+  background-color: #36B864;
   color: white;
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  font-weight: 500;
-  font-family: Poppins, sans-serif;
+  font-size: 9px;
+  border-radius: 30px;
+  font-weight: 600;
+  height: 21px;
+  width: 89px;
+  display: flex;
+  border: 1px solid #36B864;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.badgeDiscountRed {
-  background-color: #fee2e2; /* Tailwind red-100 */
-  color: #dc2626; /* Tailwind red-600 */
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  font-weight: 500;
-  font-family: Poppins, sans-serif;
-}
-
-.badgeDiscountOrange {
-  background-color: #ffedd5; /* Tailwind orange-100 */
-  color: #ea580c; /* Tailwind orange-600 */
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  font-weight: 500;
-  font-family: Poppins, sans-serif;
+.badgeDiscount {
+  background-color: #fee2e2;
+  color: #FE5A15;
+  font-size: 9px;
+  border-radius: 30px;
+  height: 21px;
+  width: 89px;
+  border: 1px solid #FE5A15;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .bulletLine {
-  font-family: Poppins, sans-serif;
   font-weight: 400;
   line-height: 19px;
   letter-spacing: 0.3%;
-  vertical-align: middle;
-  margin-top: 4px;
+  /* align-content: flex-start; */
+  /* vertical-align: middle; */
   white-space: pre-line;
+  color: #000000B5;
+  /* padding-left: 20px; */
 }
+
+.button {
+  width: 182px;
+  height: 54px;
+  background-color: white;
+  border: 1px solid #000000B5;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  color:black;
+  font-family: "Be Vietnam Pro";
+
+}
+.selected {
+  background-color: #36B864;
+  color: white;
+  border: 1px solid #36B864;
+}
+
+  .box {
+      width: 552px;
+      height: 124px;
+      font-size: 14px;
+      color: #4F6071;
+      font-weight: 400;
+      padding-top: 10px;
+      padding-left: 10px;
+      border: 2px solid #D3D8DD;
+      border-radius: 10px;
+      background-color: white;
+  }
+
 
 /* Responsive */
 @media (max-width: 768px) {
