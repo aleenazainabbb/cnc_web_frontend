@@ -1,0 +1,55 @@
+/* Sidebar.module.css */
+
+.toggleBtn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  background-color:black;
+  color:#8B909A;
+  padding: 3rem;
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navList li {
+  margin-bottom: 1rem;
+}
+
+.navList li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .toggleBtn {
+    display: none;
+  }
+
+  .sidebar {
+    transform: translateX(0);
+    position: relative;
+  }
+}
