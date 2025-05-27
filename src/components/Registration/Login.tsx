@@ -1,9 +1,13 @@
-import React from "react";
+'use client';
+
+import React, { useState } from "react";
 import login from './styles/login.module.css';
 import Image from "next/image";
 import Link from "next/link";
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const Login: React.FC = () => {
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <div style={{ display: "flex" }}>
             {/* Left Image */}
@@ -46,13 +50,29 @@ const Login: React.FC = () => {
                     />
 
                     {/* Password */}
-                    <label className={login.label}>Password </label>
-                    <input
-                        type="password"
-                        placeholder="Please enter password"
-                        className={login.input}
-                        style={{ marginTop: "15px" }}
-                    />
+                        <label className={login.label}>Password </label>
+
+                        <div style={{ position: "relative", width: "fit-content" }}>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                className={login.input}
+                                placeholder="Enter password"
+                            />
+                            <div
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: "absolute",
+                                    right: "20px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    color: "#999",
+                                    cursor: "pointer",
+                                    width: "24px",
+                                }}
+                            >
+                                {showPassword ? <EyeSlashIcon style={{ width: 18 }} /> : <EyeIcon style={{ width: 18 }} />}
+                            </div>
+                        </div>
                     <label className={login.minilabel} >FOGOT PASSWORD? </label>
                     <button className={login.button}>LOGIN NOW</button>
                     <div>

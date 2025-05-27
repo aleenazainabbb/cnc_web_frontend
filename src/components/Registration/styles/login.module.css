@@ -5,10 +5,16 @@
     font-family: 'Inter', sans-serif;
 }
 
+.signupmain {
+    width: 1440px;
+    height: 1024px;
+    padding-top: 5%;
+    font-family: 'Inter', sans-serif;
+    padding-left: 20px;
+}
+
 .container {
     display: flex;
-    /* padding-right: 30px; */
-
 }
 
 .signupbackbutton {
@@ -43,18 +49,29 @@
     font-weight: 600;
 }
 
-.title {
+.title,
+.signuptitle {
     font-size: 30px;
     font-weight: bold;
     color: black;
     margin-top: 15%;
 }
 
-.label {
+.label,
+.signuplabel {
     font-size: 16px;
     font-weight: 500;
     color: #696F79;
-    margin-top: 28px;
+    margin-top: 26px;
+    margin-bottom: 14px;
+}
+
+.charlabels {
+    font-size: 11px;
+    font-weight: 500;
+    color: #696F79;
+    margin-top: 24px;
+    line-height: 100%;
 }
 
 .minilabel {
@@ -65,8 +82,72 @@
     margin-top: 20px;
 }
 
-.input {
-    /* background-color: white; */
+.signupminilabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1565D8;
+    margin-top: 5px;
+}
+
+.signupfooterlabel {
+    font-size: 12px;
+    font-weight: 400;
+    color: #5A5A5A;
+    margin-top: 12px;
+    margin-left: 60px;
+}
+
+/* .phoneInput {
+    width: 100% !important;
+    height: 64px !important;
+    border: none !important;
+    outline: none !important;
+    padding-left: 25px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #8692A6 !important;
+    background: transparent !important;
+    box-sizing: border-box;
+} */
+
+.react-phone-input-2 .flag-dropdown,
+.react-phone-input-2 .flag-dropdown.open,
+.react-phone-input-2 .flag-dropdown:focus,
+.react-phone-input-2 .flag-dropdown:active {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: none !important;
+    height: 18px !important;
+    width: 24px !important;
+}
+
+.react-phone-input-2 .selected-flag.open {
+    background-color: #FFFFFF !important;
+    border-radius: 6px 0 0 6px;
+    /* keep your rounded corners */
+    box-shadow: none !important;
+    /* remove any shadows if needed */
+    border: 1px solid #4dd0e1;
+    /* optional: add border to highlight */
+    height: 18px !important;
+    width: 24px !important;
+}
+
+
+.react-phone-input-2 .flag-dropdown:focus-visible {
+    outline: none !important;
+}
+
+.react-phone-input-2 .flag-dropdown:hover {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+.input, .signupinput {
     width: 426px;
     height: 64px;
     font-weight: 500;
@@ -77,6 +158,8 @@
     vertical-align: middle;
     padding-left: 25px;
 }
+
+
 .smallinput {
     width: 204px;
     height: 64px;
@@ -89,7 +172,8 @@
     padding-left: 25px;
 }
 
-.button {
+.button,
+.signupbutton {
     margin-top: 15px;
     width: 426px;
     height: 64px;
@@ -113,13 +197,6 @@
     height: auto;
 }
 
-@media (max-width: 768px) {
-    .leftImage {
-        max-width: 70%;
-        height: 300px;
-    }
-}
-
 .imageFill {
     object-fit: cover;
 }
@@ -133,18 +210,16 @@
 
     .leftImage {
         max-width: 500px;
-        height: 664;
+        height: 504;
     }
 
     .closeButton {
         margin-top: 63px;
-        /* padding-left: 40px; */
     }
 }
 
 @media (max-width: 768px) {
     .main {
-        /* flex-direction: column; */
         width: 600px;
         height: 600px;
     }
@@ -154,9 +229,22 @@
         font-size: 20px;
     }
 
+    .signuptitle {
+        margin-top: 2%;
+        font-size: 18px;
+    }
+
     .leftImage {
         max-width: 400px;
-        height: 600px;
+        height: 670px;
+    }
+
+    .signupmain {
+        width: 764px;
+        height: 664px;
+        padding-top: 1%;
+        padding-left: 4px;
+        padding-right: 50px;
     }
 
     .closeButton {
@@ -173,9 +261,35 @@
         margin-top: 10px;
     }
 
+    .signuplabel {
+        font-size: 12px;
+        margin-top: 6px;
+    }
+
     .input {
         width: 250px;
         height: 40px;
+    }
+
+    .phoneInput {
+        width: 250px !important;
+        height: 40px !important;
+        padding-left: 18px !important;
+        font-size: 13px !important;
+    }
+
+    .smallinput {
+        width: 150px;
+        height: 40px;
+        font-size: 13px;
+        padding-left: 18px;
+    }
+
+    .signupinput {
+        width: 320px;
+        height: 40px;
+        font-size: 13px;
+        padding-left: 18px;
     }
 
     .button {
@@ -183,18 +297,22 @@
         height: 40px;
     }
 
+    .signupbutton {
+        width: 150px;
+        height: 30px;
+    }
+
     .minilabel {
         font-size: 12px;
-        /* margin-top: 5px; */
+    }
+
+    .signupfooterlabel {
+        margin-top: 10px;
+        margin-left: 10px;
     }
 }
 
 @media (min-width: 320px) and (max-width: 760px) {
-    /* .main {
-        
-        width: 600px;
-        height: 600px;
-    } */
 
     .title {
         margin-top: 3%;
@@ -234,5 +352,15 @@
     .minilabel {
         font-size: 12px;
 
+    }
+}
+@media (min-width: 320px) and (max-width: 405px) {
+
+.signupmain {
+        /* width: 764px;
+        height: 664px; */
+        padding-top: 1%;
+        padding-left: 2px;
+        padding-right: 30px;
     }
 }
