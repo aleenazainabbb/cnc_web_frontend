@@ -1,0 +1,29 @@
+.container {
+    /* width: 1128px; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin:0;
+    font-family: 'Roboto Flex', sans-serif;
+}
+
+.image {
+    /* width: 185px; */
+    height: auto;
+    max-width: 100%;
+}
+.title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 152%;
+    color:#303030;
+}
+.paragraph {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    color:#9E9E9E;
+}

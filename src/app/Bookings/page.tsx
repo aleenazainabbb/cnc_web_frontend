@@ -1,6 +1,7 @@
 'use client';
 import Sidebar from "@/components/navbar/Sidebar";
 import HeaderBar from '@/components/navbar/HeaderBar';
+import NoOrders from '@/components/Booking/noOrders'; 
 export default function RequestPage() {
   return (
     <div>
@@ -9,7 +10,8 @@ export default function RequestPage() {
         onNotifyClick={() => alert('Notifications clicked')}
         onAvatarClick={() => alert('Avatar clicked')}
       />
-      {/* <Sidebar /> */}
+      <Sidebar />
+      <NoOrders/>
     </div>
   );
 }

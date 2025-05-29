@@ -15,16 +15,14 @@ export default function HeaderBar({
     <div className={styles.header}>
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.right}>
-        <button onClick={onNotifyClick} className={styles.iconBtn}>
-          {/* Option 1: Font Awesome class */}
-          <i className="fa-regular fa-bell" aria-hidden="true"></i>
 
-      
+        <button onClick={onNotifyClick} className={styles.iconBtn}>
+          <i className="fa-regular fa-bell" aria-hidden="true"></i>
         </button>
 
         <button onClick={onAvatarClick} className={styles.avatarBtn}>
           <Image
-            src="/images/avatar.png" // Use your local image or change path
+            src="/images/profile.png" // Use your local image or change path
             alt="User"
             width={56}
             height={56}

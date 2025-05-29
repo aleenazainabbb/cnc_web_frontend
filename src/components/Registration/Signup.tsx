@@ -15,7 +15,7 @@ const Signup: React.FC = () => {
 
   const handleSignup = () => {
     // Perform signup logic (e.g., validation) here
-    router.push('/Sidebar'); // navigate to another page
+    router.push('/Bookings'); // navigate to another page
   };
 
     return (

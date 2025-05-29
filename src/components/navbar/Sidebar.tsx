@@ -1,46 +1,80 @@
 'use client';
 import React from 'react';
-import { useState } from 'react';
 import side from './styles/sidebar.module.css';
 import Image from 'next/image';
-
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const pathname = usePathname();
   return (
-    <>
-      <button
-        className={side.toggleBtn}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle sidebar"
-      >
-        ☰
-      </button>
+    <div className={side.sidebar}>
+      <div className={side.logoContainer}>
+        <Image
+          src="/images/carelogo.svg"
+          alt="CarenClean"
+          width={78.71}
+          height={58.34}
+        />
+      </div>
+      <div className={side.divider} />
 
-      <aside className={`${side.sidebar} ${isOpen ? side.open : ''}`}>
+      <ul className={side.navList}>
+        <li>
+          <Link href="/" className={`${side.navLink} ${pathname === '/' ? side.active : ''}`}>
+            <span className={side.iconText}><i className="fa-solid fa-plus"></i>
+              Add a Booking
+            </span>
+          </Link>
+        </li>
 
-        <nav>
-          <ul className={side.navList}>
-            {/* logo */}
-                
-                    <Image
-                        src="/images/carelogo.svg"
-                        alt="CarenClean"
-                        width={73}
-                        height={57}
-                    />
-                
-            <li><a href="#">My Booking</a></li>
-            <li><a href="#">My Quotes</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Saved Locations</a></li>
-            <li><a href="#">Payment Methods</a></li>
-            <li><a href="#">My Wallet</a></li>
-            <li><a href="#">Delete Account</a></li>
-          </ul>
-        </nav>
-      </aside>
-    </>
+
+        <li>
+          <Link href="/Signup" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-solid fa-table-list"></i>
+              My Booking
+            </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/Quotes" className={`${side.navLink} ${pathname === '/Quotes' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-regular fa-rectangle-list"></i>
+              My Quotes
+            </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/Locations" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-solid fa-location-dot"></i>
+              Saved Locations
+            </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/Payments" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-solid fa-money-check"></i>
+              Payment Methods
+            </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/Sidebar" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-solid fa-wallet"></i>
+              My Wallet
+            </span>
+          </Link>
+        </li>
+</ul>
+      <button className={side.logoutBtn}>Logout</button>
+    </div >
   );
 }
