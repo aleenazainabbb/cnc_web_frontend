@@ -1,3 +1,18 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.header {
+    /* margin-bottom: 2rem; */
+    width: 100%;
+}
+/* -------------------------------- */
 .container {
     /* width: 1128px; */
     height: 100vh;
@@ -26,4 +41,25 @@
     font-size: 14px;
     line-height: 130%;
     color:#9E9E9E;
+}
+
+
+@media screen and (max-width: 770px) {
+
+/* .image {
+    max-width: 70%;
+} */
+}
+
+@media screen and (max-width: 600px) {
+.image {
+    max-width: 60%;
+}
+.title {
+    font-size: 15px;
+}
+.paragraph {
+    font-size: 12px;
+}
+  
 }

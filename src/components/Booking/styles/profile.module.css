@@ -1,0 +1,79 @@
+.profileFormContainer {
+  background-color: white;
+  max-width: 1098px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 85px; /* 6 * 4px */
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profileFormRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* @media (min-width: 1024px) {
+  .profileFormRowLg {
+    flex-direction: row;
+  }
+} */
+
+.profileFormFlex1 {
+  flex: 1;
+}
+
+.profileFormLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  color: #4b5563; /* gray-700 */
+}
+
+.profileFormInput {
+  width: 100%;
+  height: 64px;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.profileFormInput:focus {
+  outline: 2px solid #2563eb; /* blue-600 focus */
+  outline-offset: 2px;
+}
+
+.profileFormButtonContainer {
+  margin-top: 32px;
+  align-self: flex-end;
+}
+
+.profileFormButton {
+  background-color: #1565D8;
+  color: white;
+  width: 196px;
+  height: 64px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 64px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profileFormButton:hover {
+  background-color: #0d47a1;
+}

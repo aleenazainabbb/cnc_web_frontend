@@ -18,7 +18,6 @@ export default function Sidebar() {
         />
       </div>
       <div className={side.divider} />
-
       <ul className={side.navList}>
         <li>
           <Link href="/" className={`${side.navLink} ${pathname === '/' ? side.active : ''}`}>
@@ -74,7 +73,7 @@ export default function Sidebar() {
           </Link>
         </li>
 </ul>
-      <button className={side.logoutBtn}>Logout</button>
+       <button className={side.logoutBtnn}>Logout</button>
     </div >
   );
 }

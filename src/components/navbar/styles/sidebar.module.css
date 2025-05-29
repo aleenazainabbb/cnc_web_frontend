@@ -53,8 +53,8 @@
 } */
 
 .navLink:hover {
-  background-color:#0F60FF;
-  color:#FFFFFF;
+  background-color: #0F60FF;
+  color: #FFFFFF;
 }
 
 
@@ -74,8 +74,10 @@
   gap: 8px;
   /* clean spacing between icon and text */
 }
-.logoutBtn {
-  width: 232px;
+
+.logoutBtnn {
+    width: 90%;
+  max-width: 232px;
   height: 40px;
   background-color: #EF450F;
   color: white;
@@ -87,36 +89,47 @@
   margin-bottom: 20px;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 770px) {
+
   .sidebar {
-    width: 100%;
-    height: auto;
-    flex-direction: column;
-    overflow-x: auto;
-    border-right: none;
-    border-bottom: 1px solid #B2B2B2;
-    /* align-items: center; */
-    padding: 10px;
-  }
-
-  .navList {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 12px;
-  }
-
-  .logoutBtn {
-    width: auto;
-    height: 36px;
-    padding: 0 12px;
-    font-size: 14px;
-  }
-
-  .divider {
-    width: auto;
+    width: 200px;
   }
 
   .logoContainer {
-    margin-bottom: 0;
+    width: 122px;
   }
+
+  .navList {
+    padding: 12px;
+    gap: 15px;
+  }
+
+  .navLink {
+    padding: 10px;
+  }
+
 }
+
+@media screen and (max-width: 600px) {
+
+  .sidebar {
+    width: 100px;
+  }
+
+  .logoContainer {
+    width: 50px;
+  }
+
+  .navlist {
+    padding: 0px;
+    gap: 12px;
+  }
+    .navLink {
+    padding: 2px;
+  }
+  .navList li a {
+  font-size: 8px;
+ 
+}
+}
+
