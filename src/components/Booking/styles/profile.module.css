@@ -1,79 +1,147 @@
-.profileFormContainer {
-  background-color: white;
-  max-width: 1098px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 85px; /* 6 * 4px */
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  height: 520px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+ .main {
+     /* max-width: 1098px; */
+     /* width: 99%; */
+     min-height: 420px;
+     font-family: 'Inter';
+     background-color: white;
+     box-shadow: 0px 4px 4px 0px #00000040;
+     font-weight: 500;
+     display: flex;
+     flex-direction: column;
+     /* margin: 45px auto; */
+     /* padding: 100px 40px; */
+   margin: 20px 20px 0 20px;    
+ }
 
-.profileFormRow {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+ .container {
+     display: flex;
+     flex-direction: column;
+     gap: 32px;
+    padding: 58px 40px 40px 65px;   /* top, right, bottom, left */
+ }
 
-/* @media (min-width: 1024px) {
-  .profileFormRowLg {
-    flex-direction: row;
-  }
-} */
+ .profileFormRow {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 20px;
+ }
 
-.profileFormFlex1 {
-  flex: 1;
-}
+ .label {
+     font-size: 16px;
+     color: #696f79;
+     display: block;
+     margin-bottom: 10px;
+ }
 
-.profileFormLabel {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500;
-  color: #4b5563; /* gray-700 */
-}
+ .input {
+     width: 437px;
+     max-width: 100%;
+     height: 64px;
+     padding: 10px;
+     border: 1px solid #8692A6;
+     border-radius: 6px;
+     box-sizing: border-box;
+ }
 
-.profileFormInput {
-  width: 100%;
-  height: 64px;
-  border: 1px solid #d1d5db; /* gray-300 */
-  border-radius: 6px;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 1rem;
-  outline: none;
-  box-sizing: border-box;
-}
+ .input::placeholder {
+     color: #8692A6;
+     font-size: 14px;
+ }
 
-.profileFormInput:focus {
-  outline: 2px solid #2563eb; /* blue-600 focus */
-  outline-offset: 2px;
-}
+ .buttonContainer {
+     display: flex;
+     align-items: flex-end;
+ }
 
-.profileFormButtonContainer {
-  margin-top: 32px;
-  align-self: flex-end;
-}
+ .button {
+     width: 196px;
+     max-width: 100%;
+     height: 64px;
+     font-size: 16px;
+     background-color: #1565D8;
+     color: white;
+     border: none;
+     border-radius: 10px;
+     padding: 10px 20px;
+     box-sizing: border-box;
+ }
 
-.profileFormButton {
-  background-color: #1565D8;
-  color: white;
-  width: 196px;
-  height: 64px;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 64px;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+ /* Responsive adjustments for smaller screens */
+ @media (max-width: 680px) {
 
-.profileFormButton:hover {
-  background-color: #0d47a1;
-}
+     .main {
+         display: flex;
+         padding: 0px;
+     }
+.container {
+    padding: 0px   /* top, right, bottom, left */
+
+ }
+     .profileFormRow {
+         flex-direction: column;
+         gap: 14px;
+         margin-bottom: 10px;
+     }
+
+     .input {
+         width: 80%;
+         height: auto;
+         padding: 2%;
+     }
+
+     .buttonContainer {
+         width: 50%;
+     }
+
+     .button {
+        margin-top: 17px;
+         height: 39px;
+         font-size: 12px;
+
+     }
+
+     .label {
+         font-size: 10px;
+         margin-bottom: 6px;
+     }
+.input::placeholder {
+     font-size: 10px;
+ }
+     .main {
+         padding:22px;
+         min-height: 318px;
+     }
+
+     .container {
+         gap: 25%;
+     }
+ }
+
+ @media (max-width: 768px) {
+
+     .input,
+     .button {
+         width: 100%;
+     }
+     .label {
+         font-size: 16px;
+     }
+     .main {
+         min-height: 100px;
+     }
+     .container {
+     gap: 14px;
+        padding: 24px 53px 17px 52px;  /* top, right, bottom, left */
+ }
+     
+ }
+
+ @media (max-width: 1024px) {
+
+     .input,
+     .button {
+         width: 100%;
+     }
+
+
+ }
