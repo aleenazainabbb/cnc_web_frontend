@@ -74,6 +74,7 @@ export default function Sidebar() {
         </li>
 </ul>
        <button className={side.logoutBtnn}>Logout</button>
+       {/* <Link href="Login" className={side.logoutBtnn}>Logout</Link> */}
     </div >
   );
 }

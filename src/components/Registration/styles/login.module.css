@@ -82,6 +82,28 @@
     margin-top: 20px;
 }
 
+.button-loader-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.button-loader {
+    border: 3px solid #fff;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .signupminilabel {
     font-size: 12px;
     font-weight: 700;
@@ -96,19 +118,6 @@
     margin-top: 12px;
     margin-left: 60px;
 }
-
-/* .phoneInput {
-    width: 100% !important;
-    height: 64px !important;
-    border: none !important;
-    outline: none !important;
-    padding-left: 25px !important;
-    font-weight: 500 !important;
-    font-size: 14px !important;
-    color: #8692A6 !important;
-    background: transparent !important;
-    box-sizing: border-box;
-} */
 
 .react-phone-input-2 .flag-dropdown,
 .react-phone-input-2 .flag-dropdown.open,
@@ -135,7 +144,6 @@
     width: 24px !important;
 }
 
-
 .react-phone-input-2 .flag-dropdown:focus-visible {
     outline: none !important;
 }
@@ -147,7 +155,8 @@
     cursor: default !important;
 }
 
-.input, .signupinput {
+.input,
+.signupinput {
     width: 426px;
     height: 64px;
     font-weight: 500;
@@ -158,7 +167,6 @@
     vertical-align: middle;
     padding-left: 25px;
 }
-
 
 .smallinput {
     width: 204px;
@@ -312,55 +320,119 @@
     }
 }
 
-@media (min-width: 320px) and (max-width: 760px) {
+@media (max-width: 570px) {
 
     .title {
-        margin-top: 3%;
-        font-size: 20px;
+        margin-top: 3% !important;
+        font-size: 20px !important;
     }
 
     .leftImage {
-        max-width: 425px;
-        height: 600px;
+
         display: none;
     }
 
     .closeButton {
-        margin-top: 20px;
-        padding-left: 8px;
+        margin-top: 20px !important;
+        padding-left: 8px !important;
     }
 
     .backButton {
-        font-size: 13px;
+        font-size: 13px !important;
     }
 
     .label {
-        font-size: 14px;
-        margin-top: 10px;
+        font-size: 14px !important;
+        margin-top: 8px !important;
     }
 
     .input {
-        width: 250px;
-        height: 40px;
+        width: 250px !important;
+        height: 40px !important;
+        margin-top: 5px !important;
+
     }
 
     .button {
-        width: 250px;
-        height: 40px;
+        width: 250px !important;
+        height: 40px !important;
     }
 
     .minilabel {
-        font-size: 12px;
+        font-size: 10px !important;
 
     }
 }
-@media (min-width: 320px) and (max-width: 405px) {
 
-.signupmain {
-        /* width: 764px;
-        height: 664px; */
-        padding-top: 1%;
-        padding-left: 2px;
-        padding-right: 30px;
+@media (max-width: 420px) {
+    .signuptitle {
+        margin-top: 30px !important;
+        font-size: 13px !important;
+
     }
+
+    .signupmain {
+        width: 150px;
+        height: 800px;
+        padding-top: 2%;
+        padding-left: 5px;
+        padding-right: 1px;
+        flex-direction: column;
+
+    }
+
+    .closeButton {
+        margin-top: 15px !important;
+        padding: 0px !important;
+    }
+
+    .signuplabel {
+        font-size: 12px !important;
+        margin-top: 5px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .charlabels {
+        font-size: 9px;
+        margin-top: 18px;
+        width: max-content;
+    }
+
+    .signupinput {
+        width: 260px !important;
+        height: 40px !important;
+        margin-top: 2px !important;
+        font-size: 10px;
+    }
+
+    .smallinput {
+        font-size: 10px;
+        width: 133px;
+    }
+
+    .signuptitle {
+        font-size: 12px;
+        width: max-content;
+    }
+
+    .signupbackbutton {
+        font-size: 7px;
+        padding-left: 0px;
+    }
+
+    .signupfooterlabel {
+        font-size: 9px !important;
+        width: max-content;
+    }
+
+    .image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .signupminilabel {
+        font-size: 9px;
+
+    }
+
 }
