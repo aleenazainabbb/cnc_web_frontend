@@ -10,7 +10,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BannerSection from "@/components/home_page_components/BannerSection"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
-//import BenefitsOfDeepCleaning from "@/Components/Cleaning_service_page/benefitsofDeepClean"
+//import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
 const sixSections = [
   { title: "Home Deep Cleaning", content: "Dust together with dirt and germs gradually accumulates throughout your residence. The process of deep cleaning surpasses typical maintenance to eliminate all possible bacteria together with allergens from an environment. The home deep cleaning service provided by our team includes a clean-up of every living space, from living rooms through bedrooms and kitchens to bathrooms. We maintain our emphasis on major areas and contact zones to provide a safe and hygienic setting that serves your family." },
   { title: "Office Deep Cleaning", content: "Physical office cleanliness directly improves the work performance of employees. Building dirt accumulates on wood surfaces, rugs, and air ventilation systems, leading to unhealthy conditions. Deep cleaning includes dust removal from workstations and shared space cleaning with carpet and furniture refreshments. The cleaning process includes disinfection work in both bathrooms and kitchens. The office's cleanliness protects staff health while making beneficial first impressions on employees and business guests." },
