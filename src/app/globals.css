@@ -59,3 +59,39 @@ a {
     padding: 0; /* still no outer padding */
   }
 }
+
+
+.emptyState {
+  text-align: center;
+  margin-top: 10px;
+  color: #666;
+  margin-top: 15%;
+}
+/* Responsive adjustments for tablet and below */
+@media (max-width: 768px) {
+  .emptyState img {
+    width: 130px;
+  }
+
+  .emptyState h2 {
+    font-size: 16px;
+  }
+
+  .emptyState p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .emptyState img {
+    width: 80px;
+  }
+
+  .emptyState h2 {
+    font-size: 12px;
+  }
+
+  .emptyState p {
+    font-size: 8px;
+  }
+}
