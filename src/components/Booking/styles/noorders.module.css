@@ -9,12 +9,10 @@
 }
 
 .header {
-    /* margin-bottom: 2rem; */
     width: 100%;
 }
 /* -------------------------------- */
 .container {
-    /* width: 1128px; */
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -26,6 +24,7 @@
 }
 
 .image {
+    display: flex;
     /* width: 185px; */
     height: auto;
     max-width: 100%;
@@ -45,13 +44,41 @@
 
 @media screen and (max-width: 600px) {
 .image {
-    max-width: 60%;
+    max-width: 40%;
 }
 .title {
-    font-size: 15px;
+    font-size: 13px;
 }
 .paragraph {
-    font-size: 12px;
+    font-size: 10px;
 }
-  
+  .container {
+
+    height: 100vh;
+    justify-content: normal;
+    margin-top: 47px;
+    
+ 
+}
+
+}
+@media (max-width: 800px) {
+.image {
+    max-width: 50%;
+}
+.title {
+    font-size: 14px;
+}
+.paragraph {
+    font-size: 11px;
+}
+  .container {
+
+    height: 100vh;
+    justify-content: normal;
+    margin-top: 50px;
+    
+ 
+}
+
 }

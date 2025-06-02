@@ -1,6 +1,7 @@
 .sidebar {
   width: 260px;
-  height: 100vh;
+  /* height: 100vh; */
+  /* height: 900px; */
   background-color: white;
   border-right: 1px solid #B2B2B2;
   display: flex;
@@ -114,6 +115,7 @@
 
   .sidebar {
     width: 100px;
+    
   }
 
   .logoContainer {
@@ -123,6 +125,7 @@
   .navlist {
     padding: 0px;
     gap: 12px;
+    
   }
     .navLink {
     padding: 2px;
@@ -132,9 +135,9 @@
  
 }
 .logoutBtnn {
-    width: 90%;
   height: 30px;
-  
+  /* margin-top: 5px; */
+  /* margin-bottom: 125px; */
   font-size: 11px;
   
 }

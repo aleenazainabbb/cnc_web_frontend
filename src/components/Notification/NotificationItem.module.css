@@ -48,6 +48,8 @@
 
 .clockIcon {
   margin-right: 4px;
+  width: 14px;
+  height: 14px;
 }
 
 .emptyState {
@@ -58,7 +60,7 @@
 
 .emptyImage {
   /* max-width: 180px; */
-  margin: 0 auto 16px;
+  /* margin: 0 auto 16px; */
   width: 1900px;
   padding: 20%;
   margin-left: 40%;
@@ -69,12 +71,12 @@
   .notificationItem {
     padding: 10px;
     gap: 6px;
-  margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   .iconContainer {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 6px;
   }
 
@@ -92,5 +94,37 @@
 
   .clockIcon {
     margin-right: 2px;
+    width: 10px;
+    height: 10px;
   }
+}
+
+@media (max-width: 425px) {
+  .notificationItem {
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 7px;
+  }
+
+  .iconContainer {
+    width: 21px;
+    height: 21px;
+  }
+
+  .title {
+    font-size: 9px;
+  }
+
+  .description {
+    font-size: 8px;
+  }
+
+  .time {
+    font-size: 6px;
+  }
+
+  .clockIcon {
+    margin-right: 2px;
+  }
+ 
 }

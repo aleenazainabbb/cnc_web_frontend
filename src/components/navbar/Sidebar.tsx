@@ -20,7 +20,7 @@ export default function Sidebar() {
       <div className={side.divider} />
       <ul className={side.navList}>
         <li>
-          <Link href="/" className={`${side.navLink} ${pathname === '/' ? side.active : ''}`}>
+          <Link href="/BookAservicePage" className={`${side.navLink} ${pathname === '/' ? side.active : ''}`}>
             <span className={side.iconText}><i className="fa-solid fa-plus"></i>
               Add a Booking
             </span>
@@ -47,7 +47,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <Link href="/Locations" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
+          <Link href="/Bookings/Location" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-location-dot"></i>
               Saved Locations
@@ -65,7 +65,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <Link href="/Sidebar" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
+          <Link href="/Bookings/MyWallet" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-wallet"></i>
               My Wallet

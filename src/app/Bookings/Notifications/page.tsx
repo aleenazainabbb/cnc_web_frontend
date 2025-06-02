@@ -76,7 +76,7 @@ export default function NotificationList() {
   return (
 
     <div>
-       <HeaderBar title="Profile" />
+      <HeaderBar title="Profile" />
       {isEmpty ? (
         <div className="emptyState">
           <img
@@ -88,13 +88,18 @@ export default function NotificationList() {
           <p>You’re all caught up! Check back later for updates.</p>
         </div>
       ) : (
-        <div style={{ 
-          padding: '0 20px'
-        }}>
+        <div
+          style={{
+            padding: '0 20px',
+            maxHeight: '88vh',     // or a fixed pixel value like '500px'
+            overflowY: 'auto',
+          }}
+        >
           {notifications.map((item, idx) => (
             <NotificationItem key={idx} {...item} />
           ))}
         </div>
+
       )}
     </div>
   );

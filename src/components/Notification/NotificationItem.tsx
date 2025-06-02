@@ -26,7 +26,7 @@ export const NotificationItem: FC<NotificationItemProps> = ({
         <div className={styles.topRow}>
           <div className={styles.title}>{title}</div>
           <div className={styles.time}>
-            <Clock size={14} className={styles.clockIcon} />
+            <Clock className={styles.clockIcon} />
             {time}
           </div>
         </div>

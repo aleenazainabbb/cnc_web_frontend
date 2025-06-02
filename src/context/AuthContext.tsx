@@ -14,7 +14,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState(null);
 
  const loginUser = async (email: string, password: string) => {
-  const response = await fetch('http://192.168.18.11:3000/api/users/login', {
+  const response = await fetch('http://192.168.18.13:5173/api/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),

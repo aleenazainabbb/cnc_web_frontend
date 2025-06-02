@@ -25,9 +25,9 @@
 
 .iconBtn {
   background: none;
-  border: none;
+  color:  #626262;
   cursor: pointer;
- 
+  width:24px;
 }
 
 .avatarBtn {

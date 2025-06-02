@@ -37,11 +37,11 @@ const Navbar: React.FC = () => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
                 <Link href="BookAservicePage" className="nav-link be-vietnam-pro-regular">
                   BookAService
                 </Link>
-              </li>
+              </li> */}
 
             <li className="nav-item dropdown">
               <a
@@ -83,37 +83,7 @@ const Navbar: React.FC = () => {
               </Link>
             </li>
 
-            {/* <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
-                id="cleaningDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                CLEANING SERVICES
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="cleaningDropdown">
-                <li>
-                  <Link
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Service 1
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Service 2
-                  </Link>
-                </li>
-              </ul>
-            </li> */}
-
+        
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
