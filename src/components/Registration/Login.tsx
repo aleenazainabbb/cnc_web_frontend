@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     try {
       await loginUser(email, password);
       setSnackbar({ message: 'Login successful!', type: 'success' });
-      router.push('/Bookings');
+      router.push('/Bookings/Dashboard');
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.');
       setSnackbar({ message: err.message || 'Login failed. Please try again.', type: 'error' });

@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './styles/profile.module.css';
 
-export default function Profile() {
+const Profile: React.FC = () => {
     return (
         <div className={styles.main}>
             <div className={styles.container}>
@@ -44,3 +44,4 @@ export default function Profile() {
         </div>
     );
 }
+export default Profile;

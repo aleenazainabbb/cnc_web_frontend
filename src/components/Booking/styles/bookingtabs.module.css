@@ -1,0 +1,55 @@
+.main {
+  max-height: 38px;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  /* Optional: allow main container to be centered with max-width */
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  /* padding-left: 12px; */
+  padding-right: 15px;
+}
+
+.tabWrapper {
+  border-bottom: 1px solid #DBDADE; /* full-width gray line */
+  /* Make width fluid and centered */
+  width: 100%;
+  max-width: 1128px;
+  /* padding-left: 15px; */
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box; /* include padding in width */
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Public Sans', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  padding-left: 12px;
+  color: #8B909A;
+  /* allow wrapping on smaller screens */
+  flex-wrap: wrap;
+}
+
+.tabbutton {
+  background: none;
+  border: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: #8B909A;
+  /* add horizontal padding for tap targets */
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: nowrap; /* prevent breaking inside tab text */
+}
+
+.active {
+  color: #3B82F6;
+  border-color: #3B82F6;
+}

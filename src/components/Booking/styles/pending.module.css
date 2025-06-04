@@ -1,0 +1,48 @@
+.main {
+  min-height: 420px;
+  font-family: 'Inter', sans-serif;
+  background-color: white;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: sans-serif;
+}
+
+.rowHeader, .row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cellHeader, .cell {
+  padding: 10px;
+  border-right: 1px solid #eee;
+}
+
+.cell:last-child, .cellHeader:last-child {
+  border-right: none;
+}
+
+.cellHeader {
+  font-weight: bold;
+  background-color: #eaeaea;
+}
+
+.actionBtn {
+  padding: 6px 10px;
+  border: none;
+  background: #5c6ac4;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}

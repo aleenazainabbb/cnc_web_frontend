@@ -25,7 +25,7 @@ export default function Verification() {
     }
 
     // After successful verification
-    router.push('/Bookings');
+    router.push('/Bookings/Dashboard');
   };
 
   return (
@@ -34,10 +34,10 @@ export default function Verification() {
         <h2 className={verify.heading}>Verification</h2>
         <p className={verify.description}>
           Please check your email <strong>{email}</strong> for the verification code.
-       
+
         </p>
 
-        <label className={verify.label}>Verification Code</label>
+        {/* <label className={verify.label}>Verification Code</label> */}
         <input
           type="text"
           className={verify.input}
@@ -46,7 +46,14 @@ export default function Verification() {
           onChange={(e) => setCode(e.target.value)}
         />
 
-        <button onClick={handleVerify} className={verify.button}>Verify</button>
+        <button
+          onClick={handleVerify}
+          className={verify.button}
+          disabled={code.trim().length === 0}
+        >
+          Verify
+        </button>
+
       </div>
     </div>
   );

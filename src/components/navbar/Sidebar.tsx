@@ -29,7 +29,7 @@ export default function Sidebar() {
 
 
         <li>
-          <Link href="/Signup" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
+          <Link href="/Bookings/Dashboard" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-table-list"></i>
               My Booking
@@ -38,7 +38,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <Link href="/Quotes" className={`${side.navLink} ${pathname === '/Quotes' ? side.active : ''}`}>
+          <Link href="/GetAquote" className={`${side.navLink} ${pathname === '/Quotes' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes
@@ -56,7 +56,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <Link href="/Payments" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
+          <Link href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-money-check"></i>
               Payment Methods
@@ -71,6 +71,12 @@ export default function Sidebar() {
               My Wallet
             </span>
           </Link>
+          {/* <Link href="/Bookings" className={`${side.navLink} ${pathname === '/Delete' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-solid fa-delete"></i>
+              Delete
+            </span>
+          </Link> */}
         </li>
 </ul>
        <button className={side.logoutBtnn}>Logout</button>
