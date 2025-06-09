@@ -1,48 +1,163 @@
 .main {
   min-height: 420px;
-  font-family: 'Inter', sans-serif;
   background-color: white;
-  box-shadow: 0px 4px 4px 0px #00000040;
   display: flex;
   flex-direction: column;
   margin: 20px;
 }
 
 .container {
+  padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-family: sans-serif;
+  gap: 2px;
 }
 
-.rowHeader, .row {
+
+/* Flexible grid container for header and rows */
+.gridContainer {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  grid-template-columns:
+    minmax(80px, 1fr)
+    /* Order ID */
+    minmax(100px, 1.2fr)
+    /* Service */
+    minmax(150px, 1.5fr)
+    /* Detail */
+    minmax(80px, 0.8fr)
+    /* Time */
+    minmax(80px, 0.8fr)
+    /* Date */
+    minmax(100px, 1fr);
+  /* Status */
+  gap: 1.5rem;
   overflow: hidden;
 }
 
-.cellHeader, .cell {
-  padding: 10px;
-  border-right: 1px solid #eee;
+.rowHeader {
+  color: #8B909A;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Public Sans', sans-serif;
+  border-bottom: 1px solid #E9E7FD;
 }
 
-.cell:last-child, .cellHeader:last-child {
-  border-right: none;
+.row {
+  color: #000000;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Roboto Flex', sans-serif;
+  border-bottom: 1px solid #CFCFCF;
 }
 
-.cellHeader {
-  font-weight: bold;
-  background-color: #eaeaea;
+.row div:nth-child(2) {
+  font-weight: 500;
 }
 
-.actionBtn {
-  padding: 6px 10px;
-  border: none;
-  background: #5c6ac4;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
+.row div:nth-child(3) {
+  font-weight: 400;
+  font-size: 14px;
+  color: #8B909A;
+}
+
+.row div:nth-child(4),
+.row div:nth-child(5) {
+  font-weight: 400;
+  font-size: 15.09px;
+  color: #8B909A;
+}
+
+.statusButton {
+  width: 103px;
+  border-radius: 30px;
+  height: 30px;
+  border: 1px solid;
+  background-color: transparent;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: default;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .container {
+    padding: 20px;
+    padding-top: 10px;
+  }
+
+  .statusButton {
+    width: 70px;
+  }
+}
+
+@media (max-width: 900px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .rowHeader,
+  .row {
+    font-size: 14px;
+  }
+
+  .statusButton {
+    width: 80px;
+    font-size: 12px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .gridContainer {
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .row div:nth-child(3),
+  .row div:nth-child(4),
+  .row div:nth-child(5) {
+    font-size: 10px;
+  }
+
+  .rowHeader,
+  .row {
+    font-size: 10px;
+  }
+
+  .statusButton {
+    width: 70px;
+    font-size: 11px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 420px) {
+  .main {
+    margin: 10px;
+  }
+
+  .container {
+    padding: 10px;
+    gap: 2px;
+  }
+
+  .gridContainer {
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .rowHeader,
+  .row {
+    font-size: 10px;
+  }
+
+  .statusButton {
+    width: 50px;
+    font-size: 8px;
+    height: 24px;
+  }
 }

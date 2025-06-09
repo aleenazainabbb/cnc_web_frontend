@@ -34,6 +34,9 @@ const TopBar: React.FC = () => { //declares a React functional component TopBar
           <Link href="Login" className="mx-lg-2 mx-md-2 text-white">
              Login
           </Link>
+          <Link href="Verification" className="mx-lg-2 mx-md-2 text-white">
+            Verification
+          </Link>
 
 
           {/* <button
