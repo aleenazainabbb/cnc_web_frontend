@@ -1,22 +1,20 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, Dispatch, SetStateAction } from 'react';
 import { DateRange, Range, RangeKeyDict } from 'react-date-range';
 import { format } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import styles from './styles/daterange.module.css';
 
-export default function RangeFilter() {
-    const [showCalendar, setShowCalendar] = useState(false);
-    const [range, setRange] = useState<Range[]>([
-        {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: 'selection',
-        },
-    ]);
+// Define props interface
+interface RangeFilterProps {
+    range: Range[];
+    setRange: Dispatch<SetStateAction<Range[]>>;
+}
 
+const RangeFilter: React.FC<RangeFilterProps> = ({ range, setRange }) => {
+    const [showCalendar, setShowCalendar] = React.useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -90,4 +88,6 @@ export default function RangeFilter() {
             )}
         </div>
     );
-}
+};
+
+export default RangeFilter;
