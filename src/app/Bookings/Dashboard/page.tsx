@@ -21,9 +21,10 @@
 import React, { useState } from 'react';
 import HeaderBar from '@/components/navbar/HeaderBar';
 import BookingTabs from '@/components/Booking/bookingtabs';
-import Pending from '@/components/Booking/pendingorders';
+// import Pending from '@/components/Booking/pendingorders';
 import RangeFilter from '@/components/Booking/daterange';
 import { Range } from 'react-date-range';
+// import History from '@/components/Booking/history';
 
 export default function RequestPage() {
   const [range, setRange] = useState<Range[]>([
@@ -42,7 +43,8 @@ export default function RequestPage() {
       {/* This will render OUTSIDE the white container */}
       <RangeFilter range={range} setRange={setRange} />
 
-      <Pending range={range} />
+      {/* <Pending range={range} /> */}
+      {/* <History range={range} /> */}
     </>
   );
 }

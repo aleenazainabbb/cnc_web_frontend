@@ -1,9 +1,10 @@
 .main {
-  min-height: 420px;
+  min-height: 360px;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  margin-top: 85px;
+  margin-left: 20px;
 }
 
 .container {
@@ -13,25 +14,18 @@
   gap: 2px;
 }
 
-
-/* Flexible grid container for header and rows */
-.gridContainer {
+.gridContainer,
+.gridContainerHistory {
   display: grid;
   grid-template-columns:
-    minmax(80px, 1fr)
-    /* Order ID */
-    minmax(100px, 1.2fr)
-    /* Service */
-    minmax(150px, 1.5fr)
-    /* Detail */
-    minmax(80px, 0.8fr)
-    /* Time */
-    minmax(80px, 0.8fr)
-    /* Date */
-    minmax(100px, 1fr);
-  /* Status */
+    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
   gap: 1.5rem;
-  overflow: hidden;
+  overflow-x: auto;
+}
+
+.gridContainerHistory {
+  grid-template-columns:
+    minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr) minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr) minmax(100px, 0.4fr);
 }
 
 .rowHeader {
@@ -69,7 +63,8 @@
   color: #8B909A;
 }
 
-.statusButton {
+.statusButton,
+.completedButton {
   width: 103px;
   border-radius: 30px;
   height: 30px;
@@ -81,40 +76,60 @@
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 
+.completedButton {
+  border-color: #0F9918;
+  color: #0F9918;
+}
+
+.rescheduleButton {
+  width: 81px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: #1A78F2;
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 /* Responsive adjustments */
+
 @media (max-width: 1024px) {
   .container {
-    padding: 20px;
-    padding-top: 10px;
+    padding: 20px 15px;
   }
 
   .statusButton {
-    width: 70px;
+    width: 80px;
   }
 }
 
 @media (max-width: 900px) {
-  .gridContainer {
+
+  .gridContainer,
+  .gridContainerHistory {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
 
   .rowHeader,
   .row {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .statusButton {
-    width: 80px;
+    width: 70px;
     font-size: 12px;
     height: 28px;
   }
 }
 
 @media (max-width: 600px) {
-  .gridContainer {
-    grid-template-columns: 1fr 1.5fr 1fr;
-    gap: 0.8rem;
+
+  .gridContainer,
+  .gridContainerHistory {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
 
   .row div:nth-child(3),
@@ -129,35 +144,41 @@
   }
 
   .statusButton {
-    width: 70px;
-    font-size: 11px;
-    height: 26px;
+    width: 65px;
+    font-size: 10px;
+    height: 25px;
   }
 }
 
 @media (max-width: 420px) {
-  .main {
-    margin: 10px;
-  }
+ 
 
   .container {
     padding: 10px;
     gap: 2px;
   }
 
-  .gridContainer {
-    grid-template-columns: 1fr 1.5fr 1fr;
-    gap: 0.8rem;
+  .gridContainer,
+  .gridContainerHistory {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 
   .rowHeader,
   .row {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .statusButton {
     width: 50px;
     font-size: 8px;
-    height: 24px;
+    height: 22px;
   }
+
+  .completedButton,.rescheduleButton {
+    width: 65px;
+    font-size: 10px;
+    height: 26px;
+  }
+    
 }
