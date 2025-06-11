@@ -1,15 +1,18 @@
 'use client';
 import React from 'react';
 import orders from './styles/noorders.module.css';
+import styles from '@/components/navbar/styles/HeaderBar.module.css';
 import Image from 'next/image';
-interface NoOrdersProps {
-  header?: React.ReactNode;
-}
+import Link from 'next/link';
 
-export default function NoOrders({ header} : NoOrdersProps){
+export default function NoOrders() {
     return (
         <div className={orders.wrapper}>
-            {header && <div className={orders.header}>{header}</div>}
+            <div className={orders.topRightbutton}>
+                <Link href="/GetAquote">
+                    <div className={styles.getaQuoteBtn}>Get a quote</div>
+                </Link>
+            </div>
 
             <div className={orders.container}>
                 <Image
@@ -25,4 +28,3 @@ export default function NoOrders({ header} : NoOrdersProps){
         </div>
     );
 }
-

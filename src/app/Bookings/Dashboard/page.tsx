@@ -1,30 +1,11 @@
-// 'use client';
-
-// import HeaderBar from '@/components/navbar/HeaderBar';
-// import BookingTabs from '@/components/Booking/bookingtabs';
-// import Pending from '@/components/Booking/pendingorders';
-// // import RangeFilter from '@/components/Booking/daterange';
-
-// export default function RequestPage() {
-//   return (
-//     <>
-//       <HeaderBar title="Booking" />
-//       <BookingTabs />
-//       {/* <RangeFilter /> */}
-//       <Pending  />
-
-//     </>
-//   );
-// }
 'use client';
 
 import React, { useState } from 'react';
 import HeaderBar from '@/components/navbar/HeaderBar';
 import BookingTabs from '@/components/Booking/bookingtabs';
-// import Pending from '@/components/Booking/pendingorders';
 import RangeFilter from '@/components/Booking/daterange';
 import { Range } from 'react-date-range';
-// import History from '@/components/Booking/history';
+import NoOrders from '@/components/Booking/noOrders'; 
 
 export default function RequestPage() {
   const [range, setRange] = useState<Range[]>([
@@ -34,17 +15,47 @@ export default function RequestPage() {
       key: 'selection',
     },
   ]);
+const pendingOrders: string[][] = [
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '05/22/2025', 'Pending'],
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '06/22/2025', 'Confirmed'],
+    ['#234567888', 'Deep Cleaning', 'Home Cleaning needed.', '2 hrs ago', '07/22/2025', 'Pending'],
+    ['#234567888', 'Sofa Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025', 'Assigned'],
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025', 'Accepted'],
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025', 'Pending'],
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025', 'Confirmed'],
+  ];
+
+  const historyOrders: string[][] = [
+    ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '05/22/2025'],
+    ['#234567889', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '06/22/2025'],
+    ['#234567890', 'Deep Cleaning', 'Home Cleaning needed.', '2 hrs ago', '07/22/2025'],
+    ['#234567891', 'Sofa Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025'],
+    ['#234567892', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025'],
+    ['#234567893', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025'],
+    ['#234567894', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025'],
+  ];
+  // const pendingOrders: string[][] = [];
+  // const historyOrders: string[][] = [];
+
+  const noOrdersAvailable =
+    pendingOrders.length === 0 && historyOrders.length === 0;
 
   return (
     <>
-      <HeaderBar title="Booking" />
-      <BookingTabs />
+      <HeaderBar title="Booking" showAddButton />
 
-      {/* This will render OUTSIDE the white container */}
-      <RangeFilter range={range} setRange={setRange} />
-
-      {/* <Pending range={range} /> */}
-      {/* <History range={range} /> */}
+      {noOrdersAvailable ? (
+        <NoOrders />
+      ) : (
+        <>
+          <BookingTabs
+            range={range}
+            pendingOrders={pendingOrders}
+            historyOrders={historyOrders}
+          />
+          <RangeFilter range={range} setRange={setRange} />
+        </>
+      )}
     </>
   );
 }

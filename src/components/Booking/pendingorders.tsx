@@ -33,19 +33,12 @@ const getStatusStyle = (service: string, status: string) => {
 
 interface PendingProps {
     range: Range[];
+    data: string[][];
 }
 
-const Pending: React.FC<PendingProps> = ({ range }) => {
+const Pending: React.FC<PendingProps> = ({ range, data }) => {
     const headers = ['ORDER ID', 'SERVICE', 'DETAIL', 'TIME', 'DATE', 'STATUS'];
-    const allRows = [
-        ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '05/22/2025', 'Pending'],
-        ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '06/22/2025', 'Confirmed'],
-        ['#234567888', 'Deep Cleaning', 'Home Cleaning needed.', '2 hrs ago', '07/22/2025', 'Pending'],
-        ['#234567888', 'Sofa Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025', 'Assigned'],
-        ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '08/22/2025', 'Accepted'],
-        ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025', 'Pending'],
-        ['#234567888', 'Home Cleaning', 'Home Cleaning needed.', '2 hrs ago', '04/22/2025', 'Confirmed'],
-    ];
+    const allRows = data;
 
     const [currentPage, setCurrentPage] = React.useState(1);
     const [perPage, setPerPage] = React.useState(5);
@@ -83,29 +76,36 @@ const Pending: React.FC<PendingProps> = ({ range }) => {
                     ))}
                 </div>
 
-                {rows.map((row, ri) => {
-                    const status = row[5],
-                        service = row[1];
-                    const { color } = getStatusStyle(service, status);
-                    return (
-                        <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
-                            {row.map((cell, ci) =>
-                                ci === 3 ? (
-                                    <div key={ci}>
-                                        <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
-                                        {cell}
-                                    </div>
-                                ) : ci === 5 ? (
-                                    <button key={ci} className={styles.statusButton} style={{ borderColor: color, color }}>
-                                        {cell}
-                                    </button>
-                                ) : (
-                                    <div key={ci}>{cell}</div>
-                                )
-                            )}
-                        </div>
-                    );
-                })}
+                {/* 👇 Scrollable area for rows */}
+                <div className={styles.scrollContainer}>
+                    {rows.map((row, ri) => {
+                        const status = row[5],
+                            service = row[1];
+                        const { color } = getStatusStyle(service, status);
+                        return (
+                            <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
+                                {row.map((cell, ci) =>
+                                    ci === 3 ? (
+                                        <div key={ci}>
+                                            <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
+                                            {cell}
+                                        </div>
+                                    ) : ci === 5 ? (
+                                        <button
+                                            key={ci}
+                                            className={styles.statusButton}
+                                            style={{ borderColor: color, color }}
+                                        >
+                                            {cell}
+                                        </button>
+                                    ) : (
+                                        <div key={ci}>{cell}</div>
+                                    )
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
 
                 <Pagination
                     totalItems={filteredRows.length}

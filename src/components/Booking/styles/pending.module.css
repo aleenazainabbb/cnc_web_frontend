@@ -1,22 +1,35 @@
 .main {
-  min-height: 360px;
+  /* min-height: 360px; */
   background-color: white;
   display: flex;
   flex-direction: column;
   margin-top: 85px;
   margin-left: 20px;
+  margin-bottom: 0 !important;
+   border-radius: 12px; /* 👈 Rounded corners */
 }
 
 .container {
-  padding: 25px;
+  /* max-height: 120px; */
+  padding: 21px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  
+}
+
+.scrollContainer {
+  max-height: 250px;
+  max-height: calc(4 * 50px);
+  overflow-y: auto;
+  padding-right: 4px;
+  /* border-bottom: 1px solid #CFCFCF; */
 }
 
 .gridContainer,
 .gridContainerHistory {
   display: grid;
+  border-radius: 16px;
   grid-template-columns:
     minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
   gap: 1.5rem;
@@ -30,11 +43,12 @@
 
 .rowHeader {
   color: #8B909A;
-  padding: 10px 0;
+  padding: 4px 0;
   font-size: 13px;
   font-weight: 500;
   font-family: 'Public Sans', sans-serif;
   border-bottom: 1px solid #E9E7FD;
+   border-radius: 0 !important; /* remove any curvy borders */
 }
 
 .row {
@@ -44,6 +58,7 @@
   font-weight: 400;
   font-family: 'Roboto Flex', sans-serif;
   border-bottom: 1px solid #CFCFCF;
+   border-radius: 0 !important; /* remove any curvy borders */
 }
 
 .row div:nth-child(2) {
@@ -102,7 +117,11 @@
   .statusButton {
     width: 80px;
   }
+  .rescheduleButton {
+    font-size: 13px;
+  }
 }
+
 
 @media (max-width: 900px) {
 
@@ -151,7 +170,7 @@
 }
 
 @media (max-width: 420px) {
- 
+
 
   .container {
     padding: 10px;
@@ -175,10 +194,11 @@
     height: 22px;
   }
 
-  .completedButton,.rescheduleButton {
+  .completedButton,
+  .rescheduleButton {
     width: 65px;
     font-size: 10px;
     height: 26px;
   }
-    
+
 }

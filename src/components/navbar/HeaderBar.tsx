@@ -5,28 +5,28 @@ import Link from 'next/link';
 
 export default function HeaderBar({
   title,
-  // onNotifyClick,
-  // onAvatarClick,
-  customIcon,      // Optional custom icon JSX
-  customAvatar,    // Optional custom avatar JSX
+  customIcon,
+  customAvatar,
+  showAddButton = false, // Default is false
 }: {
   title: string;
-  // onNotifyClick?: () => void;
-  // onAvatarClick?: () => void;
   customIcon?: React.ReactNode;
   customAvatar?: React.ReactNode;
+  showAddButton?: boolean;
 }) {
   return (
     <div className={styles.header}>
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.right}>
-        {/* <button onClick={onNotifyClick} className={styles.iconBtn}>
-          {customIcon || <i className="fa-regular fa-bell" aria-hidden="true"></i>}
-        </button> */}
+        {showAddButton && (
+          <Link href="/BookAservicePage" className={styles.addBookingBtn}>
+            Add Booking
+          </Link>
+        )}
+
         <Link href="/Bookings/Notifications" className={styles.iconBtn}>
           {customIcon || <i className="fa-regular fa-bell" aria-hidden="true"></i>}
         </Link>
-
 
         <Link href="/Bookings/Profile" className={styles.avatarBtn}>
           {customAvatar || (

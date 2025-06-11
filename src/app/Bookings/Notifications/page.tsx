@@ -3,6 +3,8 @@
 import { NotificationItem } from '@/components/Notification/NotificationItem';
 import React from "react";
 import HeaderBar from '@/components/navbar/HeaderBar';
+// import styles from '@/components/navbar/styles/HeaderBar.module.css';
+// import Link from 'next/link';
 
 import {
   CheckCircle,
@@ -74,33 +76,32 @@ export default function NotificationList() {
   const isEmpty = notifications.length === 0;
 
   return (
+  <div>
+    <HeaderBar title="Notification" />
+    {isEmpty ? (
+      <div className="emptyState">
+        <img
+          src="/Images/no_notifications.png"
+          alt="No notifications"
+          className="emptyImage"
+        />
+        <h2>No Notifications</h2>
+        <p>You’re all caught up! Check back later for updates.</p>
+      </div>
+    ) : (
+      <div
+        style={{
+          padding: '0 20px',
+          maxHeight: '88vh',     // or a fixed pixel value like '500px'
+          overflowY: 'auto',
+        }}
+      >
+        {notifications.map((item, idx) => (
+          <NotificationItem key={idx} {...item} />
+        ))}
+      </div>
+    )}
+  </div>
+);
 
-    <div>
-      <HeaderBar title="Profile" />
-      {isEmpty ? (
-        <div className="emptyState">
-          <img
-            src="/Images/no_notifications.png"
-            alt="No notifications"
-            className="emptyImage"
-          />
-          <h2>No Notifications</h2>
-          <p>You’re all caught up! Check back later for updates.</p>
-        </div>
-      ) : (
-        <div
-          style={{
-            padding: '0 20px',
-            maxHeight: '88vh',     // or a fixed pixel value like '500px'
-            overflowY: 'auto',
-          }}
-        >
-          {notifications.map((item, idx) => (
-            <NotificationItem key={idx} {...item} />
-          ))}
-        </div>
-
-      )}
-    </div>
-  );
 }

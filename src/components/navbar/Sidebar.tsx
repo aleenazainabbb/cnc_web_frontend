@@ -19,14 +19,6 @@ export default function Sidebar() {
       </div>
       <div className={side.divider} />
       <ul className={side.navList}>
-        <li>
-          <Link href="/BookAservicePage" className={`${side.navLink} ${pathname === '/' ? side.active : ''}`}>
-            <span className={side.iconText}><i className="fa-solid fa-plus"></i>
-              Add a Booking
-            </span>
-          </Link>
-        </li>
-
 
         <li>
           <Link href="/Bookings/Dashboard" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
@@ -42,6 +34,14 @@ export default function Sidebar() {
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes
+            </span>
+          </Link>
+        </li> 
+         <li>
+        <Link href="/Bookings/Profile" className={`${side.navLink} ${pathname === '/Profile' ? side.active : ''}`}>
+            <span className={side.iconText}>
+              <i className="fa-regular fa-user"></i>
+              Profile
             </span>
           </Link>
         </li>

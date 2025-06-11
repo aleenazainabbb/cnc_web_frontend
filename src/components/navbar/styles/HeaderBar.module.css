@@ -2,32 +2,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background: #fafafa; */
-  padding: 0 16px;
+  padding: 0 12px;
   height: 70px;
-  /* border: none; */
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .title {
   font-family: 'Public Sans', sans-serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 22px;
   color: #23272E;
   margin: 0;
+  white-space: nowrap;
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .iconBtn {
   background: none;
-  color:  #626262;
+  color: #626262;
   cursor: pointer;
-  width:24px;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatarBtn {
@@ -39,21 +46,60 @@
 
 .avatarImg {
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: 36px;
+  height: 36px;
   object-fit: cover;
 }
-@media screen and (max-width: 600px) {
 
+.addBookingBtn {
+  background-color: #1A78F2;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  width: 120px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0 12px;
+  white-space: nowrap;
+  margin-right: 15px;
+}
+
+.getaQuoteBtn {
+  background-color: #1A78F2;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  width: 120px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 470px) {
   .title {
-  font-size: 18px;
-}
-.header {
-  padding: 0 6px;
-}
-.avatarImg {
-  border-radius: 40%;
-  width: 40px;
-  height: 40px;
-}
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .addBookingBtn ,.getaQuoteBtn{
+    font-size: 10px;
+    width: 70px;
+    height: 30px;
+    margin-right: none !important;
+  }
 }

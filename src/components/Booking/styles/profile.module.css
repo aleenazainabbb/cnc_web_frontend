@@ -6,14 +6,16 @@
   font-weight: 500;
   display: flex;
   flex-direction: column;
-  margin: 20px 20px 0 20px;
+  /* margin: 20px 20px 0 20px; */
+  margin:29px;
+  padding: 20px;
 }
 
 .container {
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 27px;
   padding: 58px 40px 40px 65px;
   box-sizing: border-box;
 }
@@ -21,7 +23,7 @@
 .profileFormRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 35px;
 }
 
 .label {
@@ -33,13 +35,16 @@
 
 .input {
   width: 437px;
-  max-width: 100%;
+  /* width: 100%; */
   height: 64px;
   padding: 10px;
   border: 1px solid #8692A6;
   border-radius: 6px;
   box-sizing: border-box;
+  flex: 1;
+  min-width: 250px;
 }
+
 
 .input::placeholder {
   color: #8692A6;
@@ -64,82 +69,61 @@
   box-sizing: border-box;
 }
 
-/* Responsive Styles */
 @media (max-width: 1024px) {
-  .container {
-    padding: 54px 49px 48px 61px;
+  .profileFormRow {
+    gap: 20px;
+  }
+
+  .input {
+    flex: 1;
+    min-width: 200px;
   }
 }
 
 @media (max-width: 768px) {
-  .main {
-    min-height: 100px;
-    margin: 10px !important;
-  }
-
-  .container {
-    gap: 11px;
-    padding: 37px 36px 49px 56px;
+  .profileFormRow {
+    flex-direction: column;
   }
 
   .input {
     width: 100%;
-    height: 50px;
+    height: 52px;
+    font-size: 14px;
   }
 
   .button {
-    width: 147px !important;
     height: 52px;
-    font-size: 14px !important;
+    font-size: 14px;
   }
 
   .label {
     font-size: 14px;
   }
-
-  .profileFormRow {
-    flex-direction: row;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
 }
 
-@media (max-width: 680px), (max-width: 380px) {
-/* @media (max-width: 480px){ */
-
-  .main {
-    margin: 10px !important;
-  }
-
-  .container {
-    gap: 6px;
-    padding: 18px !important;
-  }
-
+/* Small screens (phones) */
+@media (max-width: 480px) {
   .input {
-    width: 100%;
-    height: 35px !important;
-    padding: 2%;
-  }
-
-  .button {
-    width: 100% !important;
-    margin-top: 13px;
-    height: 40px !important;
-    font-size: 10px !important;
-  }
-
-  .label {
-    font-size: 10px !important;
-    margin-bottom: 6px;
+    height: 44px;
+    padding: 6px;
+    font-size: 12px;
   }
 
   .input::placeholder {
-    font-size: 9px;
+    font-size: 10px;
   }
 
-  .profileFormRow {
-    gap: 6px;
-    margin-bottom: 10px;
+  .button {
+    height: 44px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .container {
+    padding: 16px;
   }
 }

@@ -1,12 +1,12 @@
 .paginationContainer {
     display: flex;
     flex-wrap: wrap;
-    /* Allow wrapping on small screens */
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    /* spacing between wrapped items */
     font-family: 'Public Sans', sans-serif;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .inlineText {
@@ -14,14 +14,10 @@
     font-weight: 500;
     color: #8B909A;
     flex-shrink: 1;
-    /* allow shrinking on very small screens */
     min-width: 150px;
-    /* minimum width to avoid too small */
     white-space: nowrap;
-    /* keep text on one line */
     overflow: hidden;
     text-overflow: ellipsis;
-    /* ellipsis if overflow */
 }
 
 .selectBox {
@@ -44,7 +40,6 @@
     background-size: 16px;
     margin: 10px !important;
     flex-shrink: 0;
-    /* don’t shrink the select */
 }
 
 .paginationNav {
