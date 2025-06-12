@@ -1,0 +1,396 @@
+.container {
+  padding: 20px;
+  margin-right: 30px;
+  margin-left: 20px;
+  font-family: poppins, sans-serif;
+}
+
+.sectionSpacing {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  position: relative;
+  width: 100%;
+  max-width: 386px;
+  height: 55px;
+}
+
+.searchIcon {
+  margin-right: 8px;
+  color: #888;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+.group {
+  width: 601px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.customselectwrapper {
+  position: relative;
+  width: 599px;
+}
+
+.customdropdown {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background: #F0F0F0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px 0px #00000040;
+  z-index: 1000;
+  margin-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdownitem {
+  padding: 10px 30px;
+  font-size: 14px;
+  color: #464646;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #DCDCDC
+}
+.dropdownitem:hover {
+  background-color: #E0E0E0;
+}
+
+.input {
+  width: 599px;
+  height: 50px;
+  padding: 10px 14px;
+  border: 2px solid #D3D8DD;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #fff;
+  font-size: 16px;
+  color: #333;
+
+  /* Remove default arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Custom arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+.input:invalid {
+  color: #999;
+}
+
+
+.couponinput {
+  width: 469px;
+  height: 50px;
+  padding: 10px 14px;
+  border: 2px solid #D3D8DD;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.couponinput::placeholder {
+  color: #FF8361;
+  font-weight: 700;
+  font-size: 25px;
+}
+
+.selectedDropdown {
+  /* border-color: #36B864; */
+  font-weight: 600;
+  font-size: 20px;
+  color: #1A78F2;
+}
+
+.applybtn {
+  width: 114px;
+  height: 50px;
+  background-color: #36B864;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.couponRow {
+  display: flex;
+  gap: 15px;
+}
+
+.label {
+  font-weight: 600;
+  color: #9FA7B0;
+  font-size: 14px;
+}
+
+.endlabel {
+  font-weight: 600;
+  color: black;
+  font-size: 14px;
+}
+
+select.input option:disabled {
+  color: #9FA7AF;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.scrollContainer {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hideScrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.optionButton {
+  flex: 1 0 auto;
+  /* allows shrinking and growing */
+  width: 84px;
+  height: 55px;
+  padding: 10px 16px;
+  border: 2px solid #D3D8DD;
+  background-color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 19px;
+  color: #4F6071;
+  text-align: center;
+  transition: background 0.3s, border 0.3s;
+}
+
+.daysoption {
+  width: 299px;
+  color: #4F6071;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  border: 2px solid #D3D8DD;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.3s, border 0.3s;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+}
+
+.optionButton:hover {
+  /* background-color: #f0f8ff; */
+  border-color: #007bff;
+  color: #007bff;
+}
+.optionButton:selected {
+  background-color: #1A78F2;
+  color: white;
+  border: none;
+}
+
+.daysoption:hover {
+  /* background-color: #f0f8ff; */
+  border-color: #007bff;
+  /* color: #007bff; */
+}
+
+.fixedSizeBtn {
+  min-width: 48px;
+  text-align: center;
+}
+
+.optionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.freqText {
+  font-weight: 600;
+}
+
+.badgeGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.optionLabel {
+  font-size: 12px;
+  color: #777;
+}
+
+
+.freqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.labelWithBadges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.badgeGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.badgePopular {
+  background-color: #36B864;
+  padding: 2px 6px;
+  font-size: 9px;
+  border-radius: 30px;
+  color: white;
+  border: 1px solid #36B864;
+  font-weight: 600;
+  width: 89px;
+  height: 21px;
+}
+
+.badgeDiscount {
+  background-color: #FF502936;
+  padding: 2px 6px;
+  border: 1px solid #FF502936;
+  font-size: 9px;
+  color: #FE5A15;
+  font-weight: 600;
+  border-radius: 30px;
+}
+
+.bulletLine {
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #000000B5;
+  line-height: 1.4;
+}
+
+.subLabel {
+  font-weight: 400;
+  font-size: 14px;
+  color: black;
+  margin-top: -4px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 15px;
+  /* margin-top: 8px; */
+}
+
+.button {
+  border: 1px solid #ccc;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background 0.3s, border 0.3s;
+  font-weight: 500;
+  color: #333;
+}
+
+.yesnobuttons {
+  width: 182px;
+  height: 54px;
+  color: black;
+  border: 1px solid #666666;
+  background-color: white;
+  border-radius: 6px;
+}
+
+.yesnobuttons.selected {
+  background-color: #36B864;
+  color: white;
+  border: none;
+}
+
+.button:hover {
+  background-color: #f0f8ff;
+  border-color: #007bff;
+}
+
+.box {
+  width: 552px;
+  height: 124px;
+  padding: 12px;
+  border: 2px solid #D3D8DD;
+  border-radius: 8px;
+  resize: none;
+  font-size: 14px;
+  color: #333;
+  margin-top: 19px;
+}
