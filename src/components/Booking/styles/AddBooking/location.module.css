@@ -1,0 +1,240 @@
+.main {
+    padding-top: 30px;
+    font-family: Poppins, sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    height: auto;
+    padding-left: 56px;
+    padding-top: 20px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 48px;
+}
+
+.subheading {
+    color: #9FA7B0;
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 1%;
+}
+
+
+.description {
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 1%;
+}
+
+.optionButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 83px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 29px;
+    background-color: white;
+    color: #88939D;
+    border: none;
+    border-radius: 39px;
+}
+
+.button.active {
+    background-color: #36B864;
+    color: white;
+    border-radius: 39px;
+}
+
+.buttoncontainer {
+    display: flex;
+    gap: 10px;
+}
+
+.countrySelectWrapper {
+    margin-top: 30px;
+}
+
+.forminput {
+    font-size: 14px;
+    display: block;
+    margin-top: 12px;
+    letter-spacing: 0.3%;
+    font-weight: 400;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid #D3D8DD;
+    background-color: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.forminput:focus {
+    border-color: #1a78f2;
+    color: #1a78f2;
+    outline: none;
+}
+
+.textbox {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.forminputpets {
+    width: 100%;
+    height: 55px;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.box {
+    max-width: 551px;
+}
+
+.textbox {
+    height: 116px;
+}
+
+.options {
+    margin-top: 19px;
+    max-width: 240px;
+    gap: 60px;
+}
+
+.options button:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.locbuttons,
+.yesnobuttons {
+    height: 55px;
+    width: 130px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    color: #4F6071;
+    background-color: white;
+    border: 2px solid #D3D8DD;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.locbuttons.active,
+.yesnobuttons.active {
+    color: #007BFF;
+    border: 2px solid #007BFF;
+}
+
+.yesnobuttons {
+    width: 130px;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    /* margin-top: 20px; */
+}
+.rowyesno {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 1280px) {
+    .main {
+        padding-left: 30px;
+        padding-top: 10px;
+    }
+
+    .description {
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .subheading {
+        margin-top: 18px !important;
+    }
+
+    .locbuttons,
+    .yesnobuttons {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding-left: 12px;
+        padding-top: 0px;
+    }
+
+    .description {
+        margin-bottom: 3px;
+        font-size: 12px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subheading {
+        margin-top: 5px !important;
+        font-size: 11px;
+    }
+    .yesnobuttons {
+        font-size: 12px;
+    }
+    .rowyesno ,.options{
+       margin-top: 2px;
+    }
+
+    .locbuttons{
+        font-size: 12px;
+    }
+
+    .forminput {
+        padding: 9px;
+        font-size: 10px;
+        margin-top: 6px !important;
+    }
+
+    .textbox {
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    .button {
+        margin-top: 9px;
+        margin-bottom: 7px;
+        font-size: 12px;
+
+    }
+}

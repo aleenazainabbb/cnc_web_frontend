@@ -45,10 +45,12 @@
   outline: none;
   background: transparent;
   font-size: 16px;
+  width: 100%;
 }
 
 .group {
-  width: 601px;
+  width: 100%;
+  max-width: 599px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -73,9 +75,11 @@
   flex-direction: column;
   gap: 16px;
 }
+
 .customselectwrapper {
   position: relative;
-  width: 599px;
+  width: 100%;
+  max-width: 599px;
 }
 
 .customdropdown {
@@ -98,14 +102,16 @@
   color: #464646;
   font-weight: 500;
   cursor: pointer;
-  border: 1px solid #DCDCDC
+  border: 1px solid #DCDCDC;
 }
+
 .dropdownitem:hover {
   background-color: #E0E0E0;
 }
 
 .input {
-  width: 599px;
+  width: 100%;
+  max-width: 599px;
   height: 50px;
   padding: 10px 14px;
   border: 2px solid #D3D8DD;
@@ -114,13 +120,9 @@
   background-color: #fff;
   font-size: 16px;
   color: #333;
-
-  /* Remove default arrow */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  /* Custom arrow */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
@@ -131,9 +133,9 @@
   color: #999;
 }
 
-
 .couponinput {
-  width: 469px;
+  width: 100%;
+  max-width: 469px;
   height: 50px;
   padding: 10px 14px;
   border: 2px solid #D3D8DD;
@@ -148,14 +150,14 @@
 }
 
 .selectedDropdown {
-  /* border-color: #36B864; */
   font-weight: 600;
   font-size: 20px;
   color: #1A78F2;
 }
 
 .applybtn {
-  width: 114px;
+  width: 100%;
+  max-width: 114px;
   height: 50px;
   background-color: #36B864;
   color: white;
@@ -169,6 +171,7 @@
 .couponRow {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .label {
@@ -199,7 +202,6 @@ select.input option:disabled {
 .hideScrollbar::-webkit-scrollbar {
   display: none;
 }
-
 .hideScrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -207,8 +209,8 @@ select.input option:disabled {
 
 .optionButton {
   flex: 1 0 auto;
-  /* allows shrinking and growing */
-  width: 84px;
+  /* width: 100%; */
+  max-width: 84px;
   height: 55px;
   padding: 10px 16px;
   border: 2px solid #D3D8DD;
@@ -218,12 +220,13 @@ select.input option:disabled {
   font-weight: 600;
   font-size: 19px;
   color: #4F6071;
-  text-align: center;
+  /* text-align: center; */
   transition: background 0.3s, border 0.3s;
 }
 
 .daysoption {
-  width: 299px;
+  width: 100%;
+  max-width: 299px;
   color: #4F6071;
   display: flex;
   flex-direction: column;
@@ -241,10 +244,10 @@ select.input option:disabled {
 }
 
 .optionButton:hover {
-  /* background-color: #f0f8ff; */
   border-color: #007bff;
   color: #007bff;
 }
+
 .optionButton:selected {
   background-color: #1A78F2;
   color: white;
@@ -252,15 +255,13 @@ select.input option:disabled {
 }
 
 .daysoption:hover {
-  /* background-color: #f0f8ff; */
   border-color: #007bff;
-  /* color: #007bff; */
 }
 
-.fixedSizeBtn {
+/* .fixedSizeBtn {
   min-width: 48px;
   text-align: center;
-}
+} */
 
 .optionWrapper {
   display: flex;
@@ -291,7 +292,6 @@ select.input option:disabled {
   color: #777;
 }
 
-
 .freqContainer {
   display: flex;
   flex-direction: column;
@@ -302,11 +302,6 @@ select.input option:disabled {
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.badgeGroup {
-  display: flex;
-  gap: 8px;
 }
 
 .badgePopular {
@@ -349,7 +344,7 @@ select.input option:disabled {
 .buttonGroup {
   display: flex;
   gap: 15px;
-  /* margin-top: 8px; */
+  flex-wrap: wrap;
 }
 
 .button {
@@ -364,7 +359,8 @@ select.input option:disabled {
 }
 
 .yesnobuttons {
-  width: 182px;
+  width: 100%;
+  max-width: 182px;
   height: 54px;
   color: black;
   border: 1px solid #666666;
@@ -384,8 +380,9 @@ select.input option:disabled {
 }
 
 .box {
-  width: 552px;
-  height: 124px;
+  width: 100%;
+  max-width: 552px;
+  min-height: 124px;
   padding: 12px;
   border: 2px solid #D3D8DD;
   border-radius: 8px;
@@ -393,4 +390,59 @@ select.input option:disabled {
   font-size: 14px;
   color: #333;
   margin-top: 19px;
+  box-sizing: border-box;
 }
+@media (max-width: 1280px) {
+.couponinput::placeholder {
+  font-size: 15px;
+}
+   
+  .searchBox {
+    max-width: 50%;
+    height: 43px;
+  }
+.applybtn{
+  font-size: 15px;
+}
+.optionButton{
+  width:none;
+  max-width: none;
+  height: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  
+}
+.yesnobuttons{
+      max-width: 194px; 
+}
+}
+
+
+
+@media (max-width: 320px) {
+  .container {
+    margin-right: 20px;
+    margin-left: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .searchBox {
+    width: 100%;
+    max-width: none;
+  }
+
+  .group, .customselectwrapper, .input, .couponinput, .optionButton, .daysoption {
+    width: 100%;
+    max-width: none;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
