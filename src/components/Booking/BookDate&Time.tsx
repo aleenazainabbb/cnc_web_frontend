@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import payment from './styles/PaymentDetails.module.css';
+import datetime from './styles/AddBooking/date&time.module.css'
 import {
     format,
     startOfMonth,
@@ -31,7 +32,7 @@ const DateTime: React.FC = () => {
     const renderDays = () => {
         const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
         return (
-            <div className={payment.dayNames}>
+            <div className={datetime.dayNames}>
                 {days.map((day) => (
                     <div key={day}>{day}</div>
                 ))}
@@ -58,8 +59,9 @@ const DateTime: React.FC = () => {
 
                 days.push(
                     <div style={{ marginTop: "8px" }}
+                    
                         key={day.toString()}
-                        onClick={() => setSelectedDate(cloneDay)} className={`${payment.days} ${isInMonth ? payment['in-month'] : ''} ${isSelected ? payment.selected : ''}`}>
+                        onClick={() => setSelectedDate(cloneDay)} className={`${datetime.days} ${isInMonth ? payment['in-month'] : ''} ${isSelected ? datetime.selected : ''}`}>
                         {format(day, "d")}
                     </div>
                 );
@@ -67,7 +69,7 @@ const DateTime: React.FC = () => {
             }
 
             rows.push(
-                <div key={day.toString()} style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "4px" }}>
+                <div key={day.toString()} className={datetime.daysboxes}>
                     {days}
                 </div>
             );
@@ -79,25 +81,25 @@ const DateTime: React.FC = () => {
     };
 
     return (
-        <div className={payment.main}>
-            <h2 className={payment.title} style={{ marginTop: "0px" }}>Book Date and Time</h2>
-            <p className={payment.text}>Select your preferred cleaner</p>
+        <div className={datetime.main}>
+            <h2 className={datetime.title}>Book Date and Time</h2>
+            <p className={datetime.text}>Select your preferred cleaner</p>
 
             {/* Cleaner Boxes */}
-            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginTop: "22px" }}>
+            <div className={datetime.cleanerboxes}>
                 {workers.map((worker) => (
-                    <div key={worker.id} className={payment.box}>
+                    <div key={worker.id} className={datetime.box}>
                         <img src={worker.img} alt="Rounded Pic" />
-                        <p className={payment.workers}>{worker.name}</p>
-                        <div className={payment.rating}>
-                            <i className="fa-solid fa-star"></i>
+                        <p className={datetime.workers}>{worker.name}</p>
+                        <div className={datetime.rating}>
+                            <i className="fa-solid fa-star"> </i>
                             {worker.rating}
                         </div>
                     </div>
                 ))}
             </div>
 
-            <p className={payment.text} style={{ marginTop: "50px" }}>Select Month & Date</p>
+            <p className={datetime.text} style={{ marginTop: "50px" }}>Select Month & Date</p>
 
             {/* Calendar UI */}
 

@@ -1,7 +1,7 @@
 .main {
   padding-top: 30px;
   padding-left: 30px;
-  font-family: Poppins, sans-serif;
+  /* font-family: 'Poppins, sans-serif'; */
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -133,57 +133,6 @@
   outline: none;
 }
 
-.box {
-  /* padding: 10px; */
-  height: 138px;
-  width: 135px;
-  border: 1px solid #D3D8DD;
-  /* example blue outline */
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px 0;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-.workers {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 23px;
-  letter-spacing: 0.3%;
-  vertical-align: middle;
-}
-
-.box img {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-}
-
-.rating {
-  width: 22px;
-  font-weight: 500;
-  height: 23px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  line-height: 23px;
-  letter-spacing: 0.3%;
-  color: #4F6071;
-}
-
-.rating i {
-  color: #FFAC33;
-  width: 14.17px;
-  height: 13.55px;
-  align-items: center;
-}
-
 .text {
   color: #88939D;
   font-size: 20px;
@@ -193,51 +142,6 @@
   font-weight: 400;
 }
 
-.dayNames {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.6%;
-  text-align: center;
-  vertical-align: middle;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  color: #9FA7B0;
-  margin-top: 35px;
-}
-
-.days {
-  font-size: 20px;
-  gap: 1px;
-  font-weight: 600;
-  line-height: 25px;
-  /* color: #4F6071; */
-  text-align: center;
-  width: 86.51px;
-  height: 55px;
-  padding: 10px 0;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 1px solid #D3D8DD;
-  /* background-color: #f9f9f9; */
-  color: #ccc;
-  /* font-weight: normal; */
-  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
-}
-
-.days.in-month {
-  background-color: #fff;
-  color: #4F6071;
-}
-
-.days.selected {
-  border: 2px solid #3b82f6;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 25px;
-  /* font-weight: bold; */
-  color: #3b82f6;
-}
 
 .checkblock {
   width: 400px;

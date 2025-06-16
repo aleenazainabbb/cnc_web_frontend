@@ -1,6 +1,5 @@
 .billingcontainer {
   width: 100%;
-  /* max-width: 500px; */
   top: 0;
   right: 0;
   background-color: #f4f7f9;
@@ -10,13 +9,11 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  /* max-height: 100vh; */
-
 }
 
 .billingheading {
   color: #0e144a;
-  font-family: Averta;
+  font-family: 'Averta';
   font-weight: bold;
   font-size: 32px;
   line-height: 100%;

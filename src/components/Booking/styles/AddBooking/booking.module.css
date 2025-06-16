@@ -2,7 +2,7 @@
   padding: 20px;
   margin-right: 30px;
   margin-left: 20px;
-  font-family: poppins, sans-serif;
+  /* font-family: 'Poppins, sans-serif'; */
 }
 
 .sectionSpacing {
@@ -19,7 +19,7 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 38px;
   font-weight: bold;
 }
 
@@ -202,6 +202,7 @@ select.input option:disabled {
 .hideScrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .hideScrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -392,57 +393,51 @@ select.input option:disabled {
   margin-top: 19px;
   box-sizing: border-box;
 }
+
 @media (max-width: 1280px) {
-.couponinput::placeholder {
-  font-size: 15px;
-}
-   
+  .couponinput::placeholder {
+    font-size: 15px;
+  }
+
   .searchBox {
     max-width: 50%;
     height: 43px;
   }
-.applybtn{
-  font-size: 15px;
+
+  .applybtn {
+    font-size: 15px;
+  }
+
+  .optionButton {
+    width: none;
+    max-width: none;
+    height: none;
+    padding: 10px 20px;
+    font-size: 16px;
+
+  }
+
+  .yesnobuttons {
+    max-width: 194px;
+  }
 }
-.optionButton{
-  width:none;
-  max-width: none;
-  height: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  
+
+@media (max-width: 400px) {
+
+  .labelRow{
+      gap: 0px;
+}
+.badgePopular {
+  width: 68px;
+}
+.daysoption{
+  padding: 8px;
 }
 .yesnobuttons{
-      max-width: 194px; 
+  width: 39%;
+    height: 34px;
+}
+.searchInput{
+  font-size: 11px;
 }
 }
-
-
-
-@media (max-width: 320px) {
-  .container {
-    margin-right: 20px;
-    margin-left: 10px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .searchBox {
-    width: 100%;
-    max-width: none;
-  }
-
-  .group, .customselectwrapper, .input, .couponinput, .optionButton, .daysoption {
-    width: 100%;
-    max-width: none;
-  }
-
-  .buttonGroup {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
