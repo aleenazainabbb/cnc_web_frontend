@@ -55,12 +55,13 @@
 }
 
 .days.selected {
-    border: 2px solid #3b82f6;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 25px;
-    /* font-weight: bold; */
+
+    /* font-size: 20px; */
+    /* font-weight: 600; */
+    /* line-height: 25px; */
     color: #3b82f6;
+    border: 2px solid var(--Blue-100, #1A78F2);
+    border-radius: 10px;
 }
 
 .daysboxes {
@@ -75,6 +76,7 @@
     list-style: 25px;
     letter-spacing: -0.46%;
     margin-top: 20px;
+    margin-bottom: 40px;
     font-weight: 400;
 }
 
@@ -84,6 +86,7 @@
     flex-wrap: wrap;
     margin-top: 22px;
 }
+
 .box {
     /* padding: 10px; */
     height: 138px;
@@ -96,12 +99,14 @@
     flex-direction: column;
     padding: 10px 0;
     box-sizing: border-box;
-    text-align: center; 
+    text-align: center;
 }
+
 .box img {
     width: 72px;
     height: 72px;
-    border-radius: 50%; }
+    border-radius: 50%;
+}
 
 .workers {
     font-size: 14px;
@@ -110,6 +115,7 @@
     letter-spacing: 0.3%;
     vertical-align: middle;
 }
+
 .rating {
     width: 22px;
     font-weight: 500;
@@ -128,4 +134,53 @@
     color: #FFAC33;
     width: 14.17px;
     height: 13.55px;
-    align-items: center; }
+    align-items: center;
+}
+
+.calendarui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.date {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.checkblock {
+    width: 400px;
+    height: 73px;
+    /* border: 1px solid #D3D8DD; */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    /* padding: 6px; */
+    border: 1px solid #D3D8DD;
+    
+}
+
+.checkblock.selected 
+{
+    /* font-size: 20px; */
+    /* font-weight: 600; */
+    /* line-height: 25px; */
+    
+    color:  #3b82f6 !important;
+    border:  2px solid var(--Blue-100, #1A78F2) !important;
+    
+}
+
+.paragraph {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.label {
+    font-size: 16px;
+    color: #88939D;
+    line-height: 23px;
+}

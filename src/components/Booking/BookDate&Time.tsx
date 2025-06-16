@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import payment from './styles/PaymentDetails.module.css';
+// import payment from './styles/PaymentDetails.module.css';
 import datetime from './styles/AddBooking/date&time.module.css'
 import {
     format,
@@ -59,9 +59,9 @@ const DateTime: React.FC = () => {
 
                 days.push(
                     <div style={{ marginTop: "8px" }}
-                    
+
                         key={day.toString()}
-                        onClick={() => setSelectedDate(cloneDay)} className={`${datetime.days} ${isInMonth ? payment['in-month'] : ''} ${isSelected ? datetime.selected : ''}`}>
+                        onClick={() => setSelectedDate(cloneDay)} className={`${datetime.days} ${isInMonth ? datetime['in-month'] : ''} ${isSelected ? datetime.selected : ''}`}>
                         {format(day, "d")}
                     </div>
                 );
@@ -99,77 +99,70 @@ const DateTime: React.FC = () => {
                 ))}
             </div>
 
-            <p className={datetime.text} style={{ marginTop: "50px" }}>Select Month & Date</p>
+            <p className={datetime.text}>Select Month & Date</p>
 
             {/* Calendar UI */}
-
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "40px" }}>
+            <div className={datetime.calendarui}>
                 <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>&lt;</button>
-                <span style={{ fontWeight: "bold", fontSize: "18px" }}>{format(currentMonth, "MMMM yyyy")}</span>
+                <span className={datetime.date}>{format(currentMonth, "MMMM yyyy")}</span>
                 <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>&gt;</button>
             </div>
             {renderDays()}
             {renderCells()}
 
-            <p className={payment.text} style={{ marginTop: "50px" }}>Save even more by booking off-peak dates and times.</p>
+            <p className={datetime.text} >Save even more by booking off-peak dates and times.</p>
 
             <div
-                className={`${payment.checkblock} ${selected === "Flexible" ? "selected" : ""}`}
-                style={{ marginTop: "40px" }}
+                className={`${datetime.checkblock} ${selected === "Flexible" ? datetime.selected : ""}`}
                 onClick={() => setSelected("Flexible")}>
-                <div className={payment.paragraph} >
-                    <span className={payment.label}>
+                <div className={datetime.paragraph} >
+                    <span className={datetime.label}>
                         Flexible
                         <span style={{ fontSize: "12px", fontWeight: "600", lineHeight: "14px", marginLeft: "200px" }}>
                             Save $8.10 off
                         </span>
                     </span>
 
-                    <p className={payment.content}>
-                        Cleaner will arrive between 9am-4pm
-                    </p>
+                    <p className={datetime.label}> Cleaner will arrive between 9am-4pm </p>
                 </div>
-
-
             </div>
-
             <div
-                className={`${payment.checkblock} ${selected === "time1" ? "selected" : ""}`}
-                style={{ marginTop: "10px" }}
+                className={`${datetime.checkblock} ${selected === "time1" ? datetime.selected : ""}`}
+
                 onClick={() => setSelected("time1")}>
-                <div className={payment.paragraph} >
-                    <span className={payment.label}>
+                <div className={datetime.paragraph} >
+                    <span className={datetime.label}>
                         08:00am
                     </span>
                 </div>
             </div>
             <div
-                className={`${payment.checkblock} ${selected === "time2" ? "selected" : ""}`}
-                style={{ marginTop: "10px" }}
+                className={`${datetime.checkblock} ${selected === "time2" ? datetime.selected : ""}`}
+
                 onClick={() => setSelected("time2")}>
-                <div className={payment.paragraph} >
-                    <span className={payment.label}>
+                <div className={datetime.paragraph} >
+                    <span className={datetime.label}>
                         09:00am
                     </span>
                 </div>
             </div>
             <div
-                className={`${payment.checkblock} ${selected === "time3" ? "selected" : ""}`}
-                style={{ marginTop: "10px" }}
+                className={`${datetime.checkblock} ${selected === "time3" ? datetime.selected : ""}`}
+
                 onClick={() => setSelected("time3")}>
-                <div className={payment.paragraph} >
-                    <span className={payment.label}>
+                <div className={datetime.paragraph} >
+                    <span className={datetime.label}>
                         09:30am
                     </span>
                 </div>
             </div>
 
             <div
-                className={`${payment.checkblock} ${selected === "time4" ? "selected" : ""}`}
-                style={{ marginTop: "10px" }}
+                className={`${datetime.checkblock} ${selected === "time4" ? datetime.selected : ""}`}
+
                 onClick={() => setSelected("time4")}>
-                <div className={payment.paragraph} >
-                    <span className={payment.label}>
+                <div className={datetime.paragraph} >
+                    <span className={datetime.label}>
                         10:00am
                     </span>
                 </div>

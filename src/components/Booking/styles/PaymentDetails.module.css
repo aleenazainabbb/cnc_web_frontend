@@ -143,19 +143,6 @@
 }
 
 
-.checkblock {
-  width: 400px;
-  height: 73px;
-  /* border: 1px solid #D3D8DD; */
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* margin-left:20px ; */
-  /* padding: 6px; */
-  border: 1px solid #D3D8DD;
-}
-
 .subheading {
   font-size: 14px;
   font-weight: 600;
@@ -189,21 +176,3 @@
   color: #88939D;
 }
 
-.locbuttons {
-  height: 55px;
-  width: 130px;
-  width: 100%;
-  font-size: 20px;
-  font-weight: 600;
-  color: #4F6071;
-  background-color: white;
-  border: 2px solid #D3D8DD;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.locbuttons.active {
-  color: #007BFF;
-  border: 2px solid #007BFF;
-}
