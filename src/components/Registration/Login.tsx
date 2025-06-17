@@ -22,17 +22,17 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     setError(null);
     // Only check if email and password are filled
-  if (!email || !password) {
-    setSnackbar({ message: 'Please fill in both email and password.', type: 'error' });
-    return;
-  }
+    if (!email || !password) {
+      setSnackbar({ message: 'Please fill in both email and password.', type: 'error' });
+      return;
+    }
     setLoading(true);
     try {
       await loginUser(email, password);
       setSnackbar({ message: 'Login successful!', type: 'success' });
       router.push('/Bookings/Dashboard');
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please try again.');
+      // setError(err.message || 'Login failed. Please try again.');
       setSnackbar({ message: err.message || 'Login failed. Please try again.', type: 'error' });
     } finally {
       setLoading(false);
@@ -109,7 +109,9 @@ const Login: React.FC = () => {
             </div>
           </div>
 
-          <label className={login.minilabel}>FORGOT PASSWORD?</label>
+          <label className={login.minilabel}>
+            <Link href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</Link>
+          </label>
 
           {/* Show error message */}
           {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}

@@ -7,6 +7,11 @@ import { Suspense } from "react";
 import { AuthProvider } from "@/context/AuthContext";
 import ConditionalLayout from "@/components/ConditionalLayout"; // NEW component
 import { RegisterProvider } from "@/context/registerContext";
+import { VerificationProvider } from "@/context/verification";
+import { ForgotPasswordProvider } from "@/context/ForgotPassword";
+import { VerifyForgotPasswordProvider } from '@/context/VerifyForgotPassword';
+import { ResetPasswordProvider } from '@/context/ResetPassword'; 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -56,13 +61,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
         suppressHydrationWarning
       >
-        <AuthProvider>
-          <RegisterProvider>
-          <Suspense fallback={<div>Loading...</div>}>
-            <ConditionalLayout>{children}</ConditionalLayout>
-          </Suspense>
-          </RegisterProvider>
-        </AuthProvider>
+          <VerifyForgotPasswordProvider>
+        <ForgotPasswordProvider>
+            <ResetPasswordProvider>
+          <VerificationProvider>
+            <AuthProvider>
+              <RegisterProvider>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <ConditionalLayout>{children}</ConditionalLayout>
+                </Suspense>
+              </RegisterProvider>
+            </AuthProvider>
+          </VerificationProvider>
+          </ResetPasswordProvider>
+        </ForgotPasswordProvider>
+        </VerifyForgotPasswordProvider>
       </body>
     </html>
   );

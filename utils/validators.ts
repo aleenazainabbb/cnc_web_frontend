@@ -1,7 +1,5 @@
 export const isValidEmail = (email: string): boolean => {
-  // const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
   const gmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   return gmailRegex.test(email);
 };
 

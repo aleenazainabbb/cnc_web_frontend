@@ -1,31 +1,35 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import verify from './styles/verification.module.css';
 import { useRouter } from 'next/navigation';
+import verify from './styles/verification.module.css';
+import { useVerification } from '../../context/verification'; 
 
 export default function Verification() {
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
+  const [pinCode, setCode] = useState('');
   const router = useRouter();
+  const { verifyCode } = useVerification();
 
   useEffect(() => {
-    const emailParam = searchParams.get('email');
+    const query = new URLSearchParams(window.location.search);
+    const emailParam = query.get('email');
     if (emailParam) {
       setEmail(emailParam);
     }
-  }, [searchParams]);
+  }, []);
 
-  const handleVerify = () => {
-    // You can add your actual code verification logic here before redirecting
-    if (code.trim().length === 0) {
+  const handleVerify = async () => {
+    if (pinCode.trim().length === 0) {
       alert('Please enter the verification code.');
       return;
     }
 
-    // After successful verification
-    router.push('/Bookings/Dashboard');
+    try {
+      await verifyCode(email, pinCode);
+      router.push('/Bookings/Dashboard');
+    } catch (err: any) {
+      alert(err.message || 'Verification failed.');
+    }
   };
 
   return (
@@ -34,26 +38,23 @@ export default function Verification() {
         <h2 className={verify.heading}>Verification</h2>
         <p className={verify.description}>
           Please check your email <strong>{email}</strong> for the verification code.
-
         </p>
 
-        {/* <label className={verify.label}>Verification Code</label> */}
         <input
           type="text"
           className={verify.input}
           placeholder="Enter the verification code"
-          value={code}
+          value={pinCode}
           onChange={(e) => setCode(e.target.value)}
         />
 
         <button
           onClick={handleVerify}
           className={verify.button}
-          disabled={code.trim().length === 0}
+          disabled={pinCode.trim().length === 0}
         >
           Verify
         </button>
-
       </div>
     </div>
   );

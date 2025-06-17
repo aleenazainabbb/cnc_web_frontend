@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || 'Invalid credentials');
+    throw new Error(data.error);
   }
 
   setUser(data.user);

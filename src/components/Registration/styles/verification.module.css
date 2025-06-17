@@ -16,9 +16,8 @@
     box-shadow: 0px 4px 4px 0px #00000040;
     flex-direction: column;
     padding-right: 50px;
-    padding-left: 50px;
+    padding-left: 48px;
     padding-bottom: 50px;
-    /* padding-top: 16px; */
     box-sizing: border-box;
     font-weight: 500;
 }
@@ -27,49 +26,58 @@
     font-size: 24px;
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
-
+.description{
+    font-size: 14px;
+    margin-bottom: 3px;
+    text-align: center;
+}
+.label{
+    font-size: 16px;
+    margin-top: 10px;
+    color: #cccccc;
+    text-align: center;
+}
 .input {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 20px;
-    margin-top: 20px;
 }
 
 .button {
-    width: 100%;
-    max-width: 98px;
-    padding: 10px;
-    font-size: 16px;
+    padding: 14px;
+    font-size: 12px;
+    margin-top: 20px;
     background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     align-self: center;
+    border: 2px solid #007bff;
 }
-
 .button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
+    border: 2px solid #cccccc;
 }
-@media (max-width: 768px) {
-    .container {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
+.resend {
+  color: #0FCC5D;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    
     .heading {
-        font-size: 18px;
+        font-size: 20px;
     }
     .input {
         font-size: 12px;
     }
-    .button {
-        max-width: 80px;
-        font-size: 14px;
-    }
+    
 }

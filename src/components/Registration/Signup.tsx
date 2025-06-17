@@ -63,8 +63,8 @@ const Signup: React.FC = () => {
             // setSnackbar({ message: 'Signup successful!', type: 'success' });
             const successMessage = response?.data?.message || 'Signup successful!';
             setSnackbar({ message: successMessage, type: 'success' });
-            router.push(`/Verification`); // Redirect to bookings page after successful signup
-            // router.push(`/Verification?email=${encodeURIComponent(email)}`);
+            // router.push(`/Verification`); // Redirect to bookings page after successful signup
+            router.push(`/Verification?email=${encodeURIComponent(email)}`);
 
         } catch (err: any) {
             const serverMessage = err?.message;
