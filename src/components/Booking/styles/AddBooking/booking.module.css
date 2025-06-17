@@ -1,8 +1,12 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  width: 97%;
+  max-width: 100vw;
+  box-sizing: border-box;
   padding: 20px;
   margin-right: 30px;
   margin-left: 20px;
-  /* font-family: 'Poppins, sans-serif'; */
 }
 
 .sectionSpacing {
@@ -259,11 +263,6 @@ select.input option:disabled {
   border-color: #007bff;
 }
 
-/* .fixedSizeBtn {
-  min-width: 48px;
-  text-align: center;
-} */
-
 .optionWrapper {
   display: flex;
   flex-direction: column;
@@ -423,21 +422,30 @@ select.input option:disabled {
 }
 
 @media (max-width: 400px) {
+  .container {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    padding: 20px !important;
+  }
 
-  .labelRow{
-      gap: 0px;
-}
-.badgePopular {
-  width: 68px;
-}
-.daysoption{
-  padding: 8px;
-}
-.yesnobuttons{
-  width: 39%;
+  .labelRow {
+    gap: 0px;
+  }
+
+  .badgePopular {
+    width: 68px;
+  }
+
+  .daysoption {
+    padding: 8px;
+  }
+
+  .yesnobuttons {
+    width: 39%;
     height: 34px;
-}
-.searchInput{
-  font-size: 11px;
-}
+  }
+
+  .searchInput {
+    font-size: 11px;
+  }
 }

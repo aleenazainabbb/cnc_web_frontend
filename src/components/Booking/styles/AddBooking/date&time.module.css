@@ -136,14 +136,16 @@
 
 .monthScroll {
     display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 40px; /* space between months */
-  /* padding: 10px 0; */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  width: calc(116px * 3 + 40px * 2); /* 3 months + 2 gaps */
-  max-width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 40px;
+    /* space between months */
+    /* padding: 10px 0; */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: calc(116px * 3 + 40px * 2);
+    /* 3 months + 2 gaps */
+    max-width: 100%;
 }
 
 .monthScroll::-webkit-scrollbar {
@@ -220,8 +222,9 @@
 /* MEDIA QUERIES */
 @media screen and (max-width: 1280px) {
     .main {
-        padding-left: 8px;
-        padding-top: 10px;
+        padding-left: 0px;
+        padding-right: 0%;
+        padding: 40px;
     }
 
     .text {
@@ -250,19 +253,25 @@
     .month {
         font-size: 19px;
     }
-.monthScroll {
+
+    .monthScroll {
         gap: 48px;
 
     }
+
     .calendarui {
         margin-top: 10px;
+    }
+
+    .cleanerboxes {
+        flex-wrap: nowrap;
     }
 }
 
 @media screen and (max-width: 768px) {
     .main {
-        padding-left: 0px;
-        padding-top: 8px;
+        width: auto;
+        padding: 6px;
     }
 
     .title {
@@ -322,83 +331,89 @@
     }
 }
 
-@media screen and (max-width: 500px) {
+@media (max-width: 500px) {
     .main {
-   margin-left:0.5px;
-   margin-right: 1px;
+        margin-right: 0px;
+        margin-left: 0px;
+        padding: 20px;
     }
-  .title {
-    font-size: 15px;
-    line-height: 30px;
-    margin: 0;
-  }
 
-  .label,
-  .subtext,
-  .text {
-    font-size: 10px;
-  }
+    .title {
+        font-size: 15px;
+        line-height: 30px;
+        margin: 0;
+    }
 
-  .text {
-    margin: 5px 0;
-  }
+    .label,
+    .subtext,
+    .text {
+        font-size: 10px;
+    }
 
-  .monthScroll {
-    gap: 15px;
-    padding: 5px 5px;
-    overflow-x: auto;
-  }
+    .text {
+        margin: 5px 0;
+    }
 
-  .month {
-    font-size: 10px;
-    flex: 0 0 90px; /* Ensures only 3 months max show */
-    text-align: center;
-    scroll-snap-align: center;
-  }
+    .monthScroll {
+        gap: 15px;
+        padding: 5px 5px;
+        overflow-x: auto;
+    }
 
-  .box {
-    flex: 1 1 100px;
-    max-width: 28%;
-    height: 120px;
-  }
+    .month {
+        font-size: 10px;
+        flex: 0 0 90px;
+        /* Ensures only 3 months max show */
+        text-align: center;
+        scroll-snap-align: center;
+    }
 
-  .rating,
-  .workers {
-    font-size: 9px;
-  }
+    .box {
+        flex: 1 1 100px;
+        max-width: 28%;
+        height: 120px;
+    }
 
-  .grid {
-    gap: 3px;
-  }
+    .rating,
+    .workers {
+        font-size: 9px;
+    }
 
-  .dateCell {
-    font-size: 11px;
-    height: 36px;
-    min-width: 30px;
-    max-width: 70px;
-    padding: 4px 0;
-  }
+    .grid {
+        gap: 3px;
+    }
 
-  .dayHeader {
-    font-size: 7px;
-  }
+    .dateCell {
+        font-size: 11px;
+        height: 36px;
+        min-width: 30px;
+        max-width: 70px;
+        padding: 4px 0;
+    }
 
-  .checkblock {
-    padding: 10px;
-    font-size: 10px;
-  }
+    .dayHeader {
+        font-size: 7px;
+    }
 
-  .badge {
-    font-size: 8px;
-  }
+    .checkblock {
+        padding: 10px;
+        font-size: 10px;
+    }
 
-  .topRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
+    .badge {
+        font-size: 8px;
+    }
 
-  .calendarui {
-    margin-top: 10px;
-  }
+    .topRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .calendarui {
+        margin-top: 10px;
+    }
+    .cleanerboxes{
+        flex-wrap: wrap;
+    }
 }

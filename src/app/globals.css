@@ -49,9 +49,9 @@ a {
   grid-template-columns: 1fr; /* Default: stack columns */
   background-color: #ffffff;
 }
-.left-column {
+/* .left-column {
   padding: 16px;
-}
+} */
 /* Responsive: 2fr 1fr on medium+ screens */
 @media (min-width: 768px) {
   .grid-container {

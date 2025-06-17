@@ -177,12 +177,6 @@
     gap: 2px;
   }
 
-  .gridContainer,
-  .gridContainerHistory {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
   .rowHeader,
   .row {
     font-size: 9px;
