@@ -10,7 +10,9 @@ import { RegisterProvider } from "@/context/registerContext";
 import { VerificationProvider } from "@/context/verification";
 import { ForgotPasswordProvider } from "@/context/ForgotPassword";
 import { VerifyForgotPasswordProvider } from '@/context/VerifyForgotPassword';
-import { ResetPasswordProvider } from '@/context/ResetPassword'; 
+import { ResetPasswordProvider } from '@/context/ResetPassword';
+// import LinkWithLoader from "@/components/Loader/Link";
+import RouteProgressDone from '@/components/Loader/RouteProgressDone';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,20 +63,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
         suppressHydrationWarning
       >
-          <VerifyForgotPasswordProvider>
-        <ForgotPasswordProvider>
+        <VerifyForgotPasswordProvider>
+          <ForgotPasswordProvider>
             <ResetPasswordProvider>
-          <VerificationProvider>
-            <AuthProvider>
-              <RegisterProvider>
-                <Suspense fallback={<div>Loading...</div>}>
-                  <ConditionalLayout>{children}</ConditionalLayout>
-                </Suspense>
-              </RegisterProvider>
-            </AuthProvider>
-          </VerificationProvider>
-          </ResetPasswordProvider>
-        </ForgotPasswordProvider>
+              <VerificationProvider>
+                <AuthProvider>
+                  <RegisterProvider>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <RouteProgressDone />
+                      <ConditionalLayout>{children}</ConditionalLayout>
+                    </Suspense>
+                  </RegisterProvider>
+                </AuthProvider>
+              </VerificationProvider>
+            </ResetPasswordProvider>
+          </ForgotPasswordProvider>
         </VerifyForgotPasswordProvider>
       </body>
     </html>

@@ -36,13 +36,6 @@ const Navbar: React.FC = () => {
                 HOME
               </Link>
             </li>
-
-            {/* <li className="nav-item">
-                <Link href="BookAservicePage" className="nav-link be-vietnam-pro-regular">
-                  BookAService
-                </Link>
-              </li> */}
-
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -81,9 +74,7 @@ const Navbar: React.FC = () => {
               <Link href="CleaningServicePage" className="nav-link be-vietnam-pro-regular">
                 CLEANING SERVICES
               </Link>
-            </li>
-
-        
+            </li>   
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -176,17 +167,11 @@ const Navbar: React.FC = () => {
                   </Link>
                 </li>
               </ul>
-
-              
-
             </li>
           </ul>
-
-
           <Link
             href="GetAquote"
-            className="btn bg_green header_btn text-white headerBtn_green"
-          >
+            className="btn bg_green header_btn text-white headerBtn_green">
             Get a quote
           </Link>
         </div>

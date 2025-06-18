@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import login from './styles/login.module.css';
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link"; 
+import LinkWithLoader from '@/components/Loader/Link';
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useAuth } from "../../context/AuthContext";
@@ -110,7 +111,7 @@ const Login: React.FC = () => {
           </div>
 
           <label className={login.minilabel}>
-            <Link href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</Link>
+            <LinkWithLoader href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</LinkWithLoader>
           </label>
 
           {/* Show error message */}
@@ -127,9 +128,9 @@ const Login: React.FC = () => {
           <div>
             <label className={login.footerlabel}>
               Don't have an account with CARENCLEAN?{" "}
-              <Link href="/Signup" className={login.minilabel}>
+              <LinkWithLoader href="/Signup" className={login.minilabel}>
                 CREATE YOUR ACCOUNT
-              </Link>
+              </LinkWithLoader>
             </label>
           </div>
         </div>

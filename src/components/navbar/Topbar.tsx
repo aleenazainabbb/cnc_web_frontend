@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 
-const TopBar: React.FC = () => { //declares a React functional component TopBar
+const TopBar: React.FC = () => { 
   const scrollToSection = () => {
     const section = document.getElementById("contact_us_main");
     if (section) {
@@ -12,7 +12,6 @@ const TopBar: React.FC = () => { //declares a React functional component TopBar
       });
     }
   };
-
   return (
     <div className="bg_green text-white py-2">
       <div className="container d-flex justify-content-between align-items-center flex-wrap">
@@ -21,7 +20,7 @@ const TopBar: React.FC = () => { //declares a React functional component TopBar
           <i className="fa-solid fa-clock me-2 fs-24"></i>
           <span>Sat - Thu: 08.00am - 07.00pm</span>
         </div>
-        <div className="d-flex align-items-center justify-content-between emergency_contact mt-2 mt-lg-0 mg-md-0">
+        <div className="d-flex align-items-center justify-content-between emergency_contact mt-lg-0 mg-md-0">
           <span className="text-danger fw-bold me-2 d-none d-lg-inline-block d-md-inline-block">
             24H
           </span>
@@ -34,17 +33,7 @@ const TopBar: React.FC = () => { //declares a React functional component TopBar
           <Link href="Login" className="mx-lg-2 mx-md-2 text-white">
              Login
           </Link>
-          <Link href="Verification" className="mx-lg-2 mx-md-2 text-white">
-            Verification
-          </Link>
-
-
-          {/* <button
-            onClick={scrollToSection}
-            className="btn header_btn btn-light ms-3 fw-600 text_green"
-          >
-            Contact Us
-          </button> */}
+    
         </div>
       </div>
     </div>

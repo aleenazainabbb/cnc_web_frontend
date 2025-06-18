@@ -60,10 +60,8 @@ const Signup: React.FC = () => {
         try {
             const response = await registerUser(form);
             // Success path
-            // setSnackbar({ message: 'Signup successful!', type: 'success' });
             const successMessage = response?.data?.message || 'Signup successful!';
             setSnackbar({ message: successMessage, type: 'success' });
-            // router.push(`/Verification`); // Redirect to bookings page after successful signup
             router.push(`/Verification?email=${encodeURIComponent(email)}`);
 
         } catch (err: any) {

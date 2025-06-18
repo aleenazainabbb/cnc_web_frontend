@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import verify from '../styles/verification.module.css';
 import Snackbar from '../../popups/Snackbar';
-import { useResetPassword } from '@/context/ResetPassword'; // Adjust path if needed
+import { useResetPassword } from '@/context/ResetPassword';
+import { isValidEmail, isValidPassword } from '../../../../utils/validators';
+import wallet from '../../Booking/styles/mywallet.module.css';
+
 
 const ResetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const resetToken = searchParams.get('resetToken');
+  const [showModal, setShowModal] = useState(false);
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,6 +31,10 @@ const ResetPassword = () => {
       setSnackbar({ message: 'Passwords do not match.', type: 'error' });
       return;
     }
+    if (!isValidPassword(password)) {
+      setSnackbar({ message: 'Password must meet all required criteria.', type: 'error' });
+      return;
+    }
 
     if (!resetToken) {
       setSnackbar({ message: 'Missing reset token.', type: 'error' });
@@ -37,9 +45,7 @@ const ResetPassword = () => {
       const message = await resetPassword(resetToken, password);
       setSnackbar({ message, type: 'success' });
 
-      setTimeout(() => {
-        router.push('/Login');
-      }, 1000);
+    setShowModal(true);
     } catch (err: any) {
       setSnackbar({ message: err.message, type: 'error' });
     }
@@ -65,22 +71,44 @@ const ResetPassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
-        <button
+        <p className={verify.charlabels}>
+          Please make sure your password includes the following:<br />
+          - Is no less than 8 characters<br />
+          - Includes at least one special character<br />
+          - Includes at least one number<br />
+          - Includes at least one capital letter<br />
+          - Includes at least one lowercase letter<br />
+        </p>
+         <button
           onClick={handleReset}
           className={verify.button}
           disabled={!password || !confirmPassword || loading}
         >
           {loading ? 'Saving...' : 'Reset Password'}
         </button>
-      </div>
+        {showModal && (
+          <div className={wallet.modalOverlay}>
+            <div className={wallet.modal}>
+              <button className={wallet.close} onClick={() => setShowModal(false)}>×</button>
+              <p className={wallet.modalTitle}>Password Change Successful </p>
+              <button
+                className={wallet.redeemBtn}
+                onClick={() => router.push('/Login')}
+              >
+                OKAY
+              </button>
 
-      {snackbar && (
-        <Snackbar
-          message={snackbar.message}
-          type={snackbar.type}
-          onClose={() => setSnackbar(null)}
-        />
-      )}
+            </div>
+          </div>
+        )}
+        {snackbar && (
+          <Snackbar
+            message={snackbar.message}
+            type={snackbar.type}
+            onClose={() => setSnackbar(null)}
+          />
+        )}
+      </div>
     </div>
   );
 };
