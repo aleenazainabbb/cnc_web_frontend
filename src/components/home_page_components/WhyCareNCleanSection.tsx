@@ -12,21 +12,21 @@ const WhyCareNCleanSection: React.FC = () => {
               src="/images/WhyCareNCleanSection/1.png"
               alt="Main Image"
               className="main-image"
-              width={400} // Adjust based on your image size
-              height={300}
+              width={365.63} // Adjust based on your image size
+              height={394}
             />
             <Image
               src="/images/WhyCareNCleanSection/2.png"
               alt="Overlay Image"
               className="overlay-image overly-right"
-              width={200} // Adjust based on your image size
-              height={150}
+              width={230.76} // Adjust based on your image size
+              height={265}
             />
           </div>
         </div>
         <div className="col-12 col-lg-6 col-md-6">
           <div className="service_details_content">
-            <h2 className="be-vietnam-pro-semibold mt-2 mb-4">
+            <h2 className="be-vietnam-pro-semibold mb-4">
               Why Care n Clean?
             </h2>
             <p className="be-vietnam-pro-regular text-justify">
@@ -34,7 +34,7 @@ const WhyCareNCleanSection: React.FC = () => {
               high quality cleaning service for the commercial and residential
               sector with a higher level of satisfaction and customer support.
             </p>
-            <div className="row mt-3 mt-lg-5 mt-md-5">
+            <div className="row mt-lg-5 mt-md-5">
               <div className="col-md-6">
                 <div className="feature-box be-vietnam-pro-semibold">
                   <i className="fa-solid fa-circle-check"></i> Vetted
@@ -63,7 +63,7 @@ const WhyCareNCleanSection: React.FC = () => {
             </div>
             <Link
               href="/book"
-              className="bg_green text-white about_btn mt-3 me-3"
+              className="about_btn mt-3 me-3"
             >
               Book Now
             </Link>

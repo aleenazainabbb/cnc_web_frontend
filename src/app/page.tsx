@@ -10,20 +10,26 @@ import ServicesSliderSection from "@/components/home_page_components/ServicesSli
 import TestimonialsSection from "@/components/home_page_components/TestimonialsSection";
 import WhyCareNCleanSection from "@/components/home_page_components/WhyCareNCleanSection";
 import WhyChooseUsSection from "@/components/home_page_components/WhyChooseUsSection";
+import ServiceStepsSection from "@/components/home_page_components/ServiceList";
 
 export default function Home() {
   return (
     <div>
       <BannerSection />
       <ServiceSection />
-      <AchievementSection />
-      <ServiceDetailsSection />
+       <div style={{ marginTop: '80px' }}>
       <ServicesSliderSection />
+      </div>
+      <div style={{ marginTop: '150px' }}>
       <WhyCareNCleanSection />
-      <LifeMadeEasySection />
+      </div>
+      <AchievementSection />
       <WhyChooseUsSection />
-      <ContactUsSection />
+      <ServiceStepsSection />
+      <LifeMadeEasySection />
       <TestimonialsSection />
+      <ServiceDetailsSection />
+      <ContactUsSection />
       <GetAQuoteSection />
     </div>
   );

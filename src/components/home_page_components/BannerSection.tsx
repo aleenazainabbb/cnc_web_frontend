@@ -18,6 +18,16 @@ const BannerSection: React.FC = () => {
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const generateTimeOptions = () => {
+    const times: string[] = [];
+    for (let hour = 8; hour <= 18; hour++) {
+      const ampm = hour < 12 ? "AM" : "PM";
+      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+      times.push(`${String(displayHour).padStart(2, "0")}:00 ${ampm}`);
+    }
+    return times;
+  };
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,13 +50,13 @@ const BannerSection: React.FC = () => {
             {/* Left Content */}
             <div className="col-12 col-lg-6">
               <div className="banner_content">
-                <p className="be-vietnam-pro-regular text-white">
+                <p className="be-vietnam-pro-regular text-white" style={{ fontSize: "20px" }}>
                   Quality cleaning at a fair price.
                 </p>
-                <h1 className="be-vietnam-pro-bold text-white my-3">
+                <h1 className="be-vietnam-pro-bold text-white my-3" style={{ fontSize: "33px" }}>
                   Book Your Cleaning Instantly!
                 </h1>
-                <p className="be-vietnam-pro-regular text-white">
+                <p className="be-vietnam-pro-regular text-white" style={{ fontSize: "20px" }}>
                   Easily book your cleaning service by selecting your date, time,
                   and service type. Let our professionals handle the rest for a
                   spotless space!
@@ -102,39 +112,42 @@ const BannerSection: React.FC = () => {
 
                   {/* Time Picker */}
                   <div className="col-md-6">
-                    <input
-                      type="time"
+                    <select
                       name="time"
-                      id="time"
-                      className="form-control date-placeholder"
+                      className="form-select"
                       value={formData.time}
                       onChange={handleChange}
-                    //   style={{
-                    //     padding: "10px",
-                    //     borderRadius: "5px",
-                    //     border: "1px solid #ced4da",
-                    //     fontSize: "14px",
-                    //   }}
-                     />
+                    >
+                      <option value="" disabled>
+                        Choose Time
+                      </option>
+                      {generateTimeOptions().map((time) => (
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   {/* Date Picker */}
                   <div className="col-md-6">
-                    <DatePicker
-                      selected={selectedDate}
-                      onChange={(date: Date | null) => {
-                        setSelectedDate(date);
-                        setFormData((prev) => ({
-                          ...prev,
-                          date: date ? date.toISOString().split("T")[0] : "",
-                        }));
-                      }}
-                      placeholderText="Choose Date"
-                      dateFormat="dd MMMM yyyy"
-                      className="form-control date-placeholder"
-                      calendarClassName="custom-calendar"
-                      popperPlacement="bottom"
-                    />
+                    <div className="position-relative">
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={(date: Date | null) => {
+                          setSelectedDate(date);
+                          setFormData((prev) => ({
+                            ...prev,
+                            date: date ? date.toISOString().split("T")[0] : "",
+                          }));
+                        }}
+                        placeholderText="Choose Date"
+                        dateFormat="dd MMMM yyyy"
+                        className="form-select"
+                        calendarClassName="custom-calendar"
+                        popperPlacement="bottom"
+                      />
+                    </div>
                   </div>
 
                   {/* Hours Selection */}
@@ -146,7 +159,7 @@ const BannerSection: React.FC = () => {
                       onChange={handleChange}
                     >
                       <option value="" disabled>
-                        No of Hours
+                        No of Hour
                       </option>
                       {Array.from({ length: 12 }, (_, i) => i + 1).map((hour) => (
                         <option key={hour} value={hour}>

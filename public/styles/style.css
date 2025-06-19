@@ -23,6 +23,7 @@
     font-family: "Be Vietnam Pro", serif;
     font-weight: 400;
     font-style: normal;
+    color: #666666;
 }
 
 .be-vietnam-pro-medium {
@@ -259,6 +260,11 @@ input[type="number"] {
     border-radius: 8px;
     border: 1px solid #ccc;
     padding: 10px;
+    color: #88939D;
+}
+
+.form-control::placeholder {
+    color: #88939D;
 }
 
 .banner-booking-btn {
@@ -329,7 +335,7 @@ input[type="number"] {
 }
 
 .service_main_content img {
-    min-height: 52px;
+    max-height: 52px;
 }
 
 .achievement_content p {
@@ -337,17 +343,8 @@ input[type="number"] {
     margin: 0 auto;
 }
 
-.about_btn {
-    padding: 10px 20px;
-    display: inline-block;
-    border-radius: 6px;
-}
 
-.about_btn:hover {
-    background-color: transparent !important;
-    border: 1px solid #36b864;
-    color: #36b864 !important;
-}
+
 
 .service_method .col-4:nth-child(2) .service_method_card span {
     top: 20px;
@@ -383,22 +380,24 @@ input[type="number"] {
 }
 
 .main-image {
-    width: 378px;
-    height: 379px;
-    object-fit: cover;
+    width:100%;
+    max-width: 378px;
+    max-height: 379px;
     border-radius: 10px;
-    box-shadow: 3px -4px 0px 2px rgb(54 184 100);
 }
 
 .overlay-image {
     position: absolute;
     left: -100px;
+    right: -172px;
     bottom: -51px;
-    width: 231px;
-    height: 265px;
+    max-width: 230.76px;
+    max-height: 265px;
     object-fit: cover;
     border-radius: 10px;
-    box-shadow: 3px -4px 0px 2px rgb(255 255 255);
+}
+.overly-right {
+    left: inherit !important;
 }
 
 /* End Service Details Section */
@@ -406,7 +405,7 @@ input[type="number"] {
 /* Services Section */
 
 .services_heading h2 {
-    font-size: 40px;
+    font-size: 44px;
 }
 
 .services_rightSection p:first-child {
@@ -422,7 +421,7 @@ input[type="number"] {
 }
 
 .service_card {
-    width: 95%;
+    max-width: 95%;
 }
 
 .service_card a i {
@@ -460,9 +459,22 @@ input[type="number"] {
     padding: 10px 18px;
     border-radius: 6px;
     color: #111d15;
+    max-width: 150px;
+    max-height: 44px;
 }
 
-.slider_btn:hover {
+.about_btn {
+    display: inline-block;
+    border: 1px solid #666666;
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: #111d15;
+    max-width: 150px;
+    max-height: 44px;
+}
+
+.slider_btn:hover,
+.about_btn:hover {
     border: 1px solid #36b864;
     color: #ffffff;
     background-color: #36b864;
@@ -472,11 +484,7 @@ input[type="number"] {
 
 /* Why Care n Clean */
 
-.overly-right {
-    left: inherit !important;
-    right: -100px !important;
-    box-shadow: -4px -4px 0px 2px rgb(255 255 255) !important;
-}
+
 
 .feature-box {
     display: flex;
@@ -985,10 +993,6 @@ input[type="number"] {
     color: #12153a;
 }
 
-.slick-list {
-    padding: 20px 0 !important;
-}
-
 .slider_inner,
 .multi_select {
     width: 100%;
@@ -1413,6 +1417,12 @@ tr.calendar-body .calendar-day .day:hover {
     border-width: 1px;
 }
 
+.px-4 {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+
 @media (max-width: 576px) {
 
     #orderModal .modal-dialog {
@@ -1432,9 +1442,28 @@ tr.calendar-body .calendar-day .day:hover {
     body {
         font-size: 10px !important;
     }
+
+    .custom_gutter {
+        --bs-gutter-y: 14px;
+    }
+
+    .img-fluid {
+        width: 40px !important;
+    }
+
 }
 
 /* End Payment Method Page Css */
+@media (max-width: 1280px) {
+    .img-fluid {
+        max-width: 120px;
+        max-height: 120px;
+    }
+
+    .services_heading h2 {
+        font-size: 33px;
+    }
+}
 
 /* Responsive Css */
 @media (max-width: 992px) {
@@ -1456,7 +1485,7 @@ tr.calendar-body .calendar-day .day:hover {
     }
 
     h1 {
-        font-size: 25px;
+        font-size: 25px !important;
     }
 
     h2 {
@@ -1476,9 +1505,22 @@ tr.calendar-body .calendar-day .day:hover {
     .form-control {
         font-size: 11px;
     }
+
+    .service_main_content p {
+        font-size: 14px;
+    }
+
 }
 
 @media (max-width: 768px) {
+    h1 {
+        font-size: 23px !important;
+    }
+
+    p {
+        font-size: 14px !important;
+    }
+
     .service_main {
         background-size: cover;
         padding: 15px;
@@ -1488,17 +1530,7 @@ tr.calendar-body .calendar-day .day:hover {
         font-size: 14px;
     }
 
-    .booking-form {
-        max-height: none;
-        padding: 30px;
-        max-width: 500px;
-    }
-
-    /* .row.custom_gutter {
-        padding:20px;
-    } */
-
-    .main-image {
+    /* .main-image {
         width: 100%;
         height: 330px;
     }
@@ -1509,7 +1541,7 @@ tr.calendar-body .calendar-day .day:hover {
         bottom: 0;
         margin-top: 20px;
         width: 100%;
-    }
+    } */
 
     .services_heading h2 {
         font-size: 22px;
@@ -1666,6 +1698,34 @@ tr.calendar-body .calendar-day .day:hover {
         top: 0%;
         left: 130px;
     }
+
+    .booking-form {
+        max-height: none;
+        padding: 19px;
+    }
+
+    .custom_gutter {
+        --bs-gutter-y: 14px;
+    }
+
+    .react-datepicker-wrapper {
+        display: flex;
+    }
+
+    .round-icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .img-fluid {
+        width: 84px;
+    }
+
+    .slider_btn {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
 }
 
 /* End Responsive Css */

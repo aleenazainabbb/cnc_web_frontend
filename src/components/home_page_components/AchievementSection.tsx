@@ -22,7 +22,7 @@ const AchievementSection: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="row align-items-center my-lg-5 my-md-5">
+      <div className="row align-items-center text-center my-lg-5 my-md-5">
         {achievements.map((src, index) => (
           <div key={index} className="col col-lg col-md mt-4 mt-lg-0 mt-md-0">
             <div className="achievement_card">
@@ -30,8 +30,8 @@ const AchievementSection: React.FC = () => {
                 src={src}
                 alt="Achievement Image"
                 className="img-fluid"
-                width={120}
-                height={120}
+                width={175}
+                height={195}
               />
             </div>
           </div>
