@@ -92,7 +92,7 @@ const WhyChooseUsSection: React.FC = () => {
         </div>
 
         {/* <div className="col-12 col-lg-6 col-md-5"> */}
-       <div className="col-12 col-lg-6 col-md-6">
+       <div className="col-12 col-lg-6 col-md-6 ">
           <div className="d-inline-block position-relative custom-images">
             <Image
               src="/images/WhyChooseUs/WhyChooseUs-1.png"
@@ -104,8 +104,7 @@ const WhyChooseUsSection: React.FC = () => {
                 borderRadius: "20px",
                 borderTop: "10px",
                 borderRight: "10px",
-                left: "837px",
-                top: "3642px",
+                
               }}
             />
             <Image

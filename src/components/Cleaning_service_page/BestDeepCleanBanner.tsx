@@ -53,7 +53,7 @@ const BestDeepClean: React.FC = () => {
                         />
                     </div>
                 </div> */}
-                <div className="col-12 col-md-6 col-lg-6">
+                <div className="col-12 col-md-6 col-lg-5">
                     <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
                         <div style={{ maxWidth: "100%", margin: "0 auto" }}>
                             <Image

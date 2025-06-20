@@ -29,7 +29,7 @@ const ServiceDetailsSection: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className="col-12 col-lg-6 col-md-6 serviceDetail-sectin">
+        <div className="col-12 col-lg-6 col-md-6 serviceDetail-sectin text-center text-md-end">
           <div className="d-inline-block position-relative float-end mt-4 mt-lg-0 mt-md-0">
             <Image
               src="/images/about-us.jpg"
