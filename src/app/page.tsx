@@ -28,7 +28,9 @@ export default function Home() {
       <ServiceStepsSection />
       <LifeMadeEasySection />
       <TestimonialsSection />
-      <ServiceDetailsSection />
+      <div style={{ marginTop: '130px' }}>
+        <ServiceDetailsSection />
+        </div>
       <ContactUsSection />
       <GetAQuoteSection />
     </div>

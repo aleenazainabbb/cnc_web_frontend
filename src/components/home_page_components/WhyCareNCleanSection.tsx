@@ -12,14 +12,14 @@ const WhyCareNCleanSection: React.FC = () => {
               src="/images/WhyCareNCleanSection/1.png"
               alt="Main Image"
               className="main-image"
-              width={365.63} // Adjust based on your image size
+              width={365.63} 
               height={394}
             />
             <Image
               src="/images/WhyCareNCleanSection/2.png"
               alt="Overlay Image"
               className="overlay-image overly-right"
-              width={230.76} // Adjust based on your image size
+              width={230.76} 
               height={265}
             />
           </div>

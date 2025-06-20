@@ -48,11 +48,10 @@ const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5 pt-lg-4 pt-md-4 w-[1180px] h-[448px]" >
-    {/* style={{ top: "5742px", left: "130px" }}> */}
+    <div className="container lg-4 pt-md-4 w-[1180px] h-[448px]" >
       <div className="row">
         <div className="testimonials_head w-75 m-auto text-center">
-          <h2 className="be-vietnam-pro-medium">
+          <h2 className="be-vietnam-pro-medium-custom mt-4">
             Hear What Our Satisfied Customers
              Have to Say
           </h2>
@@ -65,8 +64,8 @@ const TestimonialsSection: React.FC = () => {
                   <Image
                     src={testimonial.img}
                     alt="Service Image"
-                    className="img-fluid"
-                    width={150} // Adjust based on your image size
+                    className="img-fluid-testimonial"
+                    width={150} 
                     height={150}
                   />
                   <p className="be-vietnam-pro-regular text-muted my-3">

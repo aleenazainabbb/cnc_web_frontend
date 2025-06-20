@@ -19,6 +19,7 @@
     font-style: normal;
 }
 
+
 .be-vietnam-pro-regular {
     font-family: "Be Vietnam Pro", serif;
     font-weight: 400;
@@ -26,7 +27,20 @@
     color: #666666;
 }
 
+.be-vietnam-pro-regular-custom {
+    font-family: "Be Vietnam Pro", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .be-vietnam-pro-medium {
+    font-family: "Be Vietnam Pro", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.be-vietnam-pro-medium-custom {
+    font-size: 44px;
     font-family: "Be Vietnam Pro", serif;
     font-weight: 500;
     font-style: normal;
@@ -380,7 +394,7 @@ input[type="number"] {
 }
 
 .main-image {
-    width:100%;
+    width: 100%;
     max-width: 378px;
     max-height: 379px;
     border-radius: 10px;
@@ -396,6 +410,7 @@ input[type="number"] {
     object-fit: cover;
     border-radius: 10px;
 }
+
 .overly-right {
     left: inherit !important;
 }
@@ -471,10 +486,31 @@ input[type="number"] {
     color: #111d15;
     max-width: 150px;
     max-height: 44px;
+ 
+}
+.about_btn-custom {
+    display: inline-block;
+    border: 1px solid #666666;
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: #111d15;
+    max-width: 167px;
+    max-height: 56px;
+    margin-top: 22px;
+}
+.estimate_btn {
+    display: inline-block;
+    padding: 10px 12px !important;
+    border-radius: 4px !important;
+    color: #111d15;
+    max-width: 172px !important;
+    max-height: 52px !important;
 }
 
 .slider_btn:hover,
-.about_btn:hover {
+.about_btn:hover,
+.estimate_btn:hover,
+ .about_btn-custom:hover {
     border: 1px solid #36b864;
     color: #ffffff;
     background-color: #36b864;
@@ -1286,6 +1322,10 @@ tr.calendar-body .calendar-day .day:hover {
 }
 
 /* End Date and Time Page Css */
+.py-md-5 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
 
 /* Payment Method Page Css */
 
@@ -1451,17 +1491,51 @@ tr.calendar-body .calendar-day .day:hover {
         width: 40px !important;
     }
 
+    .img-fluid-testimonial {
+        width: 84px !important;
+    }
 }
 
 /* End Payment Method Page Css */
 @media (max-width: 1280px) {
-    .img-fluid {
+
+    .img-fluid,
+    .img-fluid-testimonial {
         max-width: 120px;
         max-height: 120px;
     }
 
     .services_heading h2 {
         font-size: 33px;
+    }
+
+    .py-lg-5 {
+        padding-top: 0rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-image {
+        width: 100%;
+        max-width: 378px;
+        max-height: 379px;
+        border-radius: 10px;
+    }
+
+    .be-vietnam-pro-medium-custom {
+        font-size: 30px;
+    }
+
+    .overlay-image {
+        position: absolute;
+        left: -100px;
+        right: -172px;
+        bottom: -51px;
+        max-width: 230.76px;
+        max-height: 265px;
+        object-fit: cover;
+        border-radius: 10px;
     }
 }
 
@@ -1530,7 +1604,7 @@ tr.calendar-body .calendar-day .day:hover {
         font-size: 14px;
     }
 
-    /* .main-image {
+    .main-image {
         width: 100%;
         height: 330px;
     }
@@ -1541,7 +1615,7 @@ tr.calendar-body .calendar-day .day:hover {
         bottom: 0;
         margin-top: 20px;
         width: 100%;
-    } */
+    }
 
     .services_heading h2 {
         font-size: 22px;
@@ -1717,7 +1791,8 @@ tr.calendar-body .calendar-day .day:hover {
         height: 65px;
     }
 
-    .img-fluid {
+    .img-fluid,
+    .img-fluid-testimonial {
         width: 84px;
     }
 

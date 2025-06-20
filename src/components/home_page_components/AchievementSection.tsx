@@ -11,7 +11,7 @@ const AchievementSection: React.FC = () => {
   ];
 
   return (
-    <div className="container pb-lg-5 pb-md-5 pb-3">
+    <div className="container pb-lg-5 pb-5 pb-3">
       <div className="col-12">
         <div className="achievement_content text-center">
           <h2 className="be-vietnam-pro-bold">Our Achievements</h2>
@@ -24,7 +24,7 @@ const AchievementSection: React.FC = () => {
       </div>
       <div className="row align-items-center text-center my-lg-5 my-md-5">
         {achievements.map((src, index) => (
-          <div key={index} className="col col-lg col-md mt-4 mt-lg-0 mt-md-0">
+          <div key={index} className="col col-lg col-md mt-lg-0 mt-md-0">
             <div className="achievement_card">
               <Image
                 src={src}
