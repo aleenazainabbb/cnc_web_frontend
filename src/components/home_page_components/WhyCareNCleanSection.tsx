@@ -26,7 +26,7 @@ const WhyCareNCleanSection: React.FC = () => {
         </div>
         <div className="col-12 col-lg-6 col-md-6">
           <div className="service_details_content">
-            <h2 className="be-vietnam-pro-semibold mb-4">
+            <h2 className=" whycleanNclear be-vietnam-pro-semibold mb-4">
               Why Care n Clean?
             </h2>
             <p className="be-vietnam-pro-regular text-justify">

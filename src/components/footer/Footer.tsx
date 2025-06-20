@@ -159,7 +159,16 @@ const Footer: React.FC = () => {
                 </div>
               </div>
               <div className="col-md-4">
-                <h6 className="be-vietnam-pro-regular">MOBILE</h6>
+                <h6 className="be-vietnam-pro-regular-custom">MOBILE</h6>
+                <a
+                  href="tel:+971525280307"
+                  className="text-white be-vietnam-pro-regular footer_info "
+                >
+                  +(971) 52 528 0307
+                </a>
+              </div>
+              <div className="col-md-4">
+                <h6 className="be-vietnam-pro-regular-custom">WHATSAPP</h6>
                 <a
                   href="tel:+971525280307"
                   className="text-white be-vietnam-pro-regular footer_info"
@@ -168,16 +177,7 @@ const Footer: React.FC = () => {
                 </a>
               </div>
               <div className="col-md-4">
-                <h6 className="be-vietnam-pro-regular">WHATSAPP</h6>
-                <a
-                  href="tel:+971525280307"
-                  className="text-white be-vietnam-pro-regular footer_info"
-                >
-                  +(971) 52 528 0307
-                </a>
-              </div>
-              <div className="col-md-4">
-                <h6 className="be-vietnam-pro-regular">EMAIL</h6>
+                <h6 className="be-vietnam-pro-regular-custom">EMAIL</h6>
                 <a
                   href="mailto:info@carencleanss.com"
                   className="text-white be-vietnam-pro-regular footer_info"
@@ -187,7 +187,7 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <div className="mt-3">
-              <h6 className="be-vietnam-pro-regular">ADDRESS</h6>
+              <h6 className="be-vietnam-pro-regular-custom">ADDRESS</h6>
               <p className="text-white be-vietnam-pro-regular">
                 DAMAC XL Tower
                 <br />

@@ -17,20 +17,21 @@ export default function Home() {
     <div>
       <BannerSection />
       <ServiceSection />
-       <div style={{ marginTop: '80px' }}>
-      <ServicesSliderSection />
+      <div style={{ marginTop: '80px' }}>
+        <ServicesSliderSection />
       </div>
-      <div style={{ marginTop: '150px' }}>
-      <WhyCareNCleanSection />
+      <div className="responsive-margin">
+        <WhyCareNCleanSection />
       </div>
       <AchievementSection />
+      
       <WhyChooseUsSection />
       <ServiceStepsSection />
       <LifeMadeEasySection />
       <TestimonialsSection />
-      <div style={{ marginTop: '130px' }}>
+      <div className="responsive-margin-custom">
         <ServiceDetailsSection />
-        </div>
+      </div>
       <ContactUsSection />
       <GetAQuoteSection />
     </div>

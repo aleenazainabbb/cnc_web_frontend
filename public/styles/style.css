@@ -27,6 +27,19 @@
     color: #666666;
 }
 
+.be-vietnam-pro-regular-white,
+.be-vietnam-pro-regular-custom {
+    font-family: "Be Vietnam Pro", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    font-size: 20px !important;
+}
+
+.be-vietnam-pro-regular-custom {
+    font-size: 16px !important;
+}
+
 .be-vietnam-pro-regular-custom {
     font-family: "Be Vietnam Pro", serif;
     font-weight: 400;
@@ -56,7 +69,14 @@
     font-family: "Be Vietnam Pro", serif;
     font-weight: 700;
     font-style: normal;
+}
 
+.be-vietnam-pro-bold-custom {
+    font-family: "Be Vietnam Pro", serif;
+    font-weight: 700;
+    font-style: normal;
+    color: white;
+    font-size: 45px !important;
 }
 
 .be_vietnam-pro-normal {
@@ -231,6 +251,13 @@ input[type="number"] {
     padding: 10px 0;
 }
 
+.getaquote_btn {
+    max-width: 173px;
+    max-height: 48px;
+    /* padding: 10px 0; */
+}
+
+
 .headerBtn_green:hover {
     background-color: transparent;
     color: #36b864 !important;
@@ -357,9 +384,6 @@ input[type="number"] {
     margin: 0 auto;
 }
 
-
-
-
 .service_method .col-4:nth-child(2) .service_method_card span {
     top: 20px;
 }
@@ -393,17 +417,20 @@ input[type="number"] {
     font-size: 18px;
 }
 
-.main-image {
+.main-image,.main-image-deepClean {
     width: 100%;
     max-width: 378px;
     max-height: 379px;
     border-radius: 10px;
 }
-
+.main-image-deepClean{
+     max-width: 419px;
+    max-height: 415px;
+}
 .overlay-image {
     position: absolute;
     left: -100px;
-    right: -172px;
+    right: -161px;
     bottom: -51px;
     max-width: 230.76px;
     max-height: 265px;
@@ -486,8 +513,9 @@ input[type="number"] {
     color: #111d15;
     max-width: 150px;
     max-height: 44px;
- 
+
 }
+
 .about_btn-custom {
     display: inline-block;
     border: 1px solid #666666;
@@ -498,6 +526,7 @@ input[type="number"] {
     max-height: 56px;
     margin-top: 22px;
 }
+
 .estimate_btn {
     display: inline-block;
     padding: 10px 12px !important;
@@ -510,7 +539,7 @@ input[type="number"] {
 .slider_btn:hover,
 .about_btn:hover,
 .estimate_btn:hover,
- .about_btn-custom:hover {
+.about_btn-custom:hover {
     border: 1px solid #36b864;
     color: #ffffff;
     background-color: #36b864;
@@ -558,9 +587,7 @@ input[type="number"] {
     box-shadow: -4px -4px 0px 2px rgb(54 184 100) !important;
 }
 
-.why_choose_dec {
-    width: 90%;
-}
+
 
 /* End Why Choose Us */
 
@@ -616,8 +643,15 @@ input[type="number"] {
 .contact-form button {
     background: #36b864;
     padding: 10px 20px;
+    padding-left: 10px !important;
     border: none;
     border-radius: 6px;
+    max-width: 186px;
+    max-height: 48px;
+}
+
+.row {
+    padding-left: none !important;
 }
 
 .appointment-label {
@@ -636,11 +670,15 @@ input[type="number"] {
 
 .appointment-label span {
     position: relative;
-    top: 24%;
-    left: 10px;
+    top: 27%;
+    left: 21px;
     font-size: 30px;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+}
+
+.row {
+    padding-left: calc(var(--bs-gutter-x) * -0.5);
 }
 
 .contact_desc {
@@ -1462,11 +1500,65 @@ tr.calendar-body .calendar-day .day:hover {
     padding-left: 0px;
 }
 
+.responsive-margin {
+    margin-top: 130px;
+}
+
+.responsive-margin-custom {
+    margin-top: 100px !important;
+}
+
+
+@media (max-width: 409px) {
+
+    .main-image {
+        max-width: 100%;
+        padding-right: 0px;
+        padding-left: 10px;
+    }
+
+    .overlay-image {
+        /* bottom: -63px !important;
+        max-width: 94.76px !important;
+        max-height: 105px !important; */
+        display: none;
+    }
+
+    .customersReview {
+        font-size: 23px !important;
+    }
+}
 
 @media (max-width: 576px) {
 
     #orderModal .modal-dialog {
         max-width: 550px !important;
+    }
+
+    .whychooseus {
+        font-size: 32px !important;
+    }
+
+    .customersReview {
+        font-size: 26px !important;
+    }
+
+    .be-vietnam-pro-bold-custom {
+        font-size: 25px !important;
+    }
+
+    .be-vietnam-pro-regular-white,
+    .be-vietnam-pro-regular-custom {
+        font-size: 13px !important;
+
+    }
+
+    .responsive-margin {
+        margin-top: 30px;
+    }
+
+    .responsive-margin-custom {
+        margin-top: 50px !important;
     }
 
     .emergency_contact,
@@ -1494,7 +1586,8 @@ tr.calendar-body .calendar-day .day:hover {
     .img-fluid-testimonial {
         width: 84px !important;
     }
-}
+    }
+   
 
 /* End Payment Method Page Css */
 @media (max-width: 1280px) {
@@ -1505,6 +1598,10 @@ tr.calendar-body .calendar-day .day:hover {
         max-height: 120px;
     }
 
+    .customersReview {
+        font-size: 28px !important;
+    }
+
     .services_heading h2 {
         font-size: 33px;
     }
@@ -1513,14 +1610,16 @@ tr.calendar-body .calendar-day .day:hover {
         padding-top: 0rem !important;
         padding-bottom: 1rem !important;
     }
+
+    .whychooseus {
+        font-size: 42px;
+    }
 }
 
 @media (max-width: 1200px) {
     .main-image {
-        width: 100%;
-        max-width: 378px;
-        max-height: 379px;
-        border-radius: 10px;
+        max-width: 231px;
+        max-height: 312px;
     }
 
     .be-vietnam-pro-medium-custom {
@@ -1528,14 +1627,11 @@ tr.calendar-body .calendar-day .day:hover {
     }
 
     .overlay-image {
-        position: absolute;
         left: -100px;
-        right: -172px;
-        bottom: -51px;
-        max-width: 230.76px;
-        max-height: 265px;
-        object-fit: cover;
-        border-radius: 10px;
+        right: -148px;
+        bottom: -58px;
+        max-width: 194.76px;
+        max-height: 230px;
     }
 }
 
@@ -1584,6 +1680,21 @@ tr.calendar-body .calendar-day .day:hover {
         font-size: 14px;
     }
 
+    .responsive-margin {
+        margin-top: 50px;
+    }
+
+    .main-image {
+        max-width: 219px;
+        max-height: 275px;
+    }
+
+    .overlay-image {
+        right: -111px;
+        bottom: -21px;
+        max-width: 153.76px;
+        max-height: 177px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1595,26 +1706,45 @@ tr.calendar-body .calendar-day .day:hover {
         font-size: 14px !important;
     }
 
+    .getaquote_btn {
+        font-size: 10px;
+    }
+
+    .whychooseus {
+        font-size: 38px !important;
+    }
+
     .service_main {
         background-size: cover;
         padding: 15px;
     }
-
+.serviceDetail-sectin{
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
     .service_main_content p {
         font-size: 14px;
     }
 
+    .custom-images {
+        margin-bottom: 35px !important;
+    }
+
     .main-image {
-        width: 100%;
-        height: 330px;
+        max-width: 231px;
+        max-height: 274px;
     }
 
     .overlay-image {
-        position: relative;
-        left: 0px;
-        bottom: 0;
-        margin-top: 20px;
-        width: 100%;
+        right: -99px;
+        bottom: -28px;
+        max-width: 153.76px;
+        max-height: 178px;
+    }
+
+    .whycleanNclear {
+        margin-top: 45px;
     }
 
     .services_heading h2 {
@@ -1633,9 +1763,9 @@ tr.calendar-body .calendar-day .day:hover {
         right: 20px;
     }
 
-    .overly-right {
-        right: 0 !important;
-    }
+    /* .overly-right {
+        right: 48px !important;
+    } */
 
     .section_desc {
         width: 100%;
@@ -1676,6 +1806,10 @@ tr.calendar-body .calendar-day .day:hover {
         border: none;
         background: #e2ffec;
         border-radius: 0px;
+    }
+
+    .responsive-margin-custom {
+        margin-top: 74px !important;
     }
 
     .testimonials_head {

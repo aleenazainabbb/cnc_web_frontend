@@ -29,19 +29,21 @@ const ServiceDetailsSection: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className="col-12 col-lg-6 col-md-6">
+        <div className="col-12 col-lg-6 col-md-6 serviceDetail-sectin">
           <div className="d-inline-block position-relative float-end mt-4 mt-lg-0 mt-md-0">
             <Image
               src="/images/about-us.jpg"
               alt="Main Image"
-              className="main-image"
+              className="main-image serviceSection"
               width={378}
               height={379}
               style={{
-                borderRadius: "20px",
-                borderTop: "10px",
-                borderRight: "10px",
+                borderWidth: "10px 10px 0px 0px",
+                borderStyle: "solid",
+                borderColor: "#36B864",
+                borderRadius: "20px"
               }}
+
             />
             <Image
               src="/images/about-us-0.png"

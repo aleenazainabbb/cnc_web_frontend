@@ -126,14 +126,12 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
           src="/images/WhyChooseUs/WhyChooseUs-1.png"
           alt="Main Image"
           className=""
-          width={468.63}
-          height={505}
+          width={504.82}
+          height={544}
           style={{
             borderRadius: "20px",
             borderTop: "10px",
             borderRight: "10px",
-            left: "837px",
-            top: "3642px",
           }}
         />
       </div>

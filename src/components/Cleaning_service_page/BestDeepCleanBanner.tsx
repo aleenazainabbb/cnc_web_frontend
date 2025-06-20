@@ -17,7 +17,7 @@ const BestDeepClean: React.FC = () => {
                         >
                             Best Deep Cleaning Service in UAE from Care N Clean
                         </h2>
-                        <p className=" text-justify leading-[30px] tracking-normal" style={{ fontFamily: "Be Vietnam Pro" ,fontSize: "20px",color: "#666666"}} >
+                        <p className=" text-justify leading-[30px] tracking-normal" style={{ fontFamily: "Be Vietnam Pro", fontSize: "20px", color: "#666666" }} >
 
                             The UAE market requires deep cleaning services. Care N Clean
                             provides expert deep cleaning services for both residential and
@@ -53,27 +53,24 @@ const BestDeepClean: React.FC = () => {
                         />
                     </div>
                 </div> */}
-<div className="col-12 col-md-6 col-lg-6">
-  <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
-    <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-      <Image
-        src="/images/deepclean.png"
-        alt="Deep Clean Image"
-        width={419}
-        height={451}
-        className="img-fluid"
-        style={{
-          borderRadius: "20px",
-          borderTop: "10px solid",
-          borderRight: "10px solid",
-        }}
-      />
-    </div>
-  </div>
-</div>
-
-
-
+                <div className="col-12 col-md-6 col-lg-6">
+                    <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                            <Image
+                                src="/images/deepclean.png"
+                                alt="Deep Clean Image"
+                                width={419}
+                                height={451}
+                                className="main-image-deepClean"
+                                style={{
+                                    borderRadius: "20px",
+                                    borderTop: "10px solid",
+                                    borderRight: "10px solid",
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -11,10 +11,7 @@ const GetAQuoteSection: React.FC = () => {
               Complete Residential and Commercial Handyman & Maintenance
               Services in Dubai.
             </p>
-            {/* <Link href="/quote" className="bg_green text-white about_btn mt-3"> */}
-            <Link href="/quote" className="btn header_btn Lato btn-light ms-3 fw-500 text_green" style={{ width: "173px", height: "48px"}}>
-             {/* className="btn header_btn btn-light ms-3 fw-600 text_green" */}
-
+            <Link href="/quote" className="btn getaquote_btn Lato btn-light ms-3 fw-500 text_green mt-3" >
               Get a Quote
             </Link>
           </div>

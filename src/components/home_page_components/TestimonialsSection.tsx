@@ -51,7 +51,7 @@ const TestimonialsSection: React.FC = () => {
     <div className="container lg-4 pt-md-4 w-[1180px] h-[448px]" >
       <div className="row">
         <div className="testimonials_head w-75 m-auto text-center">
-          <h2 className="be-vietnam-pro-medium-custom mt-4">
+          <h2 className="customersReview be-vietnam-pro-medium-custom mt-4">
             Hear What Our Satisfied Customers
              Have to Say
           </h2>

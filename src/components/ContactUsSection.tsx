@@ -1,7 +1,5 @@
-"use client"; // Client Component for form interactivity
-
+"use client"; 
 import React, { useState, FormEvent } from "react";
-
 const ContactUsSection: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,19 +20,18 @@ const ContactUsSection: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Contact Form Submitted:", formData);
-    // Add API call here if needed
   };
 
   return (
     <div className="contact-section" id="contact_us_main">
-      <div className="contact-info position-relative">
-        <h2 className="be-vietnam-pro-bold">Contact</h2>
-        <p className="be-vietnam-pro-regular contact_desc">
+      <div className="contact-info position-relative ps-25">
+        <h2 className="be-vietnam-pro-bold-custom">Contact</h2>
+        <p className="be-vietnam-pro-regular-white contact_desc">
           Thank you for your interest. We look forward to hearing from you soon.
         </p>
         <div className="d-flex gap-3 contact_details mt-4">
           <i className="fa-solid fa-clock"></i>
-          <p className="be-vietnam-pro-regular">
+          <p className="be-vietnam-pro-regular-custom">
             <strong>Hours Of Operation</strong>
             <br />
             Mon-Fri: 9AM - 5PM
@@ -42,7 +39,7 @@ const ContactUsSection: React.FC = () => {
         </div>
         <div className="d-flex gap-3 contact_details mt-4">
           <i className="fa-solid fa-phone"></i>
-          <p className="be-vietnam-pro-regular">
+          <p className="be-vietnam-pro-regular-custom">
             <strong>24/7 Emergency Service</strong>
             <br />
             (+971) 52 528 0307
@@ -50,7 +47,7 @@ const ContactUsSection: React.FC = () => {
         </div>
         <div className="d-flex gap-3 contact_details mt-4">
           <i className="fa-solid fa-location-dot"></i>
-          <p className="be-vietnam-pro-regular">
+          <p className="be-vietnam-pro-regular-custom">
             <strong>Service Area</strong>
             <br />
             Dubai and surrounding areas.
@@ -108,7 +105,7 @@ const ContactUsSection: React.FC = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-12">
+            <div className="col-12 col-lg-6 col-md-6">
               <input
                 type="text"
                 name="service"

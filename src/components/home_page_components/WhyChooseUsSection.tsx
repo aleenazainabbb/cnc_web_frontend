@@ -6,10 +6,12 @@ const WhyChooseUsSection: React.FC = () => {
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
-        <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0">
+        {/* <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0"> */}
+      <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0">
+
           <div>
             <h2
-              className="mt-2 mb-4"
+              className=" mb-4 whychooseus"
               style={{
                 fontSize: "44px",
                 fontFamily: "'Be Vietnam Pro', sans-serif",
@@ -88,17 +90,16 @@ const WhyChooseUsSection: React.FC = () => {
             </Link>
           </div>
         </div>
-        
 
-        <div className="col-12 col-lg-6 col-md-5">
-          
-          <div className="d-inline-block position-relative">
+        {/* <div className="col-12 col-lg-6 col-md-5"> */}
+       <div className="col-12 col-lg-6 col-md-6">
+          <div className="d-inline-block position-relative custom-images">
             <Image
               src="/images/WhyChooseUs/WhyChooseUs-1.png"
               alt="Main Image"
-              className="main-image shadow-left"
-              width={468.63}
-              height={505}
+              className="main-image"
+              width={365.63}
+              height={394}
               style={{
                 borderRadius: "20px",
                 borderTop: "10px",
@@ -111,8 +112,8 @@ const WhyChooseUsSection: React.FC = () => {
               src="/images/WhyChooseUs/WhyChooseUs-2.png"
               alt="Overlay Image"
               className="overlay-image overly-right"
-              width={200}
-              height={150}
+              width={230.76}
+              height={265}
             />
           </div>
         </div>
