@@ -12,14 +12,16 @@ const BestDeepClean: React.FC = () => {
                 <div className="col-12 col-lg-6 col-md-6">
                     <div className="service_details_content">
                         <h2
-                            className="font-semibold leading-[120%] tracking-[0%] mt-2 mb-4"
+                            className="font-semibold heading leading-[120%] tracking-[0%] mt-2 mb-4" 
                             style={{ fontFamily: "Be Vietnam Pro", fontSize: "44px" }}
                         >
                             Best Deep Cleaning Service in UAE from Care N Clean
                         </h2>
                         <p className=" text-justify leading-[30px] tracking-normal" style={{ fontFamily: "Be Vietnam Pro", fontSize: "20px", color: "#666666" }} >
 
-                            The UAE market requires deep cleaning services. Care N Clean
+                            The UAE market requires deep cleaning services. {" "} 
+                            <Link href="/about" style={{ color: "#36B864", fontWeight: "800",textDecoration: "underline"}}
+                            >Care N Clean</Link> {" "}
                             provides expert deep cleaning services for both residential and
                             commercial buildings. Our professionals create a spotless
                             environment with fresh air free from germs. With our expert team,
@@ -33,26 +35,6 @@ const BestDeepClean: React.FC = () => {
 
                     </div>
                 </div>
-
-                {/* Right Side Image (Only One)
-                <div className="col-12 col-lg-6 col-md-6">
-                    <div className="d-inline-block position-relative float-end mt-4 mt-lg-0 mt-md-0">
-                   
-                        
-                        <Image
-                            src="/images/deepclean.png"
-                            alt="deep clean Image"
-                            className=""
-                            width={419}
-                            height={451}
-                            style={{
-                                borderRadius: "20px",
-                                borderTop: "10px",
-                                borderRight: "10px",
-                            }}
-                        />
-                    </div>
-                </div> */}
                 <div className="col-12 col-md-6 col-lg-5">
                     <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
                         <div style={{ maxWidth: "100%", margin: "0 auto" }}>

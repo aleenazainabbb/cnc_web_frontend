@@ -14,7 +14,7 @@ const AchievementSection: React.FC = () => {
     <div className="container pb-lg-5 pb-5 pb-3">
       <div className="col-12">
         <div className="achievement_content text-center">
-          <h2 className="be-vietnam-pro-bold">Our Achievements</h2>
+          <h2 className="be-vietnam-pro-bold heading">Our Achievements</h2>
           <p className="be-vietnam-pro-medium">
             We take pride in being acknowledged for our dedication to
             innovation, quality, and service. Our certifications and awards

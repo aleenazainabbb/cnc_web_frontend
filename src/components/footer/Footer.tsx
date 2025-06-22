@@ -1,4 +1,4 @@
-"use client"; // Client Component for form interactivity
+"use client"; 
 
 import React, { useState, FormEvent } from "react";
 import Image from "next/image";
@@ -10,7 +10,6 @@ const Footer: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Newsletter subscription:", email);
-    // Add API call here if needed
   };
 
   return (
@@ -18,8 +17,8 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="row">
           <div className="col-12 col-lg-4 col-md-4">
-            <div className="subscribe_section position-relative">
-              <h4 className="be-vietnam-pro-regular">
+            <div className="subscribe_section position-relative  footer">
+              <h4 className="be-vietnam-pro-regular subscribe">
                 Subscribe to our newsletter
               </h4>
               <form onSubmit={handleSubmit} className="newslatter_form">
@@ -40,7 +39,7 @@ const Footer: React.FC = () => {
                 src="/images/footer-logo.png"
                 alt="Footer Logo"
                 className="img-fluid"
-                width={150} // Adjust based on your image size
+                width={150}
                 height={50}
               />
             </div>

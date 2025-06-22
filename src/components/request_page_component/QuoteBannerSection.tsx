@@ -75,7 +75,7 @@ const QuoteBannerSection: React.FC<QuoteBannerSectionProps> = ({
 
               {showButton && (
                 <Link href={buttonLink}>
-                  <button className="bg_green text-white about_btn mt-3">{buttonText}</button>
+                  <button className="bg_green text-white about_btn-servicebanner mt-3">{buttonText}</button>
                 </Link>
               )}
             </div>

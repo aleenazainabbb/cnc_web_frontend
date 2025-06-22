@@ -6,8 +6,8 @@ const WhyCareNCleanSection: React.FC = () => {
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
-        <div className="col-12 col-lg-6 col-md-6">
-          <div className="d-inline-block position-relative">
+        <div className="col-12 col-lg-6 col-md-6 whycare_images custom-images">
+          <div className="d-inline-block position-relative ">
             <Image
               src="/images/WhyCareNCleanSection/1.png"
               alt="Main Image"
@@ -26,7 +26,7 @@ const WhyCareNCleanSection: React.FC = () => {
         </div>
         <div className="col-12 col-lg-6 col-md-6">
           <div className="service_details_content">
-            <h2 className=" whycleanNclear be-vietnam-pro-semibold mb-4">
+            <h2 className=" be-vietnam-pro-medium-custom mb-4 heading">
               Why Care n Clean?
             </h2>
             <p className="be-vietnam-pro-regular text-justify">
@@ -63,12 +63,12 @@ const WhyCareNCleanSection: React.FC = () => {
             </div>
             <Link
               href="/book"
-              className="about_btn mt-3 me-3"
+              className="about_btn-bookNow mt-3 me-3"
             >
               Book Now
             </Link>
 
-             <Link href="/about" className=" mt-3 Lato slider_btn font-medium text-[20px]">
+             <Link href="/about" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
               Know More
             </Link>
 

@@ -31,7 +31,7 @@ const BookYourService: React.FC = () => {
                 <div className="col-12 col-lg-6 col-md-6 mb-4 mb-md-0">
                     <div className="service_details_content">
                         <h2
-                            className="font-semibold leading-[120%] tracking-[0%] mt-2 mb-4"
+                            className="font-semibold leading-[120%] tracking-[0%] mt-2 mb-4 heading"
                             style={{ fontFamily: "Be Vietnam Pro", fontSize: "33px" }}
                         >
                             Book Your Cleaning Service with Care N Clean

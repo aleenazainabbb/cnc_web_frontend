@@ -89,7 +89,7 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({ sections = defaultS
         <div className="col-12">
           <div className="">
             <h2
-              className="font-semibold text-[44px] leading-[120%] tracking-[0%] mt-2 mb-4"
+              className="font-semibold text-[44px] leading-[120%] tracking-[0%] mt-2 mb-4 ourdeepClean-heading heading"
               style={{ fontFamily: "Be Vietnam Pro" }}
             >
               Our Deep Cleaning Services

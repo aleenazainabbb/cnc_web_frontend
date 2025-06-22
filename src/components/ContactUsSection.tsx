@@ -125,9 +125,11 @@ const ContactUsSection: React.FC = () => {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="mt-3 text-white">
+            <div style={{ paddingLeft: "10px" }}>
+            <button type="submit" className="mt-3 text-white" >
               Send Message
-            </button>
+              </button>
+            </div>
           </div>
         </form>
       </div>

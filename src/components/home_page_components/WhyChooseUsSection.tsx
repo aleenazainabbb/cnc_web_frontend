@@ -6,12 +6,11 @@ const WhyChooseUsSection: React.FC = () => {
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
-        {/* <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0"> */}
-      <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0">
+      <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0 ">
 
           <div>
             <h2
-              className=" mb-4 whychooseus"
+              className=" mb-4 heading"
               style={{
                 fontSize: "44px",
                 fontFamily: "'Be Vietnam Pro', sans-serif",
@@ -79,7 +78,7 @@ const WhyChooseUsSection: React.FC = () => {
               </div>
             </div>
 
-            <Link href="/book" className="bg_green text-white about_btn mt-3 me-3">
+            <Link href="/book" className=" about_btn-bookNow mt-3 me-3">
               Book Now
             </Link>
             <Link
@@ -92,8 +91,8 @@ const WhyChooseUsSection: React.FC = () => {
         </div>
 
         {/* <div className="col-12 col-lg-6 col-md-5"> */}
-       <div className="col-12 col-lg-6 col-md-6 ">
-          <div className="d-inline-block position-relative custom-images">
+        <div className="col-12 col-lg-6 col-md-6 whycare_images padding-images" >
+          <div className="d-inline-block position-relative custom-images  ">
             <Image
               src="/images/WhyChooseUs/WhyChooseUs-1.png"
               alt="Main Image"
@@ -101,7 +100,7 @@ const WhyChooseUsSection: React.FC = () => {
               width={365.63}
               height={394}
               style={{
-                borderRadius: "20px",
+                borderRadius: "20px", 
                 borderTop: "10px",
                 borderRight: "10px",
                 

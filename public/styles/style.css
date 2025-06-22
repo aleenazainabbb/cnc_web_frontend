@@ -19,12 +19,20 @@
     font-style: normal;
 }
 
+.ourdeepClean-heading {
+    font-size: 44px !important;
+}
 
-.be-vietnam-pro-regular {
+.be-vietnam-pro-regular,
+.be-vietnam-pro-regular-aboutus {
     font-family: "Be Vietnam Pro", serif;
     font-weight: 400;
     font-style: normal;
     color: #666666;
+}
+
+.be-vietnam-pro-regular-aboutus {
+    color: #111D15;
 }
 
 .be-vietnam-pro-regular-white,
@@ -65,6 +73,11 @@
     font-style: normal;
 }
 
+.be-vietnam-pro-semibold-homepage {
+    font-size: 44px;
+    font-weight: 600;
+}
+
 .be-vietnam-pro-bold {
     font-family: "Be Vietnam Pro", serif;
     font-weight: 700;
@@ -73,7 +86,7 @@
 
 .be-vietnam-pro-bold-custom {
     font-family: "Be Vietnam Pro", serif;
-    font-weight: 700;
+    font-weight: 700 !important;
     font-style: normal;
     color: white;
     font-size: 45px !important;
@@ -417,21 +430,50 @@ input[type="number"] {
     font-size: 18px;
 }
 
-.main-image,.main-image-deepClean {
+.main-image {
+    width: 100%;
+    max-width: 378px !important;
+    max-height: 379px !important;
+    border-radius: 10px;
+}
+
+.main-image-servicesection {
     width: 100%;
     max-width: 378px;
     max-height: 379px;
     border-radius: 10px;
 }
-.main-image-deepClean{
-     max-width: 419px;
+
+.main-image-deepClean {
+    width: 100%;
+    max-width: 419px;
     max-height: 451px;
+    border-radius: 10px;
 }
+
+.main-image-benefits {
+    width: 100%;
+    max-width: 504px;
+    max-height: 544px;
+    border-radius: 10px;
+}
+
 .overlay-image {
     position: absolute;
     left: -100px;
+    right: -155px !important;
+    bottom: -58px !important;
+    max-width: 230.76px !important;
+    max-height: 265px !important;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.servicesection {
+    left: -85px;
+    bottom: -25px;
+    position: absolute;
     right: -161px;
-    bottom: -51px;
     max-width: 230.76px;
     max-height: 265px;
     object-fit: cover;
@@ -503,17 +545,44 @@ input[type="number"] {
     color: #111d15;
     max-width: 150px;
     max-height: 44px;
+    text-align: center;
 }
 
-.about_btn {
+.knowMore_btn {
+    text-align: center;
+    border: 1px solid #666666;
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: #111d15;
+}
+
+.about_btn,
+.about_btn-bookNow {
     display: inline-block;
     border: 1px solid #666666;
     padding: 10px 18px;
     border-radius: 6px;
     color: #111d15;
-    max-width: 150px;
-    max-height: 44px;
+    max-width: 150px !important;
+    max-height: 44px !important;
+    text-align: center;
+}
 
+.about_btn-servicebanner {
+    display: inline-block;
+    /* border: 1px solid #666666; */
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: #111d15;
+    width: 182px !important;
+    height: 54px !important;
+    text-align: center;
+    font-size: 16px;
+}
+
+.about_btn-bookNow {
+    max-width: 157px;
+    max-height: 48px;
 }
 
 .about_btn-custom {
@@ -539,7 +608,9 @@ input[type="number"] {
 .slider_btn:hover,
 .about_btn:hover,
 .estimate_btn:hover,
-.about_btn-custom:hover {
+.about_btn-custom:hover,
+.about_btn-bookNow:hover,
+.knowMore_btn:hover {
     border: 1px solid #36b864;
     color: #ffffff;
     background-color: #36b864;
@@ -548,8 +619,6 @@ input[type="number"] {
 /* End Services Section */
 
 /* Why Care n Clean */
-
-
 
 .feature-box {
     display: flex;
@@ -643,7 +712,6 @@ input[type="number"] {
 .contact-form button {
     background: #36b864;
     padding: 10px 20px;
-    padding-left: 10px !important;
     border: none;
     border-radius: 6px;
     max-width: 186px;
@@ -750,7 +818,11 @@ input[type="number"] {
     background-color: #282826;
     border-radius: 12px;
     padding: 24px;
-    min-height: 293px;
+    height: 293px;
+    width: 100%;
+    max-width: 409px;
+    margin: 0 auto;
+    /* centers it horizontally */
 }
 
 .newslatter_form {
@@ -839,6 +911,7 @@ input[type="number"] {
 .footer_info:hover {
     color: #36b864 !important;
 }
+
 
 /* End Footer */
 
@@ -941,6 +1014,10 @@ input[type="number"] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.padding-images {
+    padding-left: 144px;
 }
 
 .info-box {
@@ -1507,8 +1584,11 @@ tr.calendar-body .calendar-day .day:hover {
 .responsive-margin-custom {
     margin-top: 100px !important;
 }
-
-
+@media (max-width: 368px) {
+.col-md-4 {
+    width: 28.333333% !important;
+}
+}
 @media (max-width: 409px) {
 
     .main-image {
@@ -1517,40 +1597,76 @@ tr.calendar-body .calendar-day .day:hover {
         padding-left: 10px;
     }
 
+    .main-image-servicesection {
+        padding-left: none;
+
+    }
+
     .overlay-image {
-        /* bottom: -63px !important;
-        max-width: 94.76px !important;
-        max-height: 105px !important; */
         display: none;
     }
 
     .customersReview {
         font-size: 23px !important;
     }
+
+    .subscribe_section {
+        padding: 16px;
+        height: auto;
+        max-width: 355%;
+        width: max-content;
+    }
+
+    .subscribe {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 541px) {
+    .main-image {
+        max-width: 200px;
+        max-height: 226px;
+    }
+
+    .overlay-image {
+        display: none;
+    }
+
+    .about_btn-servicebanner {
+        width: 126px !important;
+    }
 }
 
 @media (max-width: 576px) {
 
-    #orderModal .modal-dialog {
-        max-width: 550px !important;
+    h1,
+    .heading,
+    .be-vietnam-pro-bold-custom {
+        font-size: 25px !important;
     }
 
-    .whychooseus {
-        font-size: 32px !important;
+    .service_method_card img {
+        height: 80px !important;
+        width: 80px !important;
+    }
+
+    #orderModal .modal-dialog {
+        max-width: 550px !important;
     }
 
     .customersReview {
         font-size: 26px !important;
     }
 
-    .be-vietnam-pro-bold-custom {
-        font-size: 25px !important;
-    }
-
     .be-vietnam-pro-regular-white,
     .be-vietnam-pro-regular-custom {
         font-size: 13px !important;
 
+    }
+
+    .push_to_top a {
+        width: 50px;
+        height: 50px;
     }
 
     .responsive-margin {
@@ -1586,8 +1702,45 @@ tr.calendar-body .calendar-day .day:hover {
     .img-fluid-testimonial {
         width: 84px !important;
     }
+
+    .main-image {
+        max-width: 200px;
+        max-height: 226px;
     }
-   
+
+    .overlay-image {
+        right: 45px;
+        bottom: -28px;
+        max-width: 130.76px;
+        max-height: 152px;
+    }
+
+    .whycare_images {
+        display: flex !important;
+        justify-content: center;
+    }
+
+    .padding-images {
+        padding-left: none !important;
+    }
+}
+
+@media (max-width: 1399px) {
+    .padding-images {
+        padding-left: 63px;
+    }
+}
+
+
+@media (max-width: 865px) {
+    .padding-images {
+        padding-left: 26px;
+    }
+
+    .col-md-4 {
+        width: 31.333333%;
+    }
+}
 
 /* End Payment Method Page Css */
 @media (max-width: 1280px) {
@@ -1610,29 +1763,36 @@ tr.calendar-body .calendar-day .day:hover {
         padding-top: 0rem !important;
         padding-bottom: 1rem !important;
     }
-
-    .whychooseus {
-        font-size: 42px;
-    }
 }
 
 @media (max-width: 1200px) {
     .main-image {
-        max-width: 231px;
-        max-height: 312px;
+        max-width: 231px !important;
+        max-height: 312px !important;
     }
 
-    .be-vietnam-pro-medium-custom {
-        font-size: 30px;
+    .main-image-servicesection {
+        max-width: 358px;
+        max-height: 380px;
+    }
+
+    .subscribe_section {
+        width: 285px;
     }
 
     .overlay-image {
-        left: -100px;
-        right: -148px;
-        bottom: -58px;
-        max-width: 194.76px;
-        max-height: 230px;
+
+        right: -148px !important;
+        bottom: -58px !important;
+        max-width: 194.76px !important;
+        max-height: 230px !important;
     }
+
+    .servicesection {
+        left: -56px;
+        bottom: -45px;
+    }
+
 }
 
 /* Responsive Css */
@@ -1655,11 +1815,15 @@ tr.calendar-body .calendar-day .day:hover {
     }
 
     h1 {
-        font-size: 25px !important;
+        font-size: 32px !important;
     }
 
     h2 {
         font-size: 22px;
+    }
+
+    .heading {
+        font-size: 32px !important;
     }
 
     .footer_right_section::after {
@@ -1669,6 +1833,10 @@ tr.calendar-body .calendar-day .day:hover {
     .booking-form {
         padding: 26px 27px;
         margin-top: 10px !important;
+    }
+
+    .subscribe_section {
+        width: 270px;
     }
 
     .form-select,
@@ -1684,45 +1852,57 @@ tr.calendar-body .calendar-day .day:hover {
         margin-top: 50px;
     }
 
-    .main-image {
-        max-width: 219px;
-        max-height: 275px;
+    .main-image,
+    .main-image-servicesection {
+        max-width: 219px !important;
+        max-height: 275px !important;
     }
 
     .overlay-image {
-        right: -111px;
-        bottom: -21px;
-        max-width: 153.76px;
-        max-height: 177px;
+        right: -111px !important;
+        bottom: -21px !important;
+        max-width: 153.76px !important;
+        max-height: 177px !important;
     }
 }
 
 @media (max-width: 768px) {
-    h1 {
-        font-size: 23px !important;
+
+    h1,
+    .heading {
+        font-size: 28px !important;
     }
 
     p {
         font-size: 14px !important;
     }
 
-    .getaquote_btn {
-        font-size: 10px;
+    .be-vietnam-pro-bold-custom {
+        font-size: 32px !important;
     }
 
-    .whychooseus {
-        font-size: 38px !important;
+    .getaquote_btn {
+        font-size: 10px;
     }
 
     .service_main {
         background-size: cover;
         padding: 15px;
     }
-.serviceDetail-sectin{
-    margin-bottom: 20px;
-    align-items: center;
-    justify-content: center;
-}
+
+    /* .serviceDetail-sectin {
+        margin-bottom: 20px;
+        align-items: center;
+        justify-content: center;
+        display: flex !important;
+    } */
+    .appointment-label span {
+        position: relative;
+        top: 22%;
+        left: 12px;
+        font-size: 18px;
+    }
+
     .service_main_content p {
         font-size: 14px;
     }
@@ -1731,16 +1911,26 @@ tr.calendar-body .calendar-day .day:hover {
         margin-bottom: 35px !important;
     }
 
-    .main-image {
-        max-width: 231px;
-        max-height: 274px;
+    .main-image,
+    .main-image-servicesection {
+        max-width: 231px !important;
+        max-height: 274px !important;
     }
 
     .overlay-image {
-        right: -99px;
-        bottom: -28px;
-        max-width: 153.76px;
-        max-height: 178px;
+        /* right: 38px !important;
+        bottom: -32px !important; */
+        max-width: 153.76px !important;
+        max-height: 178px !important;
+    }
+
+    /* .whycare_images {
+        display: flex !important;
+        justify-content: center;
+    } */
+
+    .servicesection {
+        left: -66px;
     }
 
     .whycleanNclear {
@@ -1762,10 +1952,6 @@ tr.calendar-body .calendar-day .day:hover {
     .slider-main .slick-next {
         right: 20px;
     }
-
-    /* .overly-right {
-        right: 48px !important;
-    } */
 
     .section_desc {
         width: 100%;
@@ -1826,7 +2012,8 @@ tr.calendar-body .calendar-day .day:hover {
     }
 
     .subscribe_section {
-        min-height: 150px;
+        height: auto;
+
     }
 
     .newslatter_form {
