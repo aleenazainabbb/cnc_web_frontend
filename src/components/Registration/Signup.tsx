@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from "react";
-import login from './styles/login.module.css';
+import test from './styles/signup.module.css';
 import Image from "next/image";
 import Link from "next/link";
 import PhoneInput from 'react-phone-input-2';
@@ -76,138 +76,141 @@ const Signup: React.FC = () => {
     return (
         <div style={{ display: "flex" }}>
             {/* Left Image */}
-            <div className={login.leftImage}>
-                <Image src="/images/signuppic.png" alt="Side Visual" fill className={login.imageFill} />
+            <div className={test.leftImage}>
+                <Image src="/images/signuppic.png"
+                    alt="Side Visual"
+                    fill
+                    className={test.imageFill} />
             </div>
 
             {/* Signup Form */}
-            <div className={login.signupmain}>
-                <div className={login.container}>
-                    <button className={login.signupbackbutton}>&lt; Back</button>
-                    <div className={login.image} style={{ marginLeft: "5px" }}>
-                        <Image src="/images/carelogo.svg" alt="CarenClean" width={73} height={57} />
-                    </div>
-                </div>
 
-                <div style={{ marginLeft: "15%" }}>
-                    <h1 className={login.signuptitle}>Create an account using email</h1>
+            <div className={test.main}>
+                <div className={test.container}>
+                    <div className={test.row}>
 
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <div style={{ display: "flex", gap: "1rem" }}>
-                            {/* First Name */}
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <label className={login.signuplabel}>First Name</label>
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    value={form.firstName}
-                                    onChange={handleChange}
-                                    placeholder="First name"
-                                    className={login.smallinput}
-                                />
-                            </div>
+                        {/* button */}
+                        <button className={test.backButton} onClick={() => router.push('/')}>
 
-                            {/* Last Name */}
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <label className={login.signuplabel}>Last Name</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    value={form.lastName}
-                                    onChange={handleChange}
-                                    placeholder="Last name"
-                                    className={login.smallinput}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Email */}
-                        <label className={login.signuplabel}>Email Address</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            placeholder="Please enter email address ( email@gmail.com)"
-                            className={login.signupinput}
-                        />
-
-                        {/* Phone */}
-                        <label className={login.signuplabel}>Phone Number</label>
-                        <PhoneInput
-                            country={"ng"}
-                            value={form.phone}
-                            onChange={handlePhoneChange}
-                            placeholder="Enter phone number"
-                            inputClass="phoneInput"
-                            inputStyle={{
-                                width: "426px",
-                                height: "64px",
-                                fontWeight: 500,
-                                fontSize: "14px",
-                                color: "#8692A6",
-                                border: "1px solid #8692A6",
-                                borderRadius: "6px",
-                                paddingLeft: "50px",
-                            }}
-                            buttonStyle={{
-                                border: "none",
-                                background: "transparent",
-                                borderTopLeftRadius: "6px",
-                                borderBottomLeftRadius: "6px",
-                                left: "10px",
-                            }}
-                        />
-
-                        {/* Password */}
-                        <label className={login.signuplabel}>Password</label>
-                        <div style={{ position: "relative", width: "fit-content" }}>
-                            <input
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                value={form.password}
-                                onChange={handleChange}
-                                className={login.signupinput}
-                                placeholder="Enter password"
-                            />
-                            <div
-                                onClick={() => setShowPassword(!showPassword)}
-                                style={{
-                                    position: "absolute",
-                                    right: "20px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    cursor: "pointer",
-                                    width: "24px",
-                                }}
-                            >
-                                {showPassword ? <EyeSlashIcon style={{ width: 18 }} /> : <EyeIcon style={{ width: 18 }} />}
-                            </div>
-                        </div>
-
-                        {/* Password Tips */}
-                        <p className={login.charlabels}>
-                            Please make sure your password includes the following:<br />
-                            - Is no less than 8 characters<br />
-                            - Includes at least one special character<br />
-                            - Includes at least one number<br />
-                            - Includes at least one capital letter<br />
-                            - Includes at least one lowercase letter<br />
-                        </p>
-
-                        {/* Submit Button */}
-                        <button onClick={handleSignup} className={login.signupbutton} disabled={loading}>
-                            {loading ? 'Signing up...' : 'SIGNUP'}
+                            <span className={test.backsign}>&lt;</span> Back
                         </button>
+                        {/* logo */}
+                        <Image
+                            src="/images/carelogo.svg"
+                            alt="CarenClean"
+                            width={73}
+                            height={57}
+                        />
+                    </div>
+                    <div className={test.box}>
+                        <h1 className={test.title}>Create an account using email</h1>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                           
+                            <div className={test.nameRow}>
+                                <div className={test.inputWrapper}>
+                                    <label className={test.label}>First Name</label>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        value={form.firstName}
+                                        onChange={handleChange}
+                                        placeholder="Enter First name"
+                                        className={test.input}
+                                    />
+                                </div>
+                                <div className={test.inputWrapper}>
+                                    <label className={test.label}>Last Name</label>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        value={form.lastName}
+                                        onChange={handleChange}
+                                        placeholder="Enter Last name"
+                                        className={test.input}
+                                    />
+                                </div>
+                            </div>
 
-                        <label className={login.signupfooterlabel}>
-                            Already have an account with CARENCLEAN?{" "}
-                            <Link href="/Login" className={login.signupminilabel}>LOGIN</Link>
-                        </label>
+                            {/* Email */}
+                            <label className={test.label}>Email Address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                placeholder="Please enter email address"
+                                className={test.input}
+                            />
+
+                            {/* Phone */}
+                            <label className={test.label}>Phone Number</label>
+                            <PhoneInput
+                                country={"ng"}
+                                value={form.phone}
+                                onChange={handlePhoneChange}
+                                placeholder="Enter phone number"
+                                inputClass="phoneInput"
+                                inputStyle={{
+                                    width: "100%",
+                                    height: "64px",
+                                    fontWeight: 500,
+                                    fontSize: "14px",
+                                    color: "#8692A6",
+                                    border: "1px solid #8692A6",
+                                    borderRadius: "6px",
+                                    paddingLeft: "50px",
+                                }}
+                                buttonStyle={{
+                                    border: "none",
+                                    background: "transparent",
+                                    borderTopLeftRadius: "6px",
+                                    borderBottomLeftRadius: "6px",
+                                    left: "10px",
+                                }}
+                            />
+
+                            {/* Password */}
+                            <label className={test.label}>Password</label>
+                            <div className={test.password}>
+                                <input
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={form.password}
+                                    onChange={handleChange}
+                                    className={test.input}
+                                    placeholder="Enter password"
+                                />
+                                <div
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className={test.icon}
+                                >
+                                    {showPassword ? <EyeSlashIcon style={{ width: 18 }} /> : <EyeIcon style={{ width: 18 }} />}
+                                </div>
+                            </div>
+
+                            {/* Password Tips */}
+                            <p className={test.charlabels}>
+                                Please make sure your password includes the following:<br />
+                                - Is no less than 8 characters<br />
+                                - Includes at least one special character<br />
+                                - Includes at least one number<br />
+                                - Includes at least one capital letter<br />
+                                - Includes at least one lowercase letter<br />
+                            </p>
+
+                            {/* Submit Button */}
+                            <button onClick={handleSignup} className={test.signupbutton} disabled={loading}>
+                                {loading ? 'Signing up...' : 'SIGNUP'}
+                            </button>
+
+                            <label className={test.signupfooterlabel}>
+                                Already have an account with CARENCLEAN?{" "}
+                                <Link href="/Login" className={test.minilabel}>LOGIN</Link>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-
             {/* Snackbar */}
             {snackbar && (
                 <Snackbar
@@ -216,7 +219,9 @@ const Signup: React.FC = () => {
                     onClose={() => setSnackbar(null)}
                 />
             )}
+
         </div>
+
     );
 };
 

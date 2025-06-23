@@ -1584,11 +1584,17 @@ tr.calendar-body .calendar-day .day:hover {
 .responsive-margin-custom {
     margin-top: 100px !important;
 }
+
 @media (max-width: 368px) {
-.col-md-4 {
-    width: 28.333333% !important;
+    .col-md-4 {
+        width: 28.333333% !important;
+    }
+
+    .slider-sec {
+        width: 100% !important;
+    }
 }
-}
+
 @media (max-width: 409px) {
 
     .main-image {
@@ -1648,6 +1654,16 @@ tr.calendar-body .calendar-day .day:hover {
     .service_method_card img {
         height: 80px !important;
         width: 80px !important;
+    }
+
+    .slider-sec {
+        width: 100% !important;
+    }
+
+    .images-div {
+        display: flex;
+        justify-content: center;
+
     }
 
     #orderModal .modal-dialog {
@@ -1740,6 +1756,9 @@ tr.calendar-body .calendar-day .day:hover {
     .col-md-4 {
         width: 31.333333%;
     }
+
+    /* .slider-sec {
+            width:100% !important;   } */
 }
 
 /* End Payment Method Page Css */

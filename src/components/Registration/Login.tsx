@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from "react";
-import login from './styles/login.module.css';
+import test from './styles/test.module.css';
 import Image from "next/image";
-// import Link from "next/link"; 
 import LinkWithLoader from '@/components/Loader/Link';
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -43,99 +42,93 @@ const Login: React.FC = () => {
   return (
     <div style={{ display: "flex" }}>
       {/* Left Image */}
-      <div className={login.leftImage}>
+      <div className={test.leftImage}>
         <Image
           src="/images/loginpic.png"
           alt="Side Visual"
           fill
-          className={login.imageFill}
+          className={test.imageFill}
         />
       </div>
 
-      <button className={login.closeButton}>
-        <span className={login.backsign}>&lt; </span>
-        <span className={login.backButton}>Back</span>
-      </button>
+      <div className={test.main}>
+        <div className={test.container}>
+          <div className={test.row}>
 
-      <div className={login.main}>
-        {/* logo */}
-        <div className={login.image}>
-          <Image
-            src="/images/carelogo.svg"
-            alt="CarenClean"
-            width={73}
-            height={57}
-          />
-        </div>
+            {/* button */}
+            <button className={test.backButton} onClick={() => router.push('/')}>
 
-        {/* title */}
-        <h1 className={login.title}>Log in with email</h1>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-
-          {/* Email Address */}
-          <label className={login.label}>Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Please enter email address"
-            className={login.input}
-            style={{ marginTop: "15px" }}
-          />
-
-          {/* Password */}
-          <label className={login.label}>Password </label>
-
-          <div style={{ position: "relative", width: "fit-content" }}>
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={login.input}
-              placeholder="Enter password"
+              <span className={test.backsign}>&lt;</span> Back
+            </button>
+            {/* logo */}
+            <Image
+              src="/images/carelogo.svg"
+              alt="CarenClean"
+              width={73}
+              height={57}
             />
-            <div
-              onClick={() => setShowPassword(!showPassword)}
-              style={{
-                position: "absolute",
-                right: "20px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#999",
-                cursor: "pointer",
-                width: "24px",
-              }}
-            >
-              {showPassword ? <EyeIcon style={{ width: 18 }} /> : <EyeSlashIcon style={{ width: 18 }} />}
-            </div>
           </div>
+          <div className={test.box}>
+            <h1 className={test.title}>Log in with email</h1>
+            <div style={{ display: "flex", flexDirection: "column" }}>
 
-          <label className={login.minilabel}>
-            <LinkWithLoader href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</LinkWithLoader>
-          </label>
+              {/* Email Address */}
+              <label className={test.label}>Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Please enter email address"
+                className={test.input}
+              />
+              {/* Password */}
 
-          {/* Show error message */}
-          {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+              <label className={test.label}>Password</label>
+              <div className={test.password}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={test.input}
+                  placeholder="Enter password"
+                />
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={test.icon}
+                >
+                  {showPassword ? <EyeIcon style={{ width: 18 }} /> : <EyeSlashIcon style={{ width: 18 }} />}
+                </div>
+              </div>
 
-          <button
-            className={login.button}
-            onClick={handleLogin}
-            disabled={loading}
-          >
-            {loading ? 'Loading...' : 'LOGIN NOW'}
-          </button>
+              {/* minilabel */}
+              <label className={test.minilabel}>
+                <LinkWithLoader href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</LinkWithLoader>
+              </label>
 
-          <div>
-            <label className={login.footerlabel}>
-              Don't have an account with CARENCLEAN?{" "}
-              <LinkWithLoader href="/Signup" className={login.minilabel}>
-                CREATE YOUR ACCOUNT
-              </LinkWithLoader>
-            </label>
+              {/* Show error message */}
+              {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
+              {/* button */}
+              <button
+                className={test.button}
+                onClick={handleLogin}
+                disabled={loading}
+              >
+                {loading ? 'Loading...' : 'LOGIN NOW'}
+              </button>
+
+              <div>
+                <label className={test.footerlabel}>
+                  Don't have an account with CARENCLEAN?{" "}
+                  <LinkWithLoader href="/Signup" className={test.minilabel}>
+                    CREATE YOUR ACCOUNT
+                  </LinkWithLoader>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       {/* Snackbar for alerts */}
       {snackbar && (
         <Snackbar

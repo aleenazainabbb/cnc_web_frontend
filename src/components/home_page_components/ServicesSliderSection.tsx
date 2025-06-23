@@ -37,7 +37,7 @@ const ServicesSliderSection: React.FC = () => {
       <div className="w-full px-8 mt-3 mt-md-5 service_slider">
         <div className="row">
           {services.map((service, index) => (
-            <div key={index} className="col-12 col-md-4 px-4">
+            <div key={index} className="col-12 col-md-4 slider-sec images-div px-4">
               <div className="service_card">
                 <div className="w-100">
                   <Image
