@@ -1,13 +1,14 @@
 'use client';
 
 import HeaderBar from '@/components/navbar/HeaderBar';
-import PaymentMethod from '@/components/Booking/payment/paymentmethod';
+import MyQuotes from '@/components/Booking/myQuote';
 
 export default function RequestPage() {
   return (
     <>
-      <HeaderBar title="Payment Method" />
-      <PaymentMethod />
+      <HeaderBar title="My Quotes" />
+      < MyQuotes
+ />
     </>
   );
 }

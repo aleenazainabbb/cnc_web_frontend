@@ -4,6 +4,7 @@ import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const BannerSection: React.FC = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const BannerSection: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    router.push("/Booking");
+    router.push("/BookAservicePage");
   };
 
   return (
@@ -61,12 +62,12 @@ const BannerSection: React.FC = () => {
                   and service type. Let our professionals handle the rest for a
                   spotless space!
                 </p>
-                <a
+                <LinkWithLoader
                   href="/services"
                   className="be-vietnam-pro-bold text-white service_banner_btn d-inline-block mt-3"
                 >
                   View all Services
-                </a>
+                </LinkWithLoader>
               </div>
             </div>
 
@@ -183,12 +184,14 @@ const BannerSection: React.FC = () => {
 
                   {/* Submit Button */}
                   <div className="col-12 mt-4">
-                    <button
+                    <LinkWithLoader href="/BookAservicePage">
+                    <button 
                       type="submit"
                       className="be-vietnam-pro-semibold btn banner-booking-btn text-white"
                     >
                       Book A Service
                     </button>
+                    </LinkWithLoader>
                   </div>
                 </div>
               </div>

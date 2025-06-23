@@ -57,8 +57,10 @@ const Login: React.FC = () => {
 
             {/* button */}
             <button className={test.backButton} onClick={() => router.push('/')}>
+              <LinkWithLoader href="/" className={test.backButton}>
+                <span className={test.backsign}>&lt;</span> Back
+              </LinkWithLoader>
 
-              <span className={test.backsign}>&lt;</span> Back
             </button>
             {/* logo */}
             <Image

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import test from './styles/signup.module.css';
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -92,7 +92,9 @@ const Signup: React.FC = () => {
                         {/* button */}
                         <button className={test.backButton} onClick={() => router.push('/')}>
 
-                            <span className={test.backsign}>&lt;</span> Back
+                           <LinkWithLoader href="/" className={test.backButton}>
+                                           <span className={test.backsign}>&lt;</span> Back
+                                         </LinkWithLoader>
                         </button>
                         {/* logo */}
                         <Image
@@ -205,7 +207,7 @@ const Signup: React.FC = () => {
 
                             <label className={test.signupfooterlabel}>
                                 Already have an account with CARENCLEAN?{" "}
-                                <Link href="/Login" className={test.minilabel}>LOGIN</Link>
+                                <LinkWithLoader href="/Login" className={test.minilabel}>LOGIN</LinkWithLoader>
                             </label>
                         </div>
                     </div>

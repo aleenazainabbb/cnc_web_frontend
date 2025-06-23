@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const WhyChooseUsSection: React.FC = () => {
   return (
@@ -78,15 +78,15 @@ const WhyChooseUsSection: React.FC = () => {
               </div>
             </div>
 
-            <Link href="/book" className=" about_btn-bookNow mt-3 me-3">
+            <LinkWithLoader href="/BookAservicePage" className=" about_btn-bookNow mt-3 me-3">
               Book Now
-            </Link>
-            <Link
+            </LinkWithLoader>
+            <LinkWithLoader
               href="/services"
               className="mt-3 Lato slider_btn font-medium text-[20px]"
             >
               View Our Services
-            </Link>
+            </LinkWithLoader>
           </div>
         </div>
 

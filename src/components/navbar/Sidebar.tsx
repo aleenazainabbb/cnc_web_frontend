@@ -2,11 +2,16 @@
 import React from 'react';
 import side from './styles/sidebar.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
+import LinkWithLoader from '@/components/Loader/Link';
+import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
+   const router = useRouter();
+   const handleLogout = () => {
+    router.push('/');
+  };
   return (
     <div className={side.sidebar}>
       <div className={side.logoContainer}>
@@ -21,66 +26,59 @@ export default function Sidebar() {
       <ul className={side.navList}>
 
         <li>
-          <Link href="/Bookings/Dashboard" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/Dashboard" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-table-list"></i>
               My Booking
             </span>
-          </Link>
+          </LinkWithLoader>
         </li>
 
         <li>
-          <Link href="/GetAquote" className={`${side.navLink} ${pathname === '/Quotes' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/MyQuotes" className={`${side.navLink} ${pathname === '/myQuote' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes
             </span>
-          </Link>
-        </li> 
-         <li>
-        <Link href="/Bookings/Profile" className={`${side.navLink} ${pathname === '/Profile' ? side.active : ''}`}>
+          </LinkWithLoader>
+        </li>
+        <li>
+          <LinkWithLoader href="/Bookings/Profile" className={`${side.navLink} ${pathname === '/Profile' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-user"></i>
               Profile
             </span>
-          </Link>
+          </LinkWithLoader>
         </li>
 
         <li>
-          <Link href="/Bookings/Location" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/Location" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-location-dot"></i>
               Saved Locations
             </span>
-          </Link>
+          </LinkWithLoader>
         </li>
 
         <li>
-          <Link href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-money-check"></i>
               Payment Methods
             </span>
-          </Link>
+          </LinkWithLoader>
         </li>
 
         <li>
-          <Link href="/Bookings/MyWallet" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/MyWallet" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-wallet"></i>
               My Wallet
             </span>
-          </Link>
-          {/* <Link href="/Bookings" className={`${side.navLink} ${pathname === '/Delete' ? side.active : ''}`}>
-            <span className={side.iconText}>
-              <i className="fa-solid fa-delete"></i>
-              Delete
-            </span>
-          </Link> */}
+          </LinkWithLoader>
         </li>
-</ul>
-       <button className={side.logoutBtnn}>Logout</button>
-       {/* <Link href="Login" className={side.logoutBtnn}>Logout</Link> */}
+      </ul>
+      <button className={side.logoutBtnn} onClick={handleLogout}>Logout</button>
     </div >
   );
 }

@@ -1,20 +1,14 @@
 'use client';
 import React from 'react';
-import payment from './styles/paymethod.module.css';
+import payment from '../styles/paymethod.module.css';
 
-const PaymentMethod: React.FC = () => {
+const PaymentUpdate: React.FC = () => {
     return (
-        <div className={payment.main}>
-            <div className={payment.container}>
-                <label className={payment.label}>Saved Card</label>
-                <input
-                    type="text"
-                    placeholder="Enter location name eg home, office etc"
-                    className={payment.input}
-                />
-                <div className={payment.line}></div>
+        <div >
+        {/* <div className={payment.container}> */ }
 
-                <div className={payment.profileFormRow}>
+
+        < div className = { payment.profileFormRow } >
                     <div className={payment.inputGroup}>
                         <label className={payment.label}>Credit/Debit Card No</label>
                         <input
@@ -55,16 +49,18 @@ const PaymentMethod: React.FC = () => {
                         </div>
                         <div className={payment.buttonContainer}>
                             <button className={payment.button}>Add Card</button>
+                            {/* <button className={payment.button}>Update Card</button>
+                            <button className={payment.button} style={{backgroundColor:"#EF450F"}}>Delete Card</button> */}
 
                         </div>
                     </div>
-                </div>
+                </div >
 
 
 
             </div>
-        </div>
+        
 
     );
 };
-export default PaymentMethod;
+export default PaymentUpdate;

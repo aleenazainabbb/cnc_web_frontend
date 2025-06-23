@@ -1,20 +1,20 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 import Image from "next/image";
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container">
-        <Link href="/home" className="navbar-brand">
+        <LinkWithLoader href="/home" className="navbar-brand">
           <Image
             src="/images/carelogo.svg"
             alt="CarenClean"
             width={40}
             height={40}
           />
-        </Link>
+        </LinkWithLoader>
         <button
           className="navbar-toggler"
           type="button"
@@ -29,12 +29,12 @@ const Navbar: React.FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
-              <Link
+              <LinkWithLoader
                 href="/"
                 className="nav-link be-vietnam-pro-regular active text-success"
               >
                 HOME
-              </Link>
+              </LinkWithLoader>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -52,28 +52,28 @@ const Navbar: React.FC = () => {
                 aria-labelledby="maintenanceDropdown"
               >
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 1
-                  </Link>
+                  </LinkWithLoader>
                 </li>
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 2
-                  </Link>
+                  </LinkWithLoader>
                 </li>
               </ul>
             </li>
 
             <li className="nav-item">
-              <Link href="CleaningServicePage" className="nav-link be-vietnam-pro-regular">
+              <LinkWithLoader href="CleaningServicePage" className="nav-link be-vietnam-pro-regular">
                 CLEANING SERVICES
-              </Link>
+              </LinkWithLoader>
             </li>   
             <li className="nav-item dropdown">
               <a
@@ -88,20 +88,20 @@ const Navbar: React.FC = () => {
               </a>
               <ul className="dropdown-menu" aria-labelledby="movingDropdown">
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 1
-                  </Link>
+                  </LinkWithLoader>
                 </li>
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 2
-                  </Link>
+                  </LinkWithLoader>
                 </li>
               </ul>
             </li>
@@ -118,20 +118,20 @@ const Navbar: React.FC = () => {
               </a>
               <ul className="dropdown-menu" aria-labelledby="pestDropdown">
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 1
-                  </Link>
+                  </LinkWithLoader>
                 </li>
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 2
-                  </Link>
+                  </LinkWithLoader>
                 </li>
               </ul>
             </li>
@@ -151,29 +151,29 @@ const Navbar: React.FC = () => {
                 aria-labelledby="disinfectionDropdown"
               >
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 1
-                  </Link>
+                  </LinkWithLoader>
                 </li>
                 <li>
-                  <Link
+                  <LinkWithLoader
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
                     Service 2
-                  </Link>
+                  </LinkWithLoader>
                 </li>
               </ul>
             </li>
           </ul>
-          <Link
+          <LinkWithLoader
             href="GetAquote"
             className="btn bg_green header_btn text-white headerBtn_green">
             Get a quote
-          </Link>
+          </LinkWithLoader>
         </div>
       </div>
     </nav>

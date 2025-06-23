@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LinkwithLoader from "@/components/Loader/Link";
 
 const ServiceDetailsSection: React.FC = () => {
   return (
@@ -24,9 +24,9 @@ const ServiceDetailsSection: React.FC = () => {
               business needs are covered. Spend your time on what you love while
               we handle the rest.
             </p>
-            <Link href="/book" className="about_btn-custom">
+            <LinkwithLoader href="/BookAservicePage" className="about_btn-custom">
               Book a Service
-            </Link>
+            </LinkwithLoader>
           </div>
         </div>
         <div className="col-12 col-6 col-md-6 serviceDetail-sectin whycare_images">

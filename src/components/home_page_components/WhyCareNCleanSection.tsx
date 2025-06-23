@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const WhyCareNCleanSection: React.FC = () => {
   return (
@@ -61,16 +61,16 @@ const WhyCareNCleanSection: React.FC = () => {
                 </div>
               </div>
             </div>
-            <Link
-              href="/book"
+            <LinkWithLoader
+              href="/BookAservicePage"
               className="about_btn-bookNow mt-3 me-3"
             >
               Book Now
-            </Link>
+            </LinkWithLoader>
 
-             <Link href="/about" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
+             <LinkWithLoader href="/about" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
               Know More
-            </Link>
+            </LinkWithLoader>
 
           </div>
         </div>

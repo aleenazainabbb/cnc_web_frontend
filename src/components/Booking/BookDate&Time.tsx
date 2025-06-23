@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import datetime from './styles/AddBooking/date&time.module.css';
+import bookings from './styles/AddBooking/booking.module.css';
 import {
     format,
     startOfMonth,
@@ -127,8 +128,7 @@ const DateTime: React.FC = () => {
                         <div className={datetime.paragraphRow}>
                             <div className={datetime.topRow}>
                                 <span className={datetime.label}>Flexible</span>
-                                <span className={datetime.badge}>Save $8.10 off</span>
-                            </div>
+                                <span className={bookings.badgeDiscount}>Save $8.10 off</span>                          </div>
                             <p className={datetime.subtext}>Cleaner will arrive between 9am–4pm</p>
                         </div>
                     ) : (

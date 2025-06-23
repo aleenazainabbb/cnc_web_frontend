@@ -3,7 +3,7 @@
 // import WhyCareNCleanSection from "@/components/home_page_components/WhyCareNCleanSection";
 // import Footer from  "@/components/footer/Footer";
 // import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
-import Test from "@/components/Registration/test"
+import PaymentUpdate from "@/components/Booking/payment/paymentupdate"
 
 export default function RequestPage() {
   return (
@@ -11,7 +11,7 @@ export default function RequestPage() {
        {/* <ServiceDetailsSection/> */}
        {/* <WhyChooseUsSection /> */}
       {/* <WhyCareNCleanSection/>  */}
-      <Test />
+      <PaymentUpdate />
      
 
     </div>

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const TopBar: React.FC = () => { 
   const scrollToSection = () => {
@@ -30,9 +30,9 @@ const TopBar: React.FC = () => {
           <a href="tel:+971525280307" className="mx-lg-2 mx-md-2 text-white">
               <i className="fa-solid fa-phone me-1"></i> 052 528 0307 |
           </a>
-          <Link href="Login" className="mx-lg-2 mx-md-2 text-white">
+          <LinkWithLoader href="Login" className="mx-lg-2 mx-md-2 text-white">
              Login
-          </Link>
+          </LinkWithLoader>
     
         </div>
       </div>

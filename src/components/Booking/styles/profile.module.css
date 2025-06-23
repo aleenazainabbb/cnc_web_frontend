@@ -3,9 +3,7 @@
   background-color: white;
   box-shadow: 0px 4px 4px 0px #00000040;
   font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  margin:20px;
+  margin: 20px;
 }
 
 .container {
@@ -13,14 +11,35 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 50px 73px 50px 68px;
+  padding:50px 150px 50px 85px;
   box-sizing: border-box;
 }
 
 .profileFormRow {
   display: flex;
+  gap: 10px;
   flex-wrap: wrap;
-  gap: 35px;
+}
+.profileFormRow > div {
+  flex: 1;
+}
+
+.fullWidthInputGroup {
+  width: 100%;
+}
+
+.box {
+  width: 100%;
+  max-width: 552px;
+  max-height: 124px;
+  padding: 12px;
+  border: 2px solid #D3D8DD;
+  border-radius: 8px;
+  resize: none;
+  font-size: 14px;
+  color: #333;
+  margin-top: 19px;
+  box-sizing: border-box;
 }
 
 .label {
@@ -31,18 +50,19 @@
 }
 
 .input {
-width: 437px;
-  /* width: 100%; */
+  width: 100%;
   height: 64px;
   padding: 10px;
   border: 1px solid #8692A6;
   border-radius: 6px;
   box-sizing: border-box;
-  flex: 1;
-  /* min-width: 250px; */
+
 }
+.Row{
+  display: flex;
+  gap:10px
 
-
+}
 .input::placeholder {
   color: #8692A6;
   font-size: 14px;
@@ -52,6 +72,13 @@ width: 437px;
   display: flex;
   align-items: flex-end;
 }
+.quotesbuttonContainer {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 10px;
+  width: 100%; 
+}
+
 
 .button {
   width: 196px;
@@ -66,33 +93,47 @@ width: 437px;
   box-sizing: border-box;
 }
 
-
 @media (max-width: 1290px) {
-  .profileFormRow {
-    gap: 20px;
-    /* flex-wrap: nowrap; */
-  }
-  .container{
-    padding: 40px;
-  }
 
   .input {
     flex: 1;
-    min-width: 200px;
+    height: auto;
   }
-  
+  .input::placeholder {
+  font-size: 13px;
 }
 
-@media (max-width: 768px) {
-  .profileFormRow {
-    flex-direction: column;
+  .label{
+    font-size: 14px;
+    margin-bottom: 6px;
   }
+  .container{
+    gap:14px;
+   padding:23px 61px 40px 35px;
+  }
+  .button{
+    width: 103px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1125px) {
+  .button {
+    max-width: 108px;
+  }
+}
+
+@media (max-width: 700px) {
+.profileFormRow {
+    flex-direction: column;
+  }}
+ 
+@media (max-width: 768px) {
 
   .input {
     width: 100%;
     height: 52px;
     font-size: 14px;
-     min-width: 0px;
   }
 
   .button {
@@ -104,16 +145,13 @@ width: 437px;
     font-size: 14px;
   }
 }
-@media (max-width: 480px) {
-  .container {
-      gap:12px;
-      padding: 13px 13px 19px 13px;
-    }
 
+@media (max-width: 480px) {
   .input {
     height: 37px;
     padding: 6px;
     font-size: 12px;
+    width: 100% !important;
   }
 
   .input::placeholder {
@@ -123,7 +161,7 @@ width: 437px;
   .button {
     height: auto;
     font-size: 10px;
-    padding: 6px 10px;
+    padding: 11px;
     width: auto;
   }
 
@@ -131,8 +169,4 @@ width: 437px;
     font-size: 12px;
   }
 
-   .profileFormRow {
-    flex-direction:row;
-  }
 }
-

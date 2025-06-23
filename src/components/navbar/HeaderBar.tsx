@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import styles from './styles/HeaderBar.module.css';
-import Link from 'next/link';
+import LinkWithLoader from '@/components/Loader/Link';
 
 export default function HeaderBar({
   title,
@@ -19,16 +19,16 @@ export default function HeaderBar({
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.right}>
         {showAddButton && (
-          <Link href="/BookAservicePage" className={styles.addBookingBtn}>
+          <LinkWithLoader href="/BookAservicePage" className={styles.addBookingBtn}>
             Add Booking
-          </Link>
+          </LinkWithLoader>
         )}
 
-        <Link href="/Bookings/Notifications" className={styles.iconBtn}>
+        <LinkWithLoader href="/Bookings/Notifications" className={styles.iconBtn}>
           {customIcon || <i className="fa-regular fa-bell" aria-hidden="true"></i>}
-        </Link>
+        </LinkWithLoader>
 
-        <Link href="/Bookings/Profile" className={styles.avatarBtn}>
+        <LinkWithLoader href="/Bookings/Profile" className={styles.avatarBtn}>
           {customAvatar || (
             <Image
               src="/images/profile.png"
@@ -38,7 +38,7 @@ export default function HeaderBar({
               className={styles.avatarImg}
             />
           )}
-        </Link>
+        </LinkWithLoader>
       </div>
     </div>
   );

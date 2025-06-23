@@ -89,14 +89,21 @@
   white-space: nowrap;
 }
 
+@media screen and (max-width: 900px) {
+  .title {
+    font-size: 15px !important;
+  }
+}
+
 @media screen and (max-width: 470px) {
   .title {
-    font-size: 13px;
+    font-size: 13px !important;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .addBookingBtn ,.getaQuoteBtn{
+  .addBookingBtn,
+  .getaQuoteBtn {
     font-size: 10px;
     width: 70px;
     height: 30px;

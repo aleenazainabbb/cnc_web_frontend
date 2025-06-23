@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 
 interface BenefitsProps {
   title?: string;
@@ -87,15 +87,15 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
           </div>
         </div>
 
-        <Link href="/book" className="bg_green text-white about_btn mt-3 me-3">
+        <LinkWithLoader href="/BookAservicePage" className="bg_green text-white about_btn mt-3 me-3">
           Book Now
-        </Link>
-        <Link
+        </LinkWithLoader>
+        <LinkWithLoader
           href="/services"
           className="mt-3 Lato slider_btn font-medium text-[20px]"
         >
           View Our Services
-        </Link>
+        </LinkWithLoader>
       </div>
     </div>
   );

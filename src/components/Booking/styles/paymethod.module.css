@@ -9,9 +9,9 @@
 
 .container {
     width: 100%;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
-    padding: 50px 121px 50px 114px;
+    padding: 50px 115px 50px 110px;
     box-sizing: border-box;
     font-weight: 500;
 }
@@ -34,7 +34,7 @@
 .wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 23px;
 }
 
 .input {
@@ -63,6 +63,7 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: 35px;
+    gap: 35px;
 }
 
 .button {
@@ -78,7 +79,7 @@
     box-sizing: border-box;
 }
 
- .wrap {
+.wrap {
     display: flex;
     gap: 10px;
 }
@@ -98,8 +99,9 @@
 
 @media (max-width: 1024px) {
     .main {
-    margin: 15px;
-}
+        margin: 15px;
+    }
+
     .container {
         padding: 18px 47px 36px 47px;
     }
@@ -107,9 +109,10 @@
     .label {
         font-size: 14px;
     }
-     .line{
-    margin-bottom: 13px;
-}
+
+    .line {
+        margin-bottom: 13px;
+    }
 }
 
 @media (max-width: 980px) {
@@ -122,51 +125,59 @@
     }
 
     .input::placeholder {
-        font-size: 10px;
+        font-size: 12px;
     }
-     .button {
-        max-width: 86px;
+
+    .button {
+        max-width: 125px !important;
         font-size: 10px;
-        height: 40px;
+        height: 42px;
     }
-    .line{
-    margin-bottom: 10px;
-}
+
+    .buttonContainer {
+        gap: 11px;
+    }
+
+    .line {
+        margin-bottom: 10px;
+    }
 }
 
 @media (max-width: 680px) {
-    
 
-    .container {
-               padding: 15px 9px 21px 8px;
-    }
-
-    .label {
-        font-size: 8px;
-    }
-    .input
-    {height: 5px !important;
+    .input {
+        height: 5px !important;
     }
 
     .input::placeholder {
-        font-size: 7px;
+        font-size: 8px;
     }
-    .button {
-        max-width: 86px;
-        font-size: 5px;
-        height: 32px;
-    }
-    .buttonContainer{
-        margin-top: 20px;
-    }
-    .cardLogos1 img {
-    height: 16.5px;
-}
 
-.cardLogos2 img {
-    height: 18.62px;
+    .button {
+        max-width: 88px;
+        font-size: 8px;
+    }
+
+    .buttonContainer {
+        margin-top: 15px;
+    }
+
+    .cardLogos1 img {
+        height: 16.5px;
+    }
+
+    .cardLogos2 img {
+        height: 18.62px;
+    }
+
+    .line {
+        margin-bottom: 10px;
+    }
 }
-.line{
-    margin-bottom: 10px;
-}
-}
+@media (max-width: 460px) {
+    .container{
+        padding: 10px;
+    }
+   
+
+} 

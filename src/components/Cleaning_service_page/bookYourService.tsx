@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const BookYourService: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -48,17 +49,11 @@ const BookYourService: React.FC = () => {
                         </p>
                     </div>
                 </div>
-
                 {/* Right Form */}
                 <div className="col-12 col-lg-6 col-md-6">
                     <form onSubmit={handleSubmit}>
                         <div className="booking-form bg_green p-3 rounded mt-4 mt-lg-0 mt-md-0">
                              <div className="row custom_gutter poppins text-[14px]  ">
-                        {/* <div className="booking-form bg_green p-3 rounded "> */}
-                            {/* <div className="row gy-3"> */}
-                                {/* Cleaning Type */}
-                                {/* <div className="col-12 col-md-6">
-                                 */}
                   <div className="col-md-6">
 
                                     <select
@@ -156,11 +151,13 @@ const BookYourService: React.FC = () => {
 
                                 {/* Submit */}
                                 <div className="col-12">
+                                    <LinkWithLoader href="/BookAservicePage">
                                     <input
                                         type="submit"
                                         value="Book A Service"
                                         className="be-vietnam-pro-semibold btn banner-booking-btn text-white w-100"
                                     />
+                                    </LinkWithLoader>
                                 </div>
                             </div>
                         </div>

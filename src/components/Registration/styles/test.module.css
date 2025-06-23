@@ -158,6 +158,10 @@
     .row{
         margin-bottom: 28px;
     }
+     .title{
+        font-size: 27px !important;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -179,5 +183,12 @@
     .container,
     .row {
         padding-left: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+   
+    .title{
+        font-size: 24px !important;
     }
 }

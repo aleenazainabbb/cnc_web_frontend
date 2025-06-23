@@ -16,14 +16,18 @@ export default function ConditionalLayout({ children }: Props) {
   // Adjust this to your booking route path
   const isBookingRoute = pathname?.startsWith("/Bookings");
   const isLoginRoute = pathname?.startsWith("/Login");
+  const isSignupLayout = pathname?.startsWith("/Signup");
+  const isBookingLayout = pathname?.startsWith("/BookAservicePage");
+  const isGetAQuotePage = pathname?.startsWith("/GetAquote");
+
 
   return (
     <>
-      {!isBookingRoute && !isLoginRoute && <TopBar />}
-      {!isBookingRoute && !isLoginRoute && <Navbar />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage &&  <TopBar />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <Navbar />}
       {children}
-      {!isBookingRoute && !isLoginRoute && <Footer />}
-      {!isBookingRoute  && !isLoginRoute && <MiniFooter />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <Footer />}
+      {!isBookingRoute  && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <MiniFooter />}
     </>
   );
 }

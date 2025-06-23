@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithLoader from '@/components/Loader/Link';
 
 const ServicesSliderSection: React.FC = () => {
   const services = [
@@ -60,8 +60,8 @@ const ServicesSliderSection: React.FC = () => {
                   While we can customize your cleaning plan to suit your needs,
                   most clients schedule regular cleaning services:
                 </p>
-                <Link
-                  href="/book"
+                <LinkWithLoader
+                  href="/BookAservicePage"
                   className="d-inline-block fw-24 be-vietnam-pro-semibold slider_btn"
                 >
                   Book Now{" "}
@@ -69,7 +69,7 @@ const ServicesSliderSection: React.FC = () => {
                     className="fa-solid fa-arrow-right-long"
                     style={{ color: "#9D9D9D" }}
                   ></i>
-                </Link>
+                </LinkWithLoader>
               </div>
             </div>
           ))}
