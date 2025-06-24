@@ -36,6 +36,7 @@ const Navbar: React.FC = () => {
                 HOME
               </LinkWithLoader>
             </li>
+            {/* MAINTENANCE */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -50,13 +51,12 @@ const Navbar: React.FC = () => {
               <ul
                 className="dropdown-menu"
                 aria-labelledby="maintenanceDropdown"
-              >
-                <li>
+              > <li>
                   <LinkWithLoader
-                    href="#"
+                    href="/AllServices/MaintenanceServices"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 1
+                     Maintenance Service
                   </LinkWithLoader>
                 </li>
                 <li>
@@ -64,17 +64,157 @@ const Navbar: React.FC = () => {
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 2
+                    Plumbing Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Landscaping Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Carpentry Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    AC Maintenance Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Electrical Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Handyman Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Painting Services
                   </LinkWithLoader>
                 </li>
               </ul>
             </li>
 
-            <li className="nav-item">
-              <LinkWithLoader href="CleaningServicePage" className="nav-link be-vietnam-pro-regular">
-                CLEANING SERVICES
-              </LinkWithLoader>
-            </li>   
+            {/* CLEANING SERVICES */}
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link be-vietnam-pro-regular dropdown-toggle"
+                href="#"
+                id="movingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                CLEANING 
+              </a>
+              <ul className="dropdown-menu" aria-labelledby="movingDropdown">
+                <li>
+                  <LinkWithLoader
+                    href="/AllServices/CleaningServices"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                     Cleaning Service
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Deep Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Grease Trap
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Chandelier Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Swimming Pool Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Vehicle Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Upholstery Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Duct Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Windows Cleaning
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Maid Cleaning
+                  </LinkWithLoader>
+                </li>
+              </ul>
+            </li>
+
+            {/* Moving SERVICES*/}
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -92,7 +232,7 @@ const Navbar: React.FC = () => {
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 1
+                    Local Moving
                   </LinkWithLoader>
                 </li>
                 <li>
@@ -100,11 +240,21 @@ const Navbar: React.FC = () => {
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 2
+                    Storage Services
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    International Moving
                   </LinkWithLoader>
                 </li>
               </ul>
             </li>
+
+            {/* PEST CONTROL */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -122,7 +272,7 @@ const Navbar: React.FC = () => {
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 1
+                    Pigeons & Birds Control
                   </LinkWithLoader>
                 </li>
                 <li>
@@ -130,11 +280,61 @@ const Navbar: React.FC = () => {
                     href="#"
                     className="dropdown-item be-vietnam-pro-regular"
                   >
-                    Service 2
+                    Rats & Rodents Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Termites Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Bees & Wasps Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Ants & Insects Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Flees & Ticks Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Bed Bugs Control
+                  </LinkWithLoader>
+                </li>
+                <li>
+                  <LinkWithLoader
+                    href="#"
+                    className="dropdown-item be-vietnam-pro-regular"
+                  >
+                    Cockroach Control
                   </LinkWithLoader>
                 </li>
               </ul>
             </li>
+
+            {/* DISINFECTION  */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link be-vietnam-pro-regular dropdown-toggle"
@@ -144,7 +344,7 @@ const Navbar: React.FC = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                DISINFECTION 
+                DISINFECTION
               </a>
               <ul
                 className="dropdown-menu"

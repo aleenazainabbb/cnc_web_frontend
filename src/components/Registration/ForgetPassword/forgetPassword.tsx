@@ -44,7 +44,6 @@ const ForgetPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <button
           onClick={handleSendCode}
           className={verify.button}

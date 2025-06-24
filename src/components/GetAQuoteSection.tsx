@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const GetAQuoteSection: React.FC = () => {
   return (
-    <div className="container py-5">
+    <div className="container mb-4">
       <div className="service_main quote_main">
         <div className="row">
           <div className="get_quote text-center">

@@ -408,7 +408,7 @@ select.input option:disabled {
   }
 
   .optionButton {
-    width: none;
+    width: none !important;
     max-width: none;
     height: none;
     padding: 10px 20px;

@@ -10,7 +10,7 @@ const VerificationContext = createContext<VerificationContextType | undefined>(u
 
 export const VerificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const verifyCode = async (email: string, pinCode: string) => {
-    const response = await fetch('http://192.168.18.11:3001/api/users/verify-pin', {
+    const response = await fetch('http://192.168.18.11:3000/api/users/verify-pin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email,  pinCode  }), // assuming 'pin' is the expected key

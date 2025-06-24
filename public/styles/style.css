@@ -788,6 +788,7 @@ input[type="number"] {
 /* Get a Quote */
 .quote_main {
     padding: 30px 0;
+    margin-top: 0px !important;
 }
 
 .get_quote {
@@ -1756,9 +1757,6 @@ tr.calendar-body .calendar-day .day:hover {
     .col-md-4 {
         width: 31.333333%;
     }
-
-    /* .slider-sec {
-            width:100% !important;   } */
 }
 
 /* End Payment Method Page Css */
@@ -1909,12 +1907,6 @@ tr.calendar-body .calendar-day .day:hover {
         padding: 15px;
     }
 
-    /* .serviceDetail-sectin {
-        margin-bottom: 20px;
-        align-items: center;
-        justify-content: center;
-        display: flex !important;
-    } */
     .appointment-label span {
         position: relative;
         top: 22%;

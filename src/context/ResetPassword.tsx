@@ -15,7 +15,7 @@ export const ResetPasswordProvider: React.FC<{ children: React.ReactNode }> = ({
   const resetPassword = async (resetToken: string, newPassword: string): Promise<string> => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.18.11:3001/api/users/reset-password', {
+      const response = await fetch('http://192.168.18.11:3000/api/users/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resetToken, newPassword }),

@@ -15,7 +15,7 @@ export const ForgotPasswordProvider: React.FC<{ children: React.ReactNode }> = (
   const sendResetCode = async (email: string): Promise<string> => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.18.11:3001/api/users/forgot-password', {
+      const response = await fetch('http://192.168.18.11:3000/api/users/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

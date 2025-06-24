@@ -373,6 +373,10 @@
         max-width: 28%;
         height: 120px;
     }
+    .box img {
+    width: 52px;
+    height: 55px;
+}
 
     .rating,
     .workers {

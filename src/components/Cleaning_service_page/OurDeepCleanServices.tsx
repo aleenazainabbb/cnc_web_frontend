@@ -67,6 +67,7 @@ interface Section {
 
 interface OurBestDeepCleanProps {
   sections?: Section[];
+  mainTitle?: string; 
 }
 
 const defaultSections: Section[] = [
@@ -82,17 +83,20 @@ const defaultSections: Section[] = [
   },
 ];
 
-const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({ sections = defaultSections }) => {
+const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
+  sections = defaultSections,
+  mainTitle = "Our Deep Cleaning Services", 
+}) => {
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
         <div className="col-12">
-          <div className="">
+          <div>
             <h2
               className="font-semibold text-[44px] leading-[120%] tracking-[0%] mt-2 mb-4 ourdeepClean-heading heading"
               style={{ fontFamily: "Be Vietnam Pro" }}
             >
-              Our Deep Cleaning Services
+              {mainTitle}
             </h2>
 
             {sections.map((section, index) => (
@@ -119,4 +123,3 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({ sections = defaultS
 };
 
 export default OurBestDeepClean;
-

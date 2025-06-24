@@ -23,7 +23,7 @@ export const RegisterProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const registerUser = async (userData: RegisterData) => {
         try {
-            const response = await axios.post('http://192.168.18.11:3001/api/users/register', {
+            const response = await axios.post('http://192.168.18.11:3000/api/users/register', {
                 ...userData
             });
             console.log('User registered:', response.data);

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import LinkWithLoader from '@/components/Loader/Link';
@@ -5,8 +7,12 @@ import LinkWithLoader from '@/components/Loader/Link';
 interface BenefitsProps {
   title?: string;
   content?: string;
-  imageLeft?: boolean; 
+  imageLeft?: boolean;
+  imageSrc?: string;
+  imageAlt?: string;
+  points?: string[];
 }
+
 const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
   title = "Benefits of Deep Cleaning",
   content = `Proficient cleaning techniques eliminate allergens and bacteria
@@ -17,13 +23,23 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
   comfort quality, which produces better home and workplace health
   conditions.`,
   imageLeft = false,
+  imageSrc = "/images/WhyChooseUs/WhyChooseUs-1.png",
+  imageAlt = "Main Image",
+  points = [
+    "Handymen",
+    "Electricians",
+    "AC Technicians",
+    "Plumbers",
+    "Painters",
+    "Carpenters"
+  ],
 }) => {
   const ImageBlock = (
     <div className="col-12 col-lg-6 col-md-6">
       <div className="d-inline-block position-relative">
         <Image
-          src="/images/WhyChooseUs/WhyChooseUs-1.png"
-          alt="Main Image"
+          src={imageSrc}
+          alt={imageAlt}
           className="main-image-benefits"
           width={504.82}
           height={544}
@@ -36,6 +52,11 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
       </div>
     </div>
   );
+
+  const splitPoints = [
+    points.slice(0, Math.ceil(points.length / 2)),
+    points.slice(Math.ceil(points.length / 2)),
+  ];
 
   const TextBlock = (
     <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0">
@@ -63,28 +84,15 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
         </p>
 
         <div className="row mt-3">
-          <div className="col-md-6">
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> Handymen
+          {splitPoints.map((group, colIndex) => (
+            <div className="col-md-6" key={colIndex}>
+              {group.map((point, idx) => (
+                <div className="feature-box be-vietnam-pro-semibold" key={idx}>
+                  <i className="fa-solid fa-circle-check"></i> {point}
+                </div>
+              ))}
             </div>
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> Electricians
-            </div>
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> AC Technicians
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> Plumbers
-            </div>
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> Painters
-            </div>
-            <div className="feature-box be-vietnam-pro-semibold">
-              <i className="fa-solid fa-circle-check"></i> Carpenters
-            </div>
-          </div>
+          ))}
         </div>
 
         <LinkWithLoader href="/BookAservicePage" className="bg_green text-white about_btn mt-3 me-3">
@@ -120,6 +128,3 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
 };
 
 export default BenefitsOfDeepCleaning;
-
-
-
