@@ -32,7 +32,7 @@ export default function ServicePage() {
         buttonText="Contact Us"
         buttonLink="/contact"
       />
-      {/* <BestDeepCleaning /> */}
+      <BestDeepCleaning />
       <AchievementSection />
       <BenefitsOfDeepCleaning
         title="What is Deep Cleaning?"

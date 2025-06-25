@@ -1,9 +1,33 @@
 "use client";
-import React from "react";
-import LinkWithLoader from '@/components/Loader/Link';
+
+import React, { useEffect, useState } from "react";
+import LinkWithLoader from "@/components/Loader/Link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Navbar: React.FC = () => {
+  const [movingOpen, setMovingOpen] = useState(false);
+  const [cleaningOpen, setCleaningOpen] = useState(false);
+  const [maintenanceOpen, setMaintenanceOpen] = useState(false);
+  const [pestOpen, setPestOpen] = useState(false);
+  const pathname = usePathname();
+
+  const handleDropdownLeave = () => {
+    setTimeout(() => {
+      setMovingOpen(false);
+      setCleaningOpen(false);
+      setMaintenanceOpen(false);
+      setPestOpen(false);
+    }, 200);
+  };
+
+  useEffect(() => {
+    setMovingOpen(false);
+    setCleaningOpen(false);
+    setMaintenanceOpen(false);
+    setPestOpen(false);
+  }, [pathname]);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container">
@@ -15,6 +39,7 @@ const Navbar: React.FC = () => {
             height={40}
           />
         </LinkWithLoader>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -26,352 +51,182 @@ const Navbar: React.FC = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
               <LinkWithLoader
                 href="/"
-                className="nav-link be-vietnam-pro-regular active text-success"
+               className={`nav-link be-vietnam-pro-regular home-link ${pathname === "/" ? "active-link" : ""}`}
               >
                 HOME
               </LinkWithLoader>
             </li>
+
             {/* MAINTENANCE */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
+            <li
+              className={`nav-item dropdown ${maintenanceOpen ? "show" : ""}`}
+              onMouseEnter={() => setMaintenanceOpen(true)}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <LinkWithLoader
+                href="/AllServices/MaintenanceServices"
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MaintenanceServices") ? "active-link" : ""}`}
                 id="maintenanceDropdown"
                 role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
                 MAINTENANCE
-              </a>
+              </LinkWithLoader>
               <ul
-                className="dropdown-menu"
+                className={`dropdown-menu ${maintenanceOpen ? "show" : ""}`}
                 aria-labelledby="maintenanceDropdown"
-              > <li>
-                  <LinkWithLoader
-                    href="/AllServices/MaintenanceServices"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                     Maintenance Service
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Plumbing Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Landscaping Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Carpentry Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    AC Maintenance Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Electrical Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Handyman Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Painting Services
-                  </LinkWithLoader>
-                </li>
-              </ul>
-            </li>
-
-            {/* CLEANING SERVICES */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
-                id="movingDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
-                CLEANING 
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="movingDropdown">
-                <li>
-                  <LinkWithLoader
-                    href="/AllServices/CleaningServices"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                     Cleaning Service
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Deep Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Grease Trap
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Chandelier Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Swimming Pool Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Vehicle Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Upholstery Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Duct Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Windows Cleaning
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Maid Cleaning
-                  </LinkWithLoader>
-                </li>
+                {[
+                  "Plumbing Services",
+                  "Landscaping Services",
+                  "Carpentry Services",
+                  "AC Maintenance Services",
+                  "Electrical Services",
+                  "Handyman Services",
+                  "Painting Services",
+                ].map((service, i) => (
+                  <li key={i}>
+                    <LinkWithLoader
+                      href="#"
+                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
+                      onClick={() => setMaintenanceOpen(false)}
+                    >
+                      {service}
+                    </LinkWithLoader>
+                  </li>
+                ))}
               </ul>
             </li>
 
-            {/* Moving SERVICES*/}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
+            {/* CLEANING */}
+            <li
+              className={`nav-item dropdown ${cleaningOpen ? "show" : ""}`}
+              onMouseEnter={() => setCleaningOpen(true)}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <LinkWithLoader
+                href="/AllServices/CleaningServices"
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/CleaningServices") ? "active-link" : ""}`}
+                id="cleaningDropdown"
+                role="button"
+              >
+                CLEANING
+              </LinkWithLoader>
+              <ul
+                className={`dropdown-menu ${cleaningOpen ? "show" : ""}`}
+                aria-labelledby="cleaningDropdown"
+              >
+                {[
+                  "Deep Cleaning",
+                  "Grease Trap",
+                  "Chandelier Cleaning",
+                  "Swimming Pool Cleaning",
+                  "Vehicle Cleaning",
+                  "Upholstery Cleaning",
+                  "Duct Cleaning",
+                  "Windows Cleaning",
+                  "Maid Cleaning",
+                ].map((service, i) => (
+                  <li key={i}>
+                    <LinkWithLoader
+                      href="#"
+                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
+                      onClick={() => setCleaningOpen(false)}
+                    >
+                      {service}
+                    </LinkWithLoader>
+                  </li>
+                ))}
+              </ul>
+            </li>
+
+            {/* MOVING */}
+            <li
+              className={`nav-item dropdown ${movingOpen ? "show" : ""}`}
+              onMouseEnter={() => setMovingOpen(true)}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <LinkWithLoader
+                href="/AllServices/MovingServices"
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MovingServices") ? "active-link" : ""}`}
                 id="movingDropdown"
                 role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
                 MOVING
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="movingDropdown">
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Local Moving
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Storage Services
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    International Moving
-                  </LinkWithLoader>
-                </li>
+              </LinkWithLoader>
+              <ul
+                className={`dropdown-menu ${movingOpen ? "show" : ""}`}
+                aria-labelledby="movingDropdown"
+              >
+                {[
+                  "Local Moving",
+                  "Storage Services",
+                  "International Moving",
+                ].map((service, i) => (
+                  <li key={i}>
+                    <LinkWithLoader
+                      href="#"
+                      className="dropdown-item be-vietnam-pro-regular dropdown-link "
+                      onClick={() => setMovingOpen(false)}
+                    >
+                      {service}
+                    </LinkWithLoader>
+                  </li>
+                ))}
               </ul>
             </li>
 
             {/* PEST CONTROL */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
+            <li
+              className={`nav-item dropdown ${pestOpen ? "show" : ""}`}
+              onMouseEnter={() => setPestOpen(true)}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <LinkWithLoader
+                href="/AllServices/PestControl"
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/PestControl") ? "active-link" : ""}`}
                 id="pestDropdown"
                 role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
                 PEST CONTROL
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="pestDropdown">
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Pigeons & Birds Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Rats & Rodents Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Termites Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Bees & Wasps Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Ants & Insects Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Flees & Ticks Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Bed Bugs Control
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Cockroach Control
-                  </LinkWithLoader>
-                </li>
-              </ul>
-            </li>
-
-            {/* DISINFECTION  */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link be-vietnam-pro-regular dropdown-toggle"
-                href="#"
-                id="disinfectionDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                DISINFECTION
-              </a>
+              </LinkWithLoader>
               <ul
-                className="dropdown-menu"
-                aria-labelledby="disinfectionDropdown"
+                className={`dropdown-menu ${pestOpen ? "show" : ""}`}
+                aria-labelledby="pestDropdown"
               >
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Service 1
-                  </LinkWithLoader>
-                </li>
-                <li>
-                  <LinkWithLoader
-                    href="#"
-                    className="dropdown-item be-vietnam-pro-regular"
-                  >
-                    Service 2
-                  </LinkWithLoader>
-                </li>
+                {[
+                  "Pigeons & Birds Control",
+                  "Rats & Rodents Control",
+                  "Termites Control",
+                  "Bees & Wasps Control",
+                  "Ants & Insects Control",
+                  "Flees & Ticks Control",
+                  "Bed Bugs Control",
+                  "Cockroach Control",
+                ].map((service, i) => (
+                  <li key={i}>
+                    <LinkWithLoader
+                      href="#"
+                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
+                      onClick={() => setPestOpen(false)}
+                    >
+                      {service}
+                    </LinkWithLoader>
+                  </li>
+                ))}
               </ul>
             </li>
           </ul>
+
           <LinkWithLoader
             href="GetAquote"
-            className="btn bg_green header_btn text-white headerBtn_green">
+            className="btn bg_green header_btn text-white headerBtn_green"
+          >
             Get a quote
           </LinkWithLoader>
         </div>

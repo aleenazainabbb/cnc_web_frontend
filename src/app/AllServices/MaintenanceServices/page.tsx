@@ -57,11 +57,12 @@ export default function ServicePage() {
                         UAE from Care N Clean
                     </>
                 }
-                subheading="Quality cleaning at a fair price."
+                subheading="Quality Maintenance Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
+            // imageSrc="/images/Maintenance/header.avif"
             />
             <BestDeepCleaning
                 title="Best Maintenance Services in UAE from Care N Clean"
@@ -74,15 +75,15 @@ export default function ServicePage() {
                         provides expert maintenance solutions for both residential and commercial properties. Our professionals ensure every space remains fully functional, safe, and in excellent condition. With our skilled team, we deliver dependable results using advanced tools and environmentally responsible materials of the highest standards. Your comfort and peace of mind are enhanced through spaces that are properly maintained and cared for. Routine and specialized maintenance goes beyond simple repairs to prevent issues and promote a healthier, more efficient environment.
                     </>
                 }
-                imageSrc="/images/Maintenance/4.jpg"
-                imageAlt="Maintenance Cleaning"
+                imageSrc="/images/Maintenance/1.jpg"
+                imageAlt="Maintenance Services"
             />
             <AchievementSection />
             <BenefitsOfDeepCleaning
-                title="What is Maintenance Cleaning?"
+                title="What are Maintenance Services?"
                 content="Maintenance services need more care than just basic tasks. Our team works carefully to check and look after every part of your home or workplace. We don’t just focus on what’s easy to see—we also take care of things that are often missed. This helps keep everything in good shape and working well. Regular maintenance helps stop problems before they start and keeps your place safe, comfortable, and running smoothly for your family or team."
                 imageLeft={true}
-                imageSrc="/images/Maintenance/2.jpg"
+                imageSrc="/images/Maintenance/whatis.png"
                 imageAlt="Maintenance Image"
                 points={[
                     "Plumbing Services",
@@ -96,7 +97,7 @@ export default function ServicePage() {
             {/* <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Maintenance Services"/> */}
             <BookYourService
-                title="Book Your Maintenance Cleaning Services Today!"
+                title="Book Your Maintenance Services Today!"
                 description="Experience the ease of booking your professional maintenance service with Care N Clean. Whether it’s for your home or office, our skilled team ensures everything stays in top condition—safe, functional, and well-maintained. Trust our experts to deliver high-quality service using the right tools, careful attention, and reliable techniques."
             />
             <LifeMadeEasySection
@@ -106,11 +107,11 @@ export default function ServicePage() {
                 buttonLink="/booking"
                 useSectionDescClass={false}
             />
-             <BenefitsOfDeepCleaning 
-               title="Benefits of Maintenance"
+            <BenefitsOfDeepCleaning
+                title="Benefits of Maintenance"
                 content="Regular maintenance work improves the safety, appearance, and functionality of your living or working space. Skilled repairs and routine checks help prevent breakdowns, reduce long-term costs, and extend the life of essential systems and surfaces. These services target hidden issues that often go unnoticed, ensuring everything from plumbing to electrical fittings operates smoothly. Consistent upkeep not only supports daily comfort but also creates a safer and more reliable environment for everyone."
                 imageLeft={false}
-                imageSrc="/images/Maintenance/3.jpg"
+                imageSrc="/images/Maintenance/benefits.png"
                 imageAlt="Maintenance Image"
                 points={[
                     "Plumbing Services",
@@ -121,11 +122,12 @@ export default function ServicePage() {
                     "Handyman Services",
                     "Painting Services"
                 ]}
-        />
-        <ContactUsSection />
-         <OurBestDeepClean sections={sixSections}
-                mainTitle="Our Maintenance Services"/>
-      <GetAQuoteSection />
+            />
+            <ContactUsSection />
+            <OurBestDeepClean sections={sixSections}
+                mainTitle="Our Maintenance Services" />
+            <GetAQuoteSection text="Trusted Maintenance Services Across the UAE – Fast, Reliable, and Affordable." />
+
 
         </div>
 

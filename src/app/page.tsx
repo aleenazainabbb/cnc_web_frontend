@@ -11,10 +11,12 @@ import TestimonialsSection from "@/components/home_page_components/TestimonialsS
 import WhyCareNCleanSection from "@/components/home_page_components/WhyCareNCleanSection";
 import WhyChooseUsSection from "@/components/home_page_components/WhyChooseUsSection";
 import ServiceStepsSection from "@/components/home_page_components/ServiceList";
+import RoutePrefetcher from "@/components/RoutePrefetcher";
 
 export default function Home() {
   return (
     <div>
+       {/* <RoutePrefetcher /> */}
       <BannerSection />
       <ServiceSection />
       <div style={{ marginTop: '80px' }}>

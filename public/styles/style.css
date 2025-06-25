@@ -18,7 +18,10 @@
     font-weight: 300;
     font-style: normal;
 }
-
+.navbar-nav{
+    /* margin-left:1%; */
+    gap: 20px;
+}
 .ourdeepClean-heading {
     font-size: 44px !important;
 }
@@ -913,7 +916,9 @@ input[type="number"] {
     color: #36b864 !important;
 }
 
-
+.home{
+    color: #4D4D4D !important;
+}
 /* End Footer */
 
 /**********************************************************************************************/
@@ -924,14 +929,15 @@ input[type="number"] {
 /* ********************************   Service Details Page ************************************/
 /**********************************************************************************************/
 
-.services_banner {
+/* .services_banner {
     background-image: url("../images/services-banner.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     padding: 80px 0;
     height: 100%;
-}
+} */
+
 
 .feature_box {
     background-color: #f6f6f6;
@@ -1308,6 +1314,30 @@ input[type="number"] {
     border-radius: 10px;
 }
 
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+/* Hover effect for MOVING link */
+.moving-link:hover,.moving-link.active-link {
+  color: #36B864 !important;
+}
+
+/* Hover & active effect for dropdown items */
+.dropdown-link:hover,
+.dropdown-link:focus,
+.dropdown-link.active {
+  background-color: #36B864 !important;
+  color: white !important;
+}
+
+/* HOME active and hover */
+.home-link:hover,
+.home-link.active-link {
+  color: #36B864 !important;
+}
+
+
+
 .blue_btn {
     width: 240px;
     display: flex;
@@ -1627,6 +1657,10 @@ tr.calendar-body .calendar-day .day:hover {
     .subscribe {
         font-size: 16px;
     }
+   
+    .services_banner {
+        padding: 48px 0 !important;
+    }
 }
 
 @media (max-width: 541px) {
@@ -1824,7 +1858,7 @@ tr.calendar-body .calendar-day .day:hover {
 
     .banner_img,
     .services_banner {
-        height: auto;
+        height: auto !important;
     }
 
     .header_btn {

@@ -86,7 +86,7 @@ const BookYourService: React.FC<BookYourServiceProps> = ({
                     value={formData.noOfStaff}
                     onChange={handleChange}
                   >
-                    <option value="1" disabled>No of value</option>
+                    <option value="" disabled>No of staff</option>
                     <option value="2">1</option>
                     <option value="3">2</option>
                     <option value="4">3</option>
@@ -132,7 +132,7 @@ const BookYourService: React.FC<BookYourServiceProps> = ({
                     value={formData.noOfHours}
                     onChange={handleChange}
                   >
-                    <option value="1" disabled>No of Hour</option>
+                    <option value="" disabled>No of Hour</option>
                     {Array.from({ length: 12 }, (_, i) => i + 1).map((hour) => (
                       <option key={hour} value={hour}>
                         {hour}
