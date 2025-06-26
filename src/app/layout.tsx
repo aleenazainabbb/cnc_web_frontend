@@ -13,6 +13,7 @@ import { VerifyForgotPasswordProvider } from '@/context/VerifyForgotPassword';
 import { ResetPasswordProvider } from '@/context/ResetPassword';
 // import LinkWithLoader from "@/components/Loader/Link";
 import RouteProgressDone from '@/components/Loader/RouteProgressDone';
+import { LeadProvider } from '@/context/MyQuote';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,10 +70,12 @@ export default function RootLayout({
               <VerificationProvider>
                 <AuthProvider>
                   <RegisterProvider>
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <RouteProgressDone />
-                      <ConditionalLayout>{children}</ConditionalLayout>
-                    </Suspense>
+                    <LeadProvider>
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <RouteProgressDone />
+                        <ConditionalLayout>{children}</ConditionalLayout>
+                      </Suspense>
+                    </LeadProvider>
                   </RegisterProvider>
                 </AuthProvider>
               </VerificationProvider>

@@ -94,8 +94,6 @@ export default function ServicePage() {
                     "Handyman Services",
                     "Painting Services"
                 ]} />
-            {/* <OurBestDeepClean sections={sixSections}
-                mainTitle="Our Maintenance Services"/> */}
             <BookYourService
                 title="Book Your Maintenance Services Today!"
                 description="Experience the ease of booking your professional maintenance service with Care N Clean. Whether it’s for your home or office, our skilled team ensures everything stays in top condition—safe, functional, and well-maintained. Trust our experts to deliver high-quality service using the right tools, careful attention, and reliable techniques."

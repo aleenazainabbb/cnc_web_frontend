@@ -6,15 +6,17 @@ import LinkWithLoader from "@/components/Loader/Link";
 interface BookYourServiceProps {
   title?: string;
   description?: string;
+  defaultService?: string;
 }
 
 const BookYourService: React.FC<BookYourServiceProps> = ({
   title = "Book Your Deep Cleaning Service Today!",
   description = `The deep cleaning service performed by Care N Clean delivers a superior quality solution in the UAE market. Our company provides cleaning services for homes and offices together with commercial spaces. Our skilled staff members provide top-quality cleaning services that match every specific requirement. Secure your deep cleaning service right now to get a healthier environment and a clean space.
 `,
+  defaultService = "",
 }) => {
   const [formData, setFormData] = useState({
-    cleaningType: "Service",
+    cleaningType: defaultService,
     noOfStaff: "",
     time: "",
     date: "",
@@ -70,12 +72,40 @@ const BookYourService: React.FC<BookYourServiceProps> = ({
                     value={formData.cleaningType}
                     onChange={handleChange}
                   >
-                    <option value="Service" disabled>
+                    <option value="" disabled={!!defaultService}>
                       Choose Service
                     </option>
-                    <option value="Cleaning">Cleaning</option>
+                    {/* Maintenance Services */}
                     <option value="Plumbing">Plumbing</option>
-                    <option value="Electrician">Electrician</option>
+                    <option value="Landscaping">Landscaping</option>
+                    <option value="Carpentry">Carpentry</option>
+                    <option value="AC Maintenance">AC Maintenance</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Handyman">Handyman</option>
+                    <option value="Painting">Painting</option>
+                    {/* Cleaning Services */}
+                    <option value="Deep Cleaning">Deep Cleaning</option>
+                    <option value="Grease Trap">Grease Trap</option>
+                    <option value="Chandelier Cleaning">Chandelier Cleaning</option>
+                    <option value="Swimming Pool Cleaning">Swimming Pool Cleaning</option>
+                    <option value="Vehicle Cleaning">Vehicle Cleaning</option>
+                    <option value="Upholstery Cleaning">Upholstery Cleaning</option>
+                    <option value="Duct Cleaning">Duct Cleaning</option>
+                    <option value="Windows Cleaning">Windows Cleaning</option>
+                    <option value="Maid Services">Maid Services</option>
+                    {/* Moving Services */}
+                    <option value="Local Moving">Local Moving</option>
+                    <option value="Storage Services">Storage Services</option>
+                    <option value="International Moving">International Moving</option>
+                    {/* Pest Control Services */}
+                    <option value="Pigeons & Birds Control">Pigeons & Birds Control</option>
+                    <option value="Rats & Rodents Control">Rats & Rodents Control</option>
+                    <option value="Termites Control">Termites Control</option>
+                    <option value="Bees & Wasps Control">Bees & Wasps Control</option>
+                    <option value="Ants & Insects Control">Ants & Insects Control</option>
+                    <option value="Flees & Ticks Control">Flees & Ticks Control</option>
+                    <option value="Bed Bugs Control">Bed Bugs Control</option>
+                    <option value="Cockroach Control">Cockroach Control</option>
                   </select>
                 </div>
 

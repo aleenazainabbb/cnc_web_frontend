@@ -11,6 +11,8 @@ interface BenefitsProps {
   imageSrc?: string;
   imageAlt?: string;
   points?: string[];
+  showPoints?: boolean;
+  showViewServicesBtn?: boolean;
 }
 
 const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
@@ -33,6 +35,8 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
     "Painters",
     "Carpenters"
   ],
+  showPoints = true,
+  showViewServicesBtn = true,
 }) => {
   const ImageBlock = (
     <div className="col-12 col-lg-6 col-md-6">
@@ -61,49 +65,48 @@ const BenefitsOfDeepCleaning: React.FC<BenefitsProps> = ({
   const TextBlock = (
     <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0">
       <div>
-        <h2
-          className="mt-2 mb-4 heading"
-          style={{
-            fontSize: "44px",
-            fontFamily: "'Be Vietnam Pro', sans-serif",
-            fontWeight: 500,
-          }}
-        >
+        <h2 className="mt-2 mb-4 heading" style={{
+          fontSize: "44px",
+          fontFamily: "'Be Vietnam Pro', sans-serif",
+          fontWeight: 500,
+        }}>
           {title}
         </h2>
 
-        <p
-          className="text-justify mt-4 mb-2 text-muted why_choose_dec"
-          style={{
-            fontSize: "16px",
-            fontFamily: "'Be Vietnam Pro', sans-serif",
-            fontWeight: 400,
-          }}
-        >
+        <p className="text-justify mt-4 mb-2 text-muted why_choose_dec" style={{
+          fontSize: "16px",
+          fontFamily: "'Be Vietnam Pro', sans-serif",
+          fontWeight: 400,
+        }}>
           {content}
         </p>
 
-        <div className="row mt-3">
-          {splitPoints.map((group, colIndex) => (
-            <div className="col-md-6" key={colIndex}>
-              {group.map((point, idx) => (
-                <div className="feature-box be-vietnam-pro-semibold" key={idx}>
-                  <i className="fa-solid fa-circle-check"></i> {point}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        {showPoints && (
+          <div className="row mt-3">
+            {splitPoints.map((group, colIndex) => (
+              <div className="col-md-6" key={colIndex}>
+                {group.map((point, idx) => (
+                  <div className="feature-box be-vietnam-pro-semibold" key={idx}>
+                    <i className="fa-solid fa-circle-check"></i> {point}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
 
         <LinkWithLoader href="/BookAservicePage" className="bg_green text-white about_btn mt-3 me-3">
           Book Now
         </LinkWithLoader>
-        <LinkWithLoader
-          href="/services"
-          className="mt-3 Lato slider_btn font-medium text-[20px]"
-        >
-          View Our Services
-        </LinkWithLoader>
+
+        {showViewServicesBtn && (
+          <LinkWithLoader
+            href="/services"
+            className="mt-3 Lato slider_btn font-medium text-[20px]"
+          >
+            View Our Services
+          </LinkWithLoader>
+        )}
       </div>
     </div>
   );

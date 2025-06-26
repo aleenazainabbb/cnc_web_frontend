@@ -103,12 +103,13 @@ const GetAQuoteSection: React.FC = () => {
                   onChange={handleBookingChange}
                 />
               </div>
+
               <div className="col-12 mt-4">
                 <button
                   type="submit"
                   className="be-vietnam-pro-semibold btn banner-booking-btn text-white"
                 >
-                  Book A Service
+                  Get A Quote
                 </button>
               </div>
             </div>
@@ -215,12 +216,12 @@ const GetAQuoteSection: React.FC = () => {
                 />
               </div>
             </div>
-            <button
+            {/* <button
               type="submit"
               className="be-vietnam-pro-semibold bg_green text-white about_btn btn mt-3"
             >
               Submit
-            </button>
+            </button> */}
           </form>
         </div>
         <div className="col-12 col-lg-5 col-md-5">

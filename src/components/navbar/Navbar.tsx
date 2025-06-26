@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
             <li className="nav-item">
               <LinkWithLoader
                 href="/"
-               className={`nav-link be-vietnam-pro-regular home-link ${pathname === "/" ? "active-link" : ""}`}
+                className={`nav-link be-vietnam-pro-regular home-link ${pathname === "/" ? "active-link" : ""}`}
               >
                 HOME
               </LinkWithLoader>
@@ -71,32 +71,31 @@ const Navbar: React.FC = () => {
             >
               <LinkWithLoader
                 href="/AllServices/MaintenanceServices"
-                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MaintenanceServices") ? "active-link" : ""}`}
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MaintenanceServices") ? "active-link" : ""
+                  }`}
                 id="maintenanceDropdown"
                 role="button"
               >
                 MAINTENANCE
               </LinkWithLoader>
-              <ul
-                className={`dropdown-menu ${maintenanceOpen ? "show" : ""}`}
-                aria-labelledby="maintenanceDropdown"
-              >
+
+              <ul className={`dropdown-menu ${maintenanceOpen ? "show" : ""}`} aria-labelledby="maintenanceDropdown">
                 {[
-                  "Plumbing Services",
-                  "Landscaping Services",
-                  "Carpentry Services",
-                  "AC Maintenance Services",
-                  "Electrical Services",
-                  "Handyman Services",
-                  "Painting Services",
-                ].map((service, i) => (
-                  <li key={i}>
+                  { name: "Plumbing Services", path: "/AllServices/MaintenanceServices/Plumbing" },
+                  { name: "Landscaping Services", path: "/AllServices/MaintenanceServices/Landscaping" },
+                  { name: "Carpentry Services", path: "/AllServices/MaintenanceServices/Carpentry" },
+                  { name: "AC Maintenance Services", path: "/AllServices/MaintenanceServices/ACmaintenance" },
+                  { name: "Electrical Services", path: "/AllServices/MaintenanceServices/Electrical" },
+                  { name: "Handyman Services", path: "/AllServices/MaintenanceServices/Handyman" },
+                  { name: "Painting Services", path: "/AllServices/MaintenanceServices/Painting" },
+                ].map(({ name, path }) => (
+                  <li key={name}>
                     <LinkWithLoader
-                      href="#"
+                      href={path}
                       className="dropdown-item be-vietnam-pro-regular dropdown-link"
                       onClick={() => setMaintenanceOpen(false)}
                     >
-                      {service}
+                      {name}
                     </LinkWithLoader>
                   </li>
                 ))}
@@ -111,34 +110,33 @@ const Navbar: React.FC = () => {
             >
               <LinkWithLoader
                 href="/AllServices/CleaningServices"
-                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/CleaningServices") ? "active-link" : ""}`}
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/CleaningServices") ? "active-link" : ""
+                  }`}
                 id="cleaningDropdown"
                 role="button"
               >
                 CLEANING
               </LinkWithLoader>
-              <ul
-                className={`dropdown-menu ${cleaningOpen ? "show" : ""}`}
-                aria-labelledby="cleaningDropdown"
-              >
+
+              <ul className={`dropdown-menu ${cleaningOpen ? "show" : ""}`} aria-labelledby="cleaningDropdown">
                 {[
-                  "Deep Cleaning",
-                  "Grease Trap",
-                  "Chandelier Cleaning",
-                  "Swimming Pool Cleaning",
-                  "Vehicle Cleaning",
-                  "Upholstery Cleaning",
-                  "Duct Cleaning",
-                  "Windows Cleaning",
-                  "Maid Cleaning",
-                ].map((service, i) => (
-                  <li key={i}>
+                  { name: "Deep Cleaning", path: "/AllServices/CleaningServices/DeepCleaning" },
+                  { name: "Grease Trap", path: "/AllServices/CleaningServices/GreaseTrap" },
+                  { name: "Chandelier Cleaning", path: "/AllServices/CleaningServices/Chandelier" },
+                  { name: "Swimming Pool Cleaning", path: "/AllServices/CleaningServices/SwimmingPool" },
+                  { name: "Vehicle Cleaning", path: "/AllServices/CleaningServices/Vehicle" },
+                  { name: "Upholstery Cleaning", path: "/AllServices/CleaningServices/UpholsteryCleaning" },
+                  { name: "Duct Cleaning", path: "/AllServices/CleaningServices/Duct" },
+                  { name: "Windows Cleaning", path: "/AllServices/CleaningServices/Windows" },
+                  { name: "Maid Services", path: "/AllServices/CleaningServices/Maid" },
+                ].map(({ name, path }) => (
+                  <li key={name}>
                     <LinkWithLoader
-                      href="#"
+                      href={path}
                       className="dropdown-item be-vietnam-pro-regular dropdown-link"
                       onClick={() => setCleaningOpen(false)}
                     >
-                      {service}
+                      {name}
                     </LinkWithLoader>
                   </li>
                 ))}
@@ -153,28 +151,27 @@ const Navbar: React.FC = () => {
             >
               <LinkWithLoader
                 href="/AllServices/MovingServices"
-                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MovingServices") ? "active-link" : ""}`}
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/MovingServices") ? "active-link" : ""
+                  }`}
                 id="movingDropdown"
                 role="button"
               >
                 MOVING
               </LinkWithLoader>
-              <ul
-                className={`dropdown-menu ${movingOpen ? "show" : ""}`}
-                aria-labelledby="movingDropdown"
-              >
+
+              <ul className={`dropdown-menu ${movingOpen ? "show" : ""}`} aria-labelledby="movingDropdown">
                 {[
-                  "Local Moving",
-                  "Storage Services",
-                  "International Moving",
-                ].map((service, i) => (
-                  <li key={i}>
+                  { name: "Local Moving", path: "/AllServices/MovingServices/LocalMoving" },
+                  { name: "Storage Services", path: "/AllServices/MovingServices/StorageServices" },
+                  { name: "International Moving", path: "/AllServices/MovingServices/InternationalMoving" },
+                ].map(({ name, path }) => (
+                  <li key={name}>
                     <LinkWithLoader
-                      href="#"
-                      className="dropdown-item be-vietnam-pro-regular dropdown-link "
+                      href={path}
+                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
                       onClick={() => setMovingOpen(false)}
                     >
-                      {service}
+                      {name}
                     </LinkWithLoader>
                   </li>
                 ))}
@@ -189,42 +186,40 @@ const Navbar: React.FC = () => {
             >
               <LinkWithLoader
                 href="/AllServices/PestControl"
-                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/PestControl") ? "active-link" : ""}`}
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AllServices/PestControl") ? "active-link" : ""
+                  }`}
                 id="pestDropdown"
                 role="button"
               >
                 PEST CONTROL
               </LinkWithLoader>
-              <ul
-                className={`dropdown-menu ${pestOpen ? "show" : ""}`}
-                aria-labelledby="pestDropdown"
-              >
+
+              <ul className={`dropdown-menu ${pestOpen ? "show" : ""}`} aria-labelledby="pestDropdown">
                 {[
-                  "Pigeons & Birds Control",
-                  "Rats & Rodents Control",
-                  "Termites Control",
-                  "Bees & Wasps Control",
-                  "Ants & Insects Control",
-                  "Flees & Ticks Control",
-                  "Bed Bugs Control",
-                  "Cockroach Control",
-                ].map((service, i) => (
-                  <li key={i}>
+                  { name: "Pigeons & Birds Control", path: "/AllServices/PestControl/PigeonsBirds" },
+                  { name: "Rats & Rodents Control", path: "/AllServices/PestControl/RatsRodents" },
+                  { name: "Termites Control", path: "/AllServices/PestControl/Termites" },
+                  { name: "Bees & Wasps Control", path: "/AllServices/PestControl/BeesWasps" },
+                  { name: "Ants & Insects Control", path: "/AllServices/PestControl/AntsInsects" },
+                  { name: "Flees & Ticks Control", path: "/AllServices/PestControl/FleesTicks" },
+                  { name: "Bed Bugs Control", path: "/AllServices/PestControl/BedBugs" },
+                  { name: "Cockroach Control", path: "/AllServices/PestControl/Cockroach" },
+                ].map(({ name, path }) => (
+                  <li key={name}>
                     <LinkWithLoader
-                      href="#"
+                      href={path}
                       className="dropdown-item be-vietnam-pro-regular dropdown-link"
                       onClick={() => setPestOpen(false)}
                     >
-                      {service}
+                      {name}
                     </LinkWithLoader>
                   </li>
                 ))}
               </ul>
             </li>
           </ul>
-
           <LinkWithLoader
-            href="GetAquote"
+            href="/GetAquote"
             className="btn bg_green header_btn text-white headerBtn_green"
           >
             Get a quote

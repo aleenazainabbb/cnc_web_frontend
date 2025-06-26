@@ -23,11 +23,11 @@ export default function ConditionalLayout({ children }: Props) {
 
   return (
     <>
-      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage &&  <TopBar />}
-      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <Navbar />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout  &&  <TopBar />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout  && <Navbar />}
       {children}
-      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <Footer />}
-      {!isBookingRoute  && !isLoginRoute && !isSignupLayout && !isBookingLayout && !isGetAQuotePage && <MiniFooter />}
+      {!isBookingRoute && !isLoginRoute && !isSignupLayout && !isBookingLayout  && <Footer />}
+      {!isBookingRoute  && !isLoginRoute && !isSignupLayout && !isBookingLayout  && <MiniFooter />}
     </>
   );
 }

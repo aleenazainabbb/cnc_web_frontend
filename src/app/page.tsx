@@ -16,7 +16,7 @@ import RoutePrefetcher from "@/components/RoutePrefetcher";
 export default function Home() {
   return (
     <div>
-       {/* <RoutePrefetcher /> */}
+       <RoutePrefetcher />
       <BannerSection />
       <ServiceSection />
       <div style={{ marginTop: '80px' }}>
