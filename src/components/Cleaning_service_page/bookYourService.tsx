@@ -95,7 +95,7 @@ const BookYourService: React.FC<BookYourServiceProps> = ({
                     <option value="Maid Services">Maid Services</option>
                     {/* Moving Services */}
                     <option value="Local Moving">Local Moving</option>
-                    <option value="Storage Services">Storage Services</option>
+                    <option value="Storage Service">Storage Service</option>
                     <option value="International Moving">International Moving</option>
                     {/* Pest Control Services */}
                     <option value="Pigeons & Birds Control">Pigeons & Birds Control</option>
@@ -103,7 +103,7 @@ const BookYourService: React.FC<BookYourServiceProps> = ({
                     <option value="Termites Control">Termites Control</option>
                     <option value="Bees & Wasps Control">Bees & Wasps Control</option>
                     <option value="Ants & Insects Control">Ants & Insects Control</option>
-                    <option value="Flees & Ticks Control">Flees & Ticks Control</option>
+                    <option value="Fleas & Ticks Control">Fleas & Ticks Control</option>
                     <option value="Bed Bugs Control">Bed Bugs Control</option>
                     <option value="Cockroach Control">Cockroach Control</option>
                   </select>

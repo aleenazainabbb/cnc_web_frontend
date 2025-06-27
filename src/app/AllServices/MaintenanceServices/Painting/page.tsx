@@ -5,6 +5,7 @@ import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitso
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
 
     {
@@ -71,7 +72,7 @@ export default function ServicePage() {
                         offers expert painting services that blend quality, speed, and precision. Our painters arrive on time, work efficiently, and pay attention to every detail. From free wall color consultancy to a fully managed painting experience, we handle everything so you don’t have to lift a brush. Just relax and watch your walls transform with Care N Clean’s trained and trusted team.
                     </>
                 }
-              imageSrc="/images/Maintenance/Painting/1.jpg"
+                imageSrc="/images/Maintenance/Painting/1.jpg"
                 imageAlt="Painting Services"
             />
 
@@ -79,7 +80,7 @@ export default function ServicePage() {
                 title="Common Painting Problems"
                 content="Uneven coats, peeling paint, and visible brush strokes can make your walls look untidy and unfinished. Our professionals tackle all kinds of painting issues—whether it’s faded colors, patchy walls, or water-stained surfaces. We fix, prep, and paint with precision to ensure smooth, vibrant results every time. With quality materials and experienced hands, we turn your painting challenges into flawless finishes."
                 imageLeft={true}
-               imageSrc="/images/Maintenance/Painting/2.png"
+                imageSrc="/images/Maintenance/Painting/2.png"
                 imageAlt="Painting Maintenance Image"
                 points={[
                     "Peeling Paint",
@@ -102,7 +103,7 @@ export default function ServicePage() {
                 title="Benefits of Painting Services"
                 content="Hiring professional painters ensures a clean, smooth finish and saves you time and effort. Our trained staff offer expert advice, use high-quality paints, and follow best techniques to deliver quick and long-lasting results. Whether it’s a fresh coat or a complete color makeover, painting services not only enhance the look of your space but also protect walls from damage and wear over time."
                 imageLeft={true}
-               imageSrc="/images/Maintenance/Painting/3.png"
+                imageSrc="/images/Maintenance/Painting/3.png"
                 imageAlt="Painting Benefits Image"
                 points={[
                     "Expert Advice",
@@ -115,7 +116,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Painting Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
+import QuoteForm from "./QuoteForm"; // adjust the path if needed
 
 const GetAQuoteSection: React.FC = () => {
   const [bookingForm, setBookingForm] = useState({
@@ -42,188 +43,22 @@ const GetAQuoteSection: React.FC = () => {
     }
   };
 
-  const handleBookingSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Booking Form Submitted:", bookingForm);
-    // Add API call
-  };
-
-  const handleRequestSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Request Form Submitted:", requestForm);
-    // Add API call
+    console.log("Booking Form:", bookingForm);
+    console.log("Request Form:", requestForm);
+    // Submit to API here
   };
 
   return (
     <div className="container py-5 my-lg-5 my-md-5">
       <div className="row">
         <div className="col-12 col-lg-7 col-md-7">
-          <form
-            className="booking-form bg_green mt-4 mt-lg-0 mt-md-0"
-            onSubmit={handleBookingSubmit}
-          >
-            <div className="row custom_gutter">
-              <div className="col-md-6">
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  placeholder="Your Name"
-                  value={bookingForm.name}
-                  onChange={handleBookingChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <input
-                  type="text"
-                  name="company"
-                  className="form-control"
-                  placeholder="Your Company"
-                  value={bookingForm.company}
-                  onChange={handleBookingChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  placeholder="Email Address"
-                  value={bookingForm.email}
-                  onChange={handleBookingChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <input
-                  type="number"
-                  name="phone"
-                  className="form-control"
-                  placeholder="Phone Number"
-                  value={bookingForm.phone}
-                  onChange={handleBookingChange}
-                />
-              </div>
-
-              <div className="col-12 mt-4">
-                <button
-                  type="submit"
-                  className="be-vietnam-pro-semibold btn banner-booking-btn text-white"
-                >
-                  Get A Quote
-                </button>
-              </div>
-            </div>
-          </form>
-          <form
-            className="request_service_form mt-5"
-            onSubmit={handleRequestSubmit}
-          >
-            <p className="be-vietnam-pro-regular fs-24">
-              Type Of Product You Interested
-            </p>
-            <ul>
-              <li>
-                <label className="custom-checkbox be-vietnam-pro-bold">
-                  <input
-                    type="checkbox"
-                    value="Pest Control"
-                    onChange={handleRequestChange}
-                  />
-                  <span className="checkmark"></span>
-                  Pest Control
-                </label>
-              </li>
-              <li>
-                <label className="custom-checkbox be-vietnam-pro-bold">
-                  <input
-                    type="checkbox"
-                    value="Moving Services"
-                    onChange={handleRequestChange}
-                  />
-                  <span className="checkmark"></span>
-                  Moving Services
-                </label>
-              </li>
-              <li>
-                <label className="custom-checkbox be-vietnam-pro-bold">
-                  <input
-                    type="checkbox"
-                    value="Maintenance Services"
-                    onChange={handleRequestChange}
-                  />
-                  <span className="checkmark"></span>
-                  Maintenance Services
-                </label>
-              </li>
-              <li>
-                <label className="custom-checkbox be-vietnam-pro-bold">
-                  <input
-                    type="checkbox"
-                    value="Cleaning Services"
-                    onChange={handleRequestChange}
-                  />
-                  <span className="checkmark"></span>
-                  Cleaning Services
-                </label>
-              </li>
-              <li>
-                <label className="custom-checkbox be-vietnam-pro-bold">
-                  <input
-                    type="checkbox"
-                    value="Disinfection Service"
-                    onChange={handleRequestChange}
-                  />
-                  <span className="checkmark"></span>
-                  Disinfection Service
-                </label>
-              </li>
-            </ul>
-            <div className="row g-3 mt-4 quote_more_fields">
-              <div className="col-md-6">
-                <select
-                  name="bestTime"
-                  className="form-select"
-                  value={requestForm.bestTime}
-                  onChange={handleRequestChange}
-                >
-                  <option value="">Best Time to Reach</option>
-                  <option value="morning">Morning</option>
-                  <option value="afternoon">Afternoon</option>
-                  <option value="evening">Evening</option>
-                </select>
-              </div>
-              <div className="col-md-6">
-                <select
-                  name="hearAboutUs"
-                  className="form-select"
-                  value={requestForm.hearAboutUs}
-                  onChange={handleRequestChange}
-                >
-                  <option value="">Hear About Us</option>
-                  <option value="google">Google</option>
-                  <option value="social">Social Media</option>
-                  <option value="friend">Friend</option>
-                </select>
-              </div>
-              <div className="col-12">
-                <textarea
-                  name="message"
-                  className="form-control"
-                  rows={4}
-                  placeholder="Message / Comments"
-                  value={requestForm.message}
-                  onChange={handleRequestChange}
-                />
-              </div>
-            </div>
-            {/* <button
-              type="submit"
-              className="be-vietnam-pro-semibold bg_green text-white about_btn btn mt-3"
-            >
-              Submit
-            </button> */}
-          </form>
+          <QuoteForm
+          />
         </div>
+
+        {/* Right Info Section */}
         <div className="col-12 col-lg-5 col-md-5">
           <div className="col-12">
             <div className="info-box">

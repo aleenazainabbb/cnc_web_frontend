@@ -303,13 +303,16 @@ input[type="number"] {
     padding: 10px 30px;
 }
 
-.booking-form {
+.booking-form,.getAquote-form {
     padding: 38px 32px;
     border-radius: 24px;
     box-shadow: 0px 4px 37px 0px #00000026;
     max-width: 513px;
     max-height: 385px;
     width: 100%;
+}
+.getAquote-form{
+    max-height: none !important;
 }
 
 .form-select,
@@ -319,7 +322,6 @@ input[type="number"] {
     padding: 10px;
     color: #88939D;
 }
-
 .form-control::placeholder {
     color: #88939D;
 }
@@ -1892,7 +1894,7 @@ tr.calendar-body .calendar-day .day:hover {
 
     .form-select,
     .form-control {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .service_main_content p {

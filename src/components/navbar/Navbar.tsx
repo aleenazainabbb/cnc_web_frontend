@@ -161,9 +161,9 @@ const Navbar: React.FC = () => {
 
               <ul className={`dropdown-menu ${movingOpen ? "show" : ""}`} aria-labelledby="movingDropdown">
                 {[
-                  { name: "Local Moving", path: "/AllServices/MovingServices/LocalMoving" },
-                  { name: "Storage Services", path: "/AllServices/MovingServices/StorageServices" },
-                  { name: "International Moving", path: "/AllServices/MovingServices/InternationalMoving" },
+                  { name: "Local Moving", path: "/AllServices/MovingServices/Local" },
+                  { name: "Storage Service", path: "/AllServices/MovingServices/Storage" },
+                  { name: "International Moving", path: "/AllServices/MovingServices/International" },
                 ].map(({ name, path }) => (
                   <li key={name}>
                     <LinkWithLoader
@@ -196,12 +196,12 @@ const Navbar: React.FC = () => {
 
               <ul className={`dropdown-menu ${pestOpen ? "show" : ""}`} aria-labelledby="pestDropdown">
                 {[
-                  { name: "Pigeons & Birds Control", path: "/AllServices/PestControl/PigeonsBirds" },
-                  { name: "Rats & Rodents Control", path: "/AllServices/PestControl/RatsRodents" },
+                  { name: "Pigeons & Birds Control", path: "/AllServices/PestControl/Pigeons&Birds" },
+                  { name: "Rats & Rodents Control", path: "/AllServices/PestControl/Rats&Rodents" },
                   { name: "Termites Control", path: "/AllServices/PestControl/Termites" },
-                  { name: "Bees & Wasps Control", path: "/AllServices/PestControl/BeesWasps" },
-                  { name: "Ants & Insects Control", path: "/AllServices/PestControl/AntsInsects" },
-                  { name: "Flees & Ticks Control", path: "/AllServices/PestControl/FleesTicks" },
+                  { name: "Bees & Wasps Control", path: "/AllServices/PestControl/Bees&Wasps" },
+                  { name: "Ants & Insects Control", path: "/AllServices/PestControl/Ants&Insects" },
+                  { name: "Fleas & Ticks Control", path: "/AllServices/PestControl/Fleas&Ticks" },
                   { name: "Bed Bugs Control", path: "/AllServices/PestControl/BedBugs" },
                   { name: "Cockroach Control", path: "/AllServices/PestControl/Cockroach" },
                 ].map(({ name, path }) => (

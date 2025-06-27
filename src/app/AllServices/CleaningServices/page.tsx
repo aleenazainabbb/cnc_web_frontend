@@ -8,6 +8,7 @@ import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
   {
     title: "Deep Cleaning",
@@ -124,22 +125,23 @@ export default function ServicePage() {
         imageSrc="/images/cleaning3.png"
         imageAlt="Cleaning Benefits Image"
         points={[
-          "Deep Cleaning",
-          "Grease Trap",
-          "Chandelier Cleaning",
-          "Swimming Pool Cleaning",
-          "Vehicle Cleaning",
-          "Upholstery Cleaning",
-          "Duct Cleaning",
-          "Windows Cleaning",
-          "Maid Services"
+          "Hygiene",
+          "Allergen Removal",
+          "Odor Control",
+          "Surface Protection",
+          "Air Quality",
+          "Health Safety",
+          "Freshness",
+          "Well-being"
         ]}
       />
       <ContactUsSection />
+       <NeedHelp/>
       <OurBestDeepClean
         sections={sixSections}
         mainTitle="Our Cleaning Services"
       />
+     
       <GetAQuoteSection text="Expert Cleaning Services Across the UAE – Quick, Affordable, and Always Reliable." />
     </div>
   )

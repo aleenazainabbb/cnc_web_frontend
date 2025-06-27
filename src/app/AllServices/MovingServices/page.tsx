@@ -8,6 +8,7 @@ import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
     {
         title: "Local Moving",
@@ -43,7 +44,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-                //   imageSrc="/images/Moving/1.jpg"
+            //   imageSrc="/images/Moving/1.jpg"
             />
             <BestDeepCleaning
                 title="Best Moving Services in UAE from Care N Clean"
@@ -91,14 +92,22 @@ export default function ServicePage() {
                 imageSrc="/images/Moving/y.jpg"
                 imageAlt="Moving Image"
                 points={[
-                    "Local Moving",
-                    "Storage Services",
-                    "International Moving",
+                    "Fresh Start",
+                    "Stress Reduction",
+                    "Time Saving",
+                    "Safety",
+                    "Efficiency",
+                    "Damage Prevention",
+                    "Peace of Mind",
+                    "Organization",
+                    "Decluttering",
                 ]}
             />
             <ContactUsSection />
+             <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Moving Services" />
+                
             <GetAQuoteSection text="Trusted Moving Services Across the UAE – Fast, Reliable, and Hassle-Free." />
 
         </div>

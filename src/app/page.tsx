@@ -12,6 +12,7 @@ import WhyCareNCleanSection from "@/components/home_page_components/WhyCareNClea
 import WhyChooseUsSection from "@/components/home_page_components/WhyChooseUsSection";
 import ServiceStepsSection from "@/components/home_page_components/ServiceList";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
+import NeedHelp from "@/components/request_page_component/NeedHelp";
 
 export default function Home() {
   return (
@@ -30,11 +31,13 @@ export default function Home() {
       <WhyChooseUsSection />
       <ServiceStepsSection />
       <LifeMadeEasySection />
+      
       <TestimonialsSection />
       <div className="responsive-margin-custom">
         <ServiceDetailsSection />
       </div>
       <ContactUsSection />
+      <NeedHelp/>
       <GetAQuoteSection />
     </div>
   );

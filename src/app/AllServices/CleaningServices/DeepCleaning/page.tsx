@@ -5,6 +5,7 @@ import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitso
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
 
     {
@@ -65,7 +66,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+            imageSrc="/images/banners/DeepCleaning.png"
             />
             <BestDeepCleaning
                 title="Best Deep Cleaning Services in UAE from Care N Clean"
@@ -118,6 +119,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
+             <NeedHelp/>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

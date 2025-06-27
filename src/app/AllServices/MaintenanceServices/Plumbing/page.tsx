@@ -8,6 +8,7 @@ import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
 
     {
@@ -113,6 +114,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
+            <NeedHelp/>
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Plumbing Services Across the UAE – Fast, Reliable, and Affordable." />

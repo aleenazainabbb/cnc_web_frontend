@@ -8,6 +8,7 @@ import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
+import NeedHelp from "@/components/request_page_component/NeedHelp"
 const sixSections = [
     {
         title: "Plumbing Services",
@@ -112,18 +113,21 @@ export default function MaintenancePage() {
                 imageSrc="/images/Maintenance/benefits.png"
                 imageAlt="Maintenance Image"
                 points={[
-                    "Plumbing Services",
-                    "Landscaping Services",
-                    "Carpentry Services",
-                    "AC Maintenance Services",
-                    "Electrical Services",
-                    "Handyman Services",
-                    "Painting Services"
+                    "Prevention",
+                    "Safety",
+                    "Efficiency",
+                    "Durability",
+                    "Comfort",
+                    "Cost Savings",
+                    "Reliability",
+                    "Performance"
                 ]}
             />
             <ContactUsSection />
+              <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Maintenance Services" />
+              
             <GetAQuoteSection text="Trusted Maintenance Services Across the UAE – Fast, Reliable, and Affordable." />
 
 
