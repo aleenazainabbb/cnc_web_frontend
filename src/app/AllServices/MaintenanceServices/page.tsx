@@ -46,7 +46,7 @@ const sixSections = [
     },
 ];
 
-export default function ServicePage() {
+export default function MaintenancePage() {
 
     return (
         <div>

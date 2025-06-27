@@ -83,7 +83,7 @@ export default function ServicePage() {
             delivers top-tier cleaning services for both residential and commercial properties across the UAE. From dusting and disinfecting to deep cleaning and sanitization, our trained professionals use eco-friendly products and modern tools to ensure a spotless, germ-free environment. Whether it’s your home, office, or facility, we keep every corner clean, safe, and welcoming. Trust our team to maintain the hygiene and freshness you deserve.
           </>
         }
-        imageSrc="/images/Maintenance/1.jpg"
+        imageSrc="/images/deepclean.png"
         imageAlt="Cleaning Services"
       />
       <AchievementSection />
@@ -91,7 +91,7 @@ export default function ServicePage() {
         title="What are Cleaning Services?"
         content="Cleaning services go beyond simple tidying. Our team inspects and deep-cleans every area of your home or workplace—including those often overlooked. From dust removal to disinfecting, we ensure a spotless, healthy environment. Regular cleaning prevents buildup, improves air quality, and keeps your space safe, fresh, and fully functional for your family or team."
         imageLeft={true}
-        imageSrc="/images/Maintenance/whatis.png"
+        imageSrc="/images/cleaning2.png"
         imageAlt="Maintenance Image"
         points={[
           "Deep Cleaning",
@@ -121,7 +121,7 @@ export default function ServicePage() {
         title="Benefits of Cleaning"
         content="Regular cleaning enhances the hygiene, comfort, and overall look of your home or workspace. Our professional cleaning helps eliminate dust, allergens, and bacteria, creating a healthier environment. Deep and routine cleaning keeps surfaces, furnishings, and systems in better condition while preventing damage and wear. Whether it’s your floors, upholstery, or air ducts—consistent care ensures everything stays fresh, safe, and inviting for everyone who walks in."
         imageLeft={false}
-        imageSrc="/images/Maintenance/benefits.png"
+        imageSrc="/images/cleaning3.png"
         imageAlt="Cleaning Benefits Image"
         points={[
           "Deep Cleaning",

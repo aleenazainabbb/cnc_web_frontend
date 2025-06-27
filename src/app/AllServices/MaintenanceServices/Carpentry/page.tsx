@@ -55,7 +55,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+            // imageSrc="/images/Maintenance/carpentry/herosection.png"
             />
             <BestDeepCleaning
                 title="Best Carpentry Services in UAE from Care N Clean"
@@ -68,14 +68,14 @@ export default function ServicePage() {
                         offers expert carpentry services tailored to renovation, repair, and installation needs. From custom woodwork and decorative moldings to full kitchen and bathroom remodeling, our experienced team delivers reliable and detailed results. Whether it’s fitting wood doors, windows, cabinetry, or handling intricate finish work, we bring precision and care to every project. With a commitment to quality and customer satisfaction, our carpentry services add value, beauty, and lasting strength to any space.
                     </>
                 }
-                imageSrc="/images/carpentry/carpet1.png"
+                imageSrc="/images/Maintenance/carpentry/carpet1.png"
                 imageAlt="Carpentry Services"
             />
             <BenefitsOfDeepCleaning
                 title="Common Carpentry Problems"
                 content="Carpentry issues can affect both the appearance and safety of your space. Whether it's squeaky doors, loose cabinets, cracked wooden frames, or worn-out moldings, these small problems can grow into costly repairs if ignored. Our team identifies and fixes issues with furniture, fittings, and structural woodwork to keep your property looking polished and working smoothly. Regular checks and timely repairs help extend the life of your woodwork and maintain the beauty of your interiors."
                 imageLeft={true}
-                imageSrc="/images/carpentry/2.jpg"
+                imageSrc="/images/Maintenance/carpentry/2.jpg"
                 imageAlt="Carpentry Image"
                 points={[
                     "Loose Hinges",
@@ -96,7 +96,7 @@ export default function ServicePage() {
                 title="Benefits of Carpentry"
                 content="Professional carpentry work adds strength, style, and value to your property. From sturdy furniture to detailed wood trims, quality carpentry enhances both function and appearance. Whether it’s a custom-built shelf or repairing worn-out doors, skilled carpenters ensure everything fits and works perfectly. Regular carpentry care also helps prevent long-term damage, saves costs, and keeps your home or office organized and visually appealing."
                 imageLeft={true}
-                imageSrc="/images/carpentry/3.jpg"
+                imageSrc="/images/Maintenance/carpentry/3.jpg"
                 imageAlt="Carpentry Image"
                 points={[
                     "Strong Fixtures",

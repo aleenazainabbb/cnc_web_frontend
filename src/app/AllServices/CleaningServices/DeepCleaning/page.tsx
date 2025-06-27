@@ -8,35 +8,45 @@ import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 const sixSections = [
 
     {
-        title: "Plumbing Services",
+        title: "Grease Trap Cleaning",
         content:
-            "Plumbing problems at home or in a building need quick and careful attention. Our trained plumbers fix leaks, clear blocked drains, and replace broken pipes with care. Whether you need to upgrade your bathroom or fix a small issue, we handle everything with skill and clean work. From small repairs to full plumbing setups, we make sure your water systems run smoothly and safely.",
+            "Kitchen grease traps, if left uncleaned, can lead to blockages and bad odors. Our grease trap cleaning service involves full removal of built-up fat, oil, and food waste, ensuring smooth drainage and compliance with health regulations. We use safe, effective methods to keep your commercial or residential kitchen running efficiently and odor-free."
     },
     {
-        title: "Landscaping Services",
+        title: "Chandelier Cleaning",
         content:
-            "A neat and green outdoor space makes your home look better and feel more relaxing. Our landscaping team takes care of lawns, gardens, and trees with regular trimming, cleaning, and design. We help bring your outdoor ideas to life while keeping everything fresh and healthy. Your garden stays clean, green, and beautiful all year long.",
+            "Chandeliers enhance elegance, but they collect dust and lose their shine over time. Our specialized chandelier cleaning restores brilliance by delicately wiping every crystal and fixture with precision. Whether your piece is small or grand, we clean it thoroughly and safely—reviving its sparkle without damaging its structure or wiring."
     },
     {
-        title: "AC Maintenance Services",
+        title: "Swimming Pool Cleaning",
         content:
-            "To stay cool and breathe clean air, your AC system needs regular care. We clean filters, check gas levels, wash coils, and inspect the whole system to make sure it's working well. This helps your AC run smoothly, saves energy, and lasts longer. You stay comfortable while we handle the rest.",
+            "A clean pool is vital for safety and enjoyment. Our pool cleaning service includes skimming, vacuuming, tile brushing, and chemical balancing. We remove debris, algae, and contaminants while ensuring your water is crystal clear and safe to swim in. Whether it's routine care or a deep seasonal clean, we keep your pool swim-ready."
     },
     {
-        title: "Electrical Services",
+        title: "Vehicle Cleaning",
         content:
-            "Electric work must always be safe and correct. Our electricians install lights, fix switches, upgrade wires, and solve power problems quickly and safely. Whether it’s a small repair or a new setup, we do the job right and make sure your home or office stays safe and powered.",
+            "Vehicles accumulate dust, pollutants, and interior stains that can affect comfort and hygiene. Our vehicle cleaning service includes interior vacuuming, fabric sanitization, dashboard detailing, and exterior washing. We restore your vehicle’s shine while eliminating bacteria and odors—making it look and feel like new again."
     },
     {
-        title: "Handyman Services",
+        title: "Upholstery Cleaning",
         content:
-            "Small jobs around the house can pile up fast. Our handymen can help with things like fixing doors, hanging shelves, setting up furniture, and general repairs. We work quickly, show up on time, and get the job done so you don’t have to worry about it. It’s the easy way to keep things in good shape.",
+            "Furniture fabrics collect dust, allergens, and spills that dull appearance and cause health risks. Our upholstery cleaning process gently lifts stains and refreshes textures using safe, effective products. We clean sofas, chairs, and cushions to preserve fabric integrity and keep your home’s interior fresh and comfortable."
     },
     {
-        title: "Painting Services",
+        title: "Duct Cleaning",
         content:
-            "A new paint job can make any room or building look fresh and bright. We clean and fix the walls, then apply smooth coats of high-quality paint in the colors you choose. Whether it’s one wall or the whole place, we work neatly and leave your space looking clean and colorful.",
+            "Dirty air ducts circulate dust, allergens, and bacteria throughout your space. Our duct cleaning removes debris from vents and HVAC systems, improving airflow and indoor air quality. This service helps reduce allergy symptoms, lowers energy bills, and promotes a healthier breathing environment for everyone."
     },
+    {
+        title: "Windows Cleaning",
+        content:
+            "Clear, streak-free windows brighten your space and enhance curb appeal. Our window cleaning service removes dirt, smudges, and water spots from both interior and exterior surfaces. Using eco-friendly solutions and proper techniques, we deliver a spotless finish—making your windows crystal clear and your rooms naturally brighter."
+    },
+    {
+        title: "Maid Services",
+        content:
+            "Our maid services offer consistent, reliable cleaning for daily or weekly needs. Whether it’s dusting, mopping, dishwashing, or tidying up, our trained staff ensures your home stays neat and welcoming. Flexible scheduling, trustworthy staff, and attention to detail make our maid services a dependable part of your routine."
+      }
 ];
 
 export default function ServicePage() {
@@ -55,7 +65,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+            // imageSrc="/images/deepclean/HeroSection.png"
             />
             <BestDeepCleaning
                 title="Best Deep Cleaning Services in UAE from Care N Clean"
@@ -67,14 +77,14 @@ export default function ServicePage() {
                         </a>{" "}
                         provides expert deep cleaning services for both residential and commercial buildings. Our professionals create a spotless environment with fresh air free from germs. With our expert team, we deliver optimal results using high-quality equipment along with sustainable cleaning products of the best quality. Your well-being and comfort, together with your mental serenity, improve through an environment maintained in clean condition. Deep cleaning performed beyond regular cleaning eliminates the complete presence of hidden dirt along with allergens and germs.   </>
                 }
-                imageSrc="/images/Maintenance/1.jpg"
+                imageSrc="/images/deepclean/2.png"
                 imageAlt="Deep Cleaning Services"
             />
             <BenefitsOfDeepCleaning
                 title="Common Deep Cleaning Problems"
                 content="Dirt and germs often hide in places regular cleaning can’t reach—under furniture, behind appliances, or deep in carpets and vents. Without proper care, these areas collect dust, bacteria, and allergens that affect air quality and hygiene. Common issues include stained tiles, mold in bathrooms, greasy kitchen surfaces, and buildup in corners and fixtures. Our deep cleaning team tackles these hidden messes with advanced tools and techniques, ensuring your space is not just clean—but truly refreshed and sanitized."
                 imageLeft={true}
-                imageSrc="/images/carpentry/2.jpg"
+                imageSrc="/images/deepclean/3.png"
                 imageAlt="Deep Cleaning Image"
                 points={[
                     "Tile Stains",
@@ -95,7 +105,7 @@ export default function ServicePage() {
                 title="Benefits of Deep Cleaning"
                 content="Proficient cleaning techniques eliminate allergens and bacteria alongside dust, producing cleaner air and minimizing infection risks. The complete cleaning routine reaches every location that regular maintenance fails to achieve, ensuring a contamination-free environment. The cleaning method enhances sanitation standards and comfort quality, which produces better home and workplace health conditions."
                 imageLeft={true}
-                imageSrc="/images/carpentry/3.jpg"
+                imageSrc="/images/benefits.png"
                 imageAlt="Carpentry Image"
                 points={[
                     "Cleaner Air",

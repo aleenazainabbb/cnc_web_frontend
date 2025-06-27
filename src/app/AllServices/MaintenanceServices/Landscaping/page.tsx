@@ -55,7 +55,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                // imageSrc="/images/Maintenance/landscaping/landscaping.png"
             />
             <BestDeepCleaning
                 title="Best Landscaping Services in UAE from Care N Clean"
