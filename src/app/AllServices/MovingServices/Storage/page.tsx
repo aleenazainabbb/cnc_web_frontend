@@ -41,7 +41,7 @@ export default function StoragePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+             imageSrc="/images/banners/StorageMoving.png"
             />
             <BestDeepCleaning
                 title="Best Storage Services in UAE from Care N Clean"

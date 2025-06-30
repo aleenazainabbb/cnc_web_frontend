@@ -66,9 +66,9 @@ export default function PestPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                imageSrc="/images/banners/Cockroach.png"
             />
-            
+
             <BestDeepCleaning
                 title="Best Cockroach Control Services in UAE from Care N Clean"
                 paragraph={

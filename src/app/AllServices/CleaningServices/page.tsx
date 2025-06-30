@@ -101,6 +101,7 @@ export default function ServicePage() {
         showButton={true}
         buttonText="Contact Us"
         buttonLink="/contact"
+        imageSrc="/images/banners/Cleaning.png"
       />
       <BestDeepCleaning
         title="Best Cleaning Services in UAE from Care N Clean"

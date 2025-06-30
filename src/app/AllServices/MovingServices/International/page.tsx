@@ -41,7 +41,7 @@ export default function InternationalMovingPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+             imageSrc="/images/banners/InternationalMoving.png"
             />
             <BestDeepCleaning
                 title="Best International Moving Services in UAE from Care N Clean"

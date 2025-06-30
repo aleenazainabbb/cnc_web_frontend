@@ -41,7 +41,7 @@ export default function LocalMovingPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                imageSrc="/images/banners/LocalMoving.png"
             />
             <BestDeepCleaning
                 title="Best Local Moving Services in UAE from Care N Clean"
@@ -65,7 +65,7 @@ export default function LocalMovingPage() {
                 title="Common Local Moving Problems"
                 content="Local moves can be more stressful than expected—damaged furniture, late movers, poor packing, and miscommunication are common issues. Without proper planning, moving day can turn chaotic. Delays, extra costs, and lost items are avoidable with professional service. Choosing an experienced team means fewer headaches and a smoother transition to your new location."
                 imageLeft={true}
-                 imageSrc="/images/Moving/local/2.jpg"
+                imageSrc="/images/Moving/local/2.jpg"
                 imageAlt="Local Moving Problems"
                 points={[
                     "Furniture Damage",

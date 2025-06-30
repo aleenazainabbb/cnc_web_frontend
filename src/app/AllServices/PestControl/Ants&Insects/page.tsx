@@ -66,7 +66,7 @@ export default function PestPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+             imageSrc="/images/banners/AntsControl.png"
             />
             <BestDeepCleaning
                 title="Best Ants & Insects Control Services in UAE from Care N Clean"

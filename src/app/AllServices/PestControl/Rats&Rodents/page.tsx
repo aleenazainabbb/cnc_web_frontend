@@ -66,7 +66,7 @@ export default function PestPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                imageSrc="/images/banners/RatsControl.png"
             />
             <BestDeepCleaning
                 title="Best Rats & Rodents Control Services in UAE from Care N Clean"
@@ -114,7 +114,7 @@ export default function PestPage() {
                 title="Benefits of Rats & Rodents Control"
                 content="Our rodent control services eliminate existing infestations and prevent future intrusions. With expert sealing, trapping, and sanitation, you protect your health, property, and peace of mind. Trust Care N Clean for thorough, discreet, and reliable rodent management."
                 imageLeft={true}
-               imageSrc="/images/rats2.jpg"
+                imageSrc="/images/rats2.jpg"
                 imageAlt="Benefits of Rats and Rodents Control"
                 points={[
                     "Health Protection",
