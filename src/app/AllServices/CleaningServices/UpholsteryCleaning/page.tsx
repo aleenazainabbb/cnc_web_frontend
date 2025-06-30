@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Upholstery Cleaning Services in Dubai - Care N Clean",
+    description: "Revive your furniture with expert upholstery cleaning services in Dubai. Care n Clean offers deep cleaning for sofas, carpets, and mattresses.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Upholstery Cleaning in Dubai",
+        description: "Book expert upholstery cleaning in Dubai for sofas, chairs, cushions, and more. We restore freshness and remove allergens using safe products.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/UpholsteryCleaning",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/maid/4.jpg", 
+                width: 1200,
+                height: 630,
+                alt: "Upholstery Cleaning Dubai",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Upholstery Cleaning by Care N Clean",
+        description: "Revive your furniture with deep upholstery cleaning services across Dubai by Care N Clean.",
+        images: ["http://192.168.18.13:3000/images/maid/4.jpg"], 
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,7 +99,7 @@ export default function VehiclePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+            imageSrc="/images/banners/PoolCleaning.png"
             />
             <BestDeepCleaning
                 title="Best Upholstery Cleaning Services in UAE from Care N Clean"
@@ -89,7 +118,11 @@ export default function VehiclePage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Upholstery Problems"
-                content="Over time, upholstery collects dust, body oils, food crumbs, allergens, and stains that affect both the appearance and hygiene of your furniture. Left untreated, these issues can lead to unpleasant odors, faded colors, and worn-out fabrics. Our team uses steam cleaning, spot treatment, and fabric-safe methods to eliminate these problems while preserving the look and feel of your upholstery."
+                content="Over time, upholstery collects dust, body oils, food crumbs, allergens, and stains that affect both the appearance and hygiene of your furniture. Left 
+                untreated, these issues can lead to unpleasant odors, faded colors, and worn-out fabrics.
+                Our trained technicians demonstrate upholstery cleaning with the highly-effective techniques. The cleaning will help in removing the invisible bacteria and completely 
+                wipe it away from your expensive upholstery.
+"
                 imageLeft={true}
                 imageSrc="/images/upholstery/2.jpg"
                 imageAlt="Upholstery Cleaning Issues"
@@ -107,7 +140,9 @@ export default function VehiclePage() {
 
             <BookYourService
                 title="Book Your Upholstery Cleaning Services Today!"
-                description="Refresh your furniture and restore comfort with Care N Clean’s professional upholstery cleaning services. From sofas to cushions, we remove dirt, stains, and allergens to bring your furniture back to life. Book your service today and enjoy a cleaner, healthier indoor space."
+                description="We can sterilize, disinfect and secure your furniture after every cleaning. Our proficient staff members
+                 are eagerly waiting to help you out. Therefore, before wasting any further time, hire the finest upholstery cleaning services in Dubai.  Book your service today and 
+                 enjoy a cleaner, healthier indoor space."
                 defaultService="Upholstery Cleaning"
             />
 
@@ -128,10 +163,10 @@ export default function VehiclePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
 
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-            
+
             <GetAQuoteSection text="Trusted Upholstery Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

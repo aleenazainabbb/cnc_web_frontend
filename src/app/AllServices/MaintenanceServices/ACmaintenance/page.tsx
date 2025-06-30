@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "AC Maintenance and Service in Dubai - Care N Clean",
+  description: "Keep your AC running efficiently with Care n Clean’s expert AC maintenance and service in Dubai. Reliable cooling solutions for your comfort.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Professional AC Maintenance Services in Dubai",
+    description: "Book reliable AC servicing, filter cleaning, and cooling system repairs. Fast, affordable, and efficient service from Care N Clean.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/ACmaintenance", // Adjust path as per your route
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/Maintenance/AC/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Care N Clean AC Maintenance Services",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Care N Clean - Professional AC Maintenance Services in UAE",
+    description: "AC not cooling? Strange noises or leaks? Get expert maintenance services in the UAE with Care N Clean.",
+    images: ["http://192.168.18.13:3000/images/Maintenance/AC/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -56,20 +85,22 @@ export default function ServicePage() {
         showButton={true}
         buttonText="Contact Us"
         buttonLink="/contact"
-      // imageSrc="/images/Maintenance/header.avif"
+        imageSrc="/images/banners/AC.png"
       />
       <BestDeepCleaning
         title="Best AC Maintenance Services in UAE from Care N Clean"
         paragraph={
           <>
-            The UAE climate makes reliable air conditioning a must for homes and offices. {" "}
+            {/* The UAE climate makes reliable air conditioning a must for homes and offices. {" "} */}
             <a
               href="/about"
               style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
             >
               Care N Clean
             </a>{" "}
-            offers expert AC maintenance services designed to keep your environment cool and comfortable. Whether you’re facing weak airflow, strange noises, or an unresponsive system, our trained technicians are ready to help. From installation to emergency repairs, duct cleaning to full system checks, we use high-quality tools and techniques to deliver fast, effective solutions. Stay worry-free during the hot season with trusted AC care tailored to your needs.
+            offers expert AC maintenance services designed to keep your environment cool and comfortable. Whether you’re facing weak airflow, strange noises, or an unresponsive system,
+            our trained technicians are ready to help. Do you want a professional for repairing, improving, or restoring your air conditioning system? Look no further! Our team of
+            experts in Care n Clean will help you, no matter what AC problem you are running into. We have one of the top-rated AC maintenance and service in Dubai.
           </>
         }
         imageSrc="/images/Maintenance/AC/1.jpg"
@@ -78,9 +109,12 @@ export default function ServicePage() {
 
       <BenefitsOfDeepCleaning
         title="Common AC Maintenance Problems"
-        content="Air conditioning problems can disrupt comfort and lead to higher energy bills if not addressed. Whether it's weak airflow, water leakage, strange noises, or thermostat issues, our team handles it all. We also deal with dirty filters, blocked ducts, and worn-out parts that affect performance. Regular AC checks and timely maintenance ensure smooth, efficient operation and extend the life of your unit."
+        content="Air conditioning problems can disrupt comfort and lead to higher energy bills if not addressed. Whether it's weak airflow, water leakage, strange noises, or thermostat
+         issues, our team handles it all. We also deal with dirty filters, blocked ducts, and worn-out parts that affect performance. It’s time to have a sound sleep in AC and not in 
+         blowing cool air. So, what are you waiting for? Start with your booking now at the official website of Care n Clean! Customer’s satisfaction and trust on our organization is very important
+          to us. We ensure the quality of work. As our logo says “your happiness, our pride”"
         imageLeft={true}
-       imageSrc="/images/Maintenance/AC/1.png"
+        imageSrc="/images/Maintenance/AC/1.png"
         imageAlt="AC Maintenance Image"
         points={[
           "Weak Airflow",
@@ -96,12 +130,16 @@ export default function ServicePage() {
 
       <BookYourService
         title="Book Your AC Maintenance Services Today!"
-        description="Need help with your air conditioning system? Care N Clean offers professional AC maintenance and repair services. Whether it’s fixing leaks, cleaning filters, or installing a new unit, our experts ensure cool, clean air flows through your space. Book today and enjoy dependable comfort all year long."
+        description="Our workers are well trained and experienced. We give in-house training to keep our workers proficient. You can book and schedule your AC upkeep services from 
+        any place simply utilizing your cell phone and fix any AC related issues to keep your premises cool. Begin booking with Care n Clean from today!"
         defaultService="AC Maintenance" />
 
       <BenefitsOfDeepCleaning
         title="Benefits of AC Maintenance"
-        content="Regular AC maintenance ensures a cool and healthy indoor climate while lowering energy use and preventing costly breakdowns. Clean filters improve air quality, while tune-ups extend the life of your system. With our reliable service, you stay comfortable even during the UAE's hottest months. Keep your AC running efficiently and your space fresh with scheduled care from Care N Clean."
+        content="Regular AC maintenance ensures a cool and healthy indoor climate while lowering energy use and preventing costly breakdowns. The deadly summer month, apologies to people 
+        who love this season make it necessary for a household to have an AC, and when it doesn’t work you feel like you are in a desert. But not to worry when Care n Clean is here. The
+         various services we provide include home heating system, AC maintenance, central air conditioning, AC installation, air duct cleaning, emergency air conditioning service, and
+          indoor air quality. It’s time to have a sound sleep in AC and not in blowing cool air."
         imageLeft={true}
         imageSrc="/images/Maintenance/AC/3.png"
         imageAlt="AC Maintenance Image"
@@ -109,14 +147,12 @@ export default function ServicePage() {
           "Better Cooling",
           "Energy Savings",
           "Clean Air",
-          "Longer Lifespan",
           "Fewer Repairs",
-          "Quiet Operation",
-          "Peace of Mind"
+          "Quiet Operation"
         ]}
         showViewServicesBtn={false}
       />
-      <NeedHelp/>
+      <NeedHelp />
 
       <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
       <GetAQuoteSection text="Trusted Carpentry Services Across the UAE – Fast, Reliable, and Affordable." />

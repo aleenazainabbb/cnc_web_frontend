@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Best Maintenance Services in Dubai - Care N Clean",
+    description: "Trusted maintenance services for homes and businesses in the UAE. Plumbing, AC, electrical, carpentry, and more — all in one place.",
+   authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Maintenance Services in Dubai",
+        description: "Book professional maintenance services from Care N Clean. Plumbing, AC maintenance, electrical work, carpentry, painting, and more.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices", // Adjust to match your route
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Maintenance Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Maintenance Services in UAE",
+        description: "Expert home and commercial maintenance. Fast, affordable, and trusted across the UAE.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import AchievementSection from "@/components/home_page_components/AchievementSection"
@@ -124,10 +153,10 @@ export default function MaintenancePage() {
                 ]}
             />
             <ContactUsSection />
-              <NeedHelp />
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Maintenance Services" />
-              
+
             <GetAQuoteSection text="Trusted Maintenance Services Across the UAE – Fast, Reliable, and Affordable." />
 
 

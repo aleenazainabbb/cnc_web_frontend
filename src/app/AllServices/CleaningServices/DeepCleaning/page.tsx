@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Best Deep Cleaning Services in Dubai - Care N Clean",
+    description: "Professional deep cleaning services by Care N Clean in UAE. We eliminate hidden dirt, allergens, and germs using eco-friendly products and expert techniques.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Best Deep Cleaning Services in Dubai",
+        description: "Book reliable deep cleaning services for homes, offices, and commercial spaces. Remove stains, dust, and odors for a fresher, healthier environment.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/DeepCleaning", // Adjust if your actual route is different
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/deepclean/2.png",
+                width: 1200,
+                height: 630,
+                alt: "Deep Cleaning Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Deep Cleaning UAE",
+        description: "Revitalize your space with professional deep cleaning. Safe, thorough, and eco-friendly—Care N Clean is trusted across the UAE.",
+        images: ["http://192.168.18.13:3000/images/deepclean/2.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -47,7 +76,7 @@ const sixSections = [
         title: "Maid Services",
         content:
             "Our maid services offer consistent, reliable cleaning for daily or weekly needs. Whether it’s dusting, mopping, dishwashing, or tidying up, our trained staff ensures your home stays neat and welcoming. Flexible scheduling, trustworthy staff, and attention to detail make our maid services a dependable part of your routine."
-      }
+    }
 ];
 
 export default function ServicePage() {
@@ -66,7 +95,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            imageSrc="/images/banners/DeepCleaning.png"
+                imageSrc="/images/banners/DeepCleaning.png"
             />
             <BestDeepCleaning
                 title="Best Deep Cleaning Services in UAE from Care N Clean"
@@ -100,7 +129,9 @@ export default function ServicePage() {
             />
             <BookYourService
                 title="Book Your Deep Cleaning Services Today!"
-                description="The deep cleaning service performed by Care N Clean delivers a superior quality solution in the UAE market. Our company provides cleaning services for homes and offices together with commercial spaces. Our skilled staff members provide top-quality cleaning services that match every specific requirement. Secure your deep cleaning service right now to get a healthier environment and a clean space."
+                description="The deep cleaning service performed by Care N Clean delivers a superior quality solution in the UAE market. Our company provides cleaning services for 
+                homes and offices together with commercial spaces. Our skilled staff members provide top-quality cleaning services that match every specific requirement. Secure your 
+                deep cleaning service right now to get a healthier environment and a clean space."
                 defaultService="Deep Cleaning" />
             <BenefitsOfDeepCleaning
                 title="Benefits of Deep Cleaning"
@@ -119,7 +150,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-             <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Chandelier Cleaning Services in Dubai - Care N Clean",
+    description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE. Professional and delicate cleaning solutions.",
+   authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Chandelier Cleaning Services Dubai - Care N Clean",
+        description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE.. Professional and delicate cleaning solutions.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/Chandelier", // Update to actual route
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Chandelier/1.png",
+                width: 1200,
+                height: 630,
+                alt: "Chandelier Cleaning Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Professional Chandelier Cleaning",
+        description: "Make your chandeliers sparkle again. Safe, professional, and trusted chandelier cleaning services available across the UAE.",
+        images: ["http://192.168.18.13:3000/images/Chandelier/1.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -52,7 +81,7 @@ const sixSections = [
         title: "Maid Services",
         content:
             "Our maid services offer consistent, reliable cleaning for daily or weekly needs. Whether it’s dusting, mopping, dishwashing, or tidying up, our trained staff ensures your home stays neat and welcoming. Flexible scheduling, trustworthy staff, and attention to detail make our maid services a dependable part of your routine."
-      }
+    }
 ];
 
 export default function ChandelierPage() {
@@ -70,7 +99,7 @@ export default function ChandelierPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            imageSrc="/images/banners/chandeliercleaning.png"
+                imageSrc="/images/banners/chandeliercleaning.png"
             />
             <BestDeepCleaning
                 title="Best Chandelier Cleaning Services in UAE from Care N Clean"
@@ -80,7 +109,11 @@ export default function ChandelierPage() {
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers specialized chandelier cleaning services for homes, hotels, offices, and event spaces across the UAE. Our skilled professionals use safe methods and delicate equipment to reach and clean every intricate piece—removing dust, grime, and tarnish from glass, crystal, and metallic elements. Whether it’s a simple ceiling fixture or a grand centerpiece, we restore your chandelier’s brilliance while preserving its integrity and beauty.
+                        offers offer comprehensive chandelier cleaning services designed to meet your specific needs. We offer comprehensive chandelier cleaning services designed to
+                        meet your specific needs. From dust removal to crystal polishing our skilled team ensures your chandelier regains its original brilliance. No matter the size,
+                        style, or complexity, we handle each piece with expert care and precision. With 15 years of experience, we specialize in cleaning all types of chandeliers
+                        that shine like new. Trusted by homes, hotels, businesses, and major names across the UAE—including government entities and the hotel industry. We deliver
+                        reliable, safe, and stunning results every time.
                     </>
                 }
                 imageSrc="/images/Chandelier/1.png"
@@ -89,7 +122,9 @@ export default function ChandelierPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Chandelier Problems"
-                content="Over time, chandeliers collect dust, insects, and fingerprints, reducing their sparkle and causing dim lighting. Improper or infrequent cleaning can lead to corrosion, glass stains, or damage to delicate parts. Our trained staff handles every chandelier with care, ensuring thorough cleaning without disrupting its structure or design."
+                content="If your chandelier has lost its sparkle and looks darker or dirtier than before, it’s likely covered in dust and grime.Dust buildup on chandeliers can spread 
+                allergens into the air, causing sneezing, coughing, or itchy eyes. If you're experiencing allergy symptoms at home, your chandelier could be part of the problem.
+                 If your lighting seems dim or uneven, it’s time for a thorough cleaning."
                 imageLeft={true}
                 imageSrc="/images/Chandelier/2.jpg"
                 imageAlt="Chandelier Problems"
@@ -107,7 +142,7 @@ export default function ChandelierPage() {
 
             <BookYourService
                 title="Book Your Chandelier Cleaning Services Today!"
-                description="Let your chandelier shine like new. Whether in a home or commercial space, Care N Clean offers precise and professional chandelier cleaning. We ensure a safe, spotless, and sparkling result every time. Book now and restore the brilliance above your head."
+                description="Let your chandeliers shine again with our professional cleaning service in UAE. Safety, professionalism, and a dazzling finish are guaranteed. Whether in a home or commercial space, Care N Clean offers precise and professional chandelier cleaning. We ensure a safe, spotless, and sparkling result every time. Book now and restore the brilliance above your head."
                 defaultService="Chandelier Cleaning"
             />
 
@@ -128,10 +163,10 @@ export default function ChandelierPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-             <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-           
-            <GetAQuoteSection text="Trusted Chandelier Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
+
+            <GetAQuoteSection text="Complete Residential and Commercial Handyman & Maintenance Services in UAE." />
         </div>
 
     )

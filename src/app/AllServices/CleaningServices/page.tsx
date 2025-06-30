@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Best Cleaning Services in Dubai – Residential & Commercial | Care N Clean",
+  description: "Discover top-rated cleaning services in Dubai with Care N Clean. From deep cleaning and windows to upholstery and maid services—we make spaces shine!",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert Cleaning Services in Dubai",
+    description: "Book professional cleaning for homes, offices, vehicles, and more. Deep cleaning, windows, ducts, and upholstery—all done right across the UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/deepclean.png",
+        width: 1200,
+        height: 630,
+        alt: "Cleaning Services in Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Care N Clean - Top Cleaning Services in Dubai",
+    description: "Reliable and affordable cleaning services for every corner of your home or office. Book now for deep, duct, pool, and maid cleaning solutions.",
+    images: ["http://192.168.18.13:3000/images/deepclean.png"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import AchievementSection from "@/components/home_page_components/AchievementSection"

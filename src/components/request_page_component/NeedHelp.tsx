@@ -11,9 +11,11 @@ interface BookYourServiceProps {
 
 const NeedHelp: React.FC<BookYourServiceProps> = ({
   title = "Get Your Personalized Service Instantly!",
- description = ` Care N Clean makes it easy to book exactly the cleaning service you need. No calls, no hassle. Whether it’s Cleaning, Maintenance, Moving or Pest Control services, simply select your service, fill in your contact details, and we’ll take care of the rest. You can customize your request by choosing the subservice, preferred time to reach you, and even include special instructions.
-
-      Our experienced team ensures high-quality service delivery with eco-friendly materials, modern tools, and full attention to your convenience. Comfort and reliability are just a form away. So book now and let Care N Clean handle it for you. We prioritize your satisfaction by tailoring every service to meet your specific needs and schedule. From the first click to final cleanup, Care N Clean guarantees a smooth, professional, and worry-free experience.
+ description = `Care N Clean makes it easy to book exactly the cleaning service you need. No calls, no hassle. Whether it’s Cleaning, Maintenance, Moving or Pest Control services,
+  simply select your service, fill in your contact details, and we’ll take care of the rest. You can customize your request by choosing the subservice, preferred time to reach you,
+   and even include special instructions. Our workers are well trained and experienced. We give in-house training to keep our workers proficient.
+    Comfort and reliability are just a form away. So book now and let Care N Clean handle it for you. Customer’s satisfaction and trust on our organization is very important to us. We 
+    ensure the quality of work. As our logo says “your happiness, our pride”
 `,
 defaultService=""
 }) => {

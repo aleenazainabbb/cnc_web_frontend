@@ -1,10 +1,36 @@
-"use Client"
+export const metadata = {
+    title: "Professional Plumbing Services in Dubai - Care N Clean",
+    description: "Need a plumber in Dubai? Care n Clean offers reliable plumbing services, including leak repairs, installations, and maintenance for homes and businesses.",
+   authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Professional Plumbing Services in Dubai - Care N Clean",
+        description: "Book professional plumbing services across UAE with Care N Clean. Quick, affordable, and hassle-free.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Plumbing", // replace with your actual URL
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/plumbing/plumbing1.png", // full URL
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Plumbing Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Reliable Plumbing Services",
+        description: "Book professional plumbing services across UAE with Care N Clean. Quick, affordable, and hassle-free.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/plumbing/plumbing1.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
-import AchievementSection from "@/components/home_page_components/AchievementSection"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
-import LifeMadeEasySection from "@/components/home_page_components/LifeMadeEasySection"
-import ContactUsSection from "@/components/ContactUsSection"
 import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
@@ -69,16 +95,21 @@ export default function ServicePage() {
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        delivers expert plumbing solutions for both residential and commercial properties. Our trained professionals handle everything from leak repairs and drain blockages to water heater maintenance and pipe installations. Using advanced tools and high-quality, eco-friendly materials, we ensure every system runs smoothly and safely. With our dependable service, you gain comfort, convenience, and confidence in your water systems. Preventive plumbing care goes beyond quick fixes to reduce future issues and keep your space fully functional and worry-free.
+                        delivers expert plumbing solutions for both residential and commercial properties. Frozen pipes, damaged water lines, drain clogs, cracked outside faucets,
+                        water heater repair, or sump pump installations, our efficient team can fix anything. Having difficulty in a smooth flow of water? No problem. You can make use of our service to book
+                        a plumber to resolve the issue of your taps, bowls, and other things by installing a water softener.  Customer’s satisfaction and trust on our organization is very important to us.
+                        We ensure the quality of work. As our logo says “your happiness, our pride”.
                     </>
                 }
-
                 imageSrc="/images/Maintenance/plumbing/plumbing1.png"
                 imageAlt="Plumbing Services"
             />
             <BenefitsOfDeepCleaning
                 title="Common Plumbing Problems"
-                content="Plumbing services need more than just quick fixes. Our team carefully checks and takes care of every part of your water system—both inside and outside your space. We don’t just handle what’s visible; we also fix things that often go unnoticed, like frozen pipes, clogged drains, or cracked outdoor faucets. From water heater repairs to sump pump installations, we work to keep your plumbing in good shape and flowing smoothly. Regular plumbing care helps prevent major issues before they start, keeping your place safe, comfortable, and fully functional for your family or team."
+                content="Plumbing services need more than just quick fixes. Our team carefully checks and takes care of every part of your water system—both inside and outside your space.
+                 We don’t just handle what’s visible; we also fix things that often go unnoticed, like frozen pipes, clogged drains, or cracked outdoor faucets. From water heater repairs to 
+                 sump pump installations, we work to keep your plumbing in good shape and flowing smoothly. Don't let a small leak cost you bigger money! Even small leak drips, or occasionally
+                  running toilets can lead to bigger problems. Ask us how to correct these plumbing problems and help save your money! So, what are you waiting for? Start with your booking now!"
                 imageLeft={true}
                 imageSrc="/images/Maintenance/plumbing/2.png"
                 imageAlt="Plumbing Image"
@@ -88,18 +119,22 @@ export default function ServicePage() {
                     "Low Water Pressure",
                     "Running Toilets",
                     "Burst Pipes",
-                    "Water Heater Issues",
                     "Sump Pump Failure"
                 ]}
                 showViewServicesBtn={false}
             />
             <BookYourService
                 title="Book Your Plumbing Services Today!"
-                description="Having trouble with the smooth flow of water? No problem. With Care N Clean, you can easily book a skilled plumber to fix leaking taps, blocked bowls, or low water pressure. We also offer water softener installation to protect your plumbing and improve water quality. Whether it’s for your home or office, our team ensures safe, efficient, and long-lasting solutions tailored to your needs."
+                description="Don’t be stuck with plumbing disasters! Just call 
+                 Care n Clean for the best plumbers to remove all of your plumbing services, repairs, and replacement needs. Now is the time to spend carefree life and enjoy our 24 hrs
+                  plumbing services!  Having difficulty in a smooth flow of water? No problem. You can make use of our service to book a plumber to resolve the issue of your taps,
+                   bowls, and other things by installing a water softener."
                 defaultService="Plumbing" />
             <BenefitsOfDeepCleaning
                 title="Benefits of Plumbing"
-                content="Regular plumbing care protects your home or workplace from unexpected issues like leaks, clogs, or water damage. Our expert plumbers help maintain a smooth flow of water, repair damaged pipes, and install solutions like water softeners to prevent buildup. Fixing small problems early—like dripping taps or running toilets can save you from bigger, costly repairs later. With Care n Clean, you get peace of mind, better water quality, and a safer, more reliable plumbing system every day."
+                content="Regular plumbing care protects your home or workplace from unexpected issues like leaks, clogs, or water damage. Our workers are well trained and experienced. We give
+                 in-house training to keep our workers proficient. Fixing small problems early like dripping taps or running toilets can save you from bigger, 
+                 costly repairs later. With Care n Clean, you get peace of mind, better water quality, and a safer, more reliable plumbing system every day."
                 imageLeft={true}
                 imageSrc="/images/Maintenance/plumbing/3.png"
                 imageAlt="Plumbing Image"
@@ -114,7 +149,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Plumbing Services Across the UAE – Fast, Reliable, and Affordable." />

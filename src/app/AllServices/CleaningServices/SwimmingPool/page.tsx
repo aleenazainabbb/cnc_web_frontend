@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Swimming Pool Cleaning Services in Dubai - Care N Clean",
+  description: "Keep your pool clean and safe with Care n Clean’s swimming pool cleaning services in Dubai. Expert maintenance for crystal-clear water.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert Swimming Pool Cleaning in Dubai",
+    description: "Book reliable pool cleaning for homes, hotels, spas, and more. Our certified experts ensure your water is safe, clean, and swim-ready.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices/SwimmingPool",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/SwimmingPool/1.png",
+        width: 1200,
+        height: 630,
+        alt: "Swimming Pool Cleaning Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Swimming Pool Cleaning by Care N Clean",
+    description: "Keep your pool safe and sparkling with Care N Clean’s expert pool cleaning services in the UAE.",
+    images: ["http://192.168.18.13:3000/images/SwimmingPool/1.png"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,17 +99,20 @@ export default function SwimmingPoolPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+            imageSrc="/images/banners/PoolCleaning.png"
             />
             <BestDeepCleaning
                 title="Best Swimming Pool Cleaning Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        A clean swimming pool is essential for relaxation, hygiene, and safety, especially in the UAE's warm climate.{" "}
+                        {/* A clean swimming pool is essential for relaxation, hygiene, and safety, especially in the UAE's warm climate.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        provides professional swimming pool cleaning services for homes, hotels, and recreational facilities. Our expert team uses advanced tools and eco-friendly solutions to remove dirt, algae, and debris while balancing water chemicals. Whether it’s regular upkeep or deep pool cleaning, we ensure crystal-clear water, safe pH levels, and a refreshing swimming experience for all users.
+                        provides professional swimming pool cleaning services for homes, hotels, and recreational facilities. Our expert team uses advanced tools and eco-friendly 
+                        solutions to remove dirt, algae, and debris while balancing water chemicals. We provide swimming pool cleaning services for swimming and wading pools, as well 
+                        as cleaning services for spas, hot tubs, whirlpools, and saunas. Our pool professionals are highly skilled, trained, and licensed to handle any pool cleaning
+                         project, no matter how big or small it is.
                     </>
                 }
                 imageSrc="/images/SwimmingPool/1.png"
@@ -88,7 +120,10 @@ export default function SwimmingPoolPage() {
             />
             <BenefitsOfDeepCleaning
                 title="Common Swimming Pool Problems"
-                content="Over time, swimming pools can accumulate leaves, bacteria, algae, and chemical imbalances that affect water quality and user safety. Stagnant water, blocked filters, and slippery surfaces are just some of the issues that can make your pool unusable or unhealthy. Our trained professionals handle everything from skimming and vacuuming to pH balancing and filter cleaning—ensuring a clean, safe, and inviting pool environment."
+                content="Over time, swimming pools can accumulate leaves, bacteria, algae, and chemical imbalances that affect water quality and user safety. Stagnant water, blocked 
+                filters, and slippery surfaces are just some of the issues that can make your pool unusable or unhealthy. Dirty water can even break down pool filters and pumps. Water
+                 should be clean enough to see the bottom of your pool, and it should feel good on the skin. Unclean water can leave spots on the surface of your pool and sting the eyes
+                  of your swimmers."
                 imageLeft={true}
                 imageSrc="/images/SwimmingPool/2.jpg"
                 imageAlt="Swimming Pool Problems"
@@ -105,7 +140,8 @@ export default function SwimmingPoolPage() {
             />
             <BookYourService
                 title="Book Your Swimming Pool Cleaning Services Today!"
-                description="Make your pool sparkle with Care N Clean's expert cleaning services. Whether it’s a private villa pool or a large commercial facility, our team ensures proper sanitation and maintenance. Book your service today and dive into a cleaner, safer swimming experience."
+                description="Caren Clean has partnered with one of the best pool cleaning experts that evaluate your pool's cleaning condition thoroughly and perform cleaning activities with such
+                 dexterity that you’ll find zero cleaning problems once they’re done. Schedule your cleaning appointment right away!"
                 defaultService="Swimming Pool"
             />
             <BenefitsOfDeepCleaning

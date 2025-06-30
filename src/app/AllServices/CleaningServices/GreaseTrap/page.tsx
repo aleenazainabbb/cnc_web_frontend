@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Grease Trap Cleaning Services in Dubai - Care N Clean",
+    description: "Maintain hygiene with Care n Clean’s grease trap cleaning services in Dubai. Professional cleaning for restaurants, hotels, and commercial kitchens.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Grease Trap Cleaning Services in Dubai - Care N Clean",
+        description: "Professional grease trap cleaning in Dubai by Care n Clean. Trusted by restaurants, hotels, and commercial kitchens for hygiene and safety.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/GreaseTrap", // update if needed
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/GreaseTrap/3.jpg", // update path if hosted elsewhere
+                width: 1200,
+                height: 630,
+                alt: "Grease Trap Cleaning Dubai",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Grease Trap Cleaning Services Dubai - Care n Clean",
+        description: "Ensure hygiene in your kitchen with expert grease trap cleaning from Care n Clean in Dubai.",
+        images: ["http://192.168.18.13:3000/images/GreaseTrap/3.jpg"], // match the Open Graph image
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -47,7 +76,7 @@ const sixSections = [
         title: "Maid Services",
         content:
             "Our maid services offer consistent, reliable cleaning for daily or weekly needs. Whether it’s dusting, mopping, dishwashing, or tidying up, our trained staff ensures your home stays neat and welcoming. Flexible scheduling, trustworthy staff, and attention to detail make our maid services a dependable part of your routine."
-      }
+    }
 ];
 
 export default function GreaseTrapPage() {
@@ -65,17 +94,20 @@ export default function GreaseTrapPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+                imageSrc="/images/banners/GreaseTrap.png"
             />
             <BestDeepCleaning
                 title="Best Grease Trap Cleaning Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        Grease trap cleaning is essential for hygiene and plumbing efficiency in commercial kitchens and food establishments across the UAE.{" "}
+                        A grease trap plays a vital role in your foodservice operation.{" "}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers specialized grease trap cleaning services designed to remove built-up fats, oils, and sludge that can clog drainage systems and cause foul odors. Our skilled technicians use advanced equipment and eco-friendly solutions to fully clean, sanitize, and deodorize your traps—ensuring compliance with safety and health regulations. Count on us for timely, effective service that keeps your kitchen running clean and smoothly.
+                        offers specialized grease trap cleaning services designed to remove built-up fats, oils, and sludge that can clog drainage systems and cause foul odors.
+                        Our skilled technicians use advanced equipment and eco-friendly solutions to fully clean, sanitize, and deodorize your traps—ensuring compliance with safety
+                        and health regulations. The grease trap service is a safe, clean
+                        way to get rid of your restaurant of fats, oil, and grease (FOG).
                     </>
                 }
                 imageSrc="/images/GreaseTrap/3.jpg"
@@ -83,7 +115,11 @@ export default function GreaseTrapPage() {
             />
             <BenefitsOfDeepCleaning
                 title="Common Grease Trap Problems"
-                content="Grease traps, when neglected, can cause major hygiene and plumbing issues in commercial kitchens. Overflowing grease, slow drainage, and foul odors are signs of buildup that can lead to health code violations and system blockages. Our team clears out solid waste and greasy sludge to keep your trap functioning properly, ensuring a clean and safe working environment."
+                content="Grease traps, when neglected, can cause major hygiene and plumbing issues in commercial kitchens. Overflowing grease, slow drainage, and foul odors are
+                 signs of buildup that can lead to health code violations and system blockages. Our team clears out solid waste and greasy sludge to keep your trap functioning 
+                 properly, ensuring a clean and safe working environment. The professionals at Care n Clean have broadened their ability, information, and experience that is 
+                 fundamental for making the oil traps stainless and usable.
+"
                 imageLeft={true}
                 imageSrc="/images/GreaseTrap/1.png"
                 imageAlt="Grease Trap Problem"
@@ -101,13 +137,16 @@ export default function GreaseTrapPage() {
 
             <BookYourService
                 title="Book Your Grease Trap Cleaning Services Today!"
-                description="Avoid costly plumbing repairs and unpleasant odors—book your grease trap cleaning with Care N Clean today. Our experts provide thorough, reliable service tailored to your kitchen's needs. Stay compliant, stay clean, and keep your operations running without interruption."
+                description="Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride”.
+                 You can take advantage of our grease trap cleaning services Dubai. Therefore, we encourage you to start with your booking to benefit yourself from this service!"
                 defaultService="Grease Trap"
             />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Grease Trap Cleaning"
-                content="Regular grease trap cleaning improves kitchen hygiene, prevents blockages, and ensures compliance with local safety regulations. It also helps maintain efficient drainage, reduces odors, and supports better wastewater management. With Care N Clean, you get expert service that protects your business and keeps your kitchen running without interruption."
+                content="If you notice any pitfall in your grease trap system, it can lead to sewer or drain backups and poisonous smells. Proper grease trap cleaning and maintenance
+                 is a must to keep your operations running efficiently. With Care N Clean, you get expert service that protects your business and keeps your 
+                kitchen running without interruption. Our workers are well trained and experienced. We give in-house training to keep our workers proficient. "
                 imageLeft={true}
                 imageSrc="/images/GreaseTrap/2.jpg"
                 imageAlt="Grease Trap Benefits"
@@ -122,9 +161,9 @@ export default function GreaseTrapPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-             <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-           
+
             <GetAQuoteSection text="Trusted GreaseTrap Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

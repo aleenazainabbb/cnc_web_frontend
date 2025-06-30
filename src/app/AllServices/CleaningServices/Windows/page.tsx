@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Window Cleaning Services in Dubai - Care N Clean",
+  description: "Get sparkling clean windows with Care n Clean’s professional window cleaning services in Dubai. Expert service for homes and offices.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert Window Cleaning in Dubai",
+    description: "Clear your view with professional window cleaning services across Dubai. From high-rise buildings to homes—we make glass shine!",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Windows",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/windows/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Window Cleaning Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Window Cleaning by Care N Clean",
+    description: "Enjoy crystal-clear windows in your home or office with Care N Clean’s expert glass cleaning services in Dubai.",
+    images: ["http://192.168.18.13:3000/images/windows/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,7 +99,7 @@ export default function WindowsPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+                imageSrc="/images/banners/Windowcleaning.png"
             />
             <BestDeepCleaning
                 title="Best Windows Cleaning Services in UAE from Care N Clean"
@@ -80,7 +109,9 @@ export default function WindowsPage() {
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers professional window cleaning services across the UAE using safe techniques and streak-free solutions. Whether you have high-rise glass panels or home windows, our trained team delivers crystal-clear results without damaging frames or glass. Enjoy unobstructed views and a brighter space with our reliable, high-standard cleaning approach.
+                        offers professional window cleaning services across the UAE using safe techniques and streak-free solutions. Our technicians are experienced in cleaning all
+                         types of windows including single pane, double pane, French pane, skylights, glass panels, storm windows, etc. We have all the equipment necessary to clean
+                          the window. Care n Clean is the best company where you can take help regarding all these cleaning tasks in UAE.
                     </>
                 }
                 imageSrc="/images/windows/1.jpg"
@@ -107,13 +138,16 @@ export default function WindowsPage() {
 
             <BookYourService
                 title="Book Your Window Cleaning Services Today!"
-                description="Let the sunshine in! Book Care N Clean’s expert window cleaning service to enjoy spotless, streak-free windows. Whether it’s your home or commercial property, we’ll bring back the shine with professional care and efficiency."
+                description="Our team of experts is at your service at any time of the day. Our proficient staff members are eagerly waiting to help you out, therefore, before wasting
+                 any further time we encourage you to start with your booking in order to benefit yourself from this service. Book your Window Cleaning Service now!"
                 defaultService="Windows Cleaning"
             />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Window Cleaning"
-                content="Clean windows improve natural lighting, boost aesthetics, and extend the lifespan of your glass surfaces. With regular maintenance, you can prevent etching, reduce allergens, and create a cleaner, more inviting space. Trust Care N Clean for a reliable shine every time."
+                content="Clean windows improve natural lighting, boost aesthetics, and extend the lifespan of your glass surfaces. With regular maintenance, you can prevent etching, 
+                reduce allergens, and create a cleaner, more inviting space. Trust Care N Clean for a reliable shine every time. If you have dirty windows, you won’t be getting as much
+                 light as it should come! No need to worry, Care n Clean has a solution to all of your problems."
                 imageLeft={true}
                 imageSrc="/images/windows/3.jpg"
                 imageAlt="Window Cleaning Benefits"
@@ -128,7 +162,7 @@ export default function WindowsPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Window Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

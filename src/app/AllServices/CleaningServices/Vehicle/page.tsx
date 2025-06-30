@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Commercial Vehicle Cleaning Service in Dubai - Care N Clean",
+  description: "Ensure a clean and hygienic fleet with Care n Clean’s commercial vehicle cleaning service in Dubai. Professional washing and detailing.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Professional Vehicle Cleaning in Dubai",
+    description: "Get your car cleaned inside and out by professionals. We offer interior detailing, dashboard sanitization, and full exterior wash.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices/VehicleCleaning",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/vehicle/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Vehicle Cleaning Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vehicle Cleaning by Care N Clean",
+    description: "Interior and exterior car detailing in Dubai. Book your expert vehicle cleaning service today with Care N Clean.",
+    images: ["http://192.168.18.13:3000/images/vehicle/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,7 +99,7 @@ export default function VehiclePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+             imageSrc="/images/banners/vehiclecleaning.png"
             />
             <BestDeepCleaning
                 title="Best Vehicle Cleaning Services in UAE from Care N Clean"
@@ -80,7 +109,10 @@ export default function VehiclePage() {
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers professional vehicle cleaning services across the UAE for cars, SUVs, vans, and more. Our expert team uses premium products and tools to perform thorough exterior washes, interior detailing, upholstery cleaning, and engine bay cleaning. Whether for regular upkeep or deep cleaning, we make sure your vehicle stays spotless, sanitized, and road-ready—inside and out.
+                        offers professional vehicle cleaning services across the UAE for cars, SUVs, vans, and more. Our expert team uses premium products and tools to perform
+                         thorough exterior washes, interior detailing, upholstery cleaning, and engine bay cleaning. Whether for regular upkeep or deep cleaning, we make sure your 
+                         vehicle stays spotless, sanitized, and road ready inside and out. Our team is well equipped with the
+                          knowledge and skills to take it to the wow factor.
                     </>
                 }
                 imageSrc="/images/vehicle/1.jpg"
@@ -89,7 +121,9 @@ export default function VehiclePage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Vehicle Problems"
-                content="Vehicles gather dust, stains, road grime, and bacteria over time, especially in the UAE’s dusty environment. Dirty interiors, stained upholstery, unpleasant odors, and water spots can affect both hygiene and driving comfort. Our vehicle cleaning experts tackle every detail—from dashboard to carpets—to remove stubborn buildup and restore a fresh, clean feel."
+                content="Vehicles gather dust, stains, road grime, and bacteria over time, especially in the UAE’s dusty environment. Dirty interiors, stained upholstery, unpleasant
+                 odors, and water spots can affect both hygiene and driving comfort. Our vehicle cleaning experts tackle every detail—from dashboard to carpets—to remove stubborn 
+                 buildup and restore a fresh, clean feel. No need to take tension, when you have a well-managed team of Care n Clean."
                 imageLeft={true}
                 imageSrc="/images/vehicle/2.jpg"
                 imageAlt="Vehicle Cleaning Issues"
@@ -107,7 +141,8 @@ export default function VehiclePage() {
 
             <BookYourService
                 title="Book Your Vehicle Cleaning Services Today!"
-                description="Make your car shine inside and out with Care N Clean’s professional vehicle cleaning services. We handle everything from basic washing to deep interior detailing. Book your service today and drive clean, fresh, and confidently."
+                description="We will help you achieve your goals with our services. So, you can focus on your work only! Our workers are eagerly waiting to help you out, therefore,
+                 before wasting any further time we encourage you to start with your booking in order to benefit yourself from this service!"
                 defaultService="Vehicle Cleaning"
             />
 

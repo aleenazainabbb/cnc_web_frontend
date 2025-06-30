@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "AC Duct Cleaning Services In Dubai - Care N Clean",
+    description: "Breathe cleaner air with expert duct cleaning by Care N Clean in UAE. Remove dust, mold, allergens, and improve HVAC performance with professional care.",
+   authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Duct Cleaning Services in Dubai",
+        description: "Improve air quality with professional AC duct cleaning services in Dubai. Care n Clean ensures fresh, clean air for your home and office.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/Duct", // Adjust if route is different
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/duct/2.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Duct Cleaning Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Duct Cleaning in UAE",
+        description: "Say goodbye to dust and allergens with our professional duct cleaning services. Cleaner air and better energy efficiency, guaranteed.",
+        images: ["http://192.168.18.13:3000/images/duct/2.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,17 +99,20 @@ export default function VehiclePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+                imageSrc="/images/banners/Ductcleaning.png"
             />
             <BestDeepCleaning
                 title="Best Duct Cleaning Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        Air ducts play a crucial role in maintaining indoor air quality and ventilation.{" "}
+                        Our team of experts is at your service at any time of the day.{" "}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers professional duct cleaning services for residential and commercial spaces. Our expert technicians use advanced suction tools and sanitizing techniques to remove accumulated dust, mold, allergens, and pollutants. With our duct cleaning, you’ll enjoy healthier air circulation, improved HVAC efficiency, and reduced respiratory risks—making your indoor environment safer and more comfortable.
+                        is the best company where you can take help regarding all these cleaning tasks in UAE. Our proficient staff members are eagerly waiting to help you out,
+                        therefore, before wasting any further time we encourage you to start with your booking in order to benefit yourself from this service! You’ll enjoy healthier
+                        air circulation, improved HVAC efficiency, and
+                        reduced respiratory risks, making your indoor environment safer and more comfortable.
                     </>
                 }
                 imageSrc="/images/duct/2.jpg"
@@ -89,7 +121,10 @@ export default function VehiclePage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Duct Problems"
-                content="Over time, air ducts can become clogged with dust, pet dander, mold, and even pest debris—polluting the air you breathe and affecting your HVAC system’s performance. Dirty ducts reduce air quality, cause bad odors, and lead to uneven cooling or heating. Our trained team targets these hidden contaminants, restoring clean airflow and protecting your health and system longevity."
+                content="Over time, air ducts can become clogged with dust, pet dander, mold, and even pest debris—polluting the air you breathe and affecting your HVAC system’s 
+                performance. Dirty ducts reduce air quality, cause bad odors, and lead to uneven cooling or heating. Our trained team targets these hidden contaminants, restoring clean 
+                airflow and protecting your health and system longevity. no particular idea that for how long it has been since the air ducts have been washed, or if you have observed 
+                that the air ducts are looking dirty while changing a filter, we can swiftly provide consultation and recommendation for your home."
                 imageLeft={true}
                 imageSrc="/images/duct/1.jpg"
                 imageAlt="Duct Cleaning Problems"
@@ -107,13 +142,17 @@ export default function VehiclePage() {
 
             <BookYourService
                 title="Book Your Duct Cleaning Services Today!"
-                description="Breathe easier with professional duct cleaning by Care N Clean. Our team ensures your ducts are thoroughly cleaned and sanitized—boosting indoor air quality and HVAC efficiency. Book now and improve your space with healthier, cleaner air."
+                description="Our workers are well trained and experienced. We give in-house training to keep our workers proficient. Our team ensures your ducts are thoroughly cleaned 
+                and sanitized—boosting indoor air quality
+                 and HVAC efficiency. Book now and improve your space with healthier, cleaner air."
                 defaultService="Duct Cleaning"
             />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Duct Cleaning"
-                content="Regular duct cleaning leads to fresher air, reduced allergens, and better energy efficiency. Clean ducts help your HVAC system work smoothly while protecting your family or staff from respiratory issues. Let Care N Clean keep your ventilation system safe, clean, and efficient all year round."
+                content="Regular duct cleaning leads to fresher air, reduced allergens, and better energy efficiency. Clean ducts help your HVAC system work smoothly while protecting 
+                your family or staff from respiratory issues. Let Care N Clean keep your ventilation system safe, clean, and efficient all year round. Customer’s satisfaction and trust
+                 on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride”"
                 imageLeft={true}
                 imageSrc="/images/duct/3.jpg"
                 imageAlt="Duct Cleaning Benefits"
@@ -128,10 +167,10 @@ export default function VehiclePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
 
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-            
+
             <GetAQuoteSection text="Trusted Upholstery Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

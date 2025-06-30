@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Landscaping Services in Dubai - Care N Clean",
+    description: "Professional landscaping services across UAE. From garden design to lawn care and outdoor maintenance — trusted by thousands.",
+   authors: [{ name: "Softnio" }], 
+    openGraph: {
+        title: "Landscaping Services in Dubai - Care N Clean",
+        description: "Enhance your outdoor space with expert landscaping services in Dubai. Care n Clean provides customized solutions for gardens, lawns, and patios.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping", // Local testing URL
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg", // Local image path
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Landscaping Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Expert Landscaping Services in UAE",
+        description: "Reliable and affordable landscaping services for homes and businesses in the UAE. Custom garden care, lawn maintenance, and more.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -56,17 +85,21 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            imageSrc="/images/Maintenance/landscaping/landscaping.png"
+                imageSrc="/images/Maintenance/landscaping/landscaping.png"
             />
             <BestDeepCleaning
                 title="Best Landscaping Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        The UAE market values well-designed and maintained outdoor spaces.{" "}
+                        {/* The UAE market values well-designed and maintained outdoor spaces.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        delivers expert landscaping solutions for both residential and commercial properties. Our experienced team handles everything from planting trees, flowers, and lawns to building walkways, decks, and fences. We also offer regular landscape care to keep your surroundings clean, green, and inviting. With a strong focus on your goals and comfort, we bring creativity and structure to every outdoor area. Whether it’s garden maintenance or full landscape design, our services are built to enhance your environment and add long-term value to your space.
+                        delivers expert landscaping solutions for both residential and commercial properties. In landscaping and cleaning services, Care n Clean primarily provides
+                        landscape care and maintenance services, including planting trees, shrubs, flowers, lawns, or gardens.
+                        Our proficient handyman may also design landscape plans or construct walkways, retaining walls, decks, fences, ponds, and similar structures.
+                        With a devoted focus on you and your goals, we are changing the way landscape services are delivered. Our workers are well trained and experienced. We give
+                        in-house training to keep our workers proficient.
                     </>
                 }
                 imageSrc="/images/Maintenance/landscaping/1.jpg"
@@ -74,7 +107,8 @@ export default function ServicePage() {
             />
             <BenefitsOfDeepCleaning
                 title="Common Landscaping Problems"
-                content="Landscaping services go beyond just planting and trimming. Our team identifies and fixes outdoor issues that affect the beauty and health of your space. Whether it's patchy lawns, poor drainage, dying plants, or broken walkways, we handle problems both small and large. We also take care of seasonal maintenance to protect your garden from extreme weather. With regular attention and expert care, your outdoor areas stay green, clean, and thriving all year round."
+                content="Landscaping services go beyond just planting and trimming. Our team identifies and fixes outdoor issues that affect the beauty and health of your space.
+                Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride”"
                 imageLeft={true}
                 imageSrc="/images/Maintenance/landscaping/4.jpg"
                 imageAlt="Landscaping Image"
@@ -92,12 +126,16 @@ export default function ServicePage() {
 
             <BookYourService
                 title="Book Your Landscaping Services Today!"
-                description="Transform your outdoor space with Care N Clean’s expert landscaping services. Whether you need garden care, lawn maintenance, or custom landscape design, our skilled team is ready to help. We handle everything from planting and trimming to building walkways and maintaining healthy greenery. Book your service today and let us bring life, beauty, and structure to your outdoor areas."
+                description="Transform your outdoor space with Care N Clean’s expert landscaping services. Whether you need garden care, lawn maintenance, or custom landscape design,
+                 our skilled team is ready to help. From organizing to development, alimentation, and improvement, our handyman’s years of experience make us a habitual partner for the
+                  entire lifecycle of your premises. Book your service Today!"
                 defaultService="Landscaping" />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Landscaping"
-                content="Regular landscaping not only improves the appearance of your outdoor space but also supports healthier plants, safer walkways, and better property value. Our experts help maintain your garden, lawn, and hardscapes to prevent overgrowth, erosion, or damage. With consistent care, you enjoy a clean, organized, and vibrant environment that’s perfect for relaxing or entertaining. Landscaping services also help manage water flow and reduce pest risks."
+                content="Regular landscaping not only improves the appearance of your outdoor space but also supports healthier plants, safer walkways, and better property value. 
+                Our experts help maintain your garden, lawn, and hardscapes to prevent overgrowth, erosion, or damage. With consistent care, you enjoy a clean, organized, and vibrant 
+                environment that’s perfect for relaxing or entertaining. Landscaping services also help manage water flow and reduce pest risks."
                 imageLeft={true}
                 imageSrc="/images/Maintenance/landscaping/3.jpg"
                 imageAlt="Landscaping Image"

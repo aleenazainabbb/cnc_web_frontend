@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Hepler Maid Services in Dubai - Care N Clean",
+  description: "Looking for a reliable maid service in Dubai? Care n Clean provides trained and trustworthy helpers for all your home cleaning needs.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert Maid Services in Dubai",
+    description: "Enjoy stress-free cleaning with our trusted maid services. From daily upkeep to deep sanitation, we keep your home clean, safe, and fresh.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Maid", // Update this URL if needed
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/maid/4.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Professional Maid Services Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Care N Clean - Trusted Maid Services in Dubai",
+    description: "Book reliable and flexible maid services for your home or office. Consistent cleanliness and expert care from trained staff.",
+    images: ["http://192.168.18.13:3000/images/maid/4.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -70,17 +99,19 @@ export default function MaidPage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/deepclean/HeroSection.png"
+                imageSrc="/images/banners/Maid.png"
             />
             <BestDeepCleaning
                 title="Best Maid Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        A clean home brings comfort, peace, and productivity—and{" "}
+                        We want to reassure you that our teams strictly adhere to sanitization guidelines. We follow cleaning processes and procedures that are sketched out to help
+                        create a cleaner and healthier environment for you and your family. For additional safety and protection for everyone, our teams are provided with masks and
+                        gloves to use while working at your home. Our team of experts is at your service at any time of the day. {" "}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        makes it effortless with our professional maid services. Whether you need daily cleaning, weekly upkeep, or occasional deep cleaning, our trained maids provide flexible and reliable service for homes across the UAE. We handle everything from dusting, mopping, and bathroom sanitization to organizing spaces, using safe cleaning materials and thorough attention to detail. Relax and let our team maintain a fresh, hygienic environment for your family.
+                        is the best company where you can take help regarding all these cleaning tasks in UAE.
                     </>
                 }
                 imageSrc="/images/maid/4.jpg"
@@ -89,7 +120,10 @@ export default function MaidPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Maid Service Needs"
-                content="Busy schedules, guests, kids, or just everyday messes can leave homes cluttered and unclean. Dust on surfaces, smudged mirrors, messy kitchens, and unsanitary bathrooms are frequent issues. Our maids are trained to handle all routine and customized tasks to keep your space spotless, organized, and welcoming."
+                content="Busy schedules, guests, kids, or just everyday messes can leave homes cluttered and unclean. Dust on surfaces, smudged mirrors, messy kitchens, and unsanitary
+                 bathrooms are frequent issues. Our maids are trained to handle all routine and customized tasks to keep your space spotless, organized, and welcoming. Our proficient 
+                 staff members are eagerly waiting to help you out, therefore, before wasting any further time we encourage you to start with your booking to benefit yourself from this
+                  service!"
                 imageLeft={true}
                 imageSrc="/images/maid/2.jpg"
                 imageAlt="Maid Cleaning Challenges"
@@ -107,13 +141,17 @@ export default function MaidPage() {
 
             <BookYourService
                 title="Book Your Maid Services Today!"
-                description="Leave the cleaning to us! Book Care N Clean’s trusted maid services for consistent, high-quality home care. Choose from flexible plans and let our professionals handle the dirt—so you can enjoy a fresher, calmer home."
+                description="Our helpers are trained in hard skills and soft skills to perform all their work efficiently. We give in-house training to keep our workers proficient. 
+                Our proficient staff members are eagerly waiting to help you out, therefore, before wasting any further time we encourage you to start with your booking to benefit 
+                yourself from this service! Book Our Maid Services now!"
                 defaultService="Maid Services"
             />
 
             <BenefitsOfDeepCleaning
-                title="Benefits of Maid Cleaning"
-                content="Hiring professional maids means more free time, consistent cleanliness, and peace of mind. Regular maid services reduce stress, improve hygiene, and help maintain the overall quality of your living environment. With Care N Clean, enjoy reliable service tailored to your lifestyle."
+                title="Common Maid Services Needs"
+                content="If you're based in Dubai and desire to get your home cleaned then book a Care N Clean’s helpers maid service Dubai and spend your time with your friends 
+                 and family instead of washing the dishes and doing other random stuff at home. Regular maid services reduce stress, improve hygiene, and help
+                 maintain the overall quality of your living environment. With Care N Clean, enjoy reliable service tailored to your lifestyle."
                 imageLeft={true}
                 imageSrc="/images/maid/3.jpg"
                 imageAlt="Maid Service Benefits"
@@ -128,10 +166,10 @@ export default function MaidPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-             <NeedHelp/>
+            <NeedHelp />
 
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-           
+
             <GetAQuoteSection text="Trusted Maid Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

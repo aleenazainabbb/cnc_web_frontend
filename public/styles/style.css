@@ -1816,6 +1816,9 @@ tr.calendar-body .calendar-day .day:hover {
         padding-top: 0rem !important;
         padding-bottom: 1rem !important;
     }
+    h1{
+        font-size: 43px !important;
+    }
 }
 
 @media (max-width: 1200px) {

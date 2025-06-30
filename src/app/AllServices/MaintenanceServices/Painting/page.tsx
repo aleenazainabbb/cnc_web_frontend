@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Best Painting Services in Dubai - Care N Clean",
+    description: "Transform your space with Care n Clean’s expert painting services in Dubai. We offer high-quality interior and exterior painting solutions for all properties.",
+   authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Best Painting Services in Dubai - Care n Clean",
+        description: "Book reliable painting services for homes and businesses. Quick, clean, and high-quality finishes by Care N Clean.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Painting", // Replace with your actual URL
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg", // Use full image URL
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Painting Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Expert Painting Services in UAE",
+        description: "Book reliable painting services for homes and businesses. Quick, clean, and high-quality finishes by Care N Clean.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -56,20 +85,22 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                imageSrc="/images/banners/Painting.png"
             />
             <BestDeepCleaning
                 title="Best Painting Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        Getting your space painted professionally makes all the difference.{" "}
+                        Our team of painters in{" "}
                         <a
                             href="/about"
                             style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
                         >
                             Care N Clean
                         </a>{" "}
-                        offers expert painting services that blend quality, speed, and precision. Our painters arrive on time, work efficiently, and pay attention to every detail. From free wall color consultancy to a fully managed painting experience, we handle everything so you don’t have to lift a brush. Just relax and watch your walls transform with Care N Clean’s trained and trusted team.
+                        Our team of painters in Care n Clean will show up on time and provide you with the quality you expect in an unexpected timeline. All you need to do is just sit
+                        back and our experts will automatically do everything for you and it is our guaranty. And our team professionals are here to provide you with what you want in
+                        every way possible!
                     </>
                 }
                 imageSrc="/images/Maintenance/Painting/1.jpg"
@@ -96,23 +127,27 @@ export default function ServicePage() {
 
             <BookYourService
                 title="Book Your Painting Services Today!"
-                description="Let your walls reflect freshness and beauty with Care N Clean’s expert painting team. From helping you choose the right colors to delivering sharp, clean results, we’re here to give your home or office a whole new look. Book today and experience fast, professional painting done right."
+                description="Our workers are well trained and experienced. We give in-house training to keep our workers proficient. Book today and experience fast, professional 
+                Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride”painting 
+                done right."
 
                 defaultService="Painting" />
             <BenefitsOfDeepCleaning
                 title="Benefits of Painting Services"
-                content="Hiring professional painters ensures a clean, smooth finish and saves you time and effort. Our trained staff offer expert advice, use high-quality paints, and follow best techniques to deliver quick and long-lasting results. Whether it’s a fresh coat or a complete color makeover, painting services not only enhance the look of your space but also protect walls from damage and wear over time."
+                content="Hiring professional painters ensures a clean, smooth finish and saves you time and effort. Our trained staff offer expert advice, use high-quality paints,
+                 and follow best techniques to deliver quick and long-lasting results. Whether it’s a fresh coat or a complete color makeover, painting services not only enhance the
+                  look of your space but also protect walls from damage and wear over time. You get a lot of advantages when you hire professionals providing home painting services. 
+                  As our painting professionals are constantly inspecting their work, we can guarantee that we'll leave you saying Awesome!"
                 imageLeft={true}
                 imageSrc="/images/Maintenance/Painting/3.png"
                 imageAlt="Painting Benefits Image"
                 points={[
-                    "Expert Advice",
-                    "Quick Results",
+                    "Expert Recommendations",
+                    "Quick Servce Results",
                     "Smooth Finish",
                     "Color Refresh",
                     "Wall Protection",
                     "Detailed Work",
-                    "Trained Staff"
                 ]}
                 showViewServicesBtn={false}
             />

@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Carpentry Services in Dubai - Care N Clean",
+    description: "Expert carpentry services across the UAE. From custom furniture to door repairs and moldings — we build with precision and care.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Carpentry Handyman Services in Dubai - Care n Clean",
+        description: "Get expert carpentry handyman services in Dubai with Care n Clean. From furniture repair to custom woodwork, we ensure top-quality craftsmanship.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Carpentry", // Local dev URL
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/carpentry/carpet1.png",
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Carpentry Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Expert Carpentry Services in UAE",
+        description: "From crown molding to custom shelving, get reliable and skilled carpentry work done by professionals at Care N Clean.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/carpentry/carpet1.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -56,17 +85,20 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/carpentry/herosection.png"
+                imageSrc="/images/banners/carpenter.png"
             />
             <BestDeepCleaning
                 title="Best Carpentry Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        The UAE market demands high-quality craftsmanship for both home and commercial spaces.{" "}
+                        {/* The UAE market demands high-quality craftsmanship for both home and commercial spaces.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        offers expert carpentry services tailored to renovation, repair, and installation needs. From custom woodwork and decorative moldings to full kitchen and bathroom remodeling, our experienced team delivers reliable and detailed results. Whether it’s fitting wood doors, windows, cabinetry, or handling intricate finish work, we bring precision and care to every project. With a commitment to quality and customer satisfaction, our carpentry services add value, beauty, and lasting strength to any space.
+                        would like to be able to have the opportunity to service your carpentry and remodeling needs. We are here to assist you with your renovation needs with our
+                        world-class carpentry handyman services in Dubai. We have hands-on experience in commercial, residential, industrial, new construction, installation, and
+                        repairment of all wood doors, custom doors, decorative hardware, wood windows and frames, kitchen and bathroom remodeling, home improvement, and finished
+                        carpentry service (Intricate woodworking, base molding, crown molding, and cabinetry).
                     </>
                 }
                 imageSrc="/images/Maintenance/carpentry/carpet1.png"
@@ -91,11 +123,15 @@ export default function ServicePage() {
             />
             <BookYourService
                 title="Book Your Carpentry Services Today!"
-                description="Need expert help with woodwork or repairs? Care N Clean offers professional carpentry services for homes and offices. From fixing broken cabinets and doors to installing shelves, molding, and custom wood features, our skilled team handles it all with care and precision. Book your service today and bring durable, detailed craftsmanship to your space."
+                description="Don’t forget to trust an expert while trading! From fixing broken cabinets and doors to installing shelves, molding, and 
+                 custom wood features, Care N Clean has a team of experts to help you with these tasks. We give in-house
+                 training to keep our workers proficient. So, what are you waiting for? Start with your booking now!"
                 defaultService="Carpentry" />
             <BenefitsOfDeepCleaning
                 title="Benefits of Carpentry"
-                content="Professional carpentry work adds strength, style, and value to your property. From sturdy furniture to detailed wood trims, quality carpentry enhances both function and appearance. Whether it’s a custom-built shelf or repairing worn-out doors, skilled carpenters ensure everything fits and works perfectly. Regular carpentry care also helps prevent long-term damage, saves costs, and keeps your home or office organized and visually appealing."
+                content="Professional carpentry work adds strength, style, and value to your property. From sturdy furniture to detailed wood trims, quality carpentry enhances both 
+                function and appearance. Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness,
+                 our pride”"
                 imageLeft={true}
                 imageSrc="/images/Maintenance/carpentry/3.jpg"
                 imageAlt="Carpentry Image"
@@ -110,7 +146,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Carpentry Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

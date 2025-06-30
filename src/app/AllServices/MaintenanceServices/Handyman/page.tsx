@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Professional Handyman Services in Dubai - Care N Clean",
+    description: "Hire professional handyman services in Dubai with Care n Clean. From minor repairs to complete maintenance, we handle it all with expertise.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Handyman Services in Dubai",
+        description: "Book trusted handyman services for your home or office. We handle wall repairs, curtain installations, furniture assembly, and more with guaranteed quality.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Handyman", // Local development URL
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Maintenance/Handyman/1.png",
+                width: 1200,
+                height: 630,
+                alt: "Care N Clean Handyman Services",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Expert Handyman Services in UAE",
+        description: "From small fixes to home improvements — book handyman help across the UAE with Care N Clean.",
+        images: ["http://192.168.18.13:3000/images/Maintenance/Handyman/1.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -56,28 +85,32 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                imageSrc="/images/banners/handyman.png"
             />
             <BestDeepCleaning
                 title="Best Handyman Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        Managing a home or workspace comes with many small repairs and upkeep tasks.{" "}
+                        Nonetheless of the size of your home, maintaining it can be a struggle. While you may not have the time or the tools to accomplish everything on your to-do list,
+                        what you do have is a{" "}
                         <a
                             href="/about"
                             style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
                         >
                             Care N Clean
                         </a>{"  "}
-                        provides expert handyman services to handle all those jobs you don’t have the time, tools, or skills for. From fixing broken doorknobs and assembling furniture to repairing drywall or mounting shelves, our team gets it done efficiently and reliably. We arrive with all the necessary tools, follow safety standards, and respect your time and space—so you can focus on your priorities while we handle the tasks that keep your space running smoothly.
+                        booking with a reliable team of experts who offer home handyman services with a done properly promise. We truly understand your work commitment and we don’t want
+                        you to spend your time in the anxiety of fixing doorknobs or wallboard. It is our goal to keep your home in ship-shape so you can stay on schedule.
                     </>
                 }
-             imageSrc="/images/Maintenance/Handyman/2.png"
+                imageSrc="/images/Maintenance/Handyman/2.png"
                 imageAlt="Handyman Services"
             />
             <BenefitsOfDeepCleaning
                 title="Common Handyman Problems"
-                content="Even small household issues can turn into big headaches if ignored. Whether it's loose cabinet handles, squeaky doors, minor wall damage, or broken fixtures, our skilled handymen handle all those odd jobs with speed and care. We also assist with TV mounting, furniture assembly, curtain installation, and much more. These fixes improve functionality, prevent further damage, and keep your space safe and comfortable."
+                content="Even small household issues can turn into big headaches if ignored. Whether it's loose cabinet handles, squeaky doors, minor wall damage, or broken fixtures, 
+                For that reason, we have a proper team that comes with all the essential tools and techniques required to undergo the desired work and reliable handyman service. We also assist with TV mounting, furniture assembly, curtain installation, and much more. These fixes
+                 improve functionality, prevent further damage, and keep your space safe and comfortable."
                 imageLeft={true}
                 imageSrc="/images/Maintenance/Handyman/3.jpg"
                 imageAlt="Handyman Maintenance Image"
@@ -94,14 +127,18 @@ export default function ServicePage() {
             />
             <BookYourService
                 title="Book Your Handyman Services Today!"
-                description="No time to fix that door or hang those shelves? Let Care N Clean do it for you! Our handyman team handles all your repair and installation needs quickly and professionally. Book your service now and enjoy a well-maintained, worry-free home or office."
+                description="We give in-house training to keep our workers proficient. 
+                Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride
+                Book your service now and enjoy a well-maintained, worry-free home or office."
                 defaultService="Handyman" />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Handyman Services"
-                content="Our handyman services offer a quick and reliable solution for all those lingering tasks around your home or workplace. Whether it’s saving time, avoiding costly DIY mistakes, or getting things fixed properly the first time, our experts deliver dependable results. With all tools in hand and attention to detail, we make your everyday space more organized, safe, and functional."
+                content="Our handyman services offer a quick and reliable solution for all those lingering tasks around your home or workplace. Whether it’s saving time, avoiding costly DIY
+                 mistakes, or getting things fixed properly the first time, our experts deliver dependable results. With all tools in hand and attention to detail, we make your everyday space
+                  more organized, safe, and functional."
                 imageLeft={true}
-               imageSrc="/images/Maintenance/Handyman/1.png"
+                imageSrc="/images/Maintenance/Handyman/1.png"
                 imageAlt="Handyman Benefits Image"
                 points={[
                     "Time Saver",
@@ -114,7 +151,7 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Handyman Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
