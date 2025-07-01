@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Best Cleaning Services in Dubai – Residential & Commercial | Care N Clean",
-  description: "Discover top-rated cleaning services in Dubai with Care N Clean. From deep cleaning and windows to upholstery and maid services—we make spaces shine!",
+  title: "Best Cleaning Services in UAE – Residential & Commercial | Care N Clean",
+  description: "Discover top-rated cleaning services in UAE with Care N Clean. From deep cleaning and windows to upholstery and maid services—we make spaces shine!",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Expert Cleaning Services in Dubai",
+    title: "Care N Clean - Expert Cleaning Services in UAE",
     description: "Book professional cleaning for homes, offices, vehicles, and more. Deep cleaning, windows, ducts, and upholstery—all done right across the UAE.",
     type: "website",
     url: "http://192.168.18.13:3000/AllServices/CleaningServices",
@@ -12,13 +12,13 @@ export const metadata = {
         url: "http://192.168.18.13:3000/images/deepclean.png",
         width: 1200,
         height: 630,
-        alt: "Cleaning Services in Dubai",
+        alt: "Cleaning Services in UAE",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Care N Clean - Top Cleaning Services in Dubai",
+    title: "Care N Clean - Top Cleaning Services in UAE",
     description: "Reliable and affordable cleaning services for every corner of your home or office. Book now for deep, duct, pool, and maid cleaning solutions.",
     images: ["http://192.168.18.13:3000/images/deepclean.png"],
   },
@@ -38,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
   {
     title: "Deep Cleaning",
@@ -102,7 +103,9 @@ export default function ServicePage() {
         buttonText="Contact Us"
         buttonLink="/contact"
         imageSrc="/images/banners/Cleaning.png"
+        // subheadingColor="#ffffff"
       />
+      <AutoBreadcrumb/>
       <BestDeepCleaning
         title="Best Cleaning Services in UAE from Care N Clean"
         paragraph={
@@ -111,7 +114,9 @@ export default function ServicePage() {
             <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
               Care N Clean
             </a>{" "}
-            delivers top-tier cleaning services for both residential and commercial properties across the UAE. From dusting and disinfecting to deep cleaning and sanitization, our trained professionals use eco-friendly products and modern tools to ensure a spotless, germ-free environment. Whether it’s your home, office, or facility, we keep every corner clean, safe, and welcoming. Trust our team to maintain the hygiene and freshness you deserve.
+            delivers top-tier cleaning services for both residential and commercial properties across the UAE. From dusting and disinfecting to deep cleaning and sanitization, 
+            our trained professionals use eco-friendly products and modern tools to ensure a spotless, germ-free environment. Whether it’s your home, office, or facility, we keep 
+            every corner clean, safe, and welcoming. Trust our team to maintain the hygiene and freshness you deserve.
           </>
         }
         imageSrc="/images/deepclean.png"
@@ -166,12 +171,12 @@ export default function ServicePage() {
         ]}
       />
       <ContactUsSection />
-       <NeedHelp/>
+      <NeedHelp />
       <OurBestDeepClean
         sections={sixSections}
         mainTitle="Our Cleaning Services"
       />
-     
+
       <GetAQuoteSection text="Expert Cleaning Services Across the UAE – Quick, Affordable, and Always Reliable." />
     </div>
   )

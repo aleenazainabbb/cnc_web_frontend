@@ -1,10 +1,10 @@
 export const metadata = {
-    title: "Chandelier Cleaning Services in Dubai - Care N Clean",
+    title: "Chandelier Cleaning Services in UAE - Care N Clean",
     description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE. Professional and delicate cleaning solutions.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Chandelier Cleaning Services Dubai - Care N Clean",
-        description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE.. Professional and delicate cleaning solutions.",
+        title: "Chandelier Cleaning Services UAE - Care N Clean",
+        description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE. Professional and delicate cleaning solutions.",
         type: "website",
         url: "http://192.168.18.13:3000/AllServices/CleaningServices/Chandelier", // Update to actual route
         images: [
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -47,11 +48,6 @@ const sixSections = [
         content:
             "Kitchen grease traps, if left uncleaned, can lead to blockages and bad odors. Our grease trap cleaning service involves full removal of built-up fat, oil, and food waste, ensuring smooth drainage and compliance with health regulations. We use safe, effective methods to keep your commercial or residential kitchen running efficiently and odor-free."
     },
-    // {
-    //     title: "Chandelier Cleaning",
-    //     content:
-    //         "Chandeliers enhance elegance, but they collect dust and lose their shine over time. Our specialized chandelier cleaning restores brilliance by delicately wiping every crystal and fixture with precision. Whether your piece is small or grand, we clean it thoroughly and safely—reviving its sparkle without damaging its structure or wiring."
-    // },
     {
         title: "Swimming Pool Cleaning",
         content:
@@ -101,6 +97,7 @@ export default function ChandelierPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/chandeliercleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Chandelier Cleaning Services in UAE from Care N Clean"
                 paragraph={

@@ -1,24 +1,24 @@
 export const metadata = {
-  title: "Hepler Maid Services in Dubai - Care N Clean",
-  description: "Looking for a reliable maid service in Dubai? Care n Clean provides trained and trustworthy helpers for all your home cleaning needs.",
+  title: "Hepler Maid Services in UAE - Care N Clean",
+  description: "Looking for a reliable maid service in UAE? Care n Clean provides trained and trustworthy helpers for all your home cleaning needs.",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Expert Maid Services in Dubai",
+    title: "Care N Clean - Expert Maid Services in UAE",
     description: "Enjoy stress-free cleaning with our trusted maid services. From daily upkeep to deep sanitation, we keep your home clean, safe, and fresh.",
     type: "website",
-    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Maid", // Update this URL if needed
+    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Maid",
     images: [
       {
         url: "http://192.168.18.13:3000/images/maid/4.jpg",
         width: 1200,
         height: 630,
-        alt: "Professional Maid Services Dubai",
+        alt: "Professional Maid Services UAE",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Care N Clean - Trusted Maid Services in Dubai",
+    title: "Care N Clean - Trusted Maid Services in UAE",
     description: "Book reliable and flexible maid services for your home or office. Consistent cleanliness and expert care from trained staff.",
     images: ["http://192.168.18.13:3000/images/maid/4.jpg"],
   },
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -77,11 +78,6 @@ const sixSections = [
         content:
             "Clear, streak-free windows brighten your space and enhance curb appeal. Our window cleaning service removes dirt, smudges, and water spots from both interior and exterior surfaces. Using eco-friendly solutions and proper techniques, we deliver a spotless finish—making your windows crystal clear and your rooms naturally brighter."
     },
-    // {
-    //     title: "Maid Services",
-    //     content:
-    //         "Our maid services offer consistent, reliable cleaning for daily or weekly needs. Whether it’s dusting, mopping, dishwashing, or tidying up, our trained staff ensures your home stays neat and welcoming. Flexible scheduling, trustworthy staff, and attention to detail make our maid services a dependable part of your routine."
-    // }
 ];
 
 export default function MaidPage() {
@@ -101,6 +97,7 @@ export default function MaidPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/Maid.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Maid Services in UAE from Care N Clean"
                 paragraph={
@@ -149,7 +146,7 @@ export default function MaidPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Maid Services Needs"
-                content="If you're based in Dubai and desire to get your home cleaned then book a Care N Clean’s helpers maid service Dubai and spend your time with your friends 
+                content="If you're based in UAE and desire to get your home cleaned then book a Care N Clean’s helpers maid service UAE and spend your time with your friends 
                  and family instead of washing the dishes and doing other random stuff at home. Regular maid services reduce stress, improve hygiene, and help
                  maintain the overall quality of your living environment. With Care N Clean, enjoy reliable service tailored to your lifestyle."
                 imageLeft={true}

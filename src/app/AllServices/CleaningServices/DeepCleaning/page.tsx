@@ -1,12 +1,12 @@
 export const metadata = {
-    title: "Best Deep Cleaning Services in Dubai - Care N Clean",
+    title: "Best Deep Cleaning Services in UAE - Care N Clean",
     description: "Professional deep cleaning services by Care N Clean in UAE. We eliminate hidden dirt, allergens, and germs using eco-friendly products and expert techniques.",
     authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Care N Clean - Best Deep Cleaning Services in Dubai",
+        title: "Care N Clean - Best Deep Cleaning Services in UAE",
         description: "Book reliable deep cleaning services for homes, offices, and commercial spaces. Remove stains, dust, and odors for a fresher, healthier environment.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/DeepCleaning", // Adjust if your actual route is different
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/DeepCleaning", 
         images: [
             {
                 url: "http://192.168.18.13:3000/images/deepclean/2.png",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -97,6 +98,7 @@ export default function ServicePage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/DeepCleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Deep Cleaning Services in UAE from Care N Clean"
                 paragraph={

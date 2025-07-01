@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+    title: "Professional Moving Services in UAE - Care N Clean",
+    description: "Move stress-free with Care N Clean. We offer expert local and international moving services, plus safe storage options across the UAE.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Trusted Moving Services in UAE",
+        description: "Whether you're relocating within UAE or overseas, we offer safe, efficient moving services and secure storage. Book your move today!",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MovingServices",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Moving/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Moving Services in UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Reliable UAE Moving Services | Care N Clean",
+        description: "From packing to delivery—get expert moving help in UAE. Local moves, international relocations, and storage handled with care.",
+        images: ["http://192.168.18.13:3000/images/Moving/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import AchievementSection from "@/components/home_page_components/AchievementSection"
@@ -9,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
     {
         title: "Local Moving",
@@ -25,7 +55,6 @@ const sixSections = [
         content:
             "Moving to a new country takes more than just packing boxes. Our international moving service covers everything from paperwork and customs to careful packing and long-distance transport. We guide you through the entire process, making sure your items arrive safely—no matter how far you're going.",
     }
-
 ];
 
 export default function ServicePage() {
@@ -46,6 +75,7 @@ export default function ServicePage() {
                 buttonLink="/contact"
             //   imageSrc="/images/Moving/1.jpg"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Moving Services in UAE from Care N Clean"
                 paragraph={
@@ -72,8 +102,6 @@ export default function ServicePage() {
                     "Storage Services",
                     "International Moving",
                 ]} />
-            {/* <OurBestDeepClean sections={sixSections}
-                mainTitle="Our Maintenance Services"/> */}
             <BookYourService
                 title="Book Your Moving Service Today!"
                 description="Enjoy a stress-free moving experience with Care N Clean. Whether you're relocating your home or office, our expert team handles everything from packing to unloading with care and efficiency. We ensure your belongings are transported safely and on time, using secure methods and professional equipment. Trust us to make your move smooth, organized, and worry-free."
@@ -104,10 +132,9 @@ export default function ServicePage() {
                 ]}
             />
             <ContactUsSection />
-             <NeedHelp />
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Moving Services" />
-                
             <GetAQuoteSection text="Trusted Moving Services Across the UAE – Fast, Reliable, and Hassle-Free." />
 
         </div>

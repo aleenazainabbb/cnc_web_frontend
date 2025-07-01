@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Best Pest Control Services in UAE - Care N Clean",
+  description: "Safe and professional pest control services across UAE. We eliminate cockroaches, termites, rodents, bed bugs, and more—residential & commercial.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Trusted Pest Control in UAE",
+    description: "Protect your space from pests with expert solutions from Care N Clean. From rodents to insects, we offer eco-friendly pest control services across UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/PestControl",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/Pest%20Control/3.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Pest Control Services UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Professional Pest Control in UAE | Care N Clean",
+    description: "Effective solutions for termites, cockroaches, bed bugs, and rodents. Eco-safe, fast, and reliable pest control throughout the UAE.",
+    images: ["http://192.168.18.13:3000/images/Pest%20Control/3.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import AchievementSection from "@/components/home_page_components/AchievementSection"
@@ -9,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
     {
         title: "Pigeons & Birds Control",
@@ -69,6 +99,7 @@ export default function ServicePage() {
                 buttonText="Contact Us"
                 buttonLink="/contact"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Pest Control Services in UAE from Care N Clean"
                 paragraph={
@@ -101,8 +132,6 @@ export default function ServicePage() {
                     "Cockroach Control",
                 ]}
             />
-            {/* <OurBestDeepClean sections={sixSections}
-                mainTitle="Our Maintenance Services"/> */}
             <BookYourService
                 title="Book Your Pest Control Service Today!"
                 description="Protect your home or workplace from unwanted pests with Care N Clean. Our expert team provides safe and effective pest control solutions tailored to your needs. From cockroaches and bed bugs to rodents and termites, we use eco-friendly treatments and professional techniques to ensure long-lasting results. Book your service today and enjoy a cleaner, healthier, and pest-free environment."
@@ -137,7 +166,6 @@ export default function ServicePage() {
             <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Pest Control Services" />
-                
             <GetAQuoteSection text="Expert Pest Control Solutions in the UAE – Safe, Effective, and Long-Lasting Protection." />
 
         </div>

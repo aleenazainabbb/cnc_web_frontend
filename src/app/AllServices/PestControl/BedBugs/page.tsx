@@ -1,4 +1,36 @@
-"use Client"
+export const metadata = {
+  title: "Bed Bugs Control Services in UAE - Care N Clean",
+  description:
+    "Say goodbye to bed bugs with Care n Clean’s professional bed bug control services in UAE. Safe and effective treatments for homes and businesses.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Reliable Bed Bugs Control in UAE",
+    description:
+      "Get rid of bed bugs with Care N Clean’s professional pest control service. We inspect, treat, and prevent infestations in homes and businesses across the UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/PestControl/BedBugs",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/bedbugs.png",
+        width: 1200,
+        height: 630,
+        alt: "Bed Bugs Control UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bed Bugs Control Services in UAE | Care N Clean",
+    description:
+      "Care N Clean offers trusted bed bug removal in UAE. Restore your peace of mind with expert inspection, treatment & long-term protection.",
+    images: ["http://192.168.18.13:3000/images/bedbugs.png"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -38,11 +71,7 @@ const sixSections = [
         content:
             "Fleas and ticks are harmful to both people and pets. Our control service treats carpets, furniture, and outdoor areas to eliminate these pests and reduce the chance of bites, itching, and disease transmission.",
     },
-    // {
-    //     title: "Bed Bugs Control",
-    //     content:
-    //         "Bed bugs hide in mattresses, furniture, and walls, causing discomfort and sleepless nights. Our bed bug treatment finds and eliminates them at every stage of life using safe and effective heat or chemical methods to restore your peace of mind.",
-    // },
+   
     {
         title: "Cockroach Control",
         content:
@@ -68,6 +97,7 @@ export default function PestPage() {
                 buttonLink="/contact"
             imageSrc="/images/banners/bedBugs.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Bed Bugs Control Services in UAE from Care N Clean"
                 paragraph={
@@ -79,7 +109,10 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        provides professional bed bugs control services throughout the UAE, using advanced techniques to eliminate infestations from the source. Our experienced team inspects, treats, and monitors to ensure complete removal and lasting relief. Regain your comfort and protect your home or business from these persistent pests.
+                        provides professional bed bugs control services throughout the UAE, using advanced techniques to eliminate infestations from the source. Our experienced team inspects, 
+                        treats, and monitors to ensure complete removal and lasting relief. Regain your comfort and protect your home or business from these persistent pests. we are
+                         proficient enough to control the bugs production in your premises whether house or office. After analyzing the bugs condition in your area, we will make a 
+                         suitable strategy plan to prevent their production
                     </>
                 }
               
@@ -89,7 +122,9 @@ export default function PestPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Bed Bugs Problems"
-                content="Bed bugs hide in mattresses, cracks, and furniture, making them hard to detect and eliminate. They feed on blood, cause allergic reactions, and multiply quickly if not treated. Common issues include itchy bites, blood stains on sheets, musty odors, and anxiety from repeated infestations. DIY sprays usually fail to reach hidden nests, allowing the problem to return."
+                content="Bed bugs hide in mattresses, cracks, and furniture, making them hard to detect and eliminate. They feed on blood, cause allergic reactions, and multiply quickly if not
+                 treated. Common issues include itchy bites, blood stains on sheets, musty odors, and anxiety from repeated infestations. Home-made sprays usually fail to reach hidden nests, 
+                 allowing the problem to return. These bed bugs are difficult to eliminate without the supervision of a professional."
                 imageLeft={true}
                  imageSrc="/images/bedbugs1.jpg"
                 imageAlt="Bed Bug Infestation"
@@ -107,7 +142,9 @@ export default function PestPage() {
 
             <BookYourService
                 title="Book Your Bed Bugs Control Service Today!"
-                description="Struggling with bed bugs? Care N Clean provides professional inspection, targeted treatment, and follow-up services to eliminate bed bugs completely. Book your service now and sleep peacefully again."
+                description=" Bed bugs are a serious problem that should be dealt with rapidly! Therefore, all you have to do is to book your bed bugs control services at Care N Clean. 
+                Our services are available all over UAE and we are ready to serve you at any time of the day. So, what are you waiting for? Book
+                 your service. We are eagerly waiting to assist you with your problems!"
                 defaultService="Bed Bugs Control"
             />
 

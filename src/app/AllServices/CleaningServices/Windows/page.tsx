@@ -1,10 +1,10 @@
 export const metadata = {
-  title: "Window Cleaning Services in Dubai - Care N Clean",
-  description: "Get sparkling clean windows with Care n Clean’s professional window cleaning services in Dubai. Expert service for homes and offices.",
+  title: "Window Cleaning Services in UAE - Care N Clean",
+  description: "Get sparkling clean windows with Care n Clean’s professional window cleaning services in UAE. Expert service for homes and offices.",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Expert Window Cleaning in Dubai",
-    description: "Clear your view with professional window cleaning services across Dubai. From high-rise buildings to homes—we make glass shine!",
+    title: "Care N Clean - Expert Window Cleaning in UAE",
+    description: "Clear your view with professional window cleaning services across UAE. From high-rise buildings to homes—we make glass shine!",
     type: "website",
     url: "http://192.168.18.13:3000/AllServices/CleaningServices/Windows",
     images: [
@@ -12,14 +12,14 @@ export const metadata = {
         url: "http://192.168.18.13:3000/images/windows/1.jpg",
         width: 1200,
         height: 630,
-        alt: "Window Cleaning Dubai",
+        alt: "Window Cleaning UAE",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Window Cleaning by Care N Clean",
-    description: "Enjoy crystal-clear windows in your home or office with Care N Clean’s expert glass cleaning services in Dubai.",
+    description: "Enjoy crystal-clear windows in your home or office with Care N Clean’s expert glass cleaning services in UAE.",
     images: ["http://192.168.18.13:3000/images/windows/1.jpg"],
   },
   viewport: {
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -72,11 +73,6 @@ const sixSections = [
         content:
             "Dirty air ducts circulate dust, allergens, and bacteria throughout your space. Our duct cleaning removes debris from vents and HVAC systems, improving airflow and indoor air quality. This service helps reduce allergy symptoms, lowers energy bills, and promotes a healthier breathing environment for everyone."
     },
-    // {
-    //     title: "Windows Cleaning",
-    //     content:
-    //         "Clear, streak-free windows brighten your space and enhance curb appeal. Our window cleaning service removes dirt, smudges, and water spots from both interior and exterior surfaces. Using eco-friendly solutions and proper techniques, we deliver a spotless finish—making your windows crystal clear and your rooms naturally brighter."
-    // },
     {
         title: "Maid Services",
         content:
@@ -101,6 +97,7 @@ export default function WindowsPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/Windowcleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Windows Cleaning Services in UAE from Care N Clean"
                 paragraph={

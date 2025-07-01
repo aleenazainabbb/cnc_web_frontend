@@ -1,12 +1,12 @@
 export const metadata = {
-    title: "Best Maintenance Services in Dubai - Care N Clean",
+    title: "Best Maintenance Services in UAE - Care N Clean",
     description: "Trusted maintenance services for homes and businesses in the UAE. Plumbing, AC, electrical, carpentry, and more — all in one place.",
    authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Care N Clean - Maintenance Services in Dubai",
+        title: "Care N Clean - Maintenance Services in UAE",
         description: "Book professional maintenance services from Care N Clean. Plumbing, AC maintenance, electrical work, carpentry, painting, and more.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices", // Adjust to match your route
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices", 
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/1.jpg",
@@ -38,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
     {
         title: "Plumbing Services",
@@ -94,6 +95,7 @@ export default function MaintenancePage() {
                 buttonLink="/contact"
             // imageSrc="/images/Maintenance/header.avif"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Maintenance Services in UAE from Care N Clean"
                 paragraph={
@@ -156,7 +158,6 @@ export default function MaintenancePage() {
             <NeedHelp />
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Maintenance Services" />
-
             <GetAQuoteSection text="Trusted Maintenance Services Across the UAE – Fast, Reliable, and Affordable." />
 
 

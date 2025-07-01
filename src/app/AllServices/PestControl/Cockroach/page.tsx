@@ -1,4 +1,36 @@
-"use Client"
+export const metadata = {
+  title: "Cockroach Control Services in UAE - Care N Clean",
+  description:
+    "Eliminate cockroaches from your home with Care N Clean’s expert cockroach control services in UAE. Safe, effective, and long-lasting solutions",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Trusted Cockroach Control Experts in UAE",
+    description:
+      "Remove cockroach infestations with Care N Clean’s safe and reliable pest control solutions. Serving homes and commercial spaces across the UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/PestControl/Cockroach",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/cockroach.png",
+        width: 1200,
+        height: 630,
+        alt: "Cockroach Control UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cockroach Control Services in UAE | Care N Clean",
+    description:
+      "Say goodbye to roaches. Care N Clean offers expert cockroach removal across the UAE for a clean, hygienic, and pest-free space.",
+    images: ["http://192.168.18.13:3000/images/cockroach.png"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -43,11 +76,6 @@ const sixSections = [
         content:
             "Bed bugs hide in mattresses, furniture, and walls, causing discomfort and sleepless nights. Our bed bug treatment finds and eliminates them at every stage of life using safe and effective heat or chemical methods to restore your peace of mind.",
     },
-    // {
-    //     title: "Cockroach Control",
-    //     content:
-    //         "Cockroaches carry germs and multiply quickly in kitchens and bathrooms. Our cockroach control service uses advanced treatments to target hiding spots and breeding areas, ensuring complete removal and lasting protection.",
-    // }
 ];
 
 export default function PestPage() {
@@ -68,6 +96,7 @@ export default function PestPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/Cockroach.png"
             />
+            <AutoBreadcrumb/>
 
             <BestDeepCleaning
                 title="Best Cockroach Control Services in UAE from Care N Clean"
@@ -80,7 +109,10 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        offers specialized cockroach control services across the UAE, using targeted treatments to eliminate infestations and prevent them from returning. Our expert technicians identify hiding spots, apply safe yet powerful solutions, and ensure long-lasting protection. Whether in kitchens, bathrooms, or basements—our service guarantees a cleaner, healthier environment.
+                        offers specialized cockroach control services across the UAE. Cockroaches contribute to several diseases. They are extremely dirty insects that you don’t want to 
+                          be around them. Their control is necessary and it can only be carried out with the assistance of professionals of Care N Clean. Our team workers are 
+                          specialized in all kinds of pest control, including cockroach control services. Our highly trained professionals are completely trained to remove your roach 
+                          issue and also help you feel safe and secure in your home.
                     </>
                 }
                 imageSrc="/images/cockroach.png"
@@ -107,7 +139,8 @@ export default function PestPage() {
 
             <BookYourService
                 title="Book Your Cockroach Control Service Today!"
-                description="Seeing cockroaches in your space? Care N Clean provides expert cockroach control solutions to eliminate infestations and prevent reappearance. Book now and reclaim a clean, safe environment for your family or business."
+                description=" Care n Clear is providing services are available all over UAE and we are ready to serve you at any time of the day. So, what are you waiting for? Book your service
+                 and reclaim a clean, safe environment for your family or business. We are eagerly waiting to assist you with your problems!"
                 defaultService="Cockroach Control"
             />
 

@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Swimming Pool Cleaning Services in Dubai - Care N Clean",
-  description: "Keep your pool clean and safe with Care n Clean’s swimming pool cleaning services in Dubai. Expert maintenance for crystal-clear water.",
+  title: "Swimming Pool Cleaning Services in UAE - Care N Clean",
+  description: "Keep your pool clean and safe with Care n Clean’s swimming pool cleaning services in UAE. Expert maintenance for crystal-clear water.",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Expert Swimming Pool Cleaning in Dubai",
+    title: "Care N Clean - Expert Swimming Pool Cleaning in UAE",
     description: "Book reliable pool cleaning for homes, hotels, spas, and more. Our certified experts ensure your water is safe, clean, and swim-ready.",
     type: "website",
     url: "http://192.168.18.13:3000/AllServices/CleaningServices/SwimmingPool",
@@ -12,7 +12,7 @@ export const metadata = {
         url: "http://192.168.18.13:3000/images/SwimmingPool/1.png",
         width: 1200,
         height: 630,
-        alt: "Swimming Pool Cleaning Dubai",
+        alt: "Swimming Pool Cleaning UAE",
       },
     ],
   },
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -52,11 +53,7 @@ const sixSections = [
         content:
             "Chandeliers enhance elegance, but they collect dust and lose their shine over time. Our specialized chandelier cleaning restores brilliance by delicately wiping every crystal and fixture with precision. Whether your piece is small or grand, we clean it thoroughly and safely—reviving its sparkle without damaging its structure or wiring."
     },
-    // {
-    //     title: "Swimming Pool Cleaning",
-    //     content:
-    //         "A clean pool is vital for safety and enjoyment. Our pool cleaning service includes skimming, vacuuming, tile brushing, and chemical balancing. We remove debris, algae, and contaminants while ensuring your water is crystal clear and safe to swim in. Whether it's routine care or a deep seasonal clean, we keep your pool swim-ready."
-    // },
+   
     {
         title: "Vehicle Cleaning",
         content:
@@ -101,11 +98,11 @@ export default function SwimmingPoolPage() {
                 buttonLink="/contact"
             imageSrc="/images/banners/PoolCleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Swimming Pool Cleaning Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        {/* A clean swimming pool is essential for relaxation, hygiene, and safety, especially in the UAE's warm climate.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
@@ -163,7 +160,6 @@ export default function SwimmingPoolPage() {
             />
               <NeedHelp/>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-          
             <GetAQuoteSection text="Trusted Swimming Pool Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

@@ -10,7 +10,8 @@ interface QuoteBannerSectionProps {
   buttonText?: string;
   buttonLink?: string;
   subheadingFirst?: boolean;
-  imageSrc?: string; 
+  imageSrc?: string;
+  subheadingColor?: string;
 }
 
 const QuoteBannerSection: React.FC<QuoteBannerSectionProps> = ({
@@ -20,7 +21,8 @@ const QuoteBannerSection: React.FC<QuoteBannerSectionProps> = ({
   buttonText = "Contact Us",
   buttonLink = "/contact",
   subheadingFirst = false,
-  imageSrc = "/images/services-banner.png", 
+  imageSrc = "/images/services-banner.png",
+  subheadingColor,
 }) => {
   return (
     <div
@@ -37,6 +39,7 @@ const QuoteBannerSection: React.FC<QuoteBannerSectionProps> = ({
       <div className="container position-relative">
         <div className="row align-items-center">
           <div className="col-12">
+
             <div className="banner_content quote_desc">
               {!subheadingFirst && heading && (
                 <h1 className="be-vietnam-pro-bold my-3">{heading}</h1>
@@ -44,12 +47,12 @@ const QuoteBannerSection: React.FC<QuoteBannerSectionProps> = ({
 
               {subheading && (
                 <p
-                  className={`be-vietnam-pro-regular ${
-                    heading && !subheadingFirst ? "text-[#666666] !important" : ""
-                  }`}
+                  className="be-vietnam-pro-regular subheading"
+                  style={{ color: subheadingColor || (heading && !subheadingFirst ? "#494949" : "inherit") }}
                 >
                   {subheading}
                 </p>
+
               )}
 
               {subheadingFirst && heading && (

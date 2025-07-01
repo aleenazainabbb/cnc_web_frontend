@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Secure Storage Services in UAE - Care N Clean",
+  description: "Looking for secure storage in UAE? Care N Clean provides affordable and safe storage solutions for homes and businesses.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Trusted Storage Services in UAE",
+    description: "Store your belongings securely with Care N Clean. We provide climate-controlled storage units, organized packing, and hassle-free delivery throughout UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/MovingServices/Storage",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/Moving/storage/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Storage Services UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Affordable & Secure Storage Services | Care N Clean UAE",
+    description: "Temporary or long-term storage? We handle everything—from pickup to delivery—so your items stay protected and accessible.",
+    images: ["http://192.168.18.13:3000/images/Moving/storage/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -13,11 +43,6 @@ const sixSections = [
         content:
             "Local moves still require careful planning and safe handling. Our team helps you move your home or office within the city with ease. We pack your items, load them safely, and deliver everything to your new place on time. With our support, even short-distance moves feel smooth, fast, and stress-free.",
     },
-    // {
-    //     title: "Storage Services",
-    //     content:
-    //         "Sometimes you need a safe space to store your things during or after a move. Our secure storage service gives you peace of mind, whether it's for a few days or a few months. We handle your belongings with care and keep them in clean, climate-controlled spaces until you're ready to use them again.",
-    // },
     {
         title: "International Moving",
         content:
@@ -43,6 +68,7 @@ export default function StoragePage() {
                 buttonLink="/contact"
              imageSrc="/images/banners/StorageMoving.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Storage Services in UAE from Care N Clean"
                 paragraph={
@@ -54,7 +80,10 @@ export default function StoragePage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        offers secure, flexible, and reliable storage moving solutions across the UAE. We carefully pack, transport, and store your items in clean, monitored facilities for short or long-term needs. Whether you're downsizing, transitioning, or decluttering, we ensure your possessions stay protected and accessible when you need them.
+                        provides you with enough space to store your extra things and most importantly, at an affordable price. You can store your stuff without any 
+                          struggle! We pick your things up, store them carefully and deliver them when you need them without costing you more. Our team of experts is at your service 
+                          at any time of the day. Now you do not have to sell the things that you have once bought with love, just because you ran out of space. Care n Clean is the 
+                          best company where you can take help regarding all these storage services in UAE.
                     </>
                 }
                 imageSrc="/images/Moving/storage/1.jpg"
@@ -81,7 +110,9 @@ export default function StoragePage() {
 
             <BookYourService
                 title="Book Your Storage Service Today!"
-                description="Need temporary or long-term storage during a move? Care N Clean provides safe transportation and storage for your belongings with flexible access and secure handling. Schedule your service today and store with confidence!"
+                description="Need temporary or long-term storage during a move?
+                 Our proficient staff members are eagerly waiting to help you out, therefore, before wasting any further time we encourage you to start with your booking in order to 
+                 benefit yourself from this service!"
                 defaultService="Storage Service"
             />
 

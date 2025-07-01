@@ -1,15 +1,15 @@
 export const metadata = {
-    title: "Landscaping Services in Dubai - Care N Clean",
+    title: "Landscaping Services in UAE - Care N Clean",
     description: "Professional landscaping services across UAE. From garden design to lawn care and outdoor maintenance — trusted by thousands.",
    authors: [{ name: "Softnio" }], 
     openGraph: {
-        title: "Landscaping Services in Dubai - Care N Clean",
-        description: "Enhance your outdoor space with expert landscaping services in Dubai. Care n Clean provides customized solutions for gardens, lawns, and patios.",
+        title: "Landscaping Services in UAE - Care N Clean",
+        description: "Enhance your outdoor space with expert landscaping services in UAE. Care N Clean provides customized solutions for gardens, lawns, and patios.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping", // Local testing URL
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping", 
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg", // Local image path
+                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg", 
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Landscaping Services",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -87,15 +88,15 @@ export default function ServicePage() {
                 buttonLink="/contact"
                 imageSrc="/images/Maintenance/landscaping/landscaping.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Landscaping Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        {/* The UAE market values well-designed and maintained outdoor spaces.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        delivers expert landscaping solutions for both residential and commercial properties. In landscaping and cleaning services, Care n Clean primarily provides
+                        delivers expert landscaping solutions for both residential and commercial properties. In landscaping and cleaning services, Care N Clean primarily provides
                         landscape care and maintenance services, including planting trees, shrubs, flowers, lawns, or gardens.
                         Our proficient handyman may also design landscape plans or construct walkways, retaining walls, decks, fences, ponds, and similar structures.
                         With a devoted focus on you and your goals, we are changing the way landscape services are delivered. Our workers are well trained and experienced. We give

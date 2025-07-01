@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "International Moving Services - International Movers in UAE - Care N Clean",
+  description: "Care n Cleans provides the best International Moving Services in UAE. We're top-rated International movers in UAE that ensures every aspect of your move is seamless and hassle-free!",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert International Relocation Services from UAE",
+    description: "From paperwork to delivery, trust Care N Clean for professional international moving services. Safe, fast, and efficient worldwide relocation.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/MovingServices/International",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/Moving/international/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "International Moving Services UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Smooth International Moves from UAE | Care N Clean",
+    description: "Need help relocating abroad? Care N Clean offers international moving services with customs support and secure transport. Book your move today!",
+    images: ["http://192.168.18.13:3000/images/Moving/international/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -18,11 +48,6 @@ const sixSections = [
         content:
             "Sometimes you need a safe space to store your things during or after a move. Our secure storage service gives you peace of mind, whether it's for a few days or a few months. We handle your belongings with care and keep them in clean, climate-controlled spaces until you're ready to use them again.",
     },
-    // {
-    //     title: "International Moving",
-    //     content:
-    //         "Moving to a new country takes more than just packing boxes. Our international moving service covers everything from paperwork and customs to careful packing and long-distance transport. We guide you through the entire process, making sure your items arrive safely—no matter how far you're going.",
-    // }
 ];
 
 export default function InternationalMovingPage() {
@@ -43,6 +68,7 @@ export default function InternationalMovingPage() {
                 buttonLink="/contact"
              imageSrc="/images/banners/InternationalMoving.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best International Moving Services in UAE from Care N Clean"
                 paragraph={
@@ -54,7 +80,10 @@ export default function InternationalMovingPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        makes international relocation smooth and hassle-free. From secure packing to customs handling and overseas shipping, our experts manage every step of the process with care and precision. Whether you're moving for work, family, or a fresh start, we ensure your belongings arrive safely and on time. Enjoy peace of mind with a trusted moving partner committed to reliability and excellence.
+                        makes international relocation smooth and hassle-free. With years of experience, we are a team of competent people who will do everything in order to be able to
+                         meet the needs and requirements of our clients. We ensure professionalism and world-class quality standards in international moving services. Now, you can move 
+                         anywhere in the world without stressing about your essentials being safe or not. Because Care n Clean has a solution to all of your transport-related issues.
+                          Our team of efficient and hard-working people makes sure to provide you with the best of services.
                     </>
                 }
                 imageSrc="/images/Moving/international/1.jpg"
@@ -81,7 +110,9 @@ export default function InternationalMovingPage() {
 
             <BookYourService
                 title="Book Your International Moving Service Today!"
-                description="Planning an overseas move? Let Care N Clean handle it all—from packing and documentation to secure international transport. We offer door-to-door solutions tailored to your timeline and destination. Book now and start your journey stress-free with a team you can trust."
+                description="Our team of experts is at your service at any time of the day. Care n Clean is the best company where you can take help regarding all these international
+                 moving services-related queries in UAE. Our proficient staff members are eagerly waiting to help you out, therefore, before wasting any further time we encourage you
+                  to start with your booking in order to benefit yourself from this service!"
                 defaultService="International Moving"
             />
 

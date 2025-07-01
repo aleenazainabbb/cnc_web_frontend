@@ -1,12 +1,12 @@
 export const metadata = {
-    title: "Professional Handyman Services in Dubai - Care N Clean",
-    description: "Hire professional handyman services in Dubai with Care n Clean. From minor repairs to complete maintenance, we handle it all with expertise.",
+    title: "Professional Handyman Services in UAE - Care N Clean",
+    description: "Hire professional handyman services in UAE with Care n Clean. From minor repairs to complete maintenance, we handle it all with expertise.",
     authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Care N Clean - Expert Handyman Services in Dubai",
+        title: "Care N Clean - Expert Handyman Services in UAE",
         description: "Book trusted handyman services for your home or office. We handle wall repairs, curtain installations, furniture assembly, and more with guaranteed quality.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Handyman", // Local development URL
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Handyman", 
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/Handyman/1.png",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -87,6 +88,7 @@ export default function ServicePage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/handyman.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Handyman Services in UAE from Care N Clean"
                 paragraph={

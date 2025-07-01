@@ -1,4 +1,33 @@
-"use Client"
+export const metadata = {
+  title: "Professional Local Movers in UAE – Care N Clean",
+  description: "Moving in UAE? Care N Clean offers professional local movers for a hassle-free relocation experience. Reliable, affordable, and efficient service.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Trusted Local Moving Services in UAE",
+    description: "Care N Clean offers fast, efficient, and safe local moving services for homes and offices in the UAE. Get a smooth and organized relocation today.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/MovingServices/Local",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/Moving/local/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Local Moving Services UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Local Moving Made Easy in UAE | Care N Clean",
+    description: "Move across town effortlessly with Care N Clean’s professional local moving services. Safe packing, transport, and on-time delivery every time.",
+    images: ["http://192.168.18.13:3000/images/Moving/local/1.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,13 +35,8 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
-
-    // {
-    //     title: "Local Moving",
-    //     content:
-    //         "Local moves still require careful planning and safe handling. Our team helps you move your home or office within the city with ease. We pack your items, load them safely, and deliver everything to your new place on time. With our support, even short-distance moves feel smooth, fast, and stress-free.",
-    // },
     {
         title: "Storage Moving",
         content:
@@ -43,6 +67,7 @@ export default function LocalMovingPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/LocalMoving.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Local Moving Services in UAE from Care N Clean"
                 paragraph={
@@ -54,7 +79,10 @@ export default function LocalMovingPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        makes your local move smooth, efficient, and stress-free. From professional packing and safe loading to quick transport and careful unloading, our team ensures every detail is handled with care. Whether you're relocating a small apartment or a large office, we provide reliable, on-time service tailored to your needs. Enjoy a hassle-free move backed by trusted professionals.
+                        makes your local move smooth, efficient, and stress-free. From professional packing and safe loading to quick transport and careful unloading, our team ensures
+                         every detail is handled with care. Whether you're relocating a small apartment or a large office, we provide reliable, on-time service tailored to your needs.
+                          Enjoy a hassle-free move backed by trusted professionals. Care N Clean provides local moving services related to both the home you are moving out of as well as the one you are moving into. 
+                          Professionals assist in moving services from packing to loading to transportation and storage for your household goods.
                     </>
                 }
                 imageSrc="/images/Moving/local/1.jpg"
@@ -63,7 +91,9 @@ export default function LocalMovingPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Local Moving Problems"
-                content="Local moves can be more stressful than expected—damaged furniture, late movers, poor packing, and miscommunication are common issues. Without proper planning, moving day can turn chaotic. Delays, extra costs, and lost items are avoidable with professional service. Choosing an experienced team means fewer headaches and a smoother transition to your new location."
+                content="In local moving, although you are resettling your home or your business across your town, you still have to pack, move, and then unpack a lot of stuff.
+                 Do you have any idea that moving is one of the most stressful events in a person’s life? If you have ever moved, or are in the middle of one, you may not find this 
+                 reality all too astonishing. It is so much more than just transporting your belongings from one location to another."
                 imageLeft={true}
                 imageSrc="/images/Moving/local/2.jpg"
                 imageAlt="Local Moving Problems"
@@ -81,7 +111,9 @@ export default function LocalMovingPage() {
 
             <BookYourService
                 title="Book Your Local Moving Service Today!"
-                description="Need help with a local move? Care N Clean offers efficient packing, secure transport, and reliable delivery within the UAE. Whether it's a residential or commercial move, we make relocation simple and worry-free. Book now and move with ease!"
+                description="Need help with a local move? Our team of experts is at your service at any time of the day. Care n Clean is the best company where
+                 you can take help regarding all these local moving tasks in UAE. Our proficient staff members are eagerly waiting to help you out, therefore, before wasting any 
+                 further time we encourage you to start with your booking to benefit yourself from this service!"
                 defaultService="Local Moving"
             />
 
@@ -103,7 +135,6 @@ export default function LocalMovingPage() {
                 showViewServicesBtn={false}
             />
             <NeedHelp />
-
             <OurBestDeepClean sections={sixSections} mainTitle="Other Moving Services" />
             <GetAQuoteSection text="Trusted Local Moving Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

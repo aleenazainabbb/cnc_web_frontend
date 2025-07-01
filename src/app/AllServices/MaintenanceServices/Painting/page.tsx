@@ -1,15 +1,15 @@
 export const metadata = {
-    title: "Best Painting Services in Dubai - Care N Clean",
-    description: "Transform your space with Care n Clean’s expert painting services in Dubai. We offer high-quality interior and exterior painting solutions for all properties.",
+    title: "Best Painting Services in UAE - Care N Clean",
+    description: "Transform your space with Care n Clean’s expert painting services in UAE. We offer high-quality interior and exterior painting solutions for all properties.",
    authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Best Painting Services in Dubai - Care n Clean",
+        title: "Best Painting Services in UAE - Care n Clean",
         description: "Book reliable painting services for homes and businesses. Quick, clean, and high-quality finishes by Care N Clean.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Painting", // Replace with your actual URL
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Painting",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg", // Use full image URL
+                url: "http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg", 
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Painting Services",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -87,6 +88,7 @@ export default function ServicePage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/Painting.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Painting Services in UAE from Care N Clean"
                 paragraph={
@@ -98,7 +100,7 @@ export default function ServicePage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        Our team of painters in Care n Clean will show up on time and provide you with the quality you expect in an unexpected timeline. All you need to do is just sit
+                        Our team of painters in Care N Clean will show up on time and provide you with the quality you expect in an unexpected timeline. All you need to do is just sit
                         back and our experts will automatically do everything for you and it is our guaranty. And our team professionals are here to provide you with what you want in
                         every way possible!
                     </>

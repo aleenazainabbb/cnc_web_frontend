@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Commercial Vehicle Cleaning Service in Dubai - Care N Clean",
-  description: "Ensure a clean and hygienic fleet with Care n Clean’s commercial vehicle cleaning service in Dubai. Professional washing and detailing.",
+  title: "Commercial Vehicle Cleaning Service in UAE - Care N Clean",
+  description: "Ensure a clean and hygienic fleet with Care n Clean’s commercial vehicle cleaning service in UAE. Professional washing and detailing.",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Professional Vehicle Cleaning in Dubai",
+    title: "Care N Clean - Professional Vehicle Cleaning in UAE",
     description: "Get your car cleaned inside and out by professionals. We offer interior detailing, dashboard sanitization, and full exterior wash.",
     type: "website",
     url: "http://192.168.18.13:3000/AllServices/CleaningServices/VehicleCleaning",
@@ -12,14 +12,14 @@ export const metadata = {
         url: "http://192.168.18.13:3000/images/vehicle/1.jpg",
         width: 1200,
         height: 630,
-        alt: "Vehicle Cleaning Dubai",
+        alt: "Vehicle Cleaning UAE",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Vehicle Cleaning by Care N Clean",
-    description: "Interior and exterior car detailing in Dubai. Book your expert vehicle cleaning service today with Care N Clean.",
+    description: "Interior and exterior car detailing in UAE. Book your expert vehicle cleaning service today with Care N Clean.",
     images: ["http://192.168.18.13:3000/images/vehicle/1.jpg"],
   },
   viewport: {
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -57,11 +58,6 @@ const sixSections = [
         content:
             "A clean pool is vital for safety and enjoyment. Our pool cleaning service includes skimming, vacuuming, tile brushing, and chemical balancing. We remove debris, algae, and contaminants while ensuring your water is crystal clear and safe to swim in. Whether it's routine care or a deep seasonal clean, we keep your pool swim-ready."
     },
-    // {
-    //     title: "Vehicle Cleaning",
-    //     content:
-    //         "Vehicles accumulate dust, pollutants, and interior stains that can affect comfort and hygiene. Our vehicle cleaning service includes interior vacuuming, fabric sanitization, dashboard detailing, and exterior washing. We restore your vehicle’s shine while eliminating bacteria and odors—making it look and feel like new again."
-    // },
     {
         title: "Upholstery Cleaning",
         content:
@@ -101,6 +97,7 @@ export default function VehiclePage() {
                 buttonLink="/contact"
              imageSrc="/images/banners/vehiclecleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Vehicle Cleaning Services in UAE from Care N Clean"
                 paragraph={

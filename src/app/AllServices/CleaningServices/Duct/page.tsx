@@ -1,10 +1,10 @@
 export const metadata = {
-    title: "AC Duct Cleaning Services In Dubai - Care N Clean",
+    title: "AC Duct Cleaning Services in UAE - Care N Clean",
     description: "Breathe cleaner air with expert duct cleaning by Care N Clean in UAE. Remove dust, mold, allergens, and improve HVAC performance with professional care.",
    authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Care N Clean - Duct Cleaning Services in Dubai",
-        description: "Improve air quality with professional AC duct cleaning services in Dubai. Care n Clean ensures fresh, clean air for your home and office.",
+        title: "Care N Clean - Duct Cleaning Services in UAE",
+        description: "Improve air quality with professional AC duct cleaning services in UAE. Care n Clean ensures fresh, clean air for your home and office.",
         type: "website",
         url: "http://192.168.18.13:3000/AllServices/CleaningServices/Duct", // Adjust if route is different
         images: [
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -67,11 +68,6 @@ const sixSections = [
         content:
             "Furniture fabrics collect dust, allergens, and spills that dull appearance and cause health risks. Our upholstery cleaning process gently lifts stains and refreshes textures using safe, effective products. We clean sofas, chairs, and cushions to preserve fabric integrity and keep your home’s interior fresh and comfortable."
     },
-    // {
-    //     title: "Duct Cleaning",
-    //     content:
-    //         "Dirty air ducts circulate dust, allergens, and bacteria throughout your space. Our duct cleaning removes debris from vents and HVAC systems, improving airflow and indoor air quality. This service helps reduce allergy symptoms, lowers energy bills, and promotes a healthier breathing environment for everyone."
-    // },
     {
         title: "Windows Cleaning",
         content:
@@ -101,6 +97,7 @@ export default function VehiclePage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/Ductcleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Duct Cleaning Services in UAE from Care N Clean"
                 paragraph={

@@ -1,10 +1,10 @@
 export const metadata = {
-    title: "Upholstery Cleaning Services in Dubai - Care N Clean",
-    description: "Revive your furniture with expert upholstery cleaning services in Dubai. Care n Clean offers deep cleaning for sofas, carpets, and mattresses.",
+    title: "Upholstery Cleaning Services in UAE - Care N Clean",
+    description: "Revive your furniture with expert upholstery cleaning services in UAE. Care N Clean offers deep cleaning for sofas, carpets, and mattresses.",
     authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Care N Clean - Expert Upholstery Cleaning in Dubai",
-        description: "Book expert upholstery cleaning in Dubai for sofas, chairs, cushions, and more. We restore freshness and remove allergens using safe products.",
+        title: "Care N Clean - Expert Upholstery Cleaning in UAE",
+        description: "Book expert upholstery cleaning in UAE for sofas, chairs, cushions, and more. We restore freshness and remove allergens using safe products.",
         type: "website",
         url: "http://192.168.18.13:3000/AllServices/CleaningServices/UpholsteryCleaning",
         images: [
@@ -12,14 +12,14 @@ export const metadata = {
                 url: "http://192.168.18.13:3000/images/maid/4.jpg", 
                 width: 1200,
                 height: 630,
-                alt: "Upholstery Cleaning Dubai",
+                alt: "Upholstery Cleaning UAE",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
         title: "Upholstery Cleaning by Care N Clean",
-        description: "Revive your furniture with deep upholstery cleaning services across Dubai by Care N Clean.",
+        description: "Revive your furniture with deep upholstery cleaning services across UAE by Care N Clean.",
         images: ["http://192.168.18.13:3000/images/maid/4.jpg"], 
     },
     viewport: {
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -62,11 +63,6 @@ const sixSections = [
         content:
             "Vehicles accumulate dust, pollutants, and interior stains that can affect comfort and hygiene. Our vehicle cleaning service includes interior vacuuming, fabric sanitization, dashboard detailing, and exterior washing. We restore your vehicle’s shine while eliminating bacteria and odors—making it look and feel like new again."
     },
-    // {
-    //     title: "Upholstery Cleaning",
-    //     content:
-    //         "Furniture fabrics collect dust, allergens, and spills that dull appearance and cause health risks. Our upholstery cleaning process gently lifts stains and refreshes textures using safe, effective products. We clean sofas, chairs, and cushions to preserve fabric integrity and keep your home’s interior fresh and comfortable."
-    // },
     {
         title: "Duct Cleaning",
         content:
@@ -101,6 +97,7 @@ export default function VehiclePage() {
                 buttonLink="/contact"
             imageSrc="/images/banners/PoolCleaning.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Upholstery Cleaning Services in UAE from Care N Clean"
                 paragraph={
@@ -141,7 +138,7 @@ export default function VehiclePage() {
             <BookYourService
                 title="Book Your Upholstery Cleaning Services Today!"
                 description="We can sterilize, disinfect and secure your furniture after every cleaning. Our proficient staff members
-                 are eagerly waiting to help you out. Therefore, before wasting any further time, hire the finest upholstery cleaning services in Dubai.  Book your service today and 
+                 are eagerly waiting to help you out. Therefore, before wasting any further time, hire the finest upholstery cleaning services in UAE.  Book your service today and 
                  enjoy a cleaner, healthier indoor space."
                 defaultService="Upholstery Cleaning"
             />

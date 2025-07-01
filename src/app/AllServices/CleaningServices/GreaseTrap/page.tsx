@@ -1,26 +1,26 @@
 export const metadata = {
-    title: "Grease Trap Cleaning Services in Dubai - Care N Clean",
-    description: "Maintain hygiene with Care n Clean’s grease trap cleaning services in Dubai. Professional cleaning for restaurants, hotels, and commercial kitchens.",
+    title: "Grease Trap Cleaning Services in UAE - Care N Clean",
+    description: "Maintain hygiene with Care n Clean’s grease trap cleaning services in UAE. Professional cleaning for restaurants, hotels, and commercial kitchens.",
     authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Grease Trap Cleaning Services in Dubai - Care N Clean",
-        description: "Professional grease trap cleaning in Dubai by Care n Clean. Trusted by restaurants, hotels, and commercial kitchens for hygiene and safety.",
+        title: "Grease Trap Cleaning Services in UAE - Care N Clean",
+        description: "Professional grease trap cleaning in UAE by Care n Clean. Trusted by restaurants, hotels, and commercial kitchens for hygiene and safety.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/GreaseTrap", // update if needed
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/GreaseTrap", 
         images: [
             {
-                url: "http://192.168.18.13:3000/images/GreaseTrap/3.jpg", // update path if hosted elsewhere
+                url: "http://192.168.18.13:3000/images/GreaseTrap/3.jpg", 
                 width: 1200,
                 height: 630,
-                alt: "Grease Trap Cleaning Dubai",
+                alt: "Grease Trap Cleaning UAE",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Grease Trap Cleaning Services Dubai - Care n Clean",
-        description: "Ensure hygiene in your kitchen with expert grease trap cleaning from Care n Clean in Dubai.",
-        images: ["http://192.168.18.13:3000/images/GreaseTrap/3.jpg"], // match the Open Graph image
+        title: "Grease Trap Cleaning Services UAE - Care n Clean",
+        description: "Ensure hygiene in your kitchen with expert grease trap cleaning from Care n Clean in UAE.",
+        images: ["http://192.168.18.13:3000/images/GreaseTrap/3.jpg"], 
     },
     viewport: {
         width: "device-width",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -96,6 +97,7 @@ export default function GreaseTrapPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/GreaseTrap.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Grease Trap Cleaning Services in UAE from Care N Clean"
                 paragraph={
@@ -138,7 +140,7 @@ export default function GreaseTrapPage() {
             <BookYourService
                 title="Book Your Grease Trap Cleaning Services Today!"
                 description="Customer’s satisfaction and trust on our organization is very important to us. We ensure the quality of work. As our logo says “your happiness, our pride”.
-                 You can take advantage of our grease trap cleaning services Dubai. Therefore, we encourage you to start with your booking to benefit yourself from this service!"
+                 You can take advantage of our grease trap cleaning services UAE. Therefore, we encourage you to start with your booking to benefit yourself from this service!"
                 defaultService="Grease Trap"
             />
 

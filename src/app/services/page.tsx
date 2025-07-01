@@ -1,4 +1,6 @@
 "use client";
+
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 import ContactUsSection from "@/components/ContactUsSection";
 import GetAQuoteSection from "@/components/GetAQuoteSection";
 import AllServicesBanner from "@/components/services_page_content/AllServicesBanner";
@@ -7,8 +9,9 @@ import AllServicesSection from "@/components/services_page_content/AllServicesSe
 export default function ServicesPage() {
   return (
     <div>
-      
+     
       <AllServicesBanner />
+       <AutoBreadcrumb />
       <AllServicesSection />
       <ContactUsSection />
       <GetAQuoteSection />

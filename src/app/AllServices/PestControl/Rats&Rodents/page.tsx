@@ -1,4 +1,36 @@
-"use Client"
+export const metadata = {
+  title: "Rats & Rodents Pest Control Services in UAE - Care N Clean",
+  description:
+    "Eliminate Rats & Rodents with our expert pest control services in UAE. Care N Clean offers safe and effective rodent removal for homes and businesses.",
+  authors: [{ name: "Softnio" }],
+  openGraph: {
+    title: "Care N Clean - Expert Rats & Rodents Control in UAE",
+    description:
+      "Protect your home or business from rodent damage and disease. Care N Clean provides professional rats and rodents control with safe, effective treatments across the UAE.",
+    type: "website",
+    url: "http://192.168.18.13:3000/AllServices/PestControl/Rats&Rodents",
+    images: [
+      {
+        url: "http://192.168.18.13:3000/images/banners/RatsControl.png",
+        width: 1200,
+        height: 630,
+        alt: "Rats and Rodents Control UAE",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rats & Rodents Control in UAE | Care N Clean",
+    description:
+      "Get rid of rats and rodents with Care N Clean’s safe, effective pest control services. Serving homes & businesses across UAE.",
+    images: ["http://192.168.18.13:3000/images/banners/RatsControl.png"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+};
+
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
 import BestDeepCleaning from "@/components/Cleaning_service_page/BestDeepCleanBanner"
 import BenefitsOfDeepCleaning from "@/components/Cleaning_service_page/benefitsofDeepClean"
@@ -6,6 +38,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -13,11 +46,7 @@ const sixSections = [
         content:
             "Bird droppings and nesting can damage buildings and create unsanitary conditions. Our pigeon and bird control service safely removes birds and prevents them from returning, using humane and effective methods like spikes, nets, and repellents to keep your property clean and protected.",
     },
-    // {
-    //     title: "Rats & Rodents Control",
-    //     content:
-    //         "Rodents can cause serious health risks and property damage by chewing wires and spreading disease. Our rat and rodent control service identifies entry points, sets traps, and applies treatments to remove and block rodent activity—ensuring your space stays safe and rodent-free.",
-    // },
+   
     {
         title: "Termites Control",
         content:
@@ -68,6 +97,7 @@ export default function PestPage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/RatsControl.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Rats & Rodents Control Services in UAE from Care N Clean"
                 paragraph={
@@ -79,7 +109,10 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        offers professional rats and rodents control services across the UAE. Our experts identify entry points, set up targeted traps and treatments, and implement long-term prevention strategies to ensure your space stays rodent-free. Whether residential or commercial, we bring safety, hygiene, and peace of mind back to your property.
+                        offers professional rats and rodents control services across the UAE. Our experts identify entry points, set up targeted traps and treatments, and implement 
+                        long-term prevention strategies to ensure your space stays rodent-free. Whether residential or commercial, we bring safety, hygiene, and peace of mind back to
+                         your property. Our team has professional people that will clean your house and provide you rodent pest control services to the best
+                          of their abilities.
                     </>
                 }
                 imageSrc="/images/rats.png"
@@ -88,7 +121,11 @@ export default function PestPage() {
 
             <BenefitsOfDeepCleaning
                 title="Common Rats & Rodents Problems"
-                content="Rodents can gnaw through wires, pipes, and insulation, leading to fire risks and structural damage. They contaminate food, leave behind droppings, and carry diseases like leptospirosis and salmonella. Common signs include foul smells, scratching noises, chewed surfaces, and nesting debris. Ignoring infestations allows them to multiply rapidly, making professional control essential."
+                content="Rodents can gnaw through wires, pipes, and insulation, leading to fire risks and structural damage. They contaminate food, leave behind droppings, and carry
+                 diseases. Ignoring infestations allows 
+                 them to multiply rapidly, making professional control essential. These rats and rodents carry various diseases with them and also harm your property with their sharp 
+                 teeth that would allow them to munch on the wood and other materials to gain entry into your house or office. They also carry parasites and other pests with
+                  them that can become the reason for various health problems."
                 imageLeft={true}
                 imageSrc="/images/rats1.jpg"
                 imageAlt="Rodent Infestation Problems"
@@ -106,13 +143,17 @@ export default function PestPage() {
 
             <BookYourService
                 title="Book Your Rats & Rodents Control Service Today!"
-                description="Noticing signs of rats or rodents? Care N Clean offers effective detection, removal, and prevention services to keep your property safe. Book your rodent control service today for fast and lasting relief."
+                description="Our team of experts is at your service at any time of the day. Care n Clean is the best company where you can take help regarding all these rats and 
+                rodents control service-related queries in UAE. Our proficient staff members are eagerly waiting to help you out, therefore, before wasting any further time we 
+                encourage you to start with your booking in order to benefit yourself from this service!"
                 defaultService="Rats & Rodents Control"
             />
 
             <BenefitsOfDeepCleaning
                 title="Benefits of Rats & Rodents Control"
-                content="Our rodent control services eliminate existing infestations and prevent future intrusions. With expert sealing, trapping, and sanitation, you protect your health, property, and peace of mind. Trust Care N Clean for thorough, discreet, and reliable rodent management."
+                content="Our rodent control services eliminate existing infestations and prevent future intrusions. With expert sealing, trapping, and sanitation, you protect your 
+                health, property, and peace of mind. Trust Care N Clean for thorough, discreet, and reliable rodent management. Regular monitoring and preventive measures help you 
+                avoid future outbreaks, saving you from costly repairs and health risks."
                 imageLeft={true}
                 imageSrc="/images/rats2.jpg"
                 imageAlt="Benefits of Rats and Rodents Control"

@@ -1,12 +1,12 @@
 export const metadata = {
-    title: "Carpentry Services in Dubai - Care N Clean",
+    title: "Carpentry Services in UAE - Care N Clean",
     description: "Expert carpentry services across the UAE. From custom furniture to door repairs and moldings — we build with precision and care.",
     authors: [{ name: "Softnio" }],
     openGraph: {
-        title: "Carpentry Handyman Services in Dubai - Care n Clean",
-        description: "Get expert carpentry handyman services in Dubai with Care n Clean. From furniture repair to custom woodwork, we ensure top-quality craftsmanship.",
+        title: "Carpentry Handyman Services in UAE - Care n Clean",
+        description: "Get expert carpentry handyman services in UAE with Care n Clean. From furniture repair to custom woodwork, we ensure top-quality craftsmanship.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Carpentry", // Local dev URL
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Carpentry", 
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/carpentry/carpet1.png",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
     {
@@ -87,16 +88,16 @@ export default function ServicePage() {
                 buttonLink="/contact"
                 imageSrc="/images/banners/carpenter.png"
             />
+            <AutoBreadcrumb/>
             <BestDeepCleaning
                 title="Best Carpentry Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        {/* The UAE market demands high-quality craftsmanship for both home and commercial spaces.{" "} */}
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
                         would like to be able to have the opportunity to service your carpentry and remodeling needs. We are here to assist you with your renovation needs with our
-                        world-class carpentry handyman services in Dubai. We have hands-on experience in commercial, residential, industrial, new construction, installation, and
+                        world-class carpentry handyman services in UAE. We have hands-on experience in commercial, residential, industrial, new construction, installation, and
                         repairment of all wood doors, custom doors, decorative hardware, wood windows and frames, kitchen and bathroom remodeling, home improvement, and finished
                         carpentry service (Intricate woodworking, base molding, crown molding, and cabinetry).
                     </>

@@ -1,12 +1,12 @@
 export const metadata = {
-  title: "AC Maintenance and Service in Dubai - Care N Clean",
-  description: "Keep your AC running efficiently with Care n Clean’s expert AC maintenance and service in Dubai. Reliable cooling solutions for your comfort.",
+  title: "AC Maintenance and Service in UAE - Care N Clean",
+  description: "Keep your AC running efficiently with Care N Clean’s expert AC maintenance and service in UAE. Reliable cooling solutions for your comfort.",
   authors: [{ name: "Softnio" }],
   openGraph: {
-    title: "Care N Clean - Professional AC Maintenance Services in Dubai",
+    title: "Care N Clean - Professional AC Maintenance Services in UAE",
     description: "Book reliable AC servicing, filter cleaning, and cooling system repairs. Fast, affordable, and efficient service from Care N Clean.",
     type: "website",
-    url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/ACmaintenance", // Adjust path as per your route
+    url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/ACmaintenance",
     images: [
       {
         url: "http://192.168.18.13:3000/images/Maintenance/AC/1.jpg",
@@ -35,6 +35,7 @@ import GetAQuoteSection from "@/components/GetAQuoteSection"
 import OurBestDeepClean from "@/components/Cleaning_service_page/OurDeepCleanServices"
 import BookYourService from "@/components/Cleaning_service_page/bookYourService"
 import NeedHelp from "@/components/request_page_component/NeedHelp"
+import AutoBreadcrumb from "@/components/popups/Breadcrumbs";
 const sixSections = [
 
   {
@@ -87,11 +88,11 @@ export default function ServicePage() {
         buttonLink="/contact"
         imageSrc="/images/banners/AC.png"
       />
+      <AutoBreadcrumb/>
       <BestDeepCleaning
         title="Best AC Maintenance Services in UAE from Care N Clean"
         paragraph={
           <>
-            {/* The UAE climate makes reliable air conditioning a must for homes and offices. {" "} */}
             <a
               href="/about"
               style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
@@ -100,7 +101,7 @@ export default function ServicePage() {
             </a>{" "}
             offers expert AC maintenance services designed to keep your environment cool and comfortable. Whether you’re facing weak airflow, strange noises, or an unresponsive system,
             our trained technicians are ready to help. Do you want a professional for repairing, improving, or restoring your air conditioning system? Look no further! Our team of
-            experts in Care n Clean will help you, no matter what AC problem you are running into. We have one of the top-rated AC maintenance and service in Dubai.
+            experts in Care N Clean will help you, no matter what AC problem you are running into. We have one of the top-rated AC maintenance and service in UAE.
           </>
         }
         imageSrc="/images/Maintenance/AC/1.jpg"
