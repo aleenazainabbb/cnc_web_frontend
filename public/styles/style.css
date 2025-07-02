@@ -18,10 +18,12 @@
     font-weight: 300;
     font-style: normal;
 }
-.navbar-nav{
+
+.navbar-nav {
     /* margin-left:1%; */
     gap: 20px;
 }
+
 .ourdeepClean-heading {
     font-size: 44px !important;
 }
@@ -57,6 +59,11 @@
     font-style: normal;
 }
 
+.button-services {
+    color: #000000;
+    border: 1px solid #666666;
+}
+
 .be-vietnam-pro-medium {
     font-family: "Be Vietnam Pro", serif;
     font-weight: 500;
@@ -74,6 +81,10 @@
     font-family: "Be Vietnam Pro", serif;
     font-weight: 600;
     font-style: normal;
+}
+
+.title-services {
+    color: black;
 }
 
 .be-vietnam-pro-semibold-homepage {
@@ -303,7 +314,8 @@ input[type="number"] {
     padding: 10px 30px;
 }
 
-.booking-form,.getAquote-form {
+.booking-form,
+.getAquote-form {
     padding: 38px 32px;
     border-radius: 24px;
     box-shadow: 0px 4px 37px 0px #00000026;
@@ -311,7 +323,8 @@ input[type="number"] {
     max-height: 385px;
     width: 100%;
 }
-.getAquote-form{
+
+.getAquote-form {
     max-height: none !important;
 }
 
@@ -322,6 +335,7 @@ input[type="number"] {
     padding: 10px;
     color: #88939D;
 }
+
 .form-control::placeholder {
     color: #88939D;
 }
@@ -497,6 +511,13 @@ input[type="number"] {
     font-size: 44px;
 }
 
+.imagecard {
+    max-width: 300px;
+    width: 100%;
+    max-height: 220px;
+    /* height: auto; */
+}
+
 .services_rightSection p:first-child {
     font-size: 20px;
 }
@@ -505,13 +526,39 @@ input[type="number"] {
     border-bottom: 1px solid #83a790;
 }
 
+.hover-box {
+    background-color: white;
+    padding: 0;
+    border-radius: 0.375rem;
+    /* Tailwind's rounded-md */
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.hover-box:hover {
+    border: 1px solid #36B864;
+    /* green border on all sides */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* clean soft shadow all around */
+    transform: scale(1.01);
+    /* slight scale for lift */
+}
+
+.container-services {
+    text-align: center;
+    justify-content: center;
+}
+
 .service_card img {
     border-radius: 30px;
 }
 
 .service_card {
+    max-width: 300px;
     width: 100%;
-    
 }
 
 .service_card a i {
@@ -565,7 +612,8 @@ input[type="number"] {
 }
 
 .about_btn,
-.about_btn-bookNow {
+.about_btn-bookNow ,
+.btn-services{
     display: inline-block;
     border: 1px solid #666666;
     padding: 10px 18px;
@@ -588,7 +636,7 @@ input[type="number"] {
     font-size: 16px;
 }
 
-.about_btn-bookNow {
+.about_btn-bookNow,.btn-services {
     max-width: 157px;
     max-height: 48px;
 }
@@ -618,6 +666,7 @@ input[type="number"] {
 .estimate_btn:hover,
 .about_btn-custom:hover,
 .about_btn-bookNow:hover,
+.btn-services:hover,
 .knowMore_btn:hover {
     border: 1px solid #36b864;
     color: #ffffff;
@@ -921,9 +970,10 @@ input[type="number"] {
     color: #36b864 !important;
 }
 
-.home{
+.home {
     color: #4D4D4D !important;
 }
+
 /* End Footer */
 
 /**********************************************************************************************/
@@ -1320,25 +1370,27 @@ input[type="number"] {
 }
 
 .nav-item.dropdown:hover .dropdown-menu {
-  display: block;
+    display: block;
 }
+
 /* Hover effect for MOVING link */
-.moving-link:hover,.moving-link.active-link {
-  color: #36B864 !important;
+.moving-link:hover,
+.moving-link.active-link {
+    color: #36B864 !important;
 }
 
 /* Hover & active effect for dropdown items */
 .dropdown-link:hover,
 .dropdown-link:focus,
 .dropdown-link.active {
-  background-color: #36B864 !important;
-  color: white !important;
+    background-color: #36B864 !important;
+    color: white !important;
 }
 
 /* HOME active and hover */
 .home-link:hover,
 .home-link.active-link {
-  color: #36B864 !important;
+    color: #36B864 !important;
 }
 
 
@@ -1479,6 +1531,10 @@ tr.calendar-body .calendar-day .day:hover {
 }
 
 /* Payment Method Page Css */
+.service_card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
 
 .payment-option {
     border: 2px solid #ddd;
@@ -1620,12 +1676,15 @@ tr.calendar-body .calendar-day .day:hover {
 .responsive-margin-custom {
     margin-top: 100px !important;
 }
-.servicesList{
-    max-width: 300px !important;
-    width: 100%;
-    height: auto !important;
- 
-    
+
+
+.scroll-snap-align-start {
+    scroll-snap-align: start;
+}
+
+.main-services {
+    display: flex;
+    flex-direction: row;
 }
 
 @media (max-width: 368px) {
@@ -1669,9 +1728,17 @@ tr.calendar-body .calendar-day .day:hover {
     .subscribe {
         font-size: 16px;
     }
-   
+
     .services_banner {
         padding: 48px 0 !important;
+    }
+
+    .imagecard {
+        max-height: 88px !important;
+    }
+    .btn-services{
+        padding: 4px !important;
+        font-size: 8px !important;
     }
 }
 
@@ -1688,12 +1755,17 @@ tr.calendar-body .calendar-day .day:hover {
     .about_btn-servicebanner {
         width: 126px !important;
     }
+
+    .service_card {
+        width: 90%;
+    }
 }
 
 @media (max-width: 576px) {
-.service_list{
-    font-size: 11px !important;
-}
+    .service_list {
+        font-size: 11px !important;
+    }
+
     h1,
     .heading,
     .be-vietnam-pro-bold-custom {
@@ -1788,6 +1860,15 @@ tr.calendar-body .calendar-day .day:hover {
     .padding-images {
         padding-left: none !important;
     }
+
+    .box-service {
+        width: "28.3333%",
+    }
+
+    .imagecard {
+        max-width: 97px !important;
+        max-height: 87px !important;
+    }
 }
 
 @media (max-width: 1399px) {
@@ -1828,7 +1909,8 @@ tr.calendar-body .calendar-day .day:hover {
         padding-top: 0rem !important;
         padding-bottom: 1rem !important;
     }
-    h1{
+
+    h1 {
         font-size: 43px !important;
     }
 }
@@ -1861,10 +1943,22 @@ tr.calendar-body .calendar-day .day:hover {
         bottom: -45px;
     }
 
+    .imagecard {
+        max-width: 250px;
+        max-height: 170px;
+    }
+
+
 }
 
 /* Responsive Css */
 @media (max-width: 992px) {
+
+    .imagecard {
+        max-width: 200px;
+        max-height: 140px;
+    }
+
     body {
         font-size: 13px;
     }
@@ -1935,6 +2029,9 @@ tr.calendar-body .calendar-day .day:hover {
 }
 
 @media (max-width: 768px) {
+    .scroll-container {
+        gap: 10px !important;
+    }
 
     h1,
     .heading {
@@ -1980,16 +2077,9 @@ tr.calendar-body .calendar-day .day:hover {
     }
 
     .overlay-image {
-        /* right: 38px !important;
-        bottom: -32px !important; */
         max-width: 153.76px !important;
         max-height: 178px !important;
     }
-
-    /* .whycare_images {
-        display: flex !important;
-        justify-content: center;
-    } */
 
     .servicesection {
         left: -66px;
@@ -2179,11 +2269,10 @@ tr.calendar-body .calendar-day .day:hover {
         width: 84px;
     }
 
-    /* .slider_btn {
-        padding: 0px;
-        margin-bottom: 10px;
-    } */
-
+    .imagecard {
+        max-width: 155px;
+        max-height: 109px;
+    }
 }
 
 /* End Responsive Css */

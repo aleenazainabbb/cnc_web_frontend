@@ -8,23 +8,22 @@ interface ServiceItem {
   title: string;
   img: string;
   description?: string;
+  link?: string;
+
 }
 
 interface ServicesListProps {
-  title: string;
+  title?: string;
   services: ServiceItem[];
-  defaultDescription?: string;
 }
 
 const ServicesList: React.FC<ServicesListProps> = ({
   title,
   services,
-  defaultDescription = "While we can customize your cleaning plan to suit your needs, most clients schedule regular cleaning services:",
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   let currentIndex = 0;
 
-  // Auto-scroll logic
   useEffect(() => {
     const container = scrollRef.current;
     if (!container || services.length <= 3) return;
@@ -36,63 +35,87 @@ const ServicesList: React.FC<ServicesListProps> = ({
         left: cardWidth * currentIndex,
         behavior: "smooth",
       });
-    }, 9000); // scroll every 3 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [services]);
 
   return (
     <div className="pt-5">
-      <h4
-        className="be-vietnam-pro-bold"
-        style={{ color: "#36B864", marginBottom: "30px" }}
-      >
-        {title}
-      </h4>
+      {title && ( // Only render heading if title is passed
+        <h4 className="be-vietnam-pro-bold text-[#36B864] mb-6">{title}</h4>
+      )}
 
       <div
         ref={scrollRef}
+        className="scroll-container"
         style={{
           display: "flex",
           overflowX: "auto",
           scrollSnapType: "x mandatory",
           gap: "20px",
           paddingBottom: "10px",
+          paddingTop: "10px",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {services.map((service, index) => (
           <div
             key={index}
+            className="flex-shrink-0 box-service"
             style={{
-              flex: "0 0 33.33%",
-              maxWidth: "33.33%",
+              width: "32.3333%",
+              // width: "32%",
               scrollSnapAlign: "start",
             }}
           >
-            <div className="service_card">
-              <Image
-                src={service.img}
-                alt={service.title}
-                className="servicesList"
-                width={300}
-                height={200}
-              />
-              <p className="fs-24 be-vietnam-pro-semibold my-3">
-                {service.title}
-              </p>
-              <p className="be-vietnam-pro-regular mb-3 service_list">
-                {service.description || defaultDescription}
-              </p>
+            <div className="group w-full container-services hover-box">
+
+              {/* Clickable wrapper for the card (excluding the button) */}
               <LinkWithLoader
-                href="/book"
-                className="d-inline-block fw-24 be-vietnam-pro-semibold slider_btn"
+                href={service.link || "#"}
+                className="block hover:scale-[1.01] transition-transform"
               >
-                Book Now <i className="fa-solid fa-arrow-right-long ms-2"></i>
+                <Image
+                  src={service.img}
+                  alt={service.title}
+                  width={300}
+                  height={220}
+                  className="w-full h-[180px] object-cover imagecard mt-3"
+                />
+                <p className="fs-24 be-vietnam-pro-semibold my-3 px-3 title-services">
+                  {service.title}
+                </p>
+                <p className="be-vietnam-pro-regular mb-3 service_list text-sm text-gray-600 w-full break-words px-3">
+                  {service.description}
+                </p>
               </LinkWithLoader>
+
+              {/* Book Now button (separate link) */}
+              <div className="px-3 pb-3">
+                <LinkWithLoader
+                  href="/BookAservicePage"
+                  className=" btn-services mt-3 me-3 group"
+                >
+                  Book Now
+                  <i className="fa-solid fa-arrow-right ms-2 hidden group-hover:inline"></i>
+                </LinkWithLoader>
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Hide scrollbar */}
+      <style jsx>{`
+        .scroll-container::-webkit-scrollbar {
+          display: none;
+        }
+        .scroll-container {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 };

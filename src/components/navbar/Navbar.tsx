@@ -218,12 +218,19 @@ const Navbar: React.FC = () => {
               </ul>
             </li>
           </ul>
-          <LinkWithLoader
-            href="/GetAquote"
+
+          <button
+            onClick={() => {
+              const quoteSection = document.getElementById("get-a-quote");
+              if (quoteSection) {
+                quoteSection.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
             className="btn bg_green header_btn text-white headerBtn_green"
           >
             Get a quote
-          </LinkWithLoader>
+          </button>
+
         </div>
       </div>
     </nav>
