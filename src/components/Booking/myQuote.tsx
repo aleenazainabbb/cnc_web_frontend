@@ -1,7 +1,9 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import styles from './styles/profile.module.css';
-import { useLead } from '@/context/MyQuote'; // Update path if needed
+import { useLead } from '@/context/MyQuote';
+import { useQuoteList } from '@/context/QuoteList';
 
 const MyQuotes: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -15,10 +17,10 @@ const MyQuotes: React.FC = () => {
   });
 
   const { createLead, loading, error, success, clearMessages } = useLead();
-
-  // ✅ Load from localStorage on component mount
+  const { fetchQuotes } = useQuoteList();
   useEffect(() => {
     const saved = localStorage.getItem('leadData');
+
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -37,18 +39,17 @@ const MyQuotes: React.FC = () => {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
     await createLead(formData);
-    localStorage.setItem('leadData', JSON.stringify(formData)); // ✅ Save to localStorage
-    console.log('Saved to localStorage:', formData);
-
-    // ✅ Keep form filled
-    setFormData({ ...formData });
+    localStorage.setItem('leadData', JSON.stringify(formData));
+    await fetchQuotes(formData.email);
   };
 
   const handleCancel = () => {
@@ -66,14 +67,14 @@ const MyQuotes: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.container}>
+      <div className={styles.profile_container}>
+        {/* Fields */}
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Full Name</label>
             <input
               type="text"
               className={styles.input}
-              placeholder="Name"
               name="customer"
               value={formData.customer}
               onChange={handleChange}
@@ -84,7 +85,6 @@ const MyQuotes: React.FC = () => {
             <input
               type="email"
               className={styles.input}
-              placeholder="Email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -98,7 +98,6 @@ const MyQuotes: React.FC = () => {
             <input
               type="text"
               className={styles.input}
-              placeholder="Phone Num"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -109,7 +108,6 @@ const MyQuotes: React.FC = () => {
             <input
               type="text"
               className={styles.input}
-              placeholder="Address"
               name="address"
               value={formData.address}
               onChange={handleChange}
@@ -158,25 +156,23 @@ const MyQuotes: React.FC = () => {
           <label className={styles.label}>Instructions</label>
           <textarea
             className={styles.input}
-            placeholder="Add any notes or details.."
             name="description"
             value={formData.description}
             onChange={handleChange}
           />
         </div>
 
-        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-        {success && <p style={{ color: 'green', marginTop: '10px' }}>{success}</p>}
+        {/* ✅ Show exact server message */}
+        {error && (
+          <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+        )}
+        {success && (
+          <p style={{ color: 'green', marginTop: '10px' }}>{success}</p>
+        )}
 
         <div className={styles.quotesbuttonContainer}>
-          <button className={styles.button} onClick={handleCancel}>
-            Clear
-          </button>
-          <button
-            className={styles.button}
-            onClick={handleSubmit}
-            disabled={loading}
-          >
+          <button className={styles.quote_button} onClick={handleCancel}>Clear</button>
+          <button className={styles.quote_button} onClick={handleSubmit} disabled={loading}>
             {loading ? 'Saving...' : 'Save'}
           </button>
         </div>

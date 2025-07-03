@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import LinkWithLoader from "@/components/Loader/Link";
 
 interface LifeMadeEasySectionProps {
   title?: string;
@@ -34,12 +34,12 @@ const LifeMadeEasySection: React.FC<LifeMadeEasySectionProps> = ({
               dangerouslySetInnerHTML={{ __html: description }}
             />
 
-            <Link
-              href={buttonLink}
+            <LinkWithLoader
+              href="/GetAquote"
               className="bg-white be-vietnam-pro-semibold text-black text-[14px] estimate_btn tracking-[0%] mt-3 me-3"
             >
               {buttonText}
-            </Link>
+            </LinkWithLoader>
           </div>
         </div>
       </div>

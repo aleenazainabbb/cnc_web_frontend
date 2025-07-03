@@ -35,7 +35,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/MyQuotes" className={`${side.navLink} ${pathname === '/myQuote' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/QuoteList" className={`${side.navLink} ${pathname === '/myQuote' ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes

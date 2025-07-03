@@ -27,7 +27,7 @@ export const RegisterProvider: React.FC<{ children: ReactNode }> = ({ children }
                 ...userData
             });
             console.log('User registered:', response.data);
-            return response;  // Return full response for status/message inspection
+            return response; 
         } catch (error: any) {
             const serverMessage =
                 error?.response?.data?.error ||

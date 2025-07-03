@@ -95,7 +95,7 @@ export default function VehiclePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            imageSrc="/images/banners/PoolCleaning.png"
+            imageSrc="/images/banners/Upholstery.png"
             />
             <AutoBreadcrumb/>
             <BestDeepCleaning

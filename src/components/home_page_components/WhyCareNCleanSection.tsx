@@ -69,7 +69,7 @@ const WhyCareNCleanSection: React.FC = () => {
             </LinkWithLoader>
 
              <LinkWithLoader href="/about" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
-              Know More
+              About Us
             </LinkWithLoader>
 
           </div>

@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./globals.css";
 import { Suspense } from "react";
 import { AuthProvider } from "@/context/AuthContext";
-import ConditionalLayout from "@/components/ConditionalLayout"; // NEW component
+import ConditionalLayout from "@/components/ConditionalLayout";
 import { RegisterProvider } from "@/context/registerContext";
 import { VerificationProvider } from "@/context/verification";
 import { ForgotPasswordProvider } from "@/context/ForgotPassword";
@@ -14,6 +14,9 @@ import { ResetPasswordProvider } from '@/context/ResetPassword';
 // import LinkWithLoader from "@/components/Loader/Link";
 import RouteProgressDone from '@/components/Loader/RouteProgressDone';
 import { LeadProvider } from '@/context/MyQuote';
+import { ResendCodeProvider } from '@/context/signupVerify';
+import { QuoteFormProvider } from '@/context/QuoteForm';
+import { QuoteListProvider } from '@/context/QuoteList';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,25 +67,34 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
         suppressHydrationWarning
       >
-        <VerifyForgotPasswordProvider>
-          <ForgotPasswordProvider>
-            <ResetPasswordProvider>
-              <VerificationProvider>
-                <AuthProvider>
-                  <RegisterProvider>
-                    <LeadProvider>
-                      <Suspense fallback={<div>Loading...</div>}>
-                        <RouteProgressDone />
-                        <ConditionalLayout>{children}</ConditionalLayout>
-                      </Suspense>
-                    </LeadProvider>
-                  </RegisterProvider>
-                </AuthProvider>
-              </VerificationProvider>
-            </ResetPasswordProvider>
-          </ForgotPasswordProvider>
-        </VerifyForgotPasswordProvider>
+
+        <QuoteListProvider>
+          <QuoteFormProvider>
+            <VerifyForgotPasswordProvider>
+              <ForgotPasswordProvider>
+                <ResetPasswordProvider>
+                  <VerificationProvider>
+                    <ResendCodeProvider>
+                      <AuthProvider>
+                        <RegisterProvider>
+                          <LeadProvider>
+                            <Suspense fallback={<div>Loading...</div>}>
+                              <RouteProgressDone />
+                              <ConditionalLayout>{children}</ConditionalLayout>
+                            </Suspense>
+                          </LeadProvider>
+                        </RegisterProvider>
+                      </AuthProvider>
+                    </ResendCodeProvider>
+                  </VerificationProvider>
+                </ResetPasswordProvider>
+              </ForgotPasswordProvider>
+            </VerifyForgotPasswordProvider>
+          </QuoteFormProvider>
+        </QuoteListProvider>
+
+
       </body>
-    </html>
+    </html >
   );
 }

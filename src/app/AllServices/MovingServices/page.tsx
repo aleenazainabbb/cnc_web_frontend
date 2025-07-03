@@ -73,7 +73,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Contact Us"
                 buttonLink="/contact"
-            //   imageSrc="/images/Moving/1.jpg"
+              imageSrc="/images/banners/Moving.png"
             />
             <AutoBreadcrumb/>
             <BestDeepCleaning

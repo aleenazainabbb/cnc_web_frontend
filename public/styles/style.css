@@ -612,8 +612,8 @@ input[type="number"] {
 }
 
 .about_btn,
-.about_btn-bookNow ,
-.btn-services{
+.about_btn-bookNow,
+.btn-services {
     display: inline-block;
     border: 1px solid #666666;
     padding: 10px 18px;
@@ -636,7 +636,8 @@ input[type="number"] {
     font-size: 16px;
 }
 
-.about_btn-bookNow,.btn-services {
+.about_btn-bookNow,
+.btn-services {
     max-width: 157px;
     max-height: 48px;
 }
@@ -823,10 +824,19 @@ input[type="number"] {
 /* Contact Us */
 
 /* Testimonials */
-.testimonials_card {
-    width: 92%;
-    margin: 0 auto;
+/* .testimonials_card {
+    flex: 0 0 32.3333%;
+    scroll-snap-align: start;
+    margin: 0;
+
+} */
+
+.testimonials_slider {
+    margin-top: 20px !important;
+    display: flex;
+    flex-direction: row;
 }
+
 
 .testimonials_card img {
     width: 96px;
@@ -838,6 +848,23 @@ input[type="number"] {
 
 .testimonials_card p:last-child {
     font-size: 18px;
+}
+
+.testimonials_card {
+    width: 32.3333%;
+    scroll-snap-align: start;
+}
+
+@media (max-width: 1024px) {
+    .testimonials_card {
+        width: 48%;
+    }
+}
+
+@media (max-width: 640px) {
+    .testimonials_card {
+        width: 100%;
+    }
 }
 
 /* End Testimonials */
@@ -1576,6 +1603,10 @@ tr.calendar-body .calendar-day .day:hover {
     background-color: #ffffff;
 }
 
+.list-heading {
+    color: #36B864;
+}
+
 .needs-validation .form-label {
     color: #9fa4a9;
     font-size: 14px;
@@ -1736,7 +1767,8 @@ tr.calendar-body .calendar-day .day:hover {
     .imagecard {
         max-height: 88px !important;
     }
-    .btn-services{
+
+    .btn-services {
         padding: 4px !important;
         font-size: 8px !important;
     }

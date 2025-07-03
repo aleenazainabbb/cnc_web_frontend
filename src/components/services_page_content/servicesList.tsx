@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import LinkWithLoader from "@/components/Loader/Link";
@@ -9,7 +8,6 @@ interface ServiceItem {
   img: string;
   description?: string;
   link?: string;
-
 }
 
 interface ServicesListProps {
@@ -43,7 +41,7 @@ const ServicesList: React.FC<ServicesListProps> = ({
   return (
     <div className="pt-5">
       {title && ( // Only render heading if title is passed
-        <h4 className="be-vietnam-pro-bold text-[#36B864] mb-6">{title}</h4>
+        <h4 className="be-vietnam-pro-bold mb-6 list-heading">{title}</h4>
       )}
 
       <div
@@ -65,7 +63,6 @@ const ServicesList: React.FC<ServicesListProps> = ({
             className="flex-shrink-0 box-service"
             style={{
               width: "32.3333%",
-              // width: "32%",
               scrollSnapAlign: "start",
             }}
           >

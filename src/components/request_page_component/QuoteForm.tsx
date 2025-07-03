@@ -1,10 +1,15 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import LinkWithLoader from "../Loader/Link";
+import { useQuoteForm } from '@/context/QuoteForm';
+import Snackbar from '@/components/popups/Snackbar';
 
 const QuoteForm: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const thankYouRef = useRef<HTMLDivElement>(null);
+  const { submitQuote, loading } = useQuoteForm();
+  const [snackbar, setSnackbar] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
 
   const [bookingForm, setBookingForm] = useState({
     name: "",
@@ -18,6 +23,7 @@ const QuoteForm: React.FC = () => {
     bestTime: "",
     hearAboutUs: "",
     message: "",
+    subService: "",
   });
 
   useEffect(() => {
@@ -38,10 +44,28 @@ const QuoteForm: React.FC = () => {
     setRequestForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted:", { bookingForm, requestForm });
+
+    const payload = {
+      name: bookingForm.name,
+      company: bookingForm.company,
+      email: bookingForm.email,
+      phone: bookingForm.phone,
+      service: requestForm.services[0],
+      subService: requestForm.subService || '',
+      message: requestForm.message,
+    };
+
+    try {
+      const msg = await submitQuote(payload);
+      setSnackbar({ message: msg, type: 'success' });
+      setIsSubmitted(true);
+    } catch (err: any) {
+      setSnackbar({ message: err.message, type: 'error' });
+    }
   };
+
 
   const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
     if (
@@ -101,8 +125,8 @@ const QuoteForm: React.FC = () => {
       className="booking-form getAquote-form bg_green p-4 rounded text-white text-center"
     >
       <h3 className="be-vietnam-pro-semibold mb-3">Thank you for your Quote!</h3>
-      <p className="fs-18">We’ve received your request and will get back to you shortly.</p>
-      <p className="fs-18">
+      <p className="fs-18">We’ve received your request. Please check your email for services.</p>
+      {/* <p className="fs-18">
         Please{" "}
         <LinkWithLoader
           href="/Login"
@@ -110,8 +134,8 @@ const QuoteForm: React.FC = () => {
         >
           Login
         </LinkWithLoader>{" "}
-        here to track your booking.
-      </p>
+        here for your booking.
+      </p> */}
     </div>
   ) : (
     <form
@@ -188,11 +212,13 @@ const QuoteForm: React.FC = () => {
 
         <div className="col-6 mb-1">
           <select
-            name="subservice"
+            name="subService"
             className="form-select"
             disabled={!subservices.length}
+            value={requestForm.subService}
+            onChange={handleRequestChange}
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               Select Subservice
             </option>
             {subservices.map((sub) => (
@@ -201,6 +227,7 @@ const QuoteForm: React.FC = () => {
               </option>
             ))}
           </select>
+
         </div>
 
         <div className="col-md-6 mb-1">
@@ -255,7 +282,16 @@ const QuoteForm: React.FC = () => {
           </button>
         </div>
       </div>
+      {snackbar && (
+        <Snackbar
+          message={snackbar.message}
+          type={snackbar.type}
+          onClose={() => setSnackbar(null)}
+        />
+      )}
+
     </form>
+
   );
 };
 

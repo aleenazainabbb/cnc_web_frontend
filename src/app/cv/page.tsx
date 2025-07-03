@@ -1,11 +1,11 @@
 // app/services/plumbing/water-heater/page.tsx (or any page)
-import Breadcrumbs from "@/components/popups/Breadcrumbs";
+import TablePreview from "@/components/Booking/getQuoteList";
 
 export default function Page() {
 
     return (
         <div>
-      <Breadcrumbs  />
+      <TablePreview  />
      
     </div>
   );

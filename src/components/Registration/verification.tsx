@@ -1,61 +1,105 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import verify from './styles/verification.module.css';
-import { useVerification } from '../../context/verification'; 
+import { useRouter, useSearchParams } from 'next/navigation';
+import Snackbar from '@/components/popups/Snackbar';
+import styles from './styles/verification.module.css';
 
-export default function Verification() {
+import { useVerification } from '@/context/verification'; // for verifyCode
+import { useResendCode } from '@/context/signupVerify';     // for resendCode
+
+const Verification = () => {
+  const searchParams = useSearchParams();
+  const emailFromQuery = searchParams.get('email') || '';
   const [email, setEmail] = useState('');
-  const [pinCode, setCode] = useState('');
+  const [code, setCode] = useState('');
+  const [snackbar, setSnackbar] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [countdown, setCountdown] = useState(60);
+  const [timerExpired, setTimerExpired] = useState(false);
+
+  const { verifyCode, loading: verifying } = useVerification();
+  const { resendCode, loading: resending } = useResendCode();
   const router = useRouter();
-  const { verifyCode } = useVerification();
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const emailParam = query.get('email');
-    if (emailParam) {
-      setEmail(emailParam);
-    }
-  }, []);
+    setEmail(emailFromQuery);
+  }, [emailFromQuery]);
 
-  const handleVerify = async () => {
-    if (pinCode.trim().length === 0) {
-      alert('Please enter the verification code.');
+  useEffect(() => {
+    if (countdown === 0) {
+      setTimerExpired(true);
       return;
     }
+    const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
+  const handleVerify = async () => {
+    if (!email || !code.trim()) {
+      setSnackbar({ message: 'Verification Code is required.', type: 'error' });
+      return;
+    }
     try {
-      await verifyCode(email, pinCode);
-      router.push('/Bookings/Dashboard');
+      await verifyCode(email, code);
+      setSnackbar({ message: 'Code verified successfully!', type: 'success' });
+      setTimeout(() => router.push('/Bookings/Dashboard'), 800);
     } catch (err: any) {
-      alert(err.message || 'Verification failed.');
+      setSnackbar({ message: err.message, type: 'error' });
     }
   };
 
+ const handleResend = async () => {
+  const { success, message } = await resendCode(email);
+  setSnackbar({ message, type: success ? 'success' : 'error' });
+
+  if (success) {
+    setCountdown(60);
+    setTimerExpired(false);
+  }
+};
+
+
+  const isDisabled = (!code.trim() && !timerExpired) || verifying;
+
   return (
-    <div className={verify.main}>
-      <div className={verify.container}>
-        <h2 className={verify.heading}>Verification</h2>
-        <p className={verify.description}>
-          Please check your email <strong>{email}</strong> for the verification code.
+    <div className={styles.main}>
+      <div className={styles.container}>
+        <h2 className={styles.heading}>Verification</h2>
+        <p className={styles.description}>
+          A verification code was sent to <strong>{email}</strong>.
         </p>
 
         <input
           type="text"
-          className={verify.input}
-          placeholder="Enter the verification code"
-          value={pinCode}
+          className={styles.input}
+          placeholder="Enter verification code"
+          value={code}
           onChange={(e) => setCode(e.target.value)}
         />
 
-        <button
-          onClick={handleVerify}
-          className={verify.button}
-          disabled={pinCode.trim().length === 0}
-        >
-          Verify
+        <button className={styles.button} onClick={handleVerify} disabled={isDisabled}>
+          {verifying ? 'Verifying...' : 'Verify'}
         </button>
+
+        <p className={styles.label}>
+          {countdown > 0 ? (
+            `Resend code in ${countdown}s`
+          ) : (
+            <span onClick={handleResend} className={styles.resend}>
+              {resending ? 'Resending...' : 'Resend Code'}
+            </span>
+          )}
+        </p>
       </div>
+
+      {snackbar && (
+        <Snackbar
+          message={snackbar.message}
+          type={snackbar.type}
+          onClose={() => setSnackbar(null)}
+        />
+      )}
     </div>
   );
-}
+};
+
+export default Verification;

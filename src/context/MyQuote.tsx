@@ -38,9 +38,14 @@ export const LeadProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setLoading(true);
 
     try {
+      const token = localStorage.getItem('token');
+
       const response = await fetch('http://192.168.18.11:3000/lead/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify({
           ...leadData,
           leadType: 'web',
@@ -49,15 +54,14 @@ export const LeadProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.error || 'Failed to submit quote.');
-        // ✅ Save form data to localStorage
+      if (!response.ok || data.success === false) {
+        throw new Error(data.message || 'Something went wrong.');
+      }
+
+      setSuccess(data.message || ''); // ✅ Show success message from server
       localStorage.setItem('leadData', JSON.stringify(leadData));
-console.log('Saved to localStorage:', JSON.parse(localStorage.getItem('leadData') || '{}'));
-
-
-      setSuccess('Quote submitted successfully.');
     } catch (err: any) {
-      setError(err.message || 'Something went wrong.');
+      setError(err.message); // ✅ Show error message from server
     } finally {
       setLoading(false);
     }
