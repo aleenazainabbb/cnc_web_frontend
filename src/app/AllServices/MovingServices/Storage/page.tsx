@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Secure Storage Services in UAE - Care N Clean",
-  description: "Looking for secure storage in UAE? Care N Clean provides affordable and safe storage solutions for homes and businesses.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Trusted Storage Services in UAE",
-    description: "Store your belongings securely with Care N Clean. We provide climate-controlled storage units, organized packing, and hassle-free delivery throughout UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/MovingServices/Storage",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/Moving/storage/1.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Storage Services UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Affordable & Secure Storage Services | Care N Clean UAE",
-    description: "Temporary or long-term storage? We handle everything—from pickup to delivery—so your items stay protected and accessible.",
-    images: ["http://192.168.18.13:3000/images/Moving/storage/1.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Secure Storage Services in UAE - Care N Clean",
+    description: "Looking for secure storage in UAE? Care N Clean provides affordable and safe storage solutions for homes and businesses.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Trusted Storage Services in UAE",
+        description: "Store your belongings securely with Care N Clean. We provide climate-controlled storage units, organized packing, and hassle-free delivery throughout UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MovingServices/Storage",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Moving/storage/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Storage Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Affordable & Secure Storage Services | Care N Clean UAE",
+        description: "Temporary or long-term storage? We handle everything—from pickup to delivery—so your items stay protected and accessible.",
+        images: ["http://192.168.18.13:3000/images/Moving/storage/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -64,11 +64,11 @@ export default function StoragePage() {
                 subheading="Quality Storage Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-             imageSrc="/images/banners/StorageMoving.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/StorageMoving.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Storage Services in UAE from Care N Clean"
                 paragraph={
@@ -80,10 +80,10 @@ export default function StoragePage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        provides you with enough space to store your extra things and most importantly, at an affordable price. You can store your stuff without any 
-                          struggle! We pick your things up, store them carefully and deliver them when you need them without costing you more. Our team of experts is at your service 
-                          at any time of the day. Now you do not have to sell the things that you have once bought with love, just because you ran out of space. Care n Clean is the 
-                          best company where you can take help regarding all these storage services in UAE.
+                        provides you with enough space to store your extra things and most importantly, at an affordable price. You can store your stuff without any
+                        struggle! We pick your things up, store them carefully and deliver them when you need them without costing you more. Our team of experts is at your service
+                        at any time of the day. Now you do not have to sell the things that you have once bought with love, just because you ran out of space. Care n Clean is the
+                        best company where you can take help regarding all these storage services in UAE.
                     </>
                 }
                 imageSrc="/images/Moving/storage/1.jpg"

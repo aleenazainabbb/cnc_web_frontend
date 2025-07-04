@@ -6,10 +6,10 @@ export const metadata = {
         title: "Grease Trap Cleaning Services in UAE - Care N Clean",
         description: "Professional grease trap cleaning in UAE by Care n Clean. Trusted by restaurants, hotels, and commercial kitchens for hygiene and safety.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/GreaseTrap", 
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/GreaseTrap",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/GreaseTrap/3.jpg", 
+                url: "http://192.168.18.13:3000/images/GreaseTrap/3.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Grease Trap Cleaning UAE",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Grease Trap Cleaning Services UAE - Care n Clean",
         description: "Ensure hygiene in your kitchen with expert grease trap cleaning from Care n Clean in UAE.",
-        images: ["http://192.168.18.13:3000/images/GreaseTrap/3.jpg"], 
+        images: ["http://192.168.18.13:3000/images/GreaseTrap/3.jpg"],
     },
     viewport: {
         width: "device-width",
@@ -93,11 +93,11 @@ export default function GreaseTrapPage() {
                 subheading="Quality GreaseTrap Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/GreaseTrap.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Grease Trap Cleaning Services in UAE from Care N Clean"
                 paragraph={

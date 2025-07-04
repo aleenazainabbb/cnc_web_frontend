@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Window Cleaning Services in UAE - Care N Clean",
-  description: "Get sparkling clean windows with Care n Clean’s professional window cleaning services in UAE. Expert service for homes and offices.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Expert Window Cleaning in UAE",
-    description: "Clear your view with professional window cleaning services across UAE. From high-rise buildings to homes—we make glass shine!",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Windows",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/windows/1.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Window Cleaning UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Window Cleaning by Care N Clean",
-    description: "Enjoy crystal-clear windows in your home or office with Care N Clean’s expert glass cleaning services in UAE.",
-    images: ["http://192.168.18.13:3000/images/windows/1.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Window Cleaning Services in UAE - Care N Clean",
+    description: "Get sparkling clean windows with Care n Clean’s professional window cleaning services in UAE. Expert service for homes and offices.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Window Cleaning in UAE",
+        description: "Clear your view with professional window cleaning services across UAE. From high-rise buildings to homes—we make glass shine!",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/Windows",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/windows/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Window Cleaning UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Window Cleaning by Care N Clean",
+        description: "Enjoy crystal-clear windows in your home or office with Care N Clean’s expert glass cleaning services in UAE.",
+        images: ["http://192.168.18.13:3000/images/windows/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -93,11 +93,11 @@ export default function WindowsPage() {
                 subheading="Quality Window Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Windowcleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Windows Cleaning Services in UAE from Care N Clean"
                 paragraph={
@@ -107,8 +107,8 @@ export default function WindowsPage() {
                             Care N Clean
                         </a>{" "}
                         offers professional window cleaning services across the UAE using safe techniques and streak-free solutions. Our technicians are experienced in cleaning all
-                         types of windows including single pane, double pane, French pane, skylights, glass panels, storm windows, etc. We have all the equipment necessary to clean
-                          the window. Care n Clean is the best company where you can take help regarding all these cleaning tasks in UAE.
+                        types of windows including single pane, double pane, French pane, skylights, glass panels, storm windows, etc. We have all the equipment necessary to clean
+                        the window. Care n Clean is the best company where you can take help regarding all these cleaning tasks in UAE.
                     </>
                 }
                 imageSrc="/images/windows/1.jpg"

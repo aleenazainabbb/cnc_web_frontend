@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Hepler Maid Services in UAE - Care N Clean",
-  description: "Looking for a reliable maid service in UAE? Care n Clean provides trained and trustworthy helpers for all your home cleaning needs.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Expert Maid Services in UAE",
-    description: "Enjoy stress-free cleaning with our trusted maid services. From daily upkeep to deep sanitation, we keep your home clean, safe, and fresh.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/CleaningServices/Maid",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/maid/4.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Professional Maid Services UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Care N Clean - Trusted Maid Services in UAE",
-    description: "Book reliable and flexible maid services for your home or office. Consistent cleanliness and expert care from trained staff.",
-    images: ["http://192.168.18.13:3000/images/maid/4.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Hepler Maid Services in UAE - Care N Clean",
+    description: "Looking for a reliable maid service in UAE? Care n Clean provides trained and trustworthy helpers for all your home cleaning needs.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Maid Services in UAE",
+        description: "Enjoy stress-free cleaning with our trusted maid services. From daily upkeep to deep sanitation, we keep your home clean, safe, and fresh.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/Maid",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/maid/4.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Professional Maid Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Care N Clean - Trusted Maid Services in UAE",
+        description: "Book reliable and flexible maid services for your home or office. Consistent cleanliness and expert care from trained staff.",
+        images: ["http://192.168.18.13:3000/images/maid/4.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -93,11 +93,11 @@ export default function MaidPage() {
                 subheading="Quality Maid Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Maid.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Maid Services in UAE from Care N Clean"
                 paragraph={

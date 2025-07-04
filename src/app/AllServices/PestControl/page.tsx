@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Best Pest Control Services in UAE - Care N Clean",
-  description: "Safe and professional pest control services across UAE. We eliminate cockroaches, termites, rodents, bed bugs, and more—residential & commercial.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Trusted Pest Control in UAE",
-    description: "Protect your space from pests with expert solutions from Care N Clean. From rodents to insects, we offer eco-friendly pest control services across UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/Pest%20Control/3.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Pest Control Services UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Professional Pest Control in UAE | Care N Clean",
-    description: "Effective solutions for termites, cockroaches, bed bugs, and rodents. Eco-safe, fast, and reliable pest control throughout the UAE.",
-    images: ["http://192.168.18.13:3000/images/Pest%20Control/3.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Best Pest Control Services in UAE - Care N Clean",
+    description: "Safe and professional pest control services across UAE. We eliminate cockroaches, termites, rodents, bed bugs, and more—residential & commercial.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Trusted Pest Control in UAE",
+        description: "Protect your space from pests with expert solutions from Care N Clean. From rodents to insects, we offer eco-friendly pest control services across UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Pest%20Control/3.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Pest Control Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Professional Pest Control in UAE | Care N Clean",
+        description: "Effective solutions for termites, cockroaches, bed bugs, and rodents. Eco-safe, fast, and reliable pest control throughout the UAE.",
+        images: ["http://192.168.18.13:3000/images/Pest%20Control/3.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -96,10 +96,11 @@ export default function ServicePage() {
                 subheading="Quality Pest Control at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/pest.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Pest Control Services in UAE from Care N Clean"
                 paragraph={

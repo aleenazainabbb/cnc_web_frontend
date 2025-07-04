@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Fleas & Ticks Control Services in UAE - Care N Clean",
-  description:
-    "Protect your pets and family from ticks with Care N Clean’s expert tick control services in UAE. Safe and long-lasting solutions.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Fleas & Ticks Control Services UAE",
+    title: "Fleas & Ticks Control Services in UAE - Care N Clean",
     description:
-      "Care N Clean offers expert fleas and ticks control services across the UAE. Safe, professional solutions to eliminate these pests and prevent future infestations.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Fleas&Ticks",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/tick.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Fleas and Ticks Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Fleas & Ticks Pest Control in UAE | Care N Clean",
-    description:
-      "Book trusted fleas & ticks control services in UAE with Care N Clean. Protect your home and pets with our expert pest treatments.",
-    images: ["http://192.168.18.13:3000/images/tick.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Protect your pets and family from ticks with Care N Clean’s expert tick control services in UAE. Safe and long-lasting solutions.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Fleas & Ticks Control Services UAE",
+        description:
+            "Care N Clean offers expert fleas and ticks control services across the UAE. Safe, professional solutions to eliminate these pests and prevent future infestations.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Fleas&Ticks",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/tick.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Fleas and Ticks Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Fleas & Ticks Pest Control in UAE | Care N Clean",
+        description:
+            "Book trusted fleas & ticks control services in UAE with Care N Clean. Protect your home and pets with our expert pest treatments.",
+        images: ["http://192.168.18.13:3000/images/tick.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -92,11 +92,11 @@ export default function PestPage() {
                 subheading="Quality Fleas & Ticks Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-            imageSrc="/images/banners/fleas.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/fleas.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Fleas & Ticks Control Services in UAE from Care N Clean"
                 paragraph={
@@ -122,7 +122,7 @@ export default function PestPage() {
                  reason for different skin problems in cats and dogs. Fleas and ticks also carry diseases like mosquitoes carry malaria and dengue. But you don’t have to stress about
                   that when you have Care n Clean around you!"
                 imageLeft={true}
-                 imageSrc="/images/fleas1.jpg"
+                imageSrc="/images/fleas1.jpg"
                 imageAlt="Fleas and Ticks Infestation"
                 points={[
                     "Itchy Bites",
@@ -150,7 +150,7 @@ export default function PestPage() {
                  problems, and safeguard your pets and loved ones. Trust Care N Clean to bring lasting relief and peace of mind. We are a team of efficient workers. We know how to 
                  control them from invading into your home. From there prevention to cure, our team has the remedy to everything. "
                 imageLeft={true}
-                 imageSrc="/images/fleas2.jpg"
+                imageSrc="/images/fleas2.jpg"
                 imageAlt="Benefits of Fleas and Ticks Control"
                 points={[
                     "Pet Protection",

@@ -68,7 +68,7 @@ const WhyCareNCleanSection: React.FC = () => {
               Book Now
             </LinkWithLoader>
 
-             <LinkWithLoader href="/about" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
+             <LinkWithLoader href="/AboutUs" className=" mt-3 Lato knowMore_btn" style={{width:"168px", height:"48px"}}>
               About Us
             </LinkWithLoader>
 

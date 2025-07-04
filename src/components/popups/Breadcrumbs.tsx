@@ -4,8 +4,14 @@ import LinkWithLoader from "@/components/Loader/Link";
 import { usePathname } from "next/navigation";
 import styles from "./Breadcrumb.module.css";
 
-const capitalize = (s: string) =>
-  s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, " ");
+const capitalize = (s: string) => {
+  return s
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // insert space before capital letters
+    .replace(/-/g, " ") // replace dashes with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize each word
+};
+
+
 
 const AutoBreadcrumb = () => {
   const pathname = usePathname();

@@ -43,11 +43,11 @@ const QuoteList: React.FC = () => {
             <tbody>
               {quotes.map((q) => (
                 <tr key={q.id} className="hover:bg-gray-100">
-                  <td className="border px-4 py-2">{q.name}</td>
+                 <td className="border px-4 py-2">{q.name || q.customer}</td>
                   <td className="border px-4 py-2">{q.company || '-'}</td>
                   <td className="border px-4 py-2">{q.email}</td>
                   <td className="border px-4 py-2">{q.phone}</td>
-                  <td className="border px-4 py-2">{q.service}</td>
+                  <td className="border px-4 py-2">{q.service || '-'}</td>
                   <td className="border px-4 py-2">{q.subService || '-'}</td>
                 </tr>
               ))}

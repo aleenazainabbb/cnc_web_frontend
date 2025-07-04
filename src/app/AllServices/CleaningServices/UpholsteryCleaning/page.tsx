@@ -9,7 +9,7 @@ export const metadata = {
         url: "http://192.168.18.13:3000/AllServices/CleaningServices/UpholsteryCleaning",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/maid/4.jpg", 
+                url: "http://192.168.18.13:3000/images/maid/4.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Upholstery Cleaning UAE",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Upholstery Cleaning by Care N Clean",
         description: "Revive your furniture with deep upholstery cleaning services across UAE by Care N Clean.",
-        images: ["http://192.168.18.13:3000/images/maid/4.jpg"], 
+        images: ["http://192.168.18.13:3000/images/maid/4.jpg"],
     },
     viewport: {
         width: "device-width",
@@ -93,11 +93,11 @@ export default function VehiclePage() {
                 subheading="Quality Upholstery Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-            imageSrc="/images/banners/Upholstery.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/Upholstery.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Upholstery Cleaning Services in UAE from Care N Clean"
                 paragraph={

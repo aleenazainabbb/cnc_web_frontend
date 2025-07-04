@@ -93,11 +93,11 @@ export default function ChandelierPage() {
                 subheading="Quality Chandelier Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/chandeliercleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Chandelier Cleaning Services in UAE from Care N Clean"
                 paragraph={

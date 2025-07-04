@@ -4,7 +4,9 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface Quote {
   id: number;
-  name: string;
+  // name: string;
+  name?: string;
+  customer?: string;
   company: string;
   email: string;
   phone: string;
@@ -50,7 +52,7 @@ export const QuoteListProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (!res.ok) throw new Error(data?.error || 'Failed to fetch quotes');
 
       // ✅ Support flexible response shape
-      const quotesArray = Array.isArray(data) ? data : data?.quotes || [];
+      const quotesArray = Array.isArray(data?.data) ? data.data : [];
 
       if (!Array.isArray(quotesArray)) {
         throw new Error('Unexpected quote data format');

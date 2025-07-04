@@ -1,12 +1,12 @@
 export const metadata = {
     title: "Electrical Work Services in UAE - Care N Clean",
     description: "Professional electrical services across the UAE. From safe installations to fast repairs — we power your space with care and expertise.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Electrical Work Services in UAE - Care N Clean",
         description: "Care n Clean offers professional electrical services in UAE, including wiring, installations, and repairs. Safe and efficient solutions for homes & offices.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Electrical", 
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Electrical",
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/Electrical/1.png",
@@ -84,11 +84,11 @@ export default function ServicePage() {
                 subheading="Quality Electrical Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Electrical.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Electrical Services in UAE from Care N Clean"
                 paragraph={

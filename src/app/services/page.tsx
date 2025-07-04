@@ -9,11 +9,28 @@ import AllServicesSection from "@/components/services_page_content/AllServicesSe
 export default function ServicesPage() {
   return (
     <div>
-     
-      <AllServicesBanner />
-       <AutoBreadcrumb />
+
+      <AllServicesBanner 
+       description="Quality cleaning at a fair price."/>
+      <AutoBreadcrumb />
       <AllServicesSection />
-      <ContactUsSection />
+      <ContactUsSection
+        title="Service Information"
+        formHeading="Schedule your Service"
+        infoItems={[
+          {
+            iconClass: "fa-solid fa-envelope",
+            label: "Email",
+            value: "support@example.com",
+          },
+          {
+            iconClass: "fa-solid fa-phone",
+            label: "24/7 Emergency Service",
+            value: "(+971) 52 528 0307",
+          },
+        ]}
+      />
+
       <GetAQuoteSection />
     </div>
   );

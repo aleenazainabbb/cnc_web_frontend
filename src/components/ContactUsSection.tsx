@@ -1,6 +1,44 @@
-"use client"; 
+"use client";
+
 import React, { useState, FormEvent } from "react";
-const ContactUsSection: React.FC = () => {
+
+interface InfoItem {
+  iconClass: string;
+  label: string;
+  value: string;
+}
+
+interface ContactUsSectionProps {
+  title?: string;
+  description?: string;
+  formHeading?: string;
+  infoItems?: InfoItem[];
+}
+
+const defaultInfoItems: InfoItem[] = [
+  {
+    iconClass: "fa-solid fa-clock",
+    label: "Hours Of Operation",
+    value: "Mon-Fri: 9AM - 5PM",
+  },
+  {
+    iconClass: "fa-solid fa-phone",
+    label: "24/7 Emergency Service",
+    value: "(+971) 52 528 0307",
+  },
+  {
+    iconClass: "fa-solid fa-location-dot",
+    label: "Service Area",
+    value: "Dubai and surrounding areas.",
+  },
+];
+
+const ContactUsSection: React.FC<ContactUsSectionProps> = ({
+  title = "Contact",
+  description = "Thank you for your interest. We look forward to hearing from you soon.",
+  formHeading = "Schedule an Appointment",
+  infoItems = defaultInfoItems,
+}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -25,45 +63,30 @@ const ContactUsSection: React.FC = () => {
   return (
     <div className="contact-section" id="contact_us_main">
       <div className="contact-info position-relative ps-25">
-        <h2 className="be-vietnam-pro-bold-custom">Contact</h2>
-        <p className="be-vietnam-pro-regular-white contact_desc">
-          Thank you for your interest. We look forward to hearing from you soon.
-        </p>
-        <div className="d-flex gap-3 contact_details mt-4">
-          <i className="fa-solid fa-clock"></i>
-          <p className="be-vietnam-pro-regular-custom">
-            <strong>Hours Of Operation</strong>
-            <br />
-            Mon-Fri: 9AM - 5PM
-          </p>
-        </div>
-        <div className="d-flex gap-3 contact_details mt-4">
-          <i className="fa-solid fa-phone"></i>
-          <p className="be-vietnam-pro-regular-custom">
-            <strong>24/7 Emergency Service</strong>
-            <br />
-            (+971) 52 528 0307
-          </p>
-        </div>
-        <div className="d-flex gap-3 contact_details mt-4">
-          <i className="fa-solid fa-location-dot"></i>
-          <p className="be-vietnam-pro-regular-custom">
-            <strong>Service Area</strong>
-            <br />
-            Dubai and surrounding areas.
-          </p>
-        </div>
+        <h2 className="be-vietnam-pro-bold-custom">{title}</h2>
+        <p className="be-vietnam-pro-regular-white contact_desc">{description}</p>
+
+        {infoItems.map((item, index) => (
+          <div key={index} className="d-flex gap-3 contact_details mt-4">
+            <i className={item.iconClass}></i>
+            <p className="be-vietnam-pro-regular-custom">
+              <strong>{item.label}</strong>
+              <br />
+              {item.value}
+            </p>
+          </div>
+        ))}
+
         <div className="appointment-label be-vietnam-pro-medium d-none d-lg-block d-md-block">
-          <span>Schedule an Appointment</span>
+          <span>{formHeading}</span>
         </div>
       </div>
+
       <div className="contact-form">
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="d-block d-lg-none d-md-none">
-              <h2 className="be-vietnam-pro-bold mb-4">
-                Schedule an Appointment
-              </h2>
+              <h2 className="be-vietnam-pro-bold mb-4">{formHeading}</h2>
             </div>
             <div className="col-12 col-lg-6 col-md-6">
               <input
@@ -126,8 +149,8 @@ const ContactUsSection: React.FC = () => {
               />
             </div>
             <div style={{ paddingLeft: "10px" }}>
-            <button type="submit" className="mt-3 text-white" >
-              Send Message
+              <button type="submit" className="mt-3 text-white">
+                Send Message
               </button>
             </div>
           </div>

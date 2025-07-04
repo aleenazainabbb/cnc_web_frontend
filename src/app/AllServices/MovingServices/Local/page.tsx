@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Professional Local Movers in UAE – Care N Clean",
-  description: "Moving in UAE? Care N Clean offers professional local movers for a hassle-free relocation experience. Reliable, affordable, and efficient service.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Trusted Local Moving Services in UAE",
-    description: "Care N Clean offers fast, efficient, and safe local moving services for homes and offices in the UAE. Get a smooth and organized relocation today.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/MovingServices/Local",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/Moving/local/1.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Local Moving Services UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Local Moving Made Easy in UAE | Care N Clean",
-    description: "Move across town effortlessly with Care N Clean’s professional local moving services. Safe packing, transport, and on-time delivery every time.",
-    images: ["http://192.168.18.13:3000/images/Moving/local/1.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Professional Local Movers in UAE – Care N Clean",
+    description: "Moving in UAE? Care N Clean offers professional local movers for a hassle-free relocation experience. Reliable, affordable, and efficient service.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Trusted Local Moving Services in UAE",
+        description: "Care N Clean offers fast, efficient, and safe local moving services for homes and offices in the UAE. Get a smooth and organized relocation today.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/MovingServices/Local",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/Moving/local/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Local Moving Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Local Moving Made Easy in UAE | Care N Clean",
+        description: "Move across town effortlessly with Care N Clean’s professional local moving services. Safe packing, transport, and on-time delivery every time.",
+        images: ["http://192.168.18.13:3000/images/Moving/local/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -63,11 +63,11 @@ export default function LocalMovingPage() {
                 subheading="Quality Local Moving Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/LocalMoving.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Local Moving Services in UAE from Care N Clean"
                 paragraph={
@@ -80,9 +80,9 @@ export default function LocalMovingPage() {
                             Care N Clean
                         </a>{" "}
                         makes your local move smooth, efficient, and stress-free. From professional packing and safe loading to quick transport and careful unloading, our team ensures
-                         every detail is handled with care. Whether you're relocating a small apartment or a large office, we provide reliable, on-time service tailored to your needs.
-                          Enjoy a hassle-free move backed by trusted professionals. Care N Clean provides local moving services related to both the home you are moving out of as well as the one you are moving into. 
-                          Professionals assist in moving services from packing to loading to transportation and storage for your household goods.
+                        every detail is handled with care. Whether you're relocating a small apartment or a large office, we provide reliable, on-time service tailored to your needs.
+                        Enjoy a hassle-free move backed by trusted professionals. Care N Clean provides local moving services related to both the home you are moving out of as well as the one you are moving into.
+                        Professionals assist in moving services from packing to loading to transportation and storage for your household goods.
                     </>
                 }
                 imageSrc="/images/Moving/local/1.jpg"

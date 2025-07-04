@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Pigeons & Birds Control Services in UAE - Care N Clean",
-  description: "Book professional bird control services in UAE with Care N Clean. We use bird spikes, netting, and humane bird deterrent products to get rid of pigeons birds in UAE. 100% Satisfaction Guaranteed.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Safe Pigeons & Birds Control UAE",
-    description: "Prevent bird damage with Care N Clean’s professional pigeon and bird control. We offer long-lasting, humane solutions for homes and businesses across UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Pigeons&Birds",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/birds.png",
-        width: 1200,
-        height: 630,
-        alt: "Pigeons and Birds Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Expert Pigeons & Birds Control in UAE | Care N Clean",
-    description: "Bird and pigeon infestation? Our UAE-based team uses spikes, barriers & deterrents to safely protect your property.",
-    images: ["http://192.168.18.13:3000/images/birds.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Pigeons & Birds Control Services in UAE - Care N Clean",
+    description: "Book professional bird control services in UAE with Care N Clean. We use bird spikes, netting, and humane bird deterrent products to get rid of pigeons birds in UAE. 100% Satisfaction Guaranteed.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Safe Pigeons & Birds Control UAE",
+        description: "Prevent bird damage with Care N Clean’s professional pigeon and bird control. We offer long-lasting, humane solutions for homes and businesses across UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Pigeons&Birds",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/birds.png",
+                width: 1200,
+                height: 630,
+                alt: "Pigeons and Birds Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Expert Pigeons & Birds Control in UAE | Care N Clean",
+        description: "Bird and pigeon infestation? Our UAE-based team uses spikes, barriers & deterrents to safely protect your property.",
+        images: ["http://192.168.18.13:3000/images/birds.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -88,16 +88,16 @@ export default function PestPage() {
                 subheading="Quality Pigeons & Birds Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/pigeons.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Pigeons & Birds Control Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                       Whether your problem is birds or pigeons,{" "}
+                        Whether your problem is birds or pigeons,{" "}
                         <a
                             href="/about"
                             style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
@@ -105,9 +105,9 @@ export default function PestPage() {
                             Care N Clean
                         </a>{" "}
                         control professionals will design an effective means of getting rid of them and create a deterrent that ensures the birds won’t come back. Our highly trained
-                         bird removal and exclusion experts utilize a wide array of tools and techniques to accomplish this. Our bird control services UAE include bird control spikes 
-                         for as long as two years with an assurance, maintain security all through for winged animals with non-harmful spikes, remove feathered creature attack in 
-                         various zones of your premises and the polycarbonate spikes lessen repeating establishment costs.
+                        bird removal and exclusion experts utilize a wide array of tools and techniques to accomplish this. Our bird control services UAE include bird control spikes
+                        for as long as two years with an assurance, maintain security all through for winged animals with non-harmful spikes, remove feathered creature attack in
+                        various zones of your premises and the polycarbonate spikes lessen repeating establishment costs.
                     </>
                 }
                 imageSrc="/images/birds.png"
@@ -154,7 +154,7 @@ export default function PestPage() {
                 points={[
                     "Mess Reduction",
                     "Health Safety",
-                 
+
                     "Property Cleanliness",
                     "Noise Control",
                     "Humane Deterrents",

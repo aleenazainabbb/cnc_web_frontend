@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Commercial Vehicle Cleaning Service in UAE - Care N Clean",
-  description: "Ensure a clean and hygienic fleet with Care n Clean’s commercial vehicle cleaning service in UAE. Professional washing and detailing.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Professional Vehicle Cleaning in UAE",
-    description: "Get your car cleaned inside and out by professionals. We offer interior detailing, dashboard sanitization, and full exterior wash.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/CleaningServices/VehicleCleaning",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/vehicle/1.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Vehicle Cleaning UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vehicle Cleaning by Care N Clean",
-    description: "Interior and exterior car detailing in UAE. Book your expert vehicle cleaning service today with Care N Clean.",
-    images: ["http://192.168.18.13:3000/images/vehicle/1.jpg"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Commercial Vehicle Cleaning Service in UAE - Care N Clean",
+    description: "Ensure a clean and hygienic fleet with Care n Clean’s commercial vehicle cleaning service in UAE. Professional washing and detailing.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Professional Vehicle Cleaning in UAE",
+        description: "Get your car cleaned inside and out by professionals. We offer interior detailing, dashboard sanitization, and full exterior wash.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/VehicleCleaning",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/vehicle/1.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Vehicle Cleaning UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Vehicle Cleaning by Care N Clean",
+        description: "Interior and exterior car detailing in UAE. Book your expert vehicle cleaning service today with Care N Clean.",
+        images: ["http://192.168.18.13:3000/images/vehicle/1.jpg"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -93,11 +93,11 @@ export default function VehiclePage() {
                 subheading="Quality Vehicle Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-             imageSrc="/images/banners/vehiclecleaning.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/vehiclecleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Vehicle Cleaning Services in UAE from Care N Clean"
                 paragraph={
@@ -107,9 +107,9 @@ export default function VehiclePage() {
                             Care N Clean
                         </a>{" "}
                         offers professional vehicle cleaning services across the UAE for cars, SUVs, vans, and more. Our expert team uses premium products and tools to perform
-                         thorough exterior washes, interior detailing, upholstery cleaning, and engine bay cleaning. Whether for regular upkeep or deep cleaning, we make sure your 
-                         vehicle stays spotless, sanitized, and road ready inside and out. Our team is well equipped with the
-                          knowledge and skills to take it to the wow factor.
+                        thorough exterior washes, interior detailing, upholstery cleaning, and engine bay cleaning. Whether for regular upkeep or deep cleaning, we make sure your
+                        vehicle stays spotless, sanitized, and road ready inside and out. Our team is well equipped with the
+                        knowledge and skills to take it to the wow factor.
                     </>
                 }
                 imageSrc="/images/vehicle/1.jpg"
@@ -160,10 +160,10 @@ export default function VehiclePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp/>
+            <NeedHelp />
 
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
-          
+
             <GetAQuoteSection text="Trusted Vehicle Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>
 

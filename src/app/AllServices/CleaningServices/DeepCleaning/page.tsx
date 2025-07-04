@@ -6,7 +6,7 @@ export const metadata = {
         title: "Care N Clean - Best Deep Cleaning Services in UAE",
         description: "Book reliable deep cleaning services for homes, offices, and commercial spaces. Remove stains, dust, and odors for a fresher, healthier environment.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/DeepCleaning", 
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/DeepCleaning",
         images: [
             {
                 url: "http://192.168.18.13:3000/images/deepclean/2.png",
@@ -94,11 +94,11 @@ export default function ServicePage() {
                 subheading="Quality Deep Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/DeepCleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Deep Cleaning Services in UAE from Care N Clean"
                 paragraph={

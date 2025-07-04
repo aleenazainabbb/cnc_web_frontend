@@ -8,6 +8,7 @@ interface BestDeepCleanProps {
   paragraph?: React.ReactNode;
   imageSrc?: string;
   imageAlt?: string;
+  reverseContentOrder?: boolean; 
 }
 
 const BestDeepClean: React.FC<BestDeepCleanProps> = ({
@@ -15,7 +16,10 @@ const BestDeepClean: React.FC<BestDeepCleanProps> = ({
   paragraph = (
     <>
       The UAE market requires deep cleaning services.{" "}
-      <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
+      <a
+        href="/about"
+        style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
+      >
         Care N Clean
       </a>{" "}
       provides expert deep cleaning services for both residential and commercial buildings. Our professionals create a spotless
@@ -27,10 +31,33 @@ const BestDeepClean: React.FC<BestDeepCleanProps> = ({
   ),
   imageSrc = "/images/deepclean.png",
   imageAlt = "Deep Clean Image",
+  reverseContentOrder = false,
 }) => {
   return (
     <div className="container">
-      <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
+      <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5 align-items-center">
+        {/* Conditionally render image first if reversed */}
+        {reverseContentOrder && (
+          <div className="col-12 col-md-6 col-lg-5">
+            <div className="position-relative mt-4 mt-md-0 text-center text-md-start">
+              <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt}
+                  width={419}
+                  height={451}
+                  className="main-image-deepClean"
+                  style={{
+                    borderRadius: "20px",
+                    borderTop: "10px solid",
+                    borderRight: "10px solid",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Text Content */}
         <div className="col-12 col-lg-6 col-md-6">
           <div className="service_details_content">
@@ -49,29 +76,30 @@ const BestDeepClean: React.FC<BestDeepCleanProps> = ({
           </div>
         </div>
 
-        {/* Image Section */}
-        <div className="col-12 col-md-6 col-lg-5">
-          <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
-            <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                width={419}
-                height={451}
-                className="main-image-deepClean"
-                style={{
-                  borderRadius: "20px",
-                  borderTop: "10px solid",
-                  borderRight: "10px solid",
-                }}
-              />
+        {/* Show image on the right if not reversed */}
+        {!reverseContentOrder && (
+          <div className="col-12 col-md-6 col-lg-5">
+            <div className="position-relative mt-4 mt-md-0 text-center text-md-end">
+              <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt}
+                  width={419}
+                  height={451}
+                  className="main-image-deepClean"
+                  style={{
+                    borderRadius: "20px",
+                    borderTop: "10px solid",
+                    borderRight: "10px solid",
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default BestDeepClean;
-

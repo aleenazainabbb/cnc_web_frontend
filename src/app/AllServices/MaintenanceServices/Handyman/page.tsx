@@ -6,7 +6,7 @@ export const metadata = {
         title: "Care N Clean - Expert Handyman Services in UAE",
         description: "Book trusted handyman services for your home or office. We handle wall repairs, curtain installations, furniture assembly, and more with guaranteed quality.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Handyman", 
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Handyman",
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/Handyman/1.png",
@@ -84,11 +84,11 @@ export default function ServicePage() {
                 subheading="Quality Handyman Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/handyman.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Handyman Services in UAE from Care N Clean"
                 paragraph={

@@ -1,7 +1,7 @@
 export const metadata = {
     title: "AC Duct Cleaning Services in UAE - Care N Clean",
     description: "Breathe cleaner air with expert duct cleaning by Care N Clean in UAE. Remove dust, mold, allergens, and improve HVAC performance with professional care.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Care N Clean - Duct Cleaning Services in UAE",
         description: "Improve air quality with professional AC duct cleaning services in UAE. Care n Clean ensures fresh, clean air for your home and office.",
@@ -93,11 +93,11 @@ export default function VehiclePage() {
                 subheading="Quality Duct Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Ductcleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Duct Cleaning Services in UAE from Care N Clean"
                 paragraph={

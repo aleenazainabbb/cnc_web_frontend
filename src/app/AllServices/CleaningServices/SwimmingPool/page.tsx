@@ -1,31 +1,31 @@
 export const metadata = {
-  title: "Swimming Pool Cleaning Services in UAE - Care N Clean",
-  description: "Keep your pool clean and safe with Care n Clean’s swimming pool cleaning services in UAE. Expert maintenance for crystal-clear water.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Expert Swimming Pool Cleaning in UAE",
-    description: "Book reliable pool cleaning for homes, hotels, spas, and more. Our certified experts ensure your water is safe, clean, and swim-ready.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/CleaningServices/SwimmingPool",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/SwimmingPool/1.png",
-        width: 1200,
-        height: 630,
-        alt: "Swimming Pool Cleaning UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Swimming Pool Cleaning by Care N Clean",
-    description: "Keep your pool safe and sparkling with Care N Clean’s expert pool cleaning services in the UAE.",
-    images: ["http://192.168.18.13:3000/images/SwimmingPool/1.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+    title: "Swimming Pool Cleaning Services in UAE - Care N Clean",
+    description: "Keep your pool clean and safe with Care n Clean’s swimming pool cleaning services in UAE. Expert maintenance for crystal-clear water.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Swimming Pool Cleaning in UAE",
+        description: "Book reliable pool cleaning for homes, hotels, spas, and more. Our certified experts ensure your water is safe, clean, and swim-ready.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/CleaningServices/SwimmingPool",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/SwimmingPool/1.png",
+                width: 1200,
+                height: 630,
+                alt: "Swimming Pool Cleaning UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Swimming Pool Cleaning by Care N Clean",
+        description: "Keep your pool safe and sparkling with Care N Clean’s expert pool cleaning services in the UAE.",
+        images: ["http://192.168.18.13:3000/images/SwimmingPool/1.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -53,7 +53,7 @@ const sixSections = [
         content:
             "Chandeliers enhance elegance, but they collect dust and lose their shine over time. Our specialized chandelier cleaning restores brilliance by delicately wiping every crystal and fixture with precision. Whether your piece is small or grand, we clean it thoroughly and safely—reviving its sparkle without damaging its structure or wiring."
     },
-   
+
     {
         title: "Vehicle Cleaning",
         content:
@@ -94,11 +94,11 @@ export default function SwimmingPoolPage() {
                 subheading="Quality Swimming Pool Cleaning Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-            imageSrc="/images/banners/PoolCleaning.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/PoolCleaning.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Swimming Pool Cleaning Services in UAE from Care N Clean"
                 paragraph={
@@ -106,10 +106,10 @@ export default function SwimmingPoolPage() {
                         <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
                             Care N Clean
                         </a>{" "}
-                        provides professional swimming pool cleaning services for homes, hotels, and recreational facilities. Our expert team uses advanced tools and eco-friendly 
-                        solutions to remove dirt, algae, and debris while balancing water chemicals. We provide swimming pool cleaning services for swimming and wading pools, as well 
+                        provides professional swimming pool cleaning services for homes, hotels, and recreational facilities. Our expert team uses advanced tools and eco-friendly
+                        solutions to remove dirt, algae, and debris while balancing water chemicals. We provide swimming pool cleaning services for swimming and wading pools, as well
                         as cleaning services for spas, hot tubs, whirlpools, and saunas. Our pool professionals are highly skilled, trained, and licensed to handle any pool cleaning
-                         project, no matter how big or small it is.
+                        project, no matter how big or small it is.
                     </>
                 }
                 imageSrc="/images/SwimmingPool/1.png"
@@ -158,7 +158,7 @@ export default function SwimmingPoolPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-              <NeedHelp/>
+            <NeedHelp />
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Swimming Pool Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

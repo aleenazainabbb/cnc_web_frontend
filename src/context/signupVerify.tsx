@@ -14,9 +14,14 @@ export const ResendCodeProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const resendCode = async (email: string): Promise<{ success: boolean; message: string }> => {
     setLoading(true);
     try {
+      const token = localStorage.getItem('token'); // ✅ Get token from localStorage
+
       const res = await fetch('http://192.168.18.11:3000/api/users/resend-code', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // ✅ Add token to header
+        },
         body: JSON.stringify({ email }),
       });
 
@@ -24,7 +29,6 @@ export const ResendCodeProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
       if (!res.ok) throw new Error(data.error || 'Failed to resend code');
 
-      // ✅ Optionally store token if API returns one
       if (data.token) {
         localStorage.setItem('authToken', data.token);
       }

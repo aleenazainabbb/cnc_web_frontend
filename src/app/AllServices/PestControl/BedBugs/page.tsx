@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Bed Bugs Control Services in UAE - Care N Clean",
-  description:
-    "Say goodbye to bed bugs with Care n Clean’s professional bed bug control services in UAE. Safe and effective treatments for homes and businesses.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Reliable Bed Bugs Control in UAE",
+    title: "Bed Bugs Control Services in UAE - Care N Clean",
     description:
-      "Get rid of bed bugs with Care N Clean’s professional pest control service. We inspect, treat, and prevent infestations in homes and businesses across the UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/BedBugs",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/bedbugs.png",
-        width: 1200,
-        height: 630,
-        alt: "Bed Bugs Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Bed Bugs Control Services in UAE | Care N Clean",
-    description:
-      "Care N Clean offers trusted bed bug removal in UAE. Restore your peace of mind with expert inspection, treatment & long-term protection.",
-    images: ["http://192.168.18.13:3000/images/bedbugs.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Say goodbye to bed bugs with Care n Clean’s professional bed bug control services in UAE. Safe and effective treatments for homes and businesses.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Reliable Bed Bugs Control in UAE",
+        description:
+            "Get rid of bed bugs with Care N Clean’s professional pest control service. We inspect, treat, and prevent infestations in homes and businesses across the UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/BedBugs",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/bedbugs.png",
+                width: 1200,
+                height: 630,
+                alt: "Bed Bugs Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Bed Bugs Control Services in UAE | Care N Clean",
+        description:
+            "Care N Clean offers trusted bed bug removal in UAE. Restore your peace of mind with expert inspection, treatment & long-term protection.",
+        images: ["http://192.168.18.13:3000/images/bedbugs.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -71,7 +71,7 @@ const sixSections = [
         content:
             "Fleas and ticks are harmful to both people and pets. Our control service treats carpets, furniture, and outdoor areas to eliminate these pests and reduce the chance of bites, itching, and disease transmission.",
     },
-   
+
     {
         title: "Cockroach Control",
         content:
@@ -93,11 +93,11 @@ export default function PestPage() {
                 subheading="Quality Bed Bugs Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-            imageSrc="/images/banners/bedBugs.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/bedBugs.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Bed Bugs Control Services in UAE from Care N Clean"
                 paragraph={
@@ -109,14 +109,14 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        provides professional bed bugs control services throughout the UAE, using advanced techniques to eliminate infestations from the source. Our experienced team inspects, 
+                        provides professional bed bugs control services throughout the UAE, using advanced techniques to eliminate infestations from the source. Our experienced team inspects,
                         treats, and monitors to ensure complete removal and lasting relief. Regain your comfort and protect your home or business from these persistent pests. we are
-                         proficient enough to control the bugs production in your premises whether house or office. After analyzing the bugs condition in your area, we will make a 
-                         suitable strategy plan to prevent their production
+                        proficient enough to control the bugs production in your premises whether house or office. After analyzing the bugs condition in your area, we will make a
+                        suitable strategy plan to prevent their production
                     </>
                 }
-              
-                 imageSrc="/images/bedbugs.png"
+
+                imageSrc="/images/bedbugs.png"
                 imageAlt="Bed Bugs Control"
             />
 
@@ -126,7 +126,7 @@ export default function PestPage() {
                  treated. Common issues include itchy bites, blood stains on sheets, musty odors, and anxiety from repeated infestations. Home-made sprays usually fail to reach hidden nests, 
                  allowing the problem to return. These bed bugs are difficult to eliminate without the supervision of a professional."
                 imageLeft={true}
-                 imageSrc="/images/bedbugs1.jpg"
+                imageSrc="/images/bedbugs1.jpg"
                 imageAlt="Bed Bug Infestation"
                 points={[
                     "Itchy Bites",
@@ -152,7 +152,7 @@ export default function PestPage() {
                 title="Benefits of Bed Bugs Control"
                 content="Professional bed bugs control ensures complete removal of pests, prevents reinfestation, and restores hygiene and comfort. Our treatments target all stages of the bed bug life cycle for long-lasting protection. Enjoy a pest-free environment, better sleep, and improved health with expert care from Care N Clean."
                 imageLeft={true}
-                 imageSrc="/images/bedbugs2.jpg"
+                imageSrc="/images/bedbugs2.jpg"
                 imageAlt="Benefits of Bed Bugs Control"
                 points={[
                     "Complete Elimination",

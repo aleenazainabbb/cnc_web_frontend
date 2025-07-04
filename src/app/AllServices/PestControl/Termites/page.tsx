@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Termites Control Services in UAE - Care N Clean",
-  description:
-    "Protect your property with our termite control services in UAE. Care n Clean provides safe and effective solutions to prevent and eliminate termites.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Reliable Termites Control in UAE",
+    title: "Termites Control Services in UAE - Care N Clean",
     description:
-      "Get expert termite control in UAE with Care N Clean. We offer inspections, pre- and post-treatment plans, and long-term termite protection for homes and businesses.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Termites",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/termites.png",
-        width: 1200,
-        height: 630,
-        alt: "Termites Control Services UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Expert Termite Control in UAE | Care N Clean",
-    description:
-      "Protect your property from termite infestations with Care N Clean’s specialized treatment solutions. Pre-construction and post-infestation services available.",
-    images: ["http://192.168.18.13:3000/images/termites.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Protect your property with our termite control services in UAE. Care n Clean provides safe and effective solutions to prevent and eliminate termites.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Reliable Termites Control in UAE",
+        description:
+            "Get expert termite control in UAE with Care N Clean. We offer inspections, pre- and post-treatment plans, and long-term termite protection for homes and businesses.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Termites",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/termites.png",
+                width: 1200,
+                height: 630,
+                alt: "Termites Control Services UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Expert Termite Control in UAE | Care N Clean",
+        description:
+            "Protect your property from termite infestations with Care N Clean’s specialized treatment solutions. Pre-construction and post-infestation services available.",
+        images: ["http://192.168.18.13:3000/images/termites.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -92,11 +92,11 @@ export default function PestPage() {
                 subheading="Quality Termites Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Termites.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Termites Control Services in UAE from Care N Clean"
                 paragraph={
@@ -109,8 +109,8 @@ export default function PestPage() {
                             Care N Clean
                         </a>{" "}
                         provides expert termite control services across the UAE, using advanced detection and treatment methods to eliminate colonies at the root. From pre-construction
-                         soil treatments to post-infestation control, we ensure long-term protection for your property and peace of mind Our workers are well trained and experienced.
-                         We give in-house training to keep our workers proficient.
+                        soil treatments to post-infestation control, we ensure long-term protection for your property and peace of mind Our workers are well trained and experienced.
+                        We give in-house training to keep our workers proficient.
                     </>
                 }
                 imageSrc="/images/termites.png"

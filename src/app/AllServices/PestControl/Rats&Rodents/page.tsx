@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Rats & Rodents Pest Control Services in UAE - Care N Clean",
-  description:
-    "Eliminate Rats & Rodents with our expert pest control services in UAE. Care N Clean offers safe and effective rodent removal for homes and businesses.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Expert Rats & Rodents Control in UAE",
+    title: "Rats & Rodents Pest Control Services in UAE - Care N Clean",
     description:
-      "Protect your home or business from rodent damage and disease. Care N Clean provides professional rats and rodents control with safe, effective treatments across the UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Rats&Rodents",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/banners/RatsControl.png",
-        width: 1200,
-        height: 630,
-        alt: "Rats and Rodents Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Rats & Rodents Control in UAE | Care N Clean",
-    description:
-      "Get rid of rats and rodents with Care N Clean’s safe, effective pest control services. Serving homes & businesses across UAE.",
-    images: ["http://192.168.18.13:3000/images/banners/RatsControl.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Eliminate Rats & Rodents with our expert pest control services in UAE. Care N Clean offers safe and effective rodent removal for homes and businesses.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Expert Rats & Rodents Control in UAE",
+        description:
+            "Protect your home or business from rodent damage and disease. Care N Clean provides professional rats and rodents control with safe, effective treatments across the UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Rats&Rodents",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/banners/RatsControl.png",
+                width: 1200,
+                height: 630,
+                alt: "Rats and Rodents Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Rats & Rodents Control in UAE | Care N Clean",
+        description:
+            "Get rid of rats and rodents with Care N Clean’s safe, effective pest control services. Serving homes & businesses across UAE.",
+        images: ["http://192.168.18.13:3000/images/banners/RatsControl.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -46,7 +46,7 @@ const sixSections = [
         content:
             "Bird droppings and nesting can damage buildings and create unsanitary conditions. Our pigeon and bird control service safely removes birds and prevents them from returning, using humane and effective methods like spikes, nets, and repellents to keep your property clean and protected.",
     },
-   
+
     {
         title: "Termites Control",
         content:
@@ -93,11 +93,11 @@ export default function PestPage() {
                 subheading="Quality Rats & Rodents Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/RatsControl.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Rats & Rodents Control Services in UAE from Care N Clean"
                 paragraph={
@@ -109,10 +109,10 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        offers professional rats and rodents control services across the UAE. Our experts identify entry points, set up targeted traps and treatments, and implement 
+                        offers professional rats and rodents control services across the UAE. Our experts identify entry points, set up targeted traps and treatments, and implement
                         long-term prevention strategies to ensure your space stays rodent-free. Whether residential or commercial, we bring safety, hygiene, and peace of mind back to
-                         your property. Our team has professional people that will clean your house and provide you rodent pest control services to the best
-                          of their abilities.
+                        your property. Our team has professional people that will clean your house and provide you rodent pest control services to the best
+                        of their abilities.
                     </>
                 }
                 imageSrc="/images/rats.png"

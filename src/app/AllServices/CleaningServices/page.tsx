@@ -100,8 +100,8 @@ export default function ServicePage() {
         subheading="Quality cleaning at a fair price."
         subheadingFirst={true}
         showButton={true}
-        buttonText="Contact Us"
-        buttonLink="/contact"
+        buttonText="Book Now"
+        buttonLink="/BookAservicePage"
         imageSrc="/images/banners/Cleaning.png"
         // subheadingColor="#ffffff"
       />

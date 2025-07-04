@@ -71,11 +71,11 @@ export default function ServicePage() {
                 subheading="Quality Moving at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-              imageSrc="/images/banners/Moving.png"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/Moving.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Moving Services in UAE from Care N Clean"
                 paragraph={

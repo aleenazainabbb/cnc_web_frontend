@@ -8,9 +8,10 @@
 }
 
 .breadcrumb {
+  /* letter-spacing: 1.5px; */
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   background-color: #ffffff;
   padding: 10px 20px;
@@ -23,7 +24,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
-  gap: 25px;
+  /* gap: 25px; */
 }
 
 .link {

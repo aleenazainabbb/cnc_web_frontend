@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Cockroach Control Services in UAE - Care N Clean",
-  description:
-    "Eliminate cockroaches from your home with Care N Clean’s expert cockroach control services in UAE. Safe, effective, and long-lasting solutions",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Trusted Cockroach Control Experts in UAE",
+    title: "Cockroach Control Services in UAE - Care N Clean",
     description:
-      "Remove cockroach infestations with Care N Clean’s safe and reliable pest control solutions. Serving homes and commercial spaces across the UAE.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Cockroach",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/cockroach.png",
-        width: 1200,
-        height: 630,
-        alt: "Cockroach Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Cockroach Control Services in UAE | Care N Clean",
-    description:
-      "Say goodbye to roaches. Care N Clean offers expert cockroach removal across the UAE for a clean, hygienic, and pest-free space.",
-    images: ["http://192.168.18.13:3000/images/cockroach.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Eliminate cockroaches from your home with Care N Clean’s expert cockroach control services in UAE. Safe, effective, and long-lasting solutions",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Trusted Cockroach Control Experts in UAE",
+        description:
+            "Remove cockroach infestations with Care N Clean’s safe and reliable pest control solutions. Serving homes and commercial spaces across the UAE.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Cockroach",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/cockroach.png",
+                width: 1200,
+                height: 630,
+                alt: "Cockroach Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Cockroach Control Services in UAE | Care N Clean",
+        description:
+            "Say goodbye to roaches. Care N Clean offers expert cockroach removal across the UAE for a clean, hygienic, and pest-free space.",
+        images: ["http://192.168.18.13:3000/images/cockroach.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -92,11 +92,11 @@ export default function PestPage() {
                 subheading="Quality Cockroach Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Cockroach.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
 
             <BestDeepCleaning
                 title="Best Cockroach Control Services in UAE from Care N Clean"
@@ -109,10 +109,10 @@ export default function PestPage() {
                         >
                             Care N Clean
                         </a>{" "}
-                        offers specialized cockroach control services across the UAE. Cockroaches contribute to several diseases. They are extremely dirty insects that you don’t want to 
-                          be around them. Their control is necessary and it can only be carried out with the assistance of professionals of Care N Clean. Our team workers are 
-                          specialized in all kinds of pest control, including cockroach control services. Our highly trained professionals are completely trained to remove your roach 
-                          issue and also help you feel safe and secure in your home.
+                        offers specialized cockroach control services across the UAE. Cockroaches contribute to several diseases. They are extremely dirty insects that you don’t want to
+                        be around them. Their control is necessary and it can only be carried out with the assistance of professionals of Care N Clean. Our team workers are
+                        specialized in all kinds of pest control, including cockroach control services. Our highly trained professionals are completely trained to remove your roach
+                        issue and also help you feel safe and secure in your home.
                     </>
                 }
                 imageSrc="/images/cockroach.png"

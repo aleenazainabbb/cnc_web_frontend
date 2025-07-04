@@ -1,34 +1,34 @@
 export const metadata = {
-  title: "Bees & Wasps Control Services in UAE - Care N Clean",
-  description:
-    "Protect your home from bee infestations with Care  NClean’s expert bee control services in UAE. Safe removal and prevention solutions.",
-  authors: [{ name: "Softnio" }],
-  openGraph: {
-    title: "Care N Clean - Safe Bees & Wasps Control in UAE",
+    title: "Bees & Wasps Control Services in UAE - Care N Clean",
     description:
-      "Care N Clean offers expert bees and wasps removal across the UAE. We eliminate nests, prevent future infestations, and ensure a safe, sting-free environment for your property.",
-    type: "website",
-    url: "http://192.168.18.13:3000/AllServices/PestControl/Bees&Wasps",
-    images: [
-      {
-        url: "http://192.168.18.13:3000/images/bees.png",
-        width: 1200,
-        height: 630,
-        alt: "Bees and Wasps Control UAE",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Expert Bees & Wasps Control in UAE | Care N Clean",
-    description:
-      "Worried about bees or wasps around your property? Trust Care N Clean for humane and effective hive removal services across UAE and UAE.",
-    images: ["http://192.168.18.13:3000/images/bees.png"],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+        "Protect your home from bee infestations with Care  NClean’s expert bee control services in UAE. Safe removal and prevention solutions.",
+    authors: [{ name: "Softnio" }],
+    openGraph: {
+        title: "Care N Clean - Safe Bees & Wasps Control in UAE",
+        description:
+            "Care N Clean offers expert bees and wasps removal across the UAE. We eliminate nests, prevent future infestations, and ensure a safe, sting-free environment for your property.",
+        type: "website",
+        url: "http://192.168.18.13:3000/AllServices/PestControl/Bees&Wasps",
+        images: [
+            {
+                url: "http://192.168.18.13:3000/images/bees.png",
+                width: 1200,
+                height: 630,
+                alt: "Bees and Wasps Control UAE",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Expert Bees & Wasps Control in UAE | Care N Clean",
+        description:
+            "Worried about bees or wasps around your property? Trust Care N Clean for humane and effective hive removal services across UAE and UAE.",
+        images: ["http://192.168.18.13:3000/images/bees.png"],
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+    },
 };
 
 import QuoteBannerSection from "@/components/request_page_component/QuoteBannerSection"
@@ -56,7 +56,7 @@ const sixSections = [
         content:
             "Termites silently damage wooden structures, often going unnoticed until it’s too late. Our termite control service uses deep inspection and targeted treatments to remove colonies and protect your home or business from costly structural damage.",
     },
-    
+
     {
         title: "Ants & Insects Control",
         content:
@@ -93,26 +93,26 @@ export default function PestPage() {
                 subheading="Quality Bees & Wasps Control Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Beesandwaps.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Bees & Wasps Control Services in UAE from Care N Clean"
                 paragraph={
                     <>
-                        
+
                         <a
                             href="/about"
                             style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}
                         >
                             Care N Clean
                         </a>{" "}
-                       is offering effective bees and wasps control services. We have an idea about the long and short-term effects of these stinging insects on the 
-                        houses. Whereas, wasps are notorious because they build their nests in locations where people like to sit and relax. And we all are well aware of how they 
+                        is offering effective bees and wasps control services. We have an idea about the long and short-term effects of these stinging insects on the
+                        houses. Whereas, wasps are notorious because they build their nests in locations where people like to sit and relax. And we all are well aware of how they
                         defend their nests from outsiders and this also makes them extremely dangerous to people who have allergies from wasps’ stings. But you do not need to worry
-                         when Care n Clean is here. We can solve all of your problems related to bee control service.
+                        when Care n Clean is here. We can solve all of your problems related to bee control service.
                     </>
                 }
                 imageSrc="/images/bees.png"

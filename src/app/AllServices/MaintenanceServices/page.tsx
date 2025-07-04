@@ -1,12 +1,12 @@
 export const metadata = {
     title: "Best Maintenance Services in UAE - Care N Clean",
     description: "Trusted maintenance services for homes and businesses in the UAE. Plumbing, AC, electrical, carpentry, and more — all in one place.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Care N Clean - Maintenance Services in UAE",
         description: "Book professional maintenance services from Care N Clean. Plumbing, AC maintenance, electrical work, carpentry, painting, and more.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices", 
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices",
         images: [
             {
                 url: "http://192.168.18.13:3000/images/Maintenance/1.jpg",
@@ -91,11 +91,11 @@ export default function MaintenancePage() {
                 subheading="Quality Maintenance Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
-            // imageSrc="/images/Maintenance/header.avif"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
+                imageSrc="/images/banners/maintenance.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Maintenance Services in UAE from Care N Clean"
                 paragraph={

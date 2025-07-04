@@ -1,15 +1,15 @@
 export const metadata = {
     title: "Landscaping Services in UAE - Care N Clean",
     description: "Professional landscaping services across UAE. From garden design to lawn care and outdoor maintenance — trusted by thousands.",
-   authors: [{ name: "Softnio" }], 
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Landscaping Services in UAE - Care N Clean",
         description: "Enhance your outdoor space with expert landscaping services in UAE. Care N Clean provides customized solutions for gardens, lawns, and patios.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping", 
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg", 
+                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Landscaping Services",
@@ -84,11 +84,11 @@ export default function ServicePage() {
                 subheading="Quality Landscaping Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/Maintenance/landscaping/landscaping.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Landscaping Services in UAE from Care N Clean"
                 paragraph={

@@ -1,15 +1,15 @@
 export const metadata = {
     title: "Professional Plumbing Services in UAE - Care N Clean",
     description: "Need a plumber in UAE? Care N Clean offers reliable plumbing services, including leak repairs, installations, and maintenance for homes and businesses.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Professional Plumbing Services in UAE - Care N Clean",
         description: "Book professional plumbing services across UAE with Care N Clean. Quick, affordable, and hassle-free.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Plumbing", 
+        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Plumbing",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/plumbing/plumbing1.png", 
+                url: "http://192.168.18.13:3000/images/Maintenance/plumbing/plumbing1.png",
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Plumbing Services",
@@ -84,10 +84,10 @@ export default function ServicePage() {
                 subheading="Quality Plumbing Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Plumbing Services in UAE from Care N Clean"
                 paragraph={

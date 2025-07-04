@@ -1,7 +1,7 @@
 export const metadata = {
     title: "Best Painting Services in UAE - Care N Clean",
     description: "Transform your space with Care n Clean’s expert painting services in UAE. We offer high-quality interior and exterior painting solutions for all properties.",
-   authors: [{ name: "Softnio" }],
+    authors: [{ name: "Softnio" }],
     openGraph: {
         title: "Best Painting Services in UAE - Care n Clean",
         description: "Book reliable painting services for homes and businesses. Quick, clean, and high-quality finishes by Care N Clean.",
@@ -9,7 +9,7 @@ export const metadata = {
         url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Painting",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg", 
+                url: "http://192.168.18.13:3000/images/Maintenance/Painting/1.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Painting Services",
@@ -84,11 +84,11 @@ export default function ServicePage() {
                 subheading="Quality Painting Services at a fair price."
                 subheadingFirst={true}
                 showButton={true}
-                buttonText="Contact Us"
-                buttonLink="/contact"
+                buttonText="Book Now"
+                buttonLink="/BookAservicePage"
                 imageSrc="/images/banners/Painting.png"
             />
-            <AutoBreadcrumb/>
+            <AutoBreadcrumb />
             <BestDeepCleaning
                 title="Best Painting Services in UAE from Care N Clean"
                 paragraph={
