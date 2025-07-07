@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface Quote {
   id: number;
-  // name: string;
   name?: string;
   customer?: string;
   company: string;

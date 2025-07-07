@@ -18,15 +18,26 @@ const MyQuotes: React.FC = () => {
 
   const { createLead, loading, error, success, clearMessages } = useLead();
   const { fetchQuotes } = useQuoteList();
+
   useEffect(() => {
     const saved = localStorage.getItem('leadData');
+    const storedUser = localStorage.getItem('user');
+
+    let parsedEmail = '';
+    if (storedUser) {
+      try {
+        parsedEmail = JSON.parse(storedUser)?.email || '';
+      } catch (e) {
+        console.error('Error parsing user email from localStorage:', e);
+      }
+    }
 
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         setFormData({
           customer: parsed.customer || '',
-          email: parsed.email || '',
+          email: parsedEmail,
           phone: parsed.phone || '',
           address: parsed.address || '',
           area: parsed.area || '',
@@ -36,8 +47,20 @@ const MyQuotes: React.FC = () => {
       } catch (e) {
         console.error('Error parsing saved lead data:', e);
       }
+    } else {
+      setFormData((prev) => ({ ...prev, email: parsedEmail }));
     }
   }, []);
+
+  // Auto-hide success message after 4 seconds
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        clearMessages();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [success, clearMessages]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -49,7 +72,7 @@ const MyQuotes: React.FC = () => {
   const handleSubmit = async () => {
     await createLead(formData);
     localStorage.setItem('leadData', JSON.stringify(formData));
-    await fetchQuotes(formData.email);
+    await fetchQuotes(formData.email); 
   };
 
   const handleCancel = () => {
@@ -62,13 +85,12 @@ const MyQuotes: React.FC = () => {
       leadType: '',
       description: '',
     });
-    clearMessages();
+    clearMessages(); // ✅ Hides success and error message immediately
   };
 
   return (
     <div className={styles.main}>
       <div className={styles.profile_container}>
-        {/* Fields */}
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Full Name</label>
@@ -87,7 +109,8 @@ const MyQuotes: React.FC = () => {
               className={styles.input}
               name="email"
               value={formData.email}
-              onChange={handleChange}
+              readOnly
+              disabled
             />
           </div>
         </div>
@@ -162,17 +185,17 @@ const MyQuotes: React.FC = () => {
           />
         </div>
 
-        {/* ✅ Show exact server message */}
-        {error && (
-          <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
-        )}
-        {success && (
-          <p style={{ color: 'green', marginTop: '10px' }}>{success}</p>
-        )}
+        {/* Feedback Messages */}
+        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+        {success && <p style={{ color: 'green', marginTop: '10px' }}>{success}</p>}
 
         <div className={styles.quotesbuttonContainer}>
           <button className={styles.quote_button} onClick={handleCancel}>Clear</button>
-          <button className={styles.quote_button} onClick={handleSubmit} disabled={loading}>
+          <button
+            className={styles.quote_button}
+            onClick={handleSubmit}
+            disabled={loading}
+          >
             {loading ? 'Saving...' : 'Save'}
           </button>
         </div>

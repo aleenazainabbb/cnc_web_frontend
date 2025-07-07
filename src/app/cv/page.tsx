@@ -1,11 +1,11 @@
 // app/services/plumbing/water-heater/page.tsx (or any page)
-import TablePreview from "@/components/Booking/getQuoteList";
+import Team from "@/components/Team";
 
 export default function Page() {
 
     return (
         <div>
-      <TablePreview  />
+      <Team  />
      
     </div>
   );

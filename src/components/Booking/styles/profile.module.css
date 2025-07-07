@@ -29,7 +29,7 @@
 }
 
 .fullWidthInputGroup {
-  width: 100%;
+  max-width: 100%;
 }
 .popupOverlay {
   position: fixed;
@@ -218,3 +218,99 @@
   }
 
 }
+/* .tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .tableWrapper table {
+    min-width: 600px;
+  }
+
+  .container {
+    padding: 20px 15px;
+  }
+
+  .quotesbuttonContainer {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px 10px;
+  }
+}
+ */
+/* .tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 20px;
+}
+
+.tableWrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px; /* Ensures proper spacing on mobile */
+
+
+/* .tableWrapper th,
+.tableWrapper td {
+  white-space: nowrap; 
+  font-size: 14px;
+  padding: 12px 16px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 1024px) {
+  .tableWrapper table {
+    min-width: 650px;
+  }
+
+  .tableWrapper th,
+  .tableWrapper td {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableWrapper table {
+    min-width: 600px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .quotesbuttonContainer {
+    justify-content: center;
+  }
+
+  .tableWrapper th,
+  .tableWrapper td {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tableWrapper th,
+  .tableWrapper td {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .container {
+    padding: 15px 10px;
+  }
+
+  .quote_button {
+    font-size: 12px;
+    padding: 8px 14px;
+    width: 120px;
+  }
+}  */

@@ -54,15 +54,12 @@ a {
   background-color: #ffffff;
 }
 
-/* .left-column {
-  padding: 16px;
-} */
 /* Responsive: 2fr 1fr on medium+ screens */
 @media (min-width: 768px) {
   .grid-container {
     grid-template-columns: 2fr 1fr;
     padding: 0;
-    /* still no outer padding */
+  
   }
 }
 

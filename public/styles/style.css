@@ -9,6 +9,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600&display=swap');
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 
 /* Utilities */
@@ -1424,8 +1431,14 @@ input[type="number"] {
 .home-link.active-link {
     color: #36B864 !important;
 }
-
-
+.team-scroll-container::-webkit-scrollbar {
+  display: none !important;
+}
+.team-scroll-container {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  
+}
 
 .blue_btn {
     width: 240px;

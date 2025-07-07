@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
   const [maintenanceOpen, setMaintenanceOpen] = useState(false);
   const [pestOpen, setPestOpen] = useState(false);
   const pathname = usePathname();
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   const handleDropdownLeave = () => {
     setTimeout(() => {
@@ -217,20 +218,45 @@ const Navbar: React.FC = () => {
                 ))}
               </ul>
             </li>
-          </ul>
+            <li
+              className={`nav-item dropdown ${aboutOpen ? "show" : ""}`}
+              onMouseEnter={() => setAboutOpen(true)}
+              onMouseLeave={() => setAboutOpen(false)}
+            >
+              <LinkWithLoader
+                href="/AboutUs"
+                className={`nav-link be-vietnam-pro-regular dropdown-toggle moving-link ${pathname.startsWith("/AboutUs") ? "active-link" : ""}`}
+                id="aboutDropdown"
+                role="button"
+              >
+                ABOUT US
+              </LinkWithLoader>
 
-          <button
-            onClick={() => {
-              const quoteSection = document.getElementById("get-a-quote");
-              if (quoteSection) {
-                quoteSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="btn bg_green header_btn text-white headerBtn_green"
-          >
-            Get a quote
-          </button>
+              <ul className={`dropdown-menu ${aboutOpen ? "show" : ""}`} aria-labelledby="aboutDropdown">
+                <li>
+                  <LinkWithLoader
+                    href="PrivacyPolicy"
+                    className="dropdown-item be-vietnam-pro-regular dropdown-link"
+                    onClick={() => setAboutOpen(false)}
+                  >
+                    Privacy Policy
+                  </LinkWithLoader>
+                </li>
+              </ul>
+            </li>
 
+            <button
+              onClick={() => {
+                const quoteSection = document.getElementById("get-a-quote");
+                if (quoteSection) {
+                  quoteSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="btn bg_green header_btn text-white headerBtn_green"
+            >
+              Get a quote
+            </button>
+</ul>
         </div>
       </div>
     </nav>

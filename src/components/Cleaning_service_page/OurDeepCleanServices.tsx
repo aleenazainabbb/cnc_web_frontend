@@ -3,8 +3,8 @@
 import React from "react";
 
 interface Section {
-  title: string;
-  content: string;
+  title?: string;
+  content: string | React.ReactNode;
 }
 
 interface OurBestDeepCleanProps {
@@ -12,6 +12,7 @@ interface OurBestDeepCleanProps {
   mainTitle?: string;
   description?: string;
   hideSectionTitles?: boolean;
+  hideMainTitle?: boolean;
 }
 
 const defaultSections: Section[] = [
@@ -29,21 +30,26 @@ const defaultSections: Section[] = [
 
 const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
   sections = defaultSections,
-  mainTitle = "Our Deep Cleaning Services",
+  mainTitle,
   description,
   hideSectionTitles = false,
+  hideMainTitle = false,
 }) => {
+  const resolvedTitle = mainTitle || "Our Deep Cleaning Services";
+
   return (
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
         <div className="col-12">
           <div>
-            <h2
-              className="font-semibold text-[44px] leading-[120%] tracking-[0%] mt-2 mb-4 ourdeepClean-heading heading"
-              style={{ fontFamily: "Be Vietnam Pro" }}
-            >
-              {mainTitle}
-            </h2>
+            {!hideMainTitle && (
+              <h2
+                className="font-semibold text-[44px] leading-[120%] tracking-[0%] mt-2 mb-4 ourdeepClean-heading heading"
+                style={{ fontFamily: "Be Vietnam Pro" }}
+              >
+                {resolvedTitle}
+              </h2>
+            )}
 
             {description && (
               <p
@@ -71,7 +77,8 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
                     {section.title}
                   </h3>
                 )}
-                <p
+
+                <div
                   className="text-justify leading-[30px] tracking-normal mb-4"
                   style={{
                     fontFamily: "Be Vietnam Pro",
@@ -80,7 +87,7 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
                   }}
                 >
                   {section.content}
-                </p>
+                </div>
               </React.Fragment>
             ))}
           </div>

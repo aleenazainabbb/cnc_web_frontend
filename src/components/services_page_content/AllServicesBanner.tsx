@@ -2,7 +2,7 @@ import React from "react";
 
 interface AllServicesBannerProps {
   title?: string;
-  description?: string;
+  description?: string | React.ReactNode;
   imageUrl?: string;
   reverseContentOrder?: boolean;
 }
