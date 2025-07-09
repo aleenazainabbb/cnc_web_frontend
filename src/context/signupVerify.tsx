@@ -7,6 +7,7 @@ interface ResendCodeContextType {
 }
 
 const ResendCodeContext = createContext<ResendCodeContextType | undefined>(undefined);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const ResendCodeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ export const ResendCodeProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     try {
       const token = localStorage.getItem('token'); // ✅ Get token from localStorage
 
-      const res = await fetch('http://192.168.18.11:3000/api/users/resend-code', {
+      const res = await fetch(`${apiUrl}/api/users/resend-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -155,7 +155,9 @@ export default function MaintenancePage() {
                 ]}
             />
             <ContactUsSection />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Maintenance Services" />
             <GetAQuoteSection text="Trusted Maintenance Services Across the UAE – Fast, Reliable, and Affordable." />

@@ -154,7 +154,9 @@ export default function ServicePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
             <GetAQuoteSection text="Trusted Electrical Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

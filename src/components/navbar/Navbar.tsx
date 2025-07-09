@@ -93,7 +93,8 @@ const Navbar: React.FC = () => {
                   <li key={name}>
                     <LinkWithLoader
                       href={path}
-                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
+                      className={`dropdown-item be-vietnam-pro-regular dropdown-link ${pathname === path ? "active-link" : ""
+                        }`}
                       onClick={() => setMaintenanceOpen(false)}
                     >
                       {name}
@@ -134,8 +135,9 @@ const Navbar: React.FC = () => {
                   <li key={name}>
                     <LinkWithLoader
                       href={path}
-                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
-                      onClick={() => setCleaningOpen(false)}
+                      className={`dropdown-item be-vietnam-pro-regular dropdown-link ${pathname === path ? "active-link" : ""
+                        }`}
+                      onClick={() => setMaintenanceOpen(false)}
                     >
                       {name}
                     </LinkWithLoader>
@@ -169,8 +171,9 @@ const Navbar: React.FC = () => {
                   <li key={name}>
                     <LinkWithLoader
                       href={path}
-                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
-                      onClick={() => setMovingOpen(false)}
+                      className={`dropdown-item be-vietnam-pro-regular dropdown-link ${pathname === path ? "active-link" : ""
+                        }`}
+                      onClick={() => setMaintenanceOpen(false)}
                     >
                       {name}
                     </LinkWithLoader>
@@ -209,8 +212,9 @@ const Navbar: React.FC = () => {
                   <li key={name}>
                     <LinkWithLoader
                       href={path}
-                      className="dropdown-item be-vietnam-pro-regular dropdown-link"
-                      onClick={() => setPestOpen(false)}
+                      className={`dropdown-item be-vietnam-pro-regular dropdown-link ${pathname === path ? "active-link" : ""
+                        }`}
+                      onClick={() => setMaintenanceOpen(false)}
                     >
                       {name}
                     </LinkWithLoader>
@@ -256,7 +260,7 @@ const Navbar: React.FC = () => {
             >
               Get a quote
             </button>
-</ul>
+          </ul>
         </div>
       </div>
     </nav>

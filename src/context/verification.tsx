@@ -8,6 +8,7 @@ interface VerificationContextType {
 }
 
 const VerificationContext = createContext<VerificationContextType | undefined>(undefined);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const VerificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export const VerificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const verifyCode = async (email: string, pinCode: string) => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.18.11:3000/api/users/verify-pin', {
+      const response = await fetch(`${apiUrl}/api/users/verify-pin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, pinCode }),

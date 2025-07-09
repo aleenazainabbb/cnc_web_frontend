@@ -160,7 +160,9 @@ export default function PestPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+             <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Pest Control Services" />
             <GetAQuoteSection text="Trusted Ants & Insects Pest Control Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

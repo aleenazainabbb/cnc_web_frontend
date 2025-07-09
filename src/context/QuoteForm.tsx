@@ -18,6 +18,7 @@ interface QuoteFormContextType {
 }
 
 const QuoteFormContext = createContext<QuoteFormContextType | undefined>(undefined);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const QuoteFormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ export const QuoteFormProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const submitQuote = async (data: QuoteFormData): Promise<string> => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.18.11:3000/quote/request', {
+      const response = await fetch(`${apiUrl}/quote/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

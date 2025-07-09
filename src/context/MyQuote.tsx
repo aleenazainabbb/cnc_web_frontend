@@ -26,6 +26,7 @@ interface LeadContextType {
 }
 
 const LeadContext = createContext<LeadContextType | undefined>(undefined);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const LeadProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,7 @@ export const LeadProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://192.168.18.11:3000/lead/create', {
+      const response = await fetch(`${apiUrl}/lead/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

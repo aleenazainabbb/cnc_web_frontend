@@ -159,7 +159,9 @@ export default function WindowsPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Window Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

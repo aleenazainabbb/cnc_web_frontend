@@ -79,7 +79,7 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
                 )}
 
                 <div
-                  className="text-justify leading-[30px] tracking-normal mb-4"
+                  className="text-justify leading-[30px] tracking-normal mb-4 sections"
                   style={{
                     fontFamily: "Be Vietnam Pro",
                     fontSize: "20px",

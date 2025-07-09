@@ -134,7 +134,9 @@ export default function LocalMovingPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Moving Services" />
             <GetAQuoteSection text="Trusted Local Moving Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

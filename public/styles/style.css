@@ -1417,6 +1417,11 @@ input[type="number"] {
 .moving-link.active-link {
     color: #36B864 !important;
 }
+.active-link {
+  font-weight: bold;
+  color: #28a745 !important;
+  /* background-color: #f8f9fa; */
+}
 
 /* Hover & active effect for dropdown items */
 .dropdown-link:hover,
@@ -1925,6 +1930,7 @@ tr.calendar-body .calendar-day .day:hover {
     .padding-images {
         padding-left: 63px;
     }
+
 }
 
 
@@ -1939,7 +1945,7 @@ tr.calendar-body .calendar-day .day:hover {
 }
 
 /* End Payment Method Page Css */
-@media (max-width: 1280px) {
+@media (max-width: 1281px) {
 
     .img-fluid,
     .img-fluid-testimonial {
@@ -1962,6 +1968,9 @@ tr.calendar-body .calendar-day .day:hover {
 
     h1 {
         font-size: 43px !important;
+    }
+    .sections{
+        font-size: 17px !important;
     }
 }
 

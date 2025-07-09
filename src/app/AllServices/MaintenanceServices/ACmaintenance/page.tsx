@@ -88,7 +88,7 @@ export default function ServicePage() {
         buttonLink="/BookAservicePage"
         imageSrc="/images/banners/AC.png"
       />
-      <AutoBreadcrumb/>
+      <AutoBreadcrumb />
       <BestDeepCleaning
         title="Best AC Maintenance Services in UAE from Care N Clean"
         paragraph={
@@ -153,7 +153,9 @@ export default function ServicePage() {
         ]}
         showViewServicesBtn={false}
       />
-      <NeedHelp />
+      <div id="get-a-quote">
+        <NeedHelp />
+      </div>
 
       <OurBestDeepClean sections={sixSections} mainTitle="Other Maintenance Services" />
       <GetAQuoteSection text="Trusted Carpentry Services Across the UAE – Fast, Reliable, and Affordable." />

@@ -160,7 +160,9 @@ export default function ChandelierPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
 
             <GetAQuoteSection text="Complete Residential and Commercial Handyman & Maintenance Services in UAE." />

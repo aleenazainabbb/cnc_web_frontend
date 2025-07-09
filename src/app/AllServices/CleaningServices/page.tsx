@@ -103,9 +103,9 @@ export default function ServicePage() {
         buttonText="Book Now"
         buttonLink="/BookAservicePage"
         imageSrc="/images/banners/Cleaning.png"
-        // subheadingColor="#ffffff"
+      // subheadingColor="#ffffff"
       />
-      <AutoBreadcrumb/>
+      <AutoBreadcrumb />
       <BestDeepCleaning
         title="Best Cleaning Services in UAE from Care N Clean"
         paragraph={
@@ -114,8 +114,8 @@ export default function ServicePage() {
             <a href="/about" style={{ color: "#36B864", fontWeight: "800", textDecoration: "underline" }}>
               Care N Clean
             </a>{" "}
-            delivers top-tier cleaning services for both residential and commercial properties across the UAE. From dusting and disinfecting to deep cleaning and sanitization, 
-            our trained professionals use eco-friendly products and modern tools to ensure a spotless, germ-free environment. Whether it’s your home, office, or facility, we keep 
+            delivers top-tier cleaning services for both residential and commercial properties across the UAE. From dusting and disinfecting to deep cleaning and sanitization,
+            our trained professionals use eco-friendly products and modern tools to ensure a spotless, germ-free environment. Whether it’s your home, office, or facility, we keep
             every corner clean, safe, and welcoming. Trust our team to maintain the hygiene and freshness you deserve.
           </>
         }
@@ -171,7 +171,9 @@ export default function ServicePage() {
         ]}
       />
       <ContactUsSection />
-      <NeedHelp />
+      <div id="get-a-quote">
+        <NeedHelp />
+      </div>
       <OurBestDeepClean
         sections={sixSections}
         mainTitle="Our Cleaning Services"

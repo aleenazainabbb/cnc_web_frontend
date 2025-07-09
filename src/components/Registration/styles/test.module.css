@@ -12,26 +12,34 @@
 }
 
 .row {
-    display: flex;
-    margin-bottom: 92px;
-}
-
-.backsign {
-    color: #8692A6;
-    font-size: 18px;
-    font-weight: 600;
-    width: 9.73px;
-    height: 16.5px;
-    border: none;
-    background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 92px;
+  width: 100%; /* ensures full-width layout */
 }
 
 .backButton {
-    color: #8692A6;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    background-color: white;
+  background-color: white;
+  border: none;
+  color: #8692A6;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center; /* ensures vertical alignment */
+  line-height: 1; /* ensure consistent height */
+}
+
+.backsign {
+  display: inline-block;
+  color: #8692A6;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 6px;
+  line-height: 1; /* fixes vertical shift */
+  position: relative;
 }
 
 .title {
@@ -161,6 +169,9 @@
      .title{
         font-size: 27px !important;
     }
+    .box {
+    padding-left: 25px;
+}
 
 }
 

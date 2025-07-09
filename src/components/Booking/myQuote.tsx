@@ -72,21 +72,23 @@ const MyQuotes: React.FC = () => {
   const handleSubmit = async () => {
     await createLead(formData);
     localStorage.setItem('leadData', JSON.stringify(formData));
-    await fetchQuotes(formData.email); 
+    await fetchQuotes(); // Fetch updated quotes after creating a lead
+    // await fetchQuotes(formData.email);  
   };
 
-  const handleCancel = () => {
-    setFormData({
-      customer: '',
-      email: '',
-      phone: '',
-      address: '',
-      area: '',
-      leadType: '',
-      description: '',
-    });
-    clearMessages(); // ✅ Hides success and error message immediately
-  };
+ const handleCancel = () => {
+  setFormData((prev) => ({
+    customer: '',
+    email: prev.email, // ✅ preserve the existing email
+    phone: '',
+    address: '',
+    area: '',
+    leadType: '',
+    description: '',
+  }));
+  clearMessages();
+};
+
 
   return (
     <div className={styles.main}>

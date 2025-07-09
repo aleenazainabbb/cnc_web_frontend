@@ -11,7 +11,7 @@ import { VerificationProvider } from "@/context/verification";
 import { ForgotPasswordProvider } from "@/context/ForgotPassword";
 import { VerifyForgotPasswordProvider } from '@/context/VerifyForgotPassword';
 import { ResetPasswordProvider } from '@/context/ResetPassword';
-// import LinkWithLoader from "@/components/Loader/Link";
+import { ProfileProvider } from "@/context/profileContext";
 import RouteProgressDone from '@/components/Loader/RouteProgressDone';
 import { LeadProvider } from '@/context/MyQuote';
 import { ResendCodeProvider } from '@/context/signupVerify';
@@ -78,10 +78,12 @@ export default function RootLayout({
                       <AuthProvider>
                         <RegisterProvider>
                           <LeadProvider>
+                            <ProfileProvider>
                             <Suspense fallback={<div>Loading...</div>}>
                               <RouteProgressDone />
                               <ConditionalLayout>{children}</ConditionalLayout>
                             </Suspense>
+                            </ProfileProvider>
                           </LeadProvider>
                         </RegisterProvider>
                       </AuthProvider>

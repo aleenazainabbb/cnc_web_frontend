@@ -164,7 +164,9 @@ export default function ServicePage() {
                 ]}
             />
             <ContactUsSection />
-            <NeedHelp />
+             <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Pest Control Services" />
             <GetAQuoteSection text="Expert Pest Control Solutions in the UAE – Safe, Effective, and Long-Lasting Protection." />

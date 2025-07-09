@@ -5,17 +5,17 @@ import React, { useEffect, useRef } from "react";
 // Team members data
 const teamMembers = [
     {
-        name: "Chili Mili",
+        name: "John con",
         role: "CEO & Founder",
         image: "/images/team/1.png",
     },
     {
-        name: "John Doe",
+        name: "Sarah Lee",
         role: "Marketing Head",
         image: "/images/team/2.png",
     },
     {
-        name: "Sarah Lee",
+        name: "John Doe",
         role: "Operations Manager",
         image: "/images/team/3.png",
     },

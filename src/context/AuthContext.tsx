@@ -8,23 +8,30 @@ import React, {
   ReactNode,
 } from 'react';
 
+// Define the user interface
 interface User {
   name: string;
   email: string;
 }
 
+// Define the context type
 interface AuthContextType {
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
   user: User | null;
 }
 
+// Create the context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Provider component
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  // Restore session on page reload
+  console.log("API URL:", apiUrl);
+
+  // Restore session from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -34,7 +41,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Login function
   const loginUser = async (email: string, password: string) => {
-    const response = await fetch('http://192.168.18.11:3000/api/users/login', {
+    const response = await fetch(`${apiUrl}/api/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -43,7 +50,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error);
+      throw new Error(data.error || 'Login failed');
     }
 
     setUser(data.user);
@@ -68,9 +75,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-// Custom hook
+// Custom hook to use AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
   return context;
 };

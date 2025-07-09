@@ -163,7 +163,9 @@ export default function MaidPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
 
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
 

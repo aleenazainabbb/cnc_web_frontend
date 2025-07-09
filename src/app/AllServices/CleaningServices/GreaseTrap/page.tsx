@@ -163,7 +163,9 @@ export default function GreaseTrapPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
 
             <GetAQuoteSection text="Trusted GreaseTrap Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />

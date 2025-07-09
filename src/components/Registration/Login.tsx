@@ -53,15 +53,8 @@ const Login: React.FC = () => {
 
       <div className={test.main}>
         <div className={test.container}>
+          <div className={test.box}>
           <div className={test.row}>
-
-            {/* button */}
-            <button className={test.backButton} onClick={() => router.push('/')}>
-              <LinkWithLoader href="/" className={test.backButton}>
-                <span className={test.backsign}>&lt;</span> Back
-              </LinkWithLoader>
-
-            </button>
             {/* logo */}
             <Image
               src="/images/carelogo.svg"
@@ -69,8 +62,13 @@ const Login: React.FC = () => {
               width={73}
               height={57}
             />
+            {/* button */}
+            <LinkWithLoader href="/" className={test.backButton}>
+              <span className={test.backsign}>&lt;</span> Back
+            </LinkWithLoader>
+
           </div>
-          <div className={test.box}>
+          {/* <div className={test.box}> */}
             <h1 className={test.title}>Log in with email</h1>
             <div style={{ display: "flex", flexDirection: "column" }}>
 

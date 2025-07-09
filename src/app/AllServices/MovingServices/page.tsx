@@ -132,7 +132,9 @@ export default function ServicePage() {
                 ]}
             />
             <ContactUsSection />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections}
                 mainTitle="Our Moving Services" />
             <GetAQuoteSection text="Trusted Moving Services Across the UAE – Fast, Reliable, and Hassle-Free." />

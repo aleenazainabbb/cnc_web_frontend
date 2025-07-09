@@ -133,7 +133,9 @@ export default function StoragePage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+             <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Moving Services" />
             <GetAQuoteSection text="Trusted Storage Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

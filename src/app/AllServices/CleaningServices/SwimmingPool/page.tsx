@@ -158,7 +158,9 @@ export default function SwimmingPoolPage() {
                 ]}
                 showViewServicesBtn={false}
             />
-            <NeedHelp />
+            <div id="get-a-quote">
+                <NeedHelp />
+            </div>
             <OurBestDeepClean sections={sixSections} mainTitle="Other Cleaning Services" />
             <GetAQuoteSection text="Trusted Swimming Pool Cleaning Services Across the UAE – Fast, Reliable, and Affordable." />
         </div>

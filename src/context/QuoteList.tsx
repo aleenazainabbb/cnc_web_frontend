@@ -21,6 +21,7 @@ interface QuoteListContextType {
 }
 
 const QuoteListContext = createContext<QuoteListContextType | undefined>(undefined);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const QuoteListProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
@@ -36,7 +37,7 @@ export const QuoteListProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     setLoading(true);
     try {
-      const res = await fetch(`http://192.168.18.11:3000/quote/getQuote`, {
+      const res = await fetch(`${apiUrl}/quote/getQuote`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
