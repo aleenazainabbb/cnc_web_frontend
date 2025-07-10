@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useState, FormEvent } from "react";
 import Image from "next/image";
@@ -34,15 +34,28 @@ const Footer: React.FC = () => {
                 </div>
               </form>
             </div>
-            <div className="footer_logo my-5">
+            <div className="flex flex-wrap justify-center gap-8 items-center mt-4">
               <Image
-                src="/images/footer-logo.png"
-                alt="Footer Logo"
-                className="img-fluid"
-                width={150}
-                height={50}
+                src="/images/careNclean.svg"
+                alt="Logo 1"
+                width={202}
+                height={43.37}
+                className="imagebadges"
+              />
+              <Image
+                src="/images/footerlogo.svg"
+                alt="Logo 2"
+                width={85.45}
+                height={88}
+              />
+              <Image
+                src="/images/badge1.svg"
+                alt="Logo 3"
+                width={85.45}
+                height={88}
               />
             </div>
+
             <div className="footer_social_media align-items-center flex-wrap gap-3 d-none d-lg-flex d-md-flex">
               <div className="push_to_top">
                 <a

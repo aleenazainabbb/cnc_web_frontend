@@ -42,7 +42,7 @@ defaultService=""
 
   return (
     <div className="container">
-      <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5 align-items-start">
+      <div className="row my-lg-5 my-md-5 my-3 pb-lg-2 pb-md-5 align-items-start">
         <div className="col-12 col-lg-6 col-md-6 mb-4 mb-md-0">
           <div className="service_details_content">
             <h2

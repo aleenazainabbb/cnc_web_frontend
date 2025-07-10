@@ -11,7 +11,7 @@ const GetAQuoteSection: React.FC<GetAQuoteSectionProps> = ({
   text = "Complete Residential and Commercial Handyman & Maintenance Services in Dubai.",
 }) => {
   return (
-    <div className="container mb-4 mt-5">
+    <div className="container mb-4 mt-3">
       <div className="service_main quote_main">
         <div className="row">
           <div className="get_quote text-center">

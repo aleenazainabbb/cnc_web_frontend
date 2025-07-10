@@ -127,7 +127,7 @@ export default function ServicePage() {
         title="What are Cleaning Services?"
         content="Cleaning services go beyond simple tidying. Our team inspects and deep-cleans every area of your home or workplace—including those often overlooked. From dust removal to disinfecting, we ensure a spotless, healthy environment. Regular cleaning prevents buildup, improves air quality, and keeps your space safe, fresh, and fully functional for your family or team."
         imageLeft={true}
-        imageSrc="/images/cleaning2.png"
+        imageSrc="/images/cleaning5.png"
         imageAlt="Maintenance Image"
         points={[
           "Deep Cleaning",
@@ -157,7 +157,7 @@ export default function ServicePage() {
         title="Benefits of Cleaning"
         content="Regular cleaning enhances the hygiene, comfort, and overall look of your home or workspace. Our professional cleaning helps eliminate dust, allergens, and bacteria, creating a healthier environment. Deep and routine cleaning keeps surfaces, furnishings, and systems in better condition while preventing damage and wear. Whether it’s your floors, upholstery, or air ducts—consistent care ensures everything stays fresh, safe, and inviting for everyone who walks in."
         imageLeft={false}
-        imageSrc="/images/cleaning3.png"
+        imageSrc="/images/cleaning6.png"
         imageAlt="Cleaning Benefits Image"
         points={[
           "Hygiene",

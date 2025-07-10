@@ -9,11 +9,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600&display=swap');
+
 @font-face {
-  font-family: 'Mont';
-  src: url('/fonts/Mont-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Mont';
+    src: url('/fonts/Mont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 
@@ -43,8 +44,9 @@
     font-style: normal;
     color: #666666;
 }
-.be-vietnam-pro-regular-banner{
-    color:black;
+
+.be-vietnam-pro-regular-banner {
+    color: black;
     font-size: 20px;
 }
 
@@ -296,7 +298,9 @@ input[type="number"] {
     /* padding: 10px 0; */
 }
 
-
+.imagebadges{
+    width:50%;
+}
 .headerBtn_green:hover {
     background-color: transparent;
     color: #36b864 !important;
@@ -1417,10 +1421,11 @@ input[type="number"] {
 .moving-link.active-link {
     color: #36B864 !important;
 }
+
 .active-link {
-  font-weight: bold;
-  color: #28a745 !important;
-  /* background-color: #f8f9fa; */
+    font-weight: bold;
+    color: #28a745 !important;
+    /* background-color: #f8f9fa; */
 }
 
 /* Hover & active effect for dropdown items */
@@ -1436,13 +1441,15 @@ input[type="number"] {
 .home-link.active-link {
     color: #36B864 !important;
 }
+
 .team-scroll-container::-webkit-scrollbar {
-  display: none !important;
+    display: none !important;
 }
+
 .team-scroll-container {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+
 }
 
 .blue_btn {
@@ -1723,9 +1730,9 @@ tr.calendar-body .calendar-day .day:hover {
     padding-left: 0px;
 }
 
-.responsive-margin {
+/* .responsive-margin {
     margin-top: 130px;
-}
+} */
 
 .responsive-margin-custom {
     margin-top: 100px !important;
@@ -1969,7 +1976,8 @@ tr.calendar-body .calendar-day .day:hover {
     h1 {
         font-size: 43px !important;
     }
-    .sections{
+
+    .sections {
         font-size: 17px !important;
     }
 }

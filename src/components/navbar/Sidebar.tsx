@@ -8,25 +8,25 @@ import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
-   const router = useRouter();
-   const handleLogout = () => {
+  const router = useRouter();
+  const handleLogout = () => {
     router.push('/');
   };
   return (
     <div className={side.sidebar}>
       <div className={side.logoContainer}>
         <Image
-          src="/images/carelogo.svg"
+          src="/images/bookingLogo.svg"
           alt="CarenClean"
-          width={78.71}
+          width={232}
           height={58.34}
+          className={side.logoImage}
         />
       </div>
       <div className={side.divider} />
       <ul className={side.navList}>
-
         <li>
-          <LinkWithLoader href="/Bookings/Dashboard" className={`${side.navLink} ${pathname === '/Signup' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/Dashboard" className={`${side.navLink} ${pathname.includes('/Bookings/Dashboard') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-table-list"></i>
               My Booking
@@ -35,7 +35,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/QuoteList" className={`${side.navLink} ${pathname === '/myQuote' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/QuoteList" className={`${side.navLink} ${pathname.includes('/Bookings/QuoteList') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes
@@ -43,7 +43,7 @@ export default function Sidebar() {
           </LinkWithLoader>
         </li>
         <li>
-          <LinkWithLoader href="/Bookings/Profile" className={`${side.navLink} ${pathname === '/Profile' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/Profile" className={`${side.navLink} ${pathname.includes('/Bookings/Profile') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-regular fa-user"></i>
               Profile
@@ -52,7 +52,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/Location" className={`${side.navLink} ${pathname === '/Locations' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/Location" className={`${side.navLink} ${pathname.includes('/Bookings/Location') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-location-dot"></i>
               Saved Locations
@@ -61,7 +61,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname === '/Payments' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname.includes('/Bookings/PaymentMethods') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-money-check"></i>
               Payment Methods
@@ -70,7 +70,7 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/MyWallet" className={`${side.navLink} ${pathname === '/Wallet' ? side.active : ''}`}>
+          <LinkWithLoader href="/Bookings/MyWallet" className={`${side.navLink} ${pathname.includes('/Bookings/MyWallet') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-wallet"></i>
               My Wallet

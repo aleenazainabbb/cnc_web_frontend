@@ -42,9 +42,9 @@
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
-  /* flex-direction: column; */
   width: 100%;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .button {
@@ -101,6 +101,6 @@
 @media (max-width: 1285px) {
 .container {
   gap: 5px;
-  padding: 29px 44px 35px 29px;
+  padding: 35px 44px 35px 44px;
 }
 }

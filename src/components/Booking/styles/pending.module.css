@@ -1,33 +1,35 @@
 .main {
-  /* min-height: 360px; */
   background-color: white;
   display: flex;
   flex-direction: column;
   margin-top: 85px;
   margin-left: 20px;
   margin-bottom: 0 !important;
-   border-radius: 12px; /* 👈 Rounded corners */
+  border-radius: 12px;
+  height: auto;
 }
 
 .container {
-  /* max-height: 120px; */
   padding: 21px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  
+  /* padding: 50px 73px 50px 68px; */
 }
 
-.scrollContainer {
+.scrollContainer,.scrollContainerQuotes {
   max-height: 250px;
   max-height: calc(4 * 50px);
   overflow-y: auto;
   padding-right: 4px;
-  /* border-bottom: 1px solid #CFCFCF; */
+}
+.scrollContainerQuotes{
+   max-height: calc(6 * 50px);
 }
 
 .gridContainer,
-.gridContainerHistory {
+.gridContainerHistory,
+.gridContainerQuotes {
   display: grid;
   border-radius: 16px;
   grid-template-columns:
@@ -40,6 +42,11 @@
   grid-template-columns:
     minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr) minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr) minmax(100px, 0.4fr);
 }
+.gridContainerQuotes{
+  grid-template-columns:
+    minmax(80px, 0.4fr) minmax(80px, 0.4fr) minmax(150px, 1fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(100px, 0.5fr);
+}
+
 
 .rowHeader {
   color: #8B909A;
@@ -48,7 +55,7 @@
   font-weight: 500;
   font-family: 'Public Sans', sans-serif;
   border-bottom: 1px solid #E9E7FD;
-   border-radius: 0 !important; /* remove any curvy borders */
+  border-radius: 0 !important;
 }
 
 .row {
@@ -58,7 +65,17 @@
   font-weight: 400;
   font-family: 'Roboto Flex', sans-serif;
   border-bottom: 1px solid #CFCFCF;
-   border-radius: 0 !important; /* remove any curvy borders */
+  border-radius: 0 !important;
+}
+/* Email and Phone should wrap instead of overflow */
+.gridContainerHistory div:nth-child(3),
+.gridContainerQuotes div:nth-child(4),
+.gridContainerQuotes div:nth-child(3),
+.gridContainerHistory div:nth-child(4) {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-height: 1.4;
 }
 
 .row div:nth-child(2) {
@@ -67,14 +84,14 @@
 
 .row div:nth-child(3) {
   font-weight: 400;
-  font-size: 14px;
+  /* font-size: 14px; */
   color: #8B909A;
 }
 
 .row div:nth-child(4),
 .row div:nth-child(5) {
   font-weight: 400;
-  font-size: 15.09px;
+  /* font-size: 15.09px; */
   color: #8B909A;
 }
 
@@ -117,6 +134,7 @@
   .statusButton {
     width: 80px;
   }
+
   .rescheduleButton {
     font-size: 13px;
   }
@@ -126,7 +144,8 @@
 @media (max-width: 900px) {
 
   .gridContainer,
-  .gridContainerHistory {
+  .gridContainerHistory ,
+  .gridContainerQuotes {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
@@ -146,17 +165,16 @@
 @media (max-width: 600px) {
 
   .gridContainer,
-  .gridContainerHistory {
+  .gridContainerHistory,
+  .gridContainerQuotes {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.6rem;
+     max-height: calc(2* 50px);
   }
-
-  .row div:nth-child(3),
-  .row div:nth-child(4),
-  .row div:nth-child(5) {
-    font-size: 10px;
-  }
-
+.scrollContainerQuotes,
+.scrollContainer{
+   max-height: calc(2* 50px);
+}
   .rowHeader,
   .row {
     font-size: 10px;
@@ -179,7 +197,7 @@
 
   .rowHeader,
   .row {
-    font-size: 9px;
+    font-size: 7px;
   }
 
   .statusButton {

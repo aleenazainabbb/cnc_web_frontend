@@ -95,8 +95,13 @@
     max-width: 56px;
     width: auto;
 }
-
-
+@media (max-width: 1281px) {
+ .container {
+    gap: 12px;
+    /* padding: 27px 61px 40px 38px !important; */
+    padding: 35px 44px 35px 44px !important;
+  }
+}
 @media (max-width: 1024px) {
     .main {
         margin: 15px;

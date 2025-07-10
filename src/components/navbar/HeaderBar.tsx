@@ -16,7 +16,7 @@ export default function HeaderBar({
 }) {
   return (
     <div className={styles.header}>
-      <h1 className={styles.title}>{title}</h1>
+     <div className={styles.title}>{title}</div>
       <div className={styles.right}>
         {showAddButton && (
           <LinkWithLoader href="/BookAservicePage" className={styles.addBookingBtn}>

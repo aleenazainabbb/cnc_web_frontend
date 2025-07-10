@@ -11,7 +11,7 @@ const AchievementSection: React.FC = () => {
   ];
 
   return (
-    <div className="container pb-lg-5 pb-5 pb-3">
+    <div className="container pb-lg-1">
       <div className="col-12">
         <div className="achievement_content text-center">
           <h2 className="be-vietnam-pro-bold heading">Our Achievements</h2>

@@ -252,14 +252,18 @@ const Navbar: React.FC = () => {
             <button
               onClick={() => {
                 const quoteSection = document.getElementById("get-a-quote");
+
                 if (quoteSection) {
                   quoteSection.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  window.location.href = "/GetAquote";
                 }
               }}
               className="btn bg_green header_btn text-white headerBtn_green"
             >
               Get a quote
             </button>
+
           </ul>
         </div>
       </div>

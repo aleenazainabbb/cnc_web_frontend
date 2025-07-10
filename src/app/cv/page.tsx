@@ -1,11 +1,11 @@
 // app/services/plumbing/water-heater/page.tsx (or any page)
-import Team from "@/components/Team";
+import Footer from "@/components/footer/Footer";
 
 export default function Page() {
 
     return (
         <div>
-      <Team  />
+      <Footer  />
      
     </div>
   );

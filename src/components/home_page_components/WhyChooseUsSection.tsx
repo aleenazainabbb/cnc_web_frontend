@@ -7,7 +7,6 @@ const WhyChooseUsSection: React.FC = () => {
     <div className="container">
       <div className="row my-lg-5 my-md-5 my-3 pb-lg-5 pb-md-5">
       <div className="col-12 col-lg-6 col-md-6 mb-3 mb-lg-0 mb-md-0 ">
-
           <div>
             <h2
               className=" mb-4 heading"

@@ -95,7 +95,7 @@ export default function WindowsPage() {
                 showButton={true}
                 buttonText="Book Now"
                 buttonLink="/BookAservicePage"
-                imageSrc="/images/banners/Windowcleaning.png"
+                imageSrc="/images/banners/windowclean.png"
             />
             <AutoBreadcrumb />
             <BestDeepCleaning
@@ -111,7 +111,7 @@ export default function WindowsPage() {
                         the window. Care n Clean is the best company where you can take help regarding all these cleaning tasks in UAE.
                     </>
                 }
-                imageSrc="/images/windows/1.jpg"
+                imageSrc="/images/windows/1.png"
                 imageAlt="Window Cleaning Services"
             />
 
@@ -119,7 +119,7 @@ export default function WindowsPage() {
                 title="Common Window Cleaning Problems"
                 content="Windows are exposed to dust, water spots, pollution, and fingerprints that build up over time and block natural light. Hard-to-reach areas often get neglected, and improper cleaning methods can leave streaks or damage the glass. Our experts ensure your windows are thoroughly cleaned inside and out, enhancing visibility, safety, and curb appeal."
                 imageLeft={true}
-                imageSrc="/images/windows/2.jpg"
+                imageSrc="/images/windows/2.png"
                 imageAlt="Window Cleaning Problems"
                 points={[
                     "Water Spots",
@@ -146,7 +146,7 @@ export default function WindowsPage() {
                 reduce allergens, and create a cleaner, more inviting space. Trust Care N Clean for a reliable shine every time. If you have dirty windows, you won’t be getting as much
                  light as it should come! No need to worry, Care n Clean has a solution to all of your problems."
                 imageLeft={true}
-                imageSrc="/images/windows/3.jpg"
+                imageSrc="/images/windows/3.png"
                 imageAlt="Window Cleaning Benefits"
                 points={[
                     "Streak-Free Shine",

@@ -84,6 +84,7 @@ const OurBestDeepClean: React.FC<OurBestDeepCleanProps> = ({
                     fontFamily: "Be Vietnam Pro",
                     fontSize: "20px",
                     color: "#666666",
+                    lineHeight: "2",
                   }}
                 >
                   {section.content}
