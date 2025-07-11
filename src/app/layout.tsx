@@ -17,6 +17,8 @@ import { LeadProvider } from '@/context/MyQuote';
 import { ResendCodeProvider } from '@/context/signupVerify';
 import { QuoteFormProvider } from '@/context/QuoteForm';
 import { QuoteListProvider } from '@/context/QuoteList';
+import { ServiceProvider } from '@/context/allservices';
+import { ProfileImageProvider } from '@/context/imageUpload';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -76,16 +78,20 @@ export default function RootLayout({
                   <VerificationProvider>
                     <ResendCodeProvider>
                       <AuthProvider>
+                        <ProfileImageProvider>
                         <RegisterProvider>
                           <LeadProvider>
                             <ProfileProvider>
-                            <Suspense fallback={<div>Loading...</div>}>
-                              <RouteProgressDone />
-                              <ConditionalLayout>{children}</ConditionalLayout>
-                            </Suspense>
+                              <ServiceProvider>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                  <RouteProgressDone />
+                                  <ConditionalLayout>{children}</ConditionalLayout>
+                                </Suspense>
+                              </ServiceProvider>
                             </ProfileProvider>
                           </LeadProvider>
                         </RegisterProvider>
+                        </ProfileImageProvider>
                       </AuthProvider>
                     </ResendCodeProvider>
                   </VerificationProvider>

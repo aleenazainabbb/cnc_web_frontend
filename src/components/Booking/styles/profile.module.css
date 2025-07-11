@@ -126,7 +126,7 @@
 .quote_button {
   max-width: 100%; 
   width: 196px;
-  max-height: 64px;
+  height: 64px;
   font-size: 16px;
   background-color: #1565D8;
   color: white;
@@ -139,7 +139,40 @@
 .quote_button {
   width: 140px;
   font-size: 13px !important;
+  max-height: 64px !important;
+  height: auto !important;
 } 
+.imageWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px;
+}
+
+.profileImage {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd;
+}
+
+.uploadOverlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #2563eb;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.uploadIcon {
+  color: white;
+  font-size: 10px;
+}
+
+.hiddenInput {
+  display: none;
+}
 
 @media (max-width: 1290px) {
 

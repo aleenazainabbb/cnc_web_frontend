@@ -1,7 +1,7 @@
-"use client";
+'use client';
 import React, { useRef, useEffect, useState } from "react";
-import LinkWithLoader from "../Loader/Link";
 import { useQuoteForm } from '@/context/QuoteForm';
+import { useService } from '@/context/allservices';
 import Snackbar from '@/components/popups/Snackbar';
 
 const QuoteForm: React.FC = () => {
@@ -9,7 +9,6 @@ const QuoteForm: React.FC = () => {
   const thankYouRef = useRef<HTMLDivElement>(null);
   const { submitQuote, loading } = useQuoteForm();
   const [snackbar, setSnackbar] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-
 
   const [bookingForm, setBookingForm] = useState({
     name: "",
@@ -19,12 +18,14 @@ const QuoteForm: React.FC = () => {
   });
 
   const [requestForm, setRequestForm] = useState({
-    services: [""],
+    services: [0], // service IDs as numbers
     bestTime: "",
     hearAboutUs: "",
     message: "",
     subService: "",
   });
+
+  const { services, subServices, fetchSubServices } = useService();
 
   useEffect(() => {
     if (isSubmitted && thankYouRef.current) {
@@ -44,15 +45,24 @@ const QuoteForm: React.FC = () => {
     setRequestForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleServiceChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedServiceId = Number(e.target.value);
+    setRequestForm((prev) => ({
+      ...prev,
+      services: [selectedServiceId],
+      subService: "",
+    }));
+    await fetchSubServices(selectedServiceId);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const payload = {
       name: bookingForm.name,
       company: bookingForm.company,
       email: bookingForm.email,
       phone: bookingForm.phone,
-      service: requestForm.services[0],
+      service: requestForm.services[0].toString(),
       subService: requestForm.subService || '',
       message: requestForm.message,
     };
@@ -65,7 +75,6 @@ const QuoteForm: React.FC = () => {
       setSnackbar({ message: err.message, type: 'error' });
     }
   };
-
 
   const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
     if (
@@ -82,42 +91,7 @@ const QuoteForm: React.FC = () => {
     }
   };
 
-  const serviceSubOptions: Record<string, string[]> = {
-    "Cleaning Services": [
-      "Deep Cleaning",
-      "Grease Trap",
-      "Chandelier Cleaning",
-      "Swimming Pool Cleaning",
-      "Vehicle Cleaning",
-      "Upholstery Cleaning",
-      "Duct Cleaning",
-      "Windows Cleaning",
-      "Maid Services",
-    ],
-    "Moving Services": ["Local Moving", "Storage Services", "International Moving"],
-    "Maintenance Services": [
-      "Plumbing Services",
-      "Landscaping Services",
-      "Carpentry Services",
-      "AC Maintenance Services",
-      "Electrical Services",
-      "Handyman Services",
-      "Painting Services",
-    ],
-    "Pest Control": [
-      "Pigeons & Birds Control",
-      "Rats & Rodents Control",
-      "Termites Control",
-      "Bees & Wasps Control",
-      "Ants & Insects Control",
-      "Flees & Ticks Control",
-      "Bed Bugs Control",
-      "Cockroach Control",
-    ],
-  };
-
   const selectedService = requestForm.services[0];
-  const subservices = selectedService ? serviceSubOptions[selectedService] || [] : [];
 
   return isSubmitted ? (
     <div
@@ -126,16 +100,6 @@ const QuoteForm: React.FC = () => {
     >
       <h3 className="be-vietnam-pro-semibold mb-3">Thank you for your Quote!</h3>
       <p className="fs-18">We’ve received your request. Please check your email for services.</p>
-      {/* <p className="fs-18">
-        Please{" "}
-        <LinkWithLoader
-          href="/Login"
-          className="text-white text-decoration-underline fw-bold"
-        >
-          Login
-        </LinkWithLoader>{" "}
-        here for your booking.
-      </p> */}
     </div>
   ) : (
     <form
@@ -187,47 +151,43 @@ const QuoteForm: React.FC = () => {
           />
         </div>
 
+        {/* Services dropdown */}
         <div className="col-6 mb-1">
           <select
             name="productInterest"
             className="form-select"
             value={selectedService || ""}
-            onChange={(e) =>
-              setRequestForm((prev) => ({
-                ...prev,
-                services: [e.target.value],
-              }))
-            }
+            onChange={handleServiceChange}
           >
             <option value="" disabled>
               Select Product
             </option>
-            {Object.keys(serviceSubOptions).map((service) => (
-              <option key={service} value={service}>
-                {service}
+            {services.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.name}
               </option>
             ))}
           </select>
         </div>
 
+        {/* Subservices dropdown */}
         <div className="col-6 mb-1">
           <select
             name="subService"
             className="form-select"
-            disabled={!subservices.length}
+            disabled={!selectedService || !subServices.length}
             value={requestForm.subService}
             onChange={handleRequestChange}
           >
             <option value="" disabled>
               Select Subservice
             </option>
-            {subservices.map((sub) => (
-              <option key={sub} value={sub}>
-                {sub}
+            {subServices.map((sub) => (
+              <option key={sub.id} value={sub.id}>
+                {sub.name}
               </option>
             ))}
           </select>
-
         </div>
 
         <div className="col-md-6 mb-1">
@@ -237,14 +197,13 @@ const QuoteForm: React.FC = () => {
             value={requestForm.bestTime}
             onChange={handleRequestChange}
           >
-            <option value="" disabled>
-              Best Time to Reach
-            </option>
+            <option value="" disabled>Best Time to Reach</option>
             <option value="morning">Morning</option>
             <option value="afternoon">Afternoon</option>
             <option value="evening">Evening</option>
           </select>
         </div>
+
         <div className="col-md-6 mb-1">
           <select
             name="hearAboutUs"
@@ -252,9 +211,7 @@ const QuoteForm: React.FC = () => {
             value={requestForm.hearAboutUs}
             onChange={handleRequestChange}
           >
-            <option value="" disabled>
-              Hear About Us
-            </option>
+            <option value="" disabled>Hear About Us</option>
             <option value="google">Google</option>
             <option value="social">Social Media</option>
             <option value="friend">Friend</option>
@@ -282,6 +239,7 @@ const QuoteForm: React.FC = () => {
           </button>
         </div>
       </div>
+
       {snackbar && (
         <Snackbar
           message={snackbar.message}
@@ -289,10 +247,10 @@ const QuoteForm: React.FC = () => {
           onClose={() => setSnackbar(null)}
         />
       )}
-
     </form>
-
   );
 };
 
 export default QuoteForm;
+
+

@@ -1,22 +1,43 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './styles/HeaderBar.module.css';
 import LinkWithLoader from '@/components/Loader/Link';
+import { useProfileImage } from '@/context/imageUpload'; // ✅ Import your image context
 
 export default function HeaderBar({
   title,
   customIcon,
   customAvatar,
-  showAddButton = false, // Default is false
+  showAddButton = false,
 }: {
   title: string;
   customIcon?: React.ReactNode;
   customAvatar?: React.ReactNode;
   showAddButton?: boolean;
 }) {
+  const { uploadedImage } = useProfileImage(); // ✅ Get image from context
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        if (user.profileImage) {
+          setProfileImage(user.profileImage);
+        }
+      } catch (error) {
+        console.error('Failed to parse user from localStorage:', error);
+      }
+    }
+  }, []);
+
+  const finalImage = uploadedImage || profileImage || '/images/profile.png';
+
   return (
     <div className={styles.header}>
-     <div className={styles.title}>{title}</div>
+      <div className={styles.title}>{title}</div>
       <div className={styles.right}>
         {showAddButton && (
           <LinkWithLoader href="/BookAservicePage" className={styles.addBookingBtn}>
@@ -31,7 +52,7 @@ export default function HeaderBar({
         <LinkWithLoader href="/Bookings/Profile" className={styles.avatarBtn}>
           {customAvatar || (
             <Image
-              src="/images/profile.png"
+              src={finalImage}
               alt="User"
               width={56}
               height={56}

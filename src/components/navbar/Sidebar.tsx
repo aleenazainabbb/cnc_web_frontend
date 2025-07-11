@@ -5,11 +5,15 @@ import Image from 'next/image';
 import LinkWithLoader from '@/components/Loader/Link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext'; // ✅ Import your auth context
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { logoutUser } = useAuth(); // ✅ Access logoutUser from context
+
   const handleLogout = () => {
+     logoutUser();    
     router.push('/');
   };
   return (
@@ -51,14 +55,14 @@ export default function Sidebar() {
           </LinkWithLoader>
         </li>
 
-        <li>
+        {/* <li>
           <LinkWithLoader href="/Bookings/Location" className={`${side.navLink} ${pathname.includes('/Bookings/Location') ? side.active : ''}`}>
             <span className={side.iconText}>
               <i className="fa-solid fa-location-dot"></i>
               Saved Locations
             </span>
           </LinkWithLoader>
-        </li>
+        </li> */}
 
         <li>
           <LinkWithLoader href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname.includes('/Bookings/PaymentMethods') ? side.active : ''}`}>

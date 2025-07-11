@@ -1,47 +1,84 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import Snackbar from '@/components/popups/Snackbar'; // ✅ Make sure this exists
+import Snackbar from '@/components/popups/Snackbar';
 
 interface ProfileContextType {
   firstName: string;
   lastName: string;
   email: string;
+  addressLine: string;
+  phone: string;
   loading: boolean;
   success: string;
   error: string;
+  fetchProfile: () => Promise<void>;
   updateProfile: () => Promise<void>;
   setFirstName: React.Dispatch<React.SetStateAction<string>>;
   setLastName: React.Dispatch<React.SetStateAction<string>>;
+  setAddress: React.Dispatch<React.SetStateAction<string>>;
+  setPhoneNumber: React.Dispatch<React.SetStateAction<string>>;
   clearMessages: () => void;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
-
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [addressLine, setAddress] = useState('');
+  const [phone, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  // Load user data from localStorage on mount
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        const parsed = JSON.parse(user);
-        setEmail(parsed?.email || '');
-        setFirstName(parsed?.firstName || '');
-        setLastName(parsed?.lastName || '');
-      } catch (err) {
-        console.error('Error parsing user from localStorage:', err);
-      }
+  const fetchProfile = async () => {
+    setLoading(true);
+    setSuccess('');
+    setError('');
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const res = await fetch(`${apiUrl}/api/users/get-user-info`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error);
+
+      setEmail(data.email || '');
+      setFirstName(data.firstName || '');
+      setLastName(data.lastName || '');
+      setAddress(data.addressLine || '');
+      setPhoneNumber(data.phone || '');
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          id: data.id,
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          addressLine: data.addressLine,
+          phone: data.phone,
+        })
+      );
+
+      setSuccess(data?.message || '');
+    } catch (err: any) {
+      setError(err.message || 'Failed to fetch profile');
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  };
 
   const updateProfile = async () => {
     setLoading(true);
@@ -50,42 +87,28 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     try {
       const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-      const userId = user ? JSON.parse(user).id : null;
-      
-      if (!token) throw new Error('No token found');
+      const stored = localStorage.getItem('user');
+      const userId = stored ? JSON.parse(stored).id : null;
 
-      const response = await fetch(`${apiUrl}/api/users/update-user-info/${userId}`, {
+      if (!token || !userId) return;
+
+      const res = await fetch(`${apiUrl}/api/users/update-user-info/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ firstName, lastName }), // ✅ email not included
+        body: JSON.stringify({ firstName, lastName, addressLine, phone }),
       });
 
-      const data = await response.json();
-      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error);
 
-      if (!response.ok) {
-        throw new Error(data?.error || 'Failed to update profile');
-      }
+      setSuccess(data?.message || '');
 
-      // Update only the name in localStorage, not the email
-      const existing = localStorage.getItem('user');
-      if (existing) {
-        const parsed = JSON.parse(existing);
-        const updated = {
-          ...parsed,
-          firstName,
-          lastName,
-        };
-        localStorage.setItem('user', JSON.stringify(updated));
-      }
-
-      setSuccess(data?.message || 'Profile updated successfully');
+      await fetchProfile(); // Update state & localStorage
     } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+      setError(err.message || 'Failed to update profile');
     } finally {
       setLoading(false);
     }
@@ -95,7 +118,13 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setSuccess('');
     setError('');
   };
-  
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchProfile(); // ✅ Always fetch fresh user data
+    }
+  }, []);
 
   return (
     <ProfileContext.Provider
@@ -103,12 +132,17 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
         firstName,
         lastName,
         email,
+        addressLine,
+        phone,
         loading,
         success,
         error,
+        fetchProfile,
         updateProfile,
         setFirstName,
         setLastName,
+        setAddress,
+        setPhoneNumber,
         clearMessages,
       }}
     >

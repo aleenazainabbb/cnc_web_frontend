@@ -41,17 +41,16 @@ export const QuoteListProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // ✅ Send token in Authorization header
+          'Authorization': `Bearer ${token}`, 
         },
       });
 
       const data = await res.json();
 
-      console.log('Quotes response:', data); // ✅ Debugging log
+      console.log('Quotes response:', data); 
 
       if (!res.ok) throw new Error(data?.error || 'Failed to fetch quotes');
 
-      // ✅ Support flexible response shape
       const quotesArray = Array.isArray(data?.data) ? data.data : [];
 
       if (!Array.isArray(quotesArray)) {

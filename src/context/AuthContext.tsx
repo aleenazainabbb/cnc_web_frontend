@@ -56,16 +56,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(data.user);
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
-
     console.log('Stored user:', data.user);
     console.log('Stored token:', data.token);
+
   };
 
   // Logout function
   const logoutUser = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUser(null);
+    localStorage.clear(); // This clears all keys from localStorage
+    console.log('User logged out and localStorage cleared');
+  setUser(null);
   };
 
   return (
