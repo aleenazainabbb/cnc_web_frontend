@@ -58,15 +58,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem('user', JSON.stringify(data.user));
     console.log('Stored user:', data.user);
     console.log('Stored token:', data.token);
+    window.dispatchEvent(new Event('storage'));
 
   };
 
-  // Logout function
+  // // Logout function
+  // const logoutUser = () => {
+  //   localStorage.clear(); // This clears all keys from localStorage
+  //   console.log('User logged out and localStorage cleared');
+  // setUser(null);
+  // };
   const logoutUser = () => {
-    localStorage.clear(); // This clears all keys from localStorage
-    console.log('User logged out and localStorage cleared');
-  setUser(null);
-  };
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.clear();
+  window.location.href = '/Login'; // Or use router.push if you're using Next Router
+};
+
 
   return (
     <AuthContext.Provider value={{ loginUser, logoutUser, user }}>

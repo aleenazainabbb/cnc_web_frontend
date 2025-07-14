@@ -12,7 +12,6 @@ interface ProfileContextType {
   loading: boolean;
   success: string;
   error: string;
-  fetchProfile: () => Promise<void>;
   updateProfile: () => Promise<void>;
   setFirstName: React.Dispatch<React.SetStateAction<string>>;
   setLastName: React.Dispatch<React.SetStateAction<string>>;
@@ -34,51 +33,34 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  const fetchProfile = async () => {
-    setLoading(true);
-    setSuccess('');
-    setError('');
-
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const res = await fetch(`${apiUrl}/api/users/get-user-info`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error);
-
-      setEmail(data.email || '');
-      setFirstName(data.firstName || '');
-      setLastName(data.lastName || '');
-      setAddress(data.addressLine || '');
-      setPhoneNumber(data.phone || '');
-
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          id: data.id,
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          addressLine: data.addressLine,
-          phone: data.phone,
-        })
-      );
-
-      setSuccess(data?.message || '');
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch profile');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+  const loadUserFromStorage = () => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        setFirstName(user.firstName || '');
+        setLastName(user.lastName || '');
+        setEmail(user.email || '');
+        setAddress(user.addressLine || '');
+        setPhoneNumber(user.phone || '');
+      } catch (err) {
+        console.error('Failed to parse user from localStorage:', err);
+      }
     }
   };
+
+  loadUserFromStorage(); // Initial load
+
+  // 🟢 Listen for login-triggered localStorage update
+  window.addEventListener('storage', loadUserFromStorage);
+
+  return () => {
+    window.removeEventListener('storage', loadUserFromStorage);
+  };
+}, []);
+
+
 
   const updateProfile = async () => {
     setLoading(true);
@@ -88,7 +70,8 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const token = localStorage.getItem('token');
       const stored = localStorage.getItem('user');
-      const userId = stored ? JSON.parse(stored).id : null;
+      const userObj = stored ? JSON.parse(stored) : null;
+      const userId = userObj?.id;
 
       if (!token || !userId) return;
 
@@ -104,9 +87,17 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error);
 
-      setSuccess(data?.message || '');
+      // ✅ Preserve profileImage from previous user data
+      const updatedUser = {
+        ...userObj,
+        firstName,
+        lastName,
+        addressLine,
+        phone,
+      };
 
-      await fetchProfile(); // Update state & localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setSuccess(data?.message || 'Profile updated successfully');
     } catch (err: any) {
       setError(err.message || 'Failed to update profile');
     } finally {
@@ -119,13 +110,6 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setError('');
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetchProfile(); // ✅ Always fetch fresh user data
-    }
-  }, []);
-
   return (
     <ProfileContext.Provider
       value={{
@@ -137,7 +121,6 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
         loading,
         success,
         error,
-        fetchProfile,
         updateProfile,
         setFirstName,
         setLastName,

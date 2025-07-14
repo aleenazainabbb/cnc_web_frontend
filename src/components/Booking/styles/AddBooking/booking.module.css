@@ -155,7 +155,7 @@
 
 .selectedDropdown {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 17px;
   color: #1A78F2;
 }
 
@@ -253,15 +253,22 @@ select.input option:disabled {
   color: #007bff;
 }
 
-.optionButton:selected {
-  background-color: #1A78F2;
-  color: white;
-  border: none;
-}
-
-.daysoption:hover {
+.optionButton.selected {
+  background-color: white;
+  color: #007bff;
   border-color: #007bff;
 }
+
+.daysoption.selected {
+  background-color:white;
+  border-color: #1A78F2;
+  color: #007bff;
+}
+
+.daysoption:not(.selected):hover {
+  border-color: #007bff;
+}
+
 
 .optionWrapper {
   display: flex;
