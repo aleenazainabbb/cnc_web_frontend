@@ -19,6 +19,10 @@ const Bookings: React.FC = () => {
   const [isTypeOpen, setIsTypeOpen] = useState(false);
   const [isSpecificOpen, setIsSpecificOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [deepCleaningCategory, setDeepCleaningCategory] = useState<"Residential" | "Commercial" | "">("");
+  const [squareFootage, setSquareFootage] = useState<string>("");
+  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
 
   const {
     services,
@@ -33,9 +37,14 @@ const Bookings: React.FC = () => {
   const typeDropdownRef = useRef<HTMLDivElement>(null);
   const specificDropdownRef = useRef<HTMLDivElement>(null);
   const detailDropdownRef = useRef<HTMLDivElement>(null);
-
-  const isMaidSelected = selectedSubService.trim().toLowerCase() === "maid cleaning";
-
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
+  const isMaidSelected = selectedSubService.trim().toLowerCase() === "maid services / general services";
+  const isDeepCleaning = selectedService.trim().toLowerCase() === "cleaning services" && selectedSubService.trim().toLowerCase() === "deep cleaning";
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploadedFiles(e.target.files);
+  };
+  // mouse dropdown behaviour
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -59,6 +68,10 @@ const Bookings: React.FC = () => {
       if (detailDropdownRef.current && !detailDropdownRef.current.contains(target)) {
         setIsDetailOpen(false);
       }
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(target)) {
+        setIsCategoryOpen(false);
+      }
+
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -72,6 +85,7 @@ const Bookings: React.FC = () => {
     }
   }, [selectedServiceId]);
 
+  // subservice changed behaviour
   useEffect(() => {
     setSelectedType("");
     setSelectedHours(null);
@@ -80,34 +94,79 @@ const Bookings: React.FC = () => {
     setSelectedDetail("");
     setSelectedFreq("");
     setSelected(null);
-    // optionally reset textarea (if using state for it)
+    // setDeepCleaningCategory("");
+    setSquareFootage("");
   }, [selectedSubService]);
 
-    useEffect(() => {
+  useEffect(() => {
     const service = selectedService.trim().toLowerCase();
     const subservice = selectedSubService.trim().toLowerCase();
     const type = selectedType.trim().toLowerCase();
     const specific = selectedSpecific.trim().toLowerCase();
 
-    if (service === "cleaning services" && subservice === "duct cleaning") {
-      const priceMap: Record<string, string> = {
-        "Apartment|studio": "350 AED",
-        "Apartment|1bhk": "450 AED",
-        "Apartment|2bhk": "750 AED",
-        "Apartment|3bhk": "1200 AED",
-        "Townhouse|2bhk": "1200 AED",
-        "Townhouse|3bhk": "1500 AED",
-        "Townhouse|4bhk": "1800 AED",
+    let key = '';
+    let price = '';
+
+    // 🔷 Cleaning Services → Duct Cleaning
+    if (service === 'cleaning services' && subservice === 'duct cleaning') {
+      const ductMap: Record<string, string> = {
+        "apartment|studio": "350 AED",
+        "apartment|1bhk": "450 AED",
+        "apartment|2bhk": "750 AED",
+        "apartment|3bhk": "1200 AED",
+        "townhouse|2bhk": "1200 AED",
+        "townhouse|3bhk": "1500 AED",
+        "townhouse|4bhk": "1800 AED",
+      };
+      key = `${type}|${specific.replace(" apartment", "")}`;
+      price = ductMap[key] || "";
+    }
+
+    // 🔷 Pest Control
+    else if (service === 'pest control') {
+      const pestMap: Record<string, string> = {
+        "apartment|studio apartment": "225 AED",
+        "apartment|1bhk apartment": "275 AED",
+        "apartment|2bhk apartment": "350 AED",
+        "townhouse|2bhk": "425 AED",
+        "townhouse|3bhk": "500 AED",
+        "townhouse|4bhk": "575 AED",
+        "villa|2bhk": "425 AED",
+        "villa|3bhk": "500 AED",
+        "villa|4bhk": "600 AED",
+        "villa|5bhk": "700 AED",
+        "villa|6bhk": "750 AED",
+      };
+      key = `${type}|${specific}`;
+      price = pestMap[key] || "";
+    }
+
+    // 🔷 Cleaning Services → Upholstery Cleaning
+    else if (subservice === 'upholstery cleaning') {
+      const upholsteryMap: Record<string, string> = {
+        "dining chair / sofa|per chair / seater": "29 AED",
+        "mattress|single": "179 AED",
+        "mattress|double queen": "279 AED",
+        "mattress|double king": "319 AED",
+        "carpet|per sq m": "35 AED",
+        "rugs|small": "79 AED",
+        "rugs|medium": "119 AED",
+        "rugs|large": "199 AED",
       };
 
-      const key = `${type}|${specific.replace(" apartment", "")}`;
-      if (priceMap[key]) {
-        setSelectedDetail(priceMap[key]);
-      } else {
-        setSelectedDetail(""); // Clear if invalid
-      }
+      const normalizedType = type.trim().toLowerCase();
+      const normalizedSpecific = specific.trim().toLowerCase();
+      const key = `${normalizedType}|${normalizedSpecific}`;
+
+      price = upholsteryMap[key] || "";
     }
+
+
+    // ✅ Set the selected detail if found
+    setSelectedDetail(price);
+
   }, [selectedService, selectedSubService, selectedType, selectedSpecific]);
+
 
   return (
     <div className={booking.container}>
@@ -129,72 +188,112 @@ const Bookings: React.FC = () => {
             </div>
           </div>
 
-          {/* SERVICE */}
-          <label className={booking.label}>SERVICE</label>
-          <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
-            <div
-              className={`${booking.input} ${selectedService ? booking.selectedDropdown : ""}`}
-              onClick={() => setIsServiceOpen(!isServiceOpen)}
-            >
-              {selectedService || "Select a service"}
-            </div>
-            {isServiceOpen && (
-              <div className={booking.customdropdown}>
-                {loading ? (
-                  <div className={booking.dropdownitem}>Loading...</div>
-                ) : (
-                  services.map((service) => (
-                    <div
-                      key={service.id}
-                      className={booking.dropdownitem}
-                      onClick={() => {
-                        setSelectedService(service.name.trim());
-                        setSelectedServiceId(service.id);
-                        setIsServiceOpen(false);
-                      }}
-                    >
-                      {service.name}
-                    </div>
-                  ))
+          <div className={booking.cont}>
+            {/* SERVICE */}
+            <div className={booking.fieldGroup}>
+              <label className={booking.label}>SERVICE</label>
+              <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
+                <div
+                  className={`${booking.input} ${selectedService ? booking.selectedDropdown : ""}`}
+                  onClick={() => setIsServiceOpen(!isServiceOpen)}
+                >
+                  {selectedService || "Select a service"}
+                </div>
+                {isServiceOpen && (
+                  <div className={booking.customdropdown}>
+                    {loading ? (
+                      <div className={booking.dropdownitem}>Loading...</div>
+                    ) : (
+                      services.map((service) => (
+                        <div
+                          key={service.id}
+                          className={booking.dropdownitem}
+                          onClick={() => {
+                            setSelectedService(service.name.trim());
+                            setSelectedServiceId(service.id);
+                            setIsServiceOpen(false);
+                          }}
+                        >
+                          {service.name}
+                        </div>
+                      ))
+                    )}
+                  </div>
                 )}
               </div>
-            )}
+            </div>
+
+            {/* SUB SERVICE */}
+            <div className={booking.fieldGroup}>
+              <label className={booking.label}>SUB SERVICE</label>
+              <div className={booking.customselectwrapper} ref={subServiceDropdownRef}>
+                <div
+                  className={`${booking.input} ${selectedSubService ? booking.selectedDropdown : ""}`}
+                  onClick={() => setIsSubServiceOpen(!isSubServiceOpen)}
+                >
+                  {selectedSubService || "Select a sub service"}
+                </div>
+                {isSubServiceOpen && (
+                  <div className={booking.customdropdown}>
+                    {selectedServiceId === null ? (
+                      <div className={booking.dropdownitem}>Select a service first</div>
+                    ) : loading ? (
+                      <div className={booking.dropdownitem}>Loading...</div>
+                    ) : subServices.length === 0 ? (
+                      <div className={booking.dropdownitem}>No subservices available</div>
+                    ) : (
+                      subServices.map((sub) => (
+                        <div
+                          key={sub.id}
+                          className={booking.dropdownitem}
+                          onClick={() => {
+                            setSelectedSubService(sub.name.trim());
+                            setIsSubServiceOpen(false);
+                          }}
+                        >
+                          {sub.name}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* SUB SERVICE */}
-          <label className={booking.label}>SUB SERVICE</label>
-          <div className={booking.customselectwrapper} ref={subServiceDropdownRef}>
-            <div
-              className={`${booking.input} ${selectedSubService ? booking.selectedDropdown : ""}`}
-              onClick={() => setIsSubServiceOpen(!isSubServiceOpen)}
-            >
-              {selectedSubService || "Select a sub service"}
-            </div>
-            {isSubServiceOpen && (
-              <div className={booking.customdropdown}>
-                {selectedServiceId === null ? (
-                  <div className={booking.dropdownitem}>Select a service first</div>
-                ) : loading ? (
-                  <div className={booking.dropdownitem}>Loading...</div>
-                ) : subServices.length === 0 ? (
-                  <div className={booking.dropdownitem}>No subservices available</div>
-                ) : (
-                  subServices.map((sub) => (
-                    <div
-                      key={sub.id}
-                      className={booking.dropdownitem}
-                      onClick={() => {
-                        setSelectedSubService(sub.name.trim());
-                        setIsSubServiceOpen(false);
-                      }}
-                    >
-                      {sub.name}
-                    </div>
-                  ))
+
+          {/* category */}
+          {isDeepCleaning && (
+            <>
+              <label className={booking.label}>CATEGORY</label>
+              <div className={booking.customselectwrapper} ref={categoryDropdownRef}>
+                <div
+                  className={`${booking.input} ${deepCleaningCategory ? booking.selectedDropdown : ""}`}
+                  onClick={() => setIsCategoryOpen((prev) => !prev)}
+                >
+                  {deepCleaningCategory || "Select Category"}
+                </div>
+                {isCategoryOpen && (
+                  <div className={booking.customdropdown}>
+                    {["Residential", "Commercial"].map((category) => (
+                      <div
+                        key={category}
+                        className={booking.dropdownitem}
+                        onClick={() => {
+                          setDeepCleaningCategory(category as "Residential" | "Commercial");
+                          setIsCategoryOpen(false);
+                          setSelectedType(""); // reset type
+                        }}
+                      >
+                        {category}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
+            </>
+          )}
+
 
           {/* TYPE */}
           <label className={booking.label}>TYPE</label>
@@ -209,21 +308,27 @@ const Bookings: React.FC = () => {
               <div className={booking.customdropdown}>
                 {isMaidSelected ? (
                   <>
-                    <div className={booking.dropdownitem} onClick={() => {
-                      setSelectedType("with-supplies");
-                      setIsTypeOpen(false);
-                    }}>
+                    <div
+                      className={booking.dropdownitem}
+                      onClick={() => {
+                        setSelectedType("with-supplies");
+                        setIsTypeOpen(false);
+                      }}
+                    >
                       With supplies (40 AED per hour per crew)
                     </div>
-                    <div className={booking.dropdownitem} onClick={() => {
-                      setSelectedType("without-supplies");
-                      setIsTypeOpen(false);
-                    }}>
+                    <div
+                      className={booking.dropdownitem}
+                      onClick={() => {
+                        setSelectedType("without-supplies");
+                        setIsTypeOpen(false);
+                      }}
+                    >
                       Without supplies (45 AED per hour per crew)
                     </div>
                   </>
-                ) : (
-                  ["Apartment", "Townhouse", "Villa"].map((type) => (
+                ) : isDeepCleaning && deepCleaningCategory === "Commercial" ? (
+                  ["Office", "Restaurants", "Warehouse", "Others"].map((type) => (
                     <div
                       key={type}
                       className={booking.dropdownitem}
@@ -235,10 +340,113 @@ const Bookings: React.FC = () => {
                       {type}
                     </div>
                   ))
+
+                ) : (
+                  (
+                    selectedSubService.trim().toLowerCase() === "upholstery cleaning"
+                      ? ["Dining Chair / Sofa", "Mattress", "Carpet", "Rugs"].map((type) => (
+                        <div
+                          key={type}
+                          className={booking.dropdownitem}
+                          onClick={() => {
+                            setSelectedType(type);
+                            setIsTypeOpen(false);
+                          }}
+                        >
+                          {type}
+                        </div>
+                      ))
+                      : isDeepCleaning && deepCleaningCategory === "Commercial"
+                        ? ["Office", "Restaurants", "Warehouse", "Others"].map((type) => (
+                          <div
+                            key={type}
+                            className={booking.dropdownitem}
+                            onClick={() => {
+                              setSelectedType(type);
+                              setIsTypeOpen(false);
+                            }}
+                          >
+                            {type}
+                          </div>
+                        ))
+                        : ["Apartment", "Townhouse"]
+                          .concat(
+                            selectedSubService.trim().toLowerCase() !== "duct cleaning" ? ["Villa"] : []
+                          )
+                          .map((type) => (
+                            <div
+                              key={type}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedType(type);
+                                setIsTypeOpen(false);
+                              }}
+                            >
+                              {type}
+                            </div>
+                          ))
+                  )
                 )}
               </div>
             )}
+
           </div>
+          {isDeepCleaning && deepCleaningCategory === "Commercial" && (
+            <>
+              <label className={booking.label} >AREA</label>
+              <input
+                type="text"
+                placeholder="Enter area in square feet"
+                value={squareFootage}
+                onChange={(e) => setSquareFootage(e.target.value)}
+                className={booking.input}
+                style={{ backgroundImage: "none" }}
+              />
+            </>
+          )}
+
+          {/* yes/no radio buttons */}
+          {isDeepCleaning && deepCleaningCategory === "Commercial" && (
+            <>
+              <label className={booking.label}>SITE VISIT</label>
+              <div className={booking.buttonGroup}>
+                <button
+                  type="button"
+                  className={`${booking.yesnobuttons} ${siteVisit === "yes" ? booking.selected : ""}`}
+                  onClick={() => setSiteVisit("yes")}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className={`${booking.yesnobuttons} ${siteVisit === "no" ? booking.selected : ""}`}
+                  onClick={() => setSiteVisit("no")}
+                >
+                  No
+                </button>
+              </div>
+
+              {siteVisit === "no" && (
+                <div className={booking.formGroup}>
+                  <label className={booking.label}>Upload Image/Video</label>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,video/*"
+                    onChange={handleFileChange}
+                    className={booking.input}
+                  />
+                  {uploadedFiles && (
+                    <ul style={{ marginTop: "10px" }}>
+                      {Array.from(uploadedFiles).map((file, idx) => (
+                        <li key={idx}>{file.name}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </>
+          )}
 
           {/* CONDITIONAL UI */}
           {isMaidSelected && (
@@ -277,7 +485,7 @@ const Bookings: React.FC = () => {
             </>
           )}
 
-          {!isMaidSelected && (
+          {!isMaidSelected && !(isDeepCleaning && deepCleaningCategory === "Commercial") && (
             <>
               {/* SPECIFICS */}
               <label className={booking.label}>SPECIFICS</label>
@@ -290,54 +498,115 @@ const Bookings: React.FC = () => {
                 </div>
                 {isSpecificOpen && (
                   <div className={booking.customdropdown}>
-                    {selectedType === "Apartment" &&
-                      ["Studio Apartment", "1BHK Apartment", "2BHK Apartment", "3BHK Apartment"].map((option) => (
-                        <div
-                          key={option}
-                          className={booking.dropdownitem}
-                          onClick={() => {
-                            setSelectedSpecific(option);
-                            setIsSpecificOpen(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))
-                    }
+                    {/* ✅ Upholstery Cleaning logic */}
+                    {selectedSubService.trim().toLowerCase() === "upholstery cleaning" && (
+                      <>
+                        {selectedType.trim().toLowerCase() === "dining chair / sofa" && (
+                          <div
+                            className={booking.dropdownitem}
+                            onClick={() => {
+                              setSelectedSpecific("Per Chair / Seater");
+                              setIsSpecificOpen(false);
+                            }}
+                          >
+                            Per Chair / Seater
+                          </div>
+                        )}
+                        {selectedType === "Mattress" &&
+                          ["Single", "Double Queen", "Double King"].map((option) => (
+                            <div
+                              key={option}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedSpecific(option);
+                                setIsSpecificOpen(false);
+                              }}
+                            >
+                              {option}
+                            </div>
+                          ))}
 
-                    {selectedType === "Townhouse" &&
-                      ["2BHK", "3BHK", "4BHK"].map((option) => (
-                        <div
-                          key={option}
-                          className={booking.dropdownitem}
-                          onClick={() => {
-                            setSelectedSpecific(option);
-                            setIsSpecificOpen(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))
-                    }
-                    {selectedType === "Villa" && (
-                      (selectedService.trim().toLowerCase() === "cleaning services"
-                        ? ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK", "7BHK"]
-                        : ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK"]
-                      ).map((option) => (
-                        <div
-                          key={option}
-                          className={booking.dropdownitem}
-                          onClick={() => {
-                            setSelectedSpecific(option);
-                            setIsSpecificOpen(false);
-                          }}
-                        >
-                          {option}
-                        </div>
-                      ))
+                        {selectedType === "Carpet" && (
+                          <div
+                            className={booking.dropdownitem}
+                            onClick={() => {
+                              setSelectedSpecific("Per sq m");
+                              setIsSpecificOpen(false);
+                            }}
+                          >
+                            Per sq m
+                          </div>
+                        )}
+
+                        {selectedType === "Rugs" &&
+                          ["Small", "Medium", "Large"].map((option) => (
+                            <div
+                              key={option}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedSpecific(option);
+                                setIsSpecificOpen(false);
+                              }}
+                            >
+                              {option}
+                            </div>
+                          ))}
+                      </>
                     )}
-                    {!["Apartment", "Townhouse", "Villa"].includes(selectedType) && (
-                      <div className={booking.dropdownitem}>Please select a type first</div>
+
+                    {/* ✅ Regular logic for Apartment, Townhouse, Villa (skip if Upholstery selected) */}
+                    {selectedSubService.trim().toLowerCase() !== "upholstery cleaning" && (
+                      <>
+                        {selectedType === "Apartment" &&
+                          ["Studio", "1BHK Apartment", "2BHK Apartment", "3BHK Apartment"].map((option) => (
+                            <div
+                              key={option}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedSpecific(option);
+                                setIsSpecificOpen(false);
+                              }}
+                            >
+                              {option}
+                            </div>
+                          ))}
+
+                        {selectedType === "Townhouse" &&
+                          ["2BHK", "3BHK", "4BHK"].map((option) => (
+                            <div
+                              key={option}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedSpecific(option);
+                                setIsSpecificOpen(false);
+                              }}
+                            >
+                              {option}
+                            </div>
+                          ))}
+
+                        {selectedType === "Villa" && (
+                          (selectedService.trim().toLowerCase() === "cleaning services"
+                            ? ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK", "7BHK"]
+                            : ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK"]
+                          ).map((option) => (
+                            <div
+                              key={option}
+                              className={booking.dropdownitem}
+                              onClick={() => {
+                                setSelectedSpecific(option);
+                                setIsSpecificOpen(false);
+                              }}
+                            >
+                              {option}
+                            </div>
+                          ))
+                        )}
+
+                        {!["Apartment", "Townhouse", "Villa"].includes(selectedType) && (
+                          <div className={booking.dropdownitem}>Please select a type first</div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
@@ -355,11 +624,45 @@ const Bookings: React.FC = () => {
 
                 {isDetailOpen && (
                   <div className={booking.customdropdown}>
-                    {/* Cleaning Services Logic */}
-                    {selectedService.trim().toLowerCase() === "cleaning services" && (
+                    {/* ✅ Show only auto-selected detail for Pest Control */}
+                    {selectedService.trim().toLowerCase() === "pest control" ? (
+                      selectedDetail ? (
+                        <div
+                          className={booking.dropdownitem}
+                          onClick={() => setIsDetailOpen(false)}
+                        >
+                          {selectedDetail}
+                        </div>
+                      ) : (
+                        <div className={booking.dropdownitem}>Please select Type and Specific</div>
+                      )
+                    ) : selectedService.trim().toLowerCase() === "cleaning services" &&
+                      selectedSubService.trim().toLowerCase() === "duct cleaning" ? (
+                      selectedDetail ? (
+                        <div
+                          className={booking.dropdownitem}
+                          onClick={() => setIsDetailOpen(false)}
+                        >
+                          {selectedDetail}
+                        </div>
+                      ) : (
+                        <div className={booking.dropdownitem}>Please select Type and Specific</div>
+                      )
+                    ) : selectedSubService.trim().toLowerCase() === "upholstery cleaning" ? (
+                      selectedDetail ? (
+                        <div
+                          className={booking.dropdownitem}
+                          onClick={() => setIsDetailOpen(false)}
+                        >
+                          {selectedDetail}
+                        </div>
+                      ) : (
+                        <div className={booking.dropdownitem}>Please select Type and Specific</div>
+                      )
+                    ) : (
                       <>
                         {/* Apartment Details */}
-                        {selectedType === "Apartment" && selectedSpecific === "Studio Apartment" && (
+                        {selectedType === "Apartment" && selectedSpecific === "Studio" && (
                           <>
                             <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("Furnished - 350 AED"); setIsDetailOpen(false); }}>Furnished - 350 AED</div>
                             <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("Unfurnished - 300 AED"); setIsDetailOpen(false); }}>Unfurnished - 300 AED</div>
@@ -414,45 +717,6 @@ const Bookings: React.FC = () => {
                             <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("Furnished"); setIsDetailOpen(false); }}>Furnished</div>
                             <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("Unfurnished"); setIsDetailOpen(false); }}>Unfurnished</div>
                           </>
-                        )}
-                      </>
-                    )}
-
-                    {/* Pest Control Logic */}
-                    {selectedService.trim().toLowerCase() === "pest control" && (
-                      <>
-                        {selectedType === "Apartment" && selectedSpecific === "Studio Apartment" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("225 AED"); setIsDetailOpen(false); }}>225 AED</div>
-                        )}
-                        {selectedType === "Apartment" && selectedSpecific === "1BHK Apartment" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("275 AED"); setIsDetailOpen(false); }}>275 AED</div>
-                        )}
-                        {selectedType === "Apartment" && selectedSpecific === "2BHK Apartment" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("350 AED"); setIsDetailOpen(false); }}>350 AED</div>
-                        )}
-                        {selectedType === "Townhouse" && selectedSpecific === "2BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("425 AED"); setIsDetailOpen(false); }}>425 AED</div>
-                        )}
-                        {selectedType === "Townhouse" && selectedSpecific === "3BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("500 AED"); setIsDetailOpen(false); }}>500 AED</div>
-                        )}
-                        {selectedType === "Townhouse" && selectedSpecific === "4BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("575 AED"); setIsDetailOpen(false); }}>575 AED</div>
-                        )}
-                        {selectedType === "Villa" && selectedSpecific === "2BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("425 AED"); setIsDetailOpen(false); }}>425 AED</div>
-                        )}
-                        {selectedType === "Villa" && selectedSpecific === "3BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("500 AED"); setIsDetailOpen(false); }}>500 AED</div>
-                        )}
-                        {selectedType === "Villa" && selectedSpecific === "4BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("600 AED"); setIsDetailOpen(false); }}>600 AED</div>
-                        )}
-                        {selectedType === "Villa" && selectedSpecific === "5BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("700 AED"); setIsDetailOpen(false); }}>700 AED</div>
-                        )}
-                        {selectedType === "Villa" && selectedSpecific === "6BHK" && (
-                          <div className={booking.dropdownitem} onClick={() => { setSelectedDetail("750 AED"); setIsDetailOpen(false); }}>750 AED</div>
                         )}
                       </>
                     )}

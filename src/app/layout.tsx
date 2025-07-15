@@ -19,6 +19,7 @@ import { QuoteFormProvider } from '@/context/QuoteForm';
 import { QuoteListProvider } from '@/context/QuoteList';
 import { ServiceProvider } from '@/context/allservices';
 import { ProfileImageProvider } from '@/context/imageUpload';
+import { BookingProvider } from "@/context/BookingContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -79,18 +80,20 @@ export default function RootLayout({
                     <ResendCodeProvider>
                       <AuthProvider>
                         <ProfileImageProvider>
-                        <RegisterProvider>
-                          <LeadProvider>
-                            <ProfileProvider>
-                              <ServiceProvider>
-                                <Suspense fallback={<div>Loading...</div>}>
-                                  <RouteProgressDone />
-                                  <ConditionalLayout>{children}</ConditionalLayout>
-                                </Suspense>
-                              </ServiceProvider>
-                            </ProfileProvider>
-                          </LeadProvider>
-                        </RegisterProvider>
+                          <RegisterProvider>
+                            <LeadProvider>
+                              <ProfileProvider>
+                                <ServiceProvider>
+                                  <BookingProvider>
+                                    <Suspense fallback={<div>Loading...</div>}>
+                                      <RouteProgressDone />
+                                      <ConditionalLayout>{children}</ConditionalLayout>
+                                    </Suspense>
+                                  </BookingProvider>
+                                </ServiceProvider>
+                              </ProfileProvider>
+                            </LeadProvider>
+                          </RegisterProvider>
                         </ProfileImageProvider>
                       </AuthProvider>
                     </ResendCodeProvider>
