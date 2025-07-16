@@ -12,7 +12,7 @@
 .sectionSpacing {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 13px;
 }
 
 .header {
@@ -51,20 +51,25 @@
   font-size: 16px;
   width: 100%;
 }
-/* Add this new class */
+
 .fieldGroup {
   display: flex;
   flex-direction: column;
-   width: 100%;
-  /* margin-bottom: 1rem;  */
+  width: 100%;
 }
 
-/* Keep this as-is if .cont wraps all fields */
 .cont {
   display: flex;
-  flex-direction: row; /* Change from row to column */
+  flex-direction: row;
+  /* Change from row to column */
+  gap: 10px;
+}
+
+.flexWrap {
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
- 
+  margin-top: 10px;
 }
 
 .group {
@@ -72,8 +77,49 @@
   max-width: 599px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+/* carpet css */
+
+.carpetGroup {
+  width: 100%;
+  max-width: 599px;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
+
+.carpetWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.singleCarpetWrap {
+  flex-wrap: nowrap;
+}
+
+.carpetInputCard {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 calc(50% - 10px);
+  max-width: 100%;
+}
+
+.fullWidth {
+  flex: 1 1 100%;
+}
+
+.carpetLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+/* ------- */
 
 .row {
   display: flex;
@@ -92,7 +138,7 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .customselectwrapper {
@@ -113,7 +159,6 @@
   margin-top: 4px;
   max-height: 200px;
   overflow-y: auto;
-  
 }
 
 .dropdownitem {
@@ -171,7 +216,7 @@
 
 .selectedDropdown {
   font-weight: 600;
-  font-size: 17px;
+  font-size: 15px;
   color: #1A78F2;
 }
 
@@ -276,7 +321,7 @@ select.input option:disabled {
 }
 
 .daysoption.selected {
-  background-color:white;
+  background-color: white;
   border-color: #1A78F2;
   color: #007bff;
 }
@@ -444,6 +489,12 @@ select.input option:disabled {
   }
 }
 
+
+/* @media (max-width: 1150px) {
+.selectedDropdown {
+  font-size: 12px;
+}
+} */
 @media (max-width: 400px) {
   .container {
     margin-right: 0px !important;
