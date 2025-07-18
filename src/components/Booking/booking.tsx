@@ -674,14 +674,10 @@ const Bookings: React.FC = () => {
               {/* Carpet Sizes */}
               <div className={booking.cont}>
                 {selectedSubService.trim().toLowerCase() === "upholstery cleaning" &&
-                  selectedType === "Carpet" &&
-                  carpetCount > 0 && (
+                  selectedType === "Carpet" && carpetCount > 0 && (
                     <div className={booking.carpetGroup}>
                       <label className={booking.label}>Carpet Sizes (in sq ft)</label>
-                      <div
-                        className={`${booking.carpetWrap} ${carpetCount === 1 ? booking.singleCarpetWrap : ""
-                          }`}
-                      >
+                      <div className={`${booking.carpetWrap} ${carpetCount === 1 ? booking.singleCarpetWrap : "" }`} >
                         {Array.from({ length: carpetCount }).map((_, i) => (
                           <div
                             key={i}

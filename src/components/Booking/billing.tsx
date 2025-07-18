@@ -45,10 +45,8 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
                     <p className={styles.locationtext}>{appointmentLocation}</p>
                     <p className={styles.changelocation}>Change Location</p>
                     </div>
-                    <div className={styles.divider}></div>
-                
+                    <div className={styles.divider}></div>    
             </div>
-
 
             <div className={styles.pricingbox}>
                 <div className={styles.pricingrow}>
