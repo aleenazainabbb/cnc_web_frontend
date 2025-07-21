@@ -1,143 +1,309 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import location from './styles/AddBooking/location.module.css';
+import { useBooking } from "@/context/BookingContext";
+import { GoogleMap, Marker, useLoadScript, Autocomplete } from '@react-google-maps/api';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
-countries.registerLocale(enLocale); // Register English country names
+countries.registerLocale(enLocale);
 
 const Location: React.FC = () => {
-    const [selected, setSelected] = useState("");
-    const options = ["Home", "Office", "Other"];
-    const [answer, setAnswer] = useState("");
-    const [accessOption, setAccessOption] = useState("");
-    const [countryList, setCountryList] = useState<{ [key: string]: string }>({});
-    const [selectedCountry, setSelectedCountry] = useState("");
+  const [selected, setSelected] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [accessOption, setAccessOption] = useState("");
+  const [countryList, setCountryList] = useState<{ [key: string]: string }>({});
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const { bookingData } = useBooking();
+  const [selectedMarker, setSelectedMarker] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 24.8607, lng: 67.0011 });
+  const [searchInput, setSearchInput] = useState("");
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-    useEffect(() => {
-        const countriesObj = countries.getNames("en", { select: "official" });
-        setCountryList(countriesObj);
-    }, []);
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [apt, setApt] = useState("");
 
-    return (
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries: ['places'],
+     language: 'en',
+  });
 
-        <div className={location.main}>
+  useEffect(() => {
+    const countriesObj = countries.getNames("en", { select: "official" });
+    setCountryList(countriesObj);
+  }, []);
 
-            <h2 className={location.title}>Location</h2>
+  useEffect(() => {
+    if (selectedCountry && window.google && window.google.maps) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ address: countries.getName(selectedCountry, "en") }, (results, status) => {
+        if (status === "OK" && results && results.length > 0) {
+          const location = results[0].geometry.location;
+          setMapCenter({ lat: location.lat(), lng: location.lng() });
+        }
+      });
+    }
+  }, [selectedCountry]);
 
-           <div className={location.description}>
-                <p>WHERE DO YOU NEED THE SERVICE?</p>
-                <p>HELP OUR TEAMS GET TO YOUR PLACE ON TIME BY LOCATING IT ON THE MAP BELOW.</p>
-            </div>
+  const fillAddressFields = (components: google.maps.GeocoderAddressComponent[]) => {
+    let city = "", street = "", apt = "", countryCode = "";
 
-            <div className={location.subheading}>
-                <p>SAVE YOUR ADDRESS DETAILS</p>
-            </div>
+    for (const comp of components) {
+      if (comp.types.includes("locality")) city = comp.long_name;
+      if (comp.types.includes("route") || comp.types.includes("street_address")) street = comp.long_name;
+      if (comp.types.includes("subpremise")) apt = comp.long_name;
+      if (comp.types.includes("country")) countryCode = comp.short_name;
+    }
 
-            {/* Buttons */}
-            <div className={location.buttoncontainer}>
-                {options.map((label) => (
-                    <button
-                        key={label}
-                        className={`${location.button} ${selected === label ? location.active : ""}`}
-                        onClick={() => setSelected(label)}
-                    >
-                        {label}
-                    </button>
-                ))}
-            </div>
+    if (city) setCity(city);
+    if (street) setStreet(street);
+    if (apt) setApt(apt);
+    if (countryCode) setSelectedCountry(countryCode);
+  };
 
-            {/* Country Dropdown */}
-            <select
-                id="country"
-                value={selectedCountry}
-                onChange={(e) => setSelectedCountry(e.target.value)}
-                className={location.forminput}>
+  const handleMapClick = (e: google.maps.MapMouseEvent) => {
+    if (e.latLng) {
+      const lat = e.latLng.lat();
+      const lng = e.latLng.lng();
+      setSelectedMarker({ lat, lng });
+      setMapCenter({ lat, lng });
 
-                <option value="" disabled hidden>
-                    -- Choose a country --
-                </option>
-                {Object.entries(countryList).map(([code, name]) => (
-                    <option key={code} value={code}>
-                        {name}
-                    </option>
-                ))}
-            </select>
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === "OK" && results?.length) {
+          const result = results[0];
+          setSearchInput(result.formatted_address || "");
+          fillAddressFields(result.address_components);
+        }
+      });
+    }
+  };
 
-            <input
-                type="text"
-                placeholder="City"
-               className={location.forminput}
-            />
-            <div className={location.row}>
-            <input
-                type="text"
-                placeholder="Building or street no"
-               className={location.forminput}
-            />
+  const onPlaceChanged = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place.geometry?.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        const address = place.formatted_address || place.name || "";
 
-            <input
-                type="text"
-                placeholder="Apt no"
-                className={location.forminput}
-            />
-              </div>
+        setSelectedMarker({ lat, lng });
+        setMapCenter({ lat, lng });
+        setSearchInput(address);
 
-            {/* HOW DO WE GET IN? */}
-            <div  className={location.subheading}>
-                <p>HOW DO WE GET IN?</p>
-            </div>
-            <div className={location.options}>
-                {["Someone is Home", "Doorman"].map((label) => (
-                    <button
-                        key={label}
-                        className={`${location.locbuttons} ${accessOption === label ? location.active : ""}`}
-                        onClick={() => setAccessOption(label)}
-                    >
-                        {label}
-                    </button>
-                ))}
-            </div>
+        if (place.address_components) {
+          fillAddressFields(place.address_components);
+        }
+      }
+    }
+  };
 
-            {/* ANY PETS */}
-            
-            <div className={location.subheading}>
-                <p>ANY PETS?</p>
-            </div>
+  const clearSearch = () => setSearchInput("");
 
-            <div className={location.rowyesno}>
-                {["Yes", "No"].map((label) => (
-                    <button
-                        key={label}
-                        className={`${location.yesnobuttons} ${answer === label ? location.active : ""}`}
-                        onClick={() => setAnswer(label)}
-                    >
-                        {label}
-                    </button>
-                ))}
-            </div>
+  return (
+    <div className={location.main}>
+      <h2 className={location.title}>Location</h2>
 
-            {/* What types of pets? */}
-            <div className={location.box}>
-                <textarea
-                    className={location.forminput}
-                    placeholder="What types of pets?  Some of our cleaners have pet allergies." />
+      <div className={location.description}>
+        <p>WHERE DO YOU NEED THE SERVICE?</p>
+        <p>HELP OUR TEAMS GET TO YOUR PLACE ON TIME BY LOCATING IT ON THE MAP BELOW.</p>
+      </div>
 
-                {/* ADDITIONAL NOTES */}
-               <div className={location.subheading}>
-                    <p>ADDITIONAL NOTES</p>
-                </div>
-                <textarea
-                    className={`${location.forminput} ${location.textbox}`}
-                    placeholder="I would like Sophie to be my cleaner. Please change my sheets (fresh bedding is on the bed) and empty the dishwasher."
-                />
-            </div>
+      <div className={location.subheading}>
+        <p>SAVE YOUR ADDRESS DETAILS</p>
+      </div>
+      <div>
+        <div className={location.buttoncontainer}>
+          {["Home", "Office", "Other"].map((label) => (
+            <button
+              key={label}
+              className={`${location.button} ${selected === label ? location.active : ""}`}
+              onClick={() => setSelected(label)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
-    );
+        <div>
+          <select
+            id="country"
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            className={location.forminput}
+          >
+            <option value="" disabled hidden>
+              -- Choose a country --
+            </option>
+            {Object.entries(countryList).map(([code, name]) => (
+              <option key={code} value={code}>
+                {name}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="text"
+            placeholder="City"
+            className={location.forminput}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+
+          <div className={location.row}>
+            <input
+              type="text"
+              placeholder="Building or street no"
+              className={location.forminput}
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Apt no"
+              className={location.forminput}
+              value={apt}
+              onChange={(e) => setApt(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {loadError ? (
+          <div>Map failed to load</div>
+        ) : !isLoaded ? (
+          <div>Loading map...</div>
+        ) : (
+          <div style={{ position: "relative" }}>
+            <GoogleMap
+              mapContainerStyle={{
+                width: '100%',
+                height: '300px',
+                border: '1px solid #A1A1A1',
+                borderRadius: '9px',
+                position: 'relative',
+                overflow: 'visible',
+                zIndex: 1,
+              }}
+              zoom={13}
+              center={mapCenter}
+              onClick={handleMapClick}
+              options={{
+                disableDefaultUI: true,
+                zoomControl: true,
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  right: '10px',
+                  zIndex: 1000,
+                }}
+              >
+                <Autocomplete
+                  onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                  onPlaceChanged={onPlaceChanged}
+                >
+                  <div style={{ position: 'relative', width: '100%' }}>
+                    <FaSearch
+                      style={{
+                        position: 'absolute',
+                        left: '12px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: '#9CA3AF',
+                        fontSize: '14px',
+                        zIndex: 1001,
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Search for your building or area"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      style={{
+                        width: '100%',
+                        height: '36px',
+                        padding: '0 36px 0 36px',
+                        borderRadius: '8px',
+                        border: '2px solid #D3D8DD',
+                        fontSize: '14px',
+                        outline: 'none',
+                      }}
+                    />
+                    {searchInput && (
+                      <FaTimes
+                        onClick={clearSearch}
+                        style={{
+                          position: 'absolute',
+                          right: '12px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          color: '#6B7280',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          zIndex: 1001,
+                        }}
+                      />
+                    )}
+                  </div>
+                </Autocomplete>
+              </div>
+              {selectedMarker && <Marker position={selectedMarker} />}
+            </GoogleMap>
+          </div>
+        )}
+      </div>
+
+      <div className={location.subheading}>
+        <p>HOW DO WE GET IN?</p>
+      </div>
+      <div className={location.options}>
+        {["Someone is Home", "Doorman"].map((label) => (
+          <button
+            key={label}
+            className={`${location.locbuttons} ${accessOption === label ? location.active : ""}`}
+            onClick={() => setAccessOption(label)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <div className={location.subheading}>
+        <p>ANY PETS?</p>
+      </div>
+      <div className={location.rowyesno}>
+        {["Yes", "No"].map((label) => (
+          <button
+            key={label}
+            className={`${location.yesnobuttons} ${answer === label ? location.active : ""}`}
+            onClick={() => setAnswer(label)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <div className={location.box}>
+        <textarea
+          className={location.forminput}
+          placeholder="What types of pets?  Some of our cleaners have pet allergies."
+        />
+        <div className={location.subheading}>
+          <p>ADDITIONAL NOTES</p>
+        </div>
+        <textarea
+          className={`${location.forminput} ${location.textbox}`}
+          placeholder="I would like Sophie to be my cleaner. Please change my sheets (fresh bedding is on the bed) and empty the dishwasher."
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Location;
-
-
-

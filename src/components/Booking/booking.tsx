@@ -2,48 +2,71 @@
 import React, { useState, useEffect, useRef } from "react";
 import booking from "./styles/AddBooking/booking.module.css";
 import { useService } from "@/context/allservices";
+import { useBooking } from "@/context/BookingContext";
 
 const Bookings: React.FC = () => {
+  const { updateBookingData, updateBillingData } = useBooking();
+
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedSubService, setSelectedSubService] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
-  const [selectedStaff, setSelectedStaff] = useState<number | null>(null);
-  const [selectedHours, setSelectedHours] = useState<number | null>(null);
-  const [selectedFreq, setSelectedFreq] = useState<string>("");
-  const [selected, setSelected] = useState<"yes" | "no" | null>(null);
   const [selectedSpecific, setSelectedSpecific] = useState<string>("");
   const [selectedDetail, setSelectedDetail] = useState<string>("");
+  const [selectedFreq, setSelectedFreq] = useState<string>("");  // Frequency (Every 2 weeks etc.)
+  // const [selectedDate, setSelectedDate] = useState<string>(""); 
+  // const [selectedTime, setSelectedTime] = useState<string>(""); 
+  // const [address, setAddress] = useState<string>("");           
+
+  const [selectedStaff, setSelectedStaff] = useState<number | null>(null);  // No of staff
+  const [selectedHours, setSelectedHours] = useState<number | null>(null);  // No of hours
+
+  const [selected, setSelected] = useState<"yes" | "no" | null>(null); // cleaning material yes/no
+  const [specialInstructions, setSpecialInstructions] = useState<string>(""); // textarea input
+
+  const [deepCleaningCategory, setDeepCleaningCategory] = useState<"Residential" | "Commercial" | "">("");
+  const [squareFootage, setSquareFootage] = useState<string>("");  // For Commercial
+
+  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>(null); // Site visit option
+  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null); // file uploads
+
+  const [specialInput, setSpecialInput] = useState<string>(""); // used in special cleaning
+  const [carpetCount, setCarpetCount] = useState<number>(0);
+  const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
+
+  const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
+  const [residentialCleanType, setResidentialCleanType] = useState<string>(""); // for Move-in/out
+
+  // Dropdown toggles
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isSubServiceOpen, setIsSubServiceOpen] = useState(false);
   const [isTypeOpen, setIsTypeOpen] = useState(false);
   const [isSpecificOpen, setIsSpecificOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [deepCleaningCategory, setDeepCleaningCategory] = useState<"Residential" | "Commercial" | "">("");
-  const [squareFootage, setSquareFootage] = useState<string>("");
-  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>(null);
-  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
-  const specialCleaningTypes = ["windows cleaning", "swimming pool cleaning", "chandelier cleaning services"];
-  const isSpecialCleaning = specialCleaningTypes.includes(selectedSubService.trim().toLowerCase());
-  const [specialInput, setSpecialInput] = useState<string>("");
-  const [carpetCount, setCarpetCount] = useState<number>(0);
-  const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
-  const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
-  const [residentialCleanType, setResidentialCleanType] = useState<string>("");
   const [isResidentialTypeOpen, setIsResidentialTypeOpen] = useState(false);
-  const { services, subServices, fetchServices, fetchSubServices, loading, } = useService();
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+
+  // Dropdown refs
   const serviceDropdownRef = useRef<HTMLDivElement>(null);
   const subServiceDropdownRef = useRef<HTMLDivElement>(null);
   const typeDropdownRef = useRef<HTMLDivElement>(null);
   const specificDropdownRef = useRef<HTMLDivElement>(null);
   const detailDropdownRef = useRef<HTMLDivElement>(null);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Derived checks
+  const specialCleaningTypes = ["windows cleaning", "swimming pool cleaning", "chandelier cleaning services"];
+  const isSpecialCleaning = specialCleaningTypes.includes(selectedSubService.trim().toLowerCase());
   const isMaidSelected = selectedSubService.trim().toLowerCase() === "maid services / general services";
   const isDeepCleaning = selectedService.trim().toLowerCase() === "cleaning services" && selectedSubService.trim().toLowerCase() === "deep cleaning";
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+
+  // Service context
+  const { services, subServices, fetchServices, fetchSubServices, loading } = useService();
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadedFiles(e.target.files);
   };
+
   // mouse dropdown behaviour
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -164,7 +187,95 @@ const Bookings: React.FC = () => {
     // Set the selected detail if found
     setSelectedDetail(price);
   }, [selectedService, selectedSubService, selectedType, selectedSpecific]);
+
+  // updateBookingData
+  useEffect(() => {
+    updateBookingData({
+      service: selectedService,
+      subService: selectedSubService,
+      type: selectedType,
+      specific: selectedSpecific,
+      detail: selectedDetail,
+      frequency: selectedFreq,
+      // date: selectedDate,
+      // time: selectedTime,
+      // address,
+      staffCount: selectedStaff,
+      hoursCount: selectedHours,
+      deepCleaningCategory,
+      squareFootage,
+      siteVisit,
+      residentialCleanType,
+      cleaningMaterials: selected,
+      specialInput,
+      upholsteryItemCount,
+      carpetAreas,
+      specialInstructions: specialInstructions,
+    });
+  }, [
+    selectedService,
+    selectedSubService,
+    selectedType,
+    selectedSpecific,
+    selectedDetail,
+    selectedFreq,
+    // selectedDate,
+    // selectedTime,
+    // address,
+    selectedStaff,
+    selectedHours,
+    deepCleaningCategory,
+    squareFootage,
+    siteVisit,
+    residentialCleanType,
+    selected,
+    specialInstructions,
+    specialInput,
+    upholsteryItemCount,
+    carpetAreas,
+  ]);
+
+
+  // updateBillingData
+  useEffect(() => {
+    if (!selectedDetail) return;
+
+    const price = parseFloat(selectedDetail.replace(/[^\d.]/g, '')) || 0;
+    const discountAmount = 0;
+    const taxAmount = 0;
+    const totalAmount = price + taxAmount;
+
+    updateBillingData({
+      appointmentValue: price,
+      discountAmount,
+      taxAmount,
+      totalAmount,
+    });
+  }, [selectedDetail]);
+
+  // frequency and time
+  useEffect(() => {
+    const frequency = selectedFreq?.trim() || "Every 2 weeks";
+
+    const formattedTime = new Date().toLocaleString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    updateBillingData({
+      appointmentFrequency: frequency,
+      appointmentTime: formattedTime,
+    });
+  }, [selectedFreq]);
+
+
   return (
+
     <div className={booking.container}>
       <div className={booking.sectionSpacing}>
         <div className={booking.header}>
@@ -677,7 +788,7 @@ const Bookings: React.FC = () => {
                   selectedType === "Carpet" && carpetCount > 0 && (
                     <div className={booking.carpetGroup}>
                       <label className={booking.label}>Carpet Sizes (in sq ft)</label>
-                      <div className={`${booking.carpetWrap} ${carpetCount === 1 ? booking.singleCarpetWrap : "" }`} >
+                      <div className={`${booking.carpetWrap} ${carpetCount === 1 ? booking.singleCarpetWrap : ""}`} >
                         {Array.from({ length: carpetCount }).map((_, i) => (
                           <div
                             key={i}
@@ -845,7 +956,14 @@ const Bookings: React.FC = () => {
             <button
               key={freq}
               type="button"
-              onClick={() => setSelectedFreq(freq)}
+              // onClick={() => setSelectedFreq(freq)}
+              onClick={() => {
+                setSelectedFreq(freq);
+                // updateBillingData({ appointmentFrequency: freq });
+                updateBookingData({ frequency: freq });
+                // updateBookingData({ frequency: freq });
+
+              }}
               className={`${booking.daysoption} ${selectedFreq === freq ? booking.selected : ""}`} >
               {freq === "Weekly" ? (
                 <div className={booking.labelRow}>
@@ -895,7 +1013,12 @@ const Bookings: React.FC = () => {
         <div className={booking.row}>
           <label className={booking.endlabel}>Do you have any special instructions?</label>
           <label className={booking.subLabel}>Example: Pet at home, carpet area, etc.</label>  </div>
-        <textarea placeholder="Example:..........." className={booking.box}></textarea>
+        <textarea
+          placeholder="Example:..........."
+          className={booking.box}
+          value={specialInstructions}
+          onChange={(e) => setSpecialInstructions(e.target.value)}>
+        </textarea>
       </div>
     </div>
   );
