@@ -23,7 +23,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
   } = billingData;
 
   const [discountInput, setDiscountInput] = React.useState(discountCode);
-
   const formattedNow = React.useMemo(() => {
     return new Date().toLocaleString("en-US", {
       weekday: "long",

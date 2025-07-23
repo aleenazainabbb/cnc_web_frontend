@@ -5,29 +5,25 @@ import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
 
 const Bookings: React.FC = () => {
-  const { updateBookingData, updateBillingData } = useBooking();
-
+  const { updateBookingData, updateBillingData, bookingData } = useBooking();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedSubService, setSelectedSubService] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
   const [selectedSpecific, setSelectedSpecific] = useState<string>("");
   const [selectedDetail, setSelectedDetail] = useState<string>("");
-  const [selectedFreq, setSelectedFreq] = useState<string>("");  // Frequency (Every 2 weeks etc.)
-  // const [selectedDate, setSelectedDate] = useState<string>(""); 
-  // const [selectedTime, setSelectedTime] = useState<string>(""); 
-  // const [address, setAddress] = useState<string>("");           
+  const [selectedFreq, setSelectedFreq] = useState("Once"); // default selected
 
   const [selectedStaff, setSelectedStaff] = useState<number | null>(null);  // No of staff
   const [selectedHours, setSelectedHours] = useState<number | null>(null);  // No of hours
 
-  const [selected, setSelected] = useState<"yes" | "no" | null>(null); // cleaning material yes/no
+  const [selected, setSelected] = useState<"yes" | "no" | null>("no"); // cleaning material yes/no
   const [specialInstructions, setSpecialInstructions] = useState<string>(""); // textarea input
 
   const [deepCleaningCategory, setDeepCleaningCategory] = useState<"Residential" | "Commercial" | "">("");
   const [squareFootage, setSquareFootage] = useState<string>("");  // For Commercial
 
-  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>(null); // Site visit option
+  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no"); // Site visit option
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null); // file uploads
 
   const [specialInput, setSpecialInput] = useState<string>(""); // used in special cleaning
@@ -60,12 +56,63 @@ const Bookings: React.FC = () => {
   const isMaidSelected = selectedSubService.trim().toLowerCase() === "maid services / general services";
   const isDeepCleaning = selectedService.trim().toLowerCase() === "cleaning services" && selectedSubService.trim().toLowerCase() === "deep cleaning";
 
-  // Service context
-  const { services, subServices, fetchServices, fetchSubServices, loading } = useService();
+  //Vehicle cleaning
+  const [make, setMake] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [variant, setVariant] = useState<string>("");
 
+  const isGreaseTrapCleaning =
+    selectedService?.toLowerCase() === "cleaning services" &&
+    selectedSubService?.toLowerCase() === "grease trap cleaning services";
+
+  const isVehicleCleaning =
+    selectedService?.toLowerCase() === "cleaning services" &&
+    selectedSubService?.toLowerCase() === "vehicle cleaning";
+  // Service context
+  const { services, subServices, fetchSubServices, loading } = useService();
+
+  //images upload handling
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files;
+  //   if (files && files.length > 0) {
+  //     const fileArray = Array.from(files);
+
+  //     const fileWithPaths = fileArray.map((file) => ({
+  //       name: file.name,
+  //       previewUrl: URL.createObjectURL(file),
+  //     }));
+
+  //     updateBookingData({
+  //       ...bookingData,
+  //       uploadedMedia: [
+  //         ...(bookingData.uploadedMedia || []),
+  //         ...fileWithPaths,
+  //       ],
+  //     });
+  //   }
+  // };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploadedFiles(e.target.files);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+
+      const newFiles = fileArray.map((file) => ({
+        name: file.name,
+        previewUrl: URL.createObjectURL(file),
+      }));
+
+      // Manually read latest uploadedMedia before updating
+      const updatedMedia = [
+        ...(bookingData.uploadedMedia || []),
+        ...newFiles,
+      ];
+
+      updateBookingData({
+        uploadedMedia: updatedMedia,
+      });
+    }
   };
+
 
   // mouse dropdown behaviour
   useEffect(() => {
@@ -109,8 +156,6 @@ const Bookings: React.FC = () => {
     setSelectedStaff(null);
     setSelectedSpecific("");
     setSelectedDetail("");
-    setSelectedFreq("");
-    setSelected(null);
     setSquareFootage("");
     setUpholsteryItemCount(0);
     setSpecialInput("")
@@ -187,6 +232,9 @@ const Bookings: React.FC = () => {
     // Set the selected detail if found
     setSelectedDetail(price);
   }, [selectedService, selectedSubService, selectedType, selectedSpecific]);
+  useEffect(() => {
+    updateBookingData({ frequency: "Once" });
+  }, []);
 
   // updateBookingData
   useEffect(() => {
@@ -196,21 +244,26 @@ const Bookings: React.FC = () => {
       type: selectedType,
       specific: selectedSpecific,
       detail: selectedDetail,
-      frequency: selectedFreq,
-      // date: selectedDate,
-      // time: selectedTime,
-      // address,
+      cleaningMaterials: selected,
       staffCount: selectedStaff,
       hoursCount: selectedHours,
       deepCleaningCategory,
       squareFootage,
       siteVisit,
       residentialCleanType,
-      cleaningMaterials: selected,
       specialInput,
       upholsteryItemCount,
       carpetAreas,
       specialInstructions: specialInstructions,
+      make,
+      model,
+      variant,
+      uploadedMedia: uploadedFiles
+        ? Array.from(uploadedFiles).map((file) => ({
+          name: file.name,
+          previewUrl: URL.createObjectURL(file),
+        }))
+        : [],
     });
   }, [
     selectedService,
@@ -218,28 +271,22 @@ const Bookings: React.FC = () => {
     selectedType,
     selectedSpecific,
     selectedDetail,
-    selectedFreq,
-    // selectedDate,
-    // selectedTime,
-    // address,
     selectedStaff,
     selectedHours,
     deepCleaningCategory,
     squareFootage,
     siteVisit,
-    residentialCleanType,
     selected,
+    residentialCleanType,
     specialInstructions,
     specialInput,
     upholsteryItemCount,
     carpetAreas,
+    make, model, variant, uploadedFiles,
   ]);
-
-
   // updateBillingData
   useEffect(() => {
     if (!selectedDetail) return;
-
     const price = parseFloat(selectedDetail.replace(/[^\d.]/g, '')) || 0;
     const discountAmount = 0;
     const taxAmount = 0;
@@ -256,7 +303,6 @@ const Bookings: React.FC = () => {
   // frequency and time
   useEffect(() => {
     const frequency = selectedFreq?.trim() || "Every 2 weeks";
-
     const formattedTime = new Date().toLocaleString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -272,7 +318,6 @@ const Bookings: React.FC = () => {
       appointmentTime: formattedTime,
     });
   }, [selectedFreq]);
-
 
   return (
 
@@ -392,7 +437,7 @@ const Bookings: React.FC = () => {
           )}
 
           {/* TYPE */}
-          {!isSpecialCleaning && (
+          {!isSpecialCleaning && !isGreaseTrapCleaning && !isVehicleCleaning && (
             <>
               <label className={booking.label}>TYPE</label>
               <div className={booking.customselectwrapper} ref={typeDropdownRef}>
@@ -573,13 +618,16 @@ const Bookings: React.FC = () => {
                     style={{ backgroundImage: "none" }} />
                 </>
               )}
+
               {/* Image/Video Upload Field */}
               <label className={booking.label}>Upload Images/Videos</label>
               <input
                 type="file"
                 accept="image/*,video/*"
                 multiple
-                className={booking.input} />
+                className={booking.input}
+                onChange={handleFileChange}
+                style={{ backgroundImage: "none" }} />
             </>
           )}
           {/* CONDITIONAL UI */}
@@ -615,7 +663,7 @@ const Bookings: React.FC = () => {
               </div>
             </>
           )}
-          {!isMaidSelected && !(isDeepCleaning && deepCleaningCategory === "Commercial") && (
+          {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && deepCleaningCategory === "Commercial") && (
             <>
               {/* SPECIFICS or UNITS Input */}
               {selectedService.trim().toLowerCase() === "cleaning services" &&
@@ -831,7 +879,7 @@ const Bookings: React.FC = () => {
                   </div>
                 )}
               {/* DETAILS */}
-              {!isSpecialCleaning && (
+              {!isSpecialCleaning && !isGreaseTrapCleaning && !isVehicleCleaning && (
                 <>
                   <label className={booking.label}>DETAILS</label>
                   <div className={booking.customselectwrapper} ref={detailDropdownRef}>
@@ -949,6 +997,81 @@ const Bookings: React.FC = () => {
             </>
           )}
         </div>
+
+        {isGreaseTrapCleaning && (
+          <div className={booking.formGroup}>
+            {/* Image/Video Upload Field */}
+            <label className={booking.label}>Upload Images/Videos</label>
+            <input
+              type="file"
+              accept="image/*,video/*"
+              multiple
+              className={booking.input}
+              onChange={handleFileChange}
+            />
+          </div>
+        )}
+        {isVehicleCleaning && (
+          <>
+            {/* <div className={booking.cont}> */}
+            <div className={booking.formGroup}>
+              <label className={booking.label}>Make</label>
+              <input
+                type="text"
+                value={make}
+                onChange={(e) => setMake(e.target.value)}
+                className={booking.input}
+                style={{ backgroundImage: "none" }}
+              />
+            </div>
+            <div className={booking.formGroup}>
+              <label className={booking.label}>Model</label>
+              <input
+                type="text"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                className={booking.input}
+                style={{ backgroundImage: "none" }}
+              />
+            </div>
+            {/* </div> */}
+
+            <div className={booking.formGroup}>
+              <label className={booking.label}>Variant</label>
+              <input
+                type="text"
+                value={variant}
+                onChange={(e) => setVariant(e.target.value)}
+                className={booking.input}
+                style={{ backgroundImage: "none" }}
+              />
+            </div>
+
+            <div className={booking.formGroup}>
+              <label className={booking.label}>Upload Images/Videos</label>
+              <input
+                type="file"
+                accept="image/*,video/*"
+                multiple
+                className={booking.input}
+                style={{ backgroundImage: "none" }}
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    const fileWithPaths = Array.from(files).map((file) => ({
+                      name: file.name,
+                      previewUrl: URL.createObjectURL(file),
+                    }));
+
+                    updateBookingData({
+                      uploadedMedia: fileWithPaths,
+                    });
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
         {/* FREQUENCY */}
         <div className={booking.formGroup}>
           <label className={booking.label}>How often do you need cleaning?</label>
@@ -956,13 +1079,9 @@ const Bookings: React.FC = () => {
             <button
               key={freq}
               type="button"
-              // onClick={() => setSelectedFreq(freq)}
               onClick={() => {
                 setSelectedFreq(freq);
-                // updateBillingData({ appointmentFrequency: freq });
                 updateBookingData({ frequency: freq });
-                // updateBookingData({ frequency: freq });
-
               }}
               className={`${booking.daysoption} ${selectedFreq === freq ? booking.selected : ""}`} >
               {freq === "Weekly" ? (
@@ -1002,11 +1121,18 @@ const Bookings: React.FC = () => {
         <div className={booking.buttonGroup}>
           <button
             className={`${booking.yesnobuttons} ${selected === "no" ? booking.selected : ""}`}
-            onClick={() => setSelected("no")}
+            onClick={() => {
+              setSelected("no");
+              updateBookingData({ cleaningMaterials: "no" });
+            }}
           > No </button>
           <button
             className={`${booking.yesnobuttons} ${selected === "yes" ? booking.selected : ""}`}
-            onClick={() => setSelected("yes")}
+            onClick={() => {
+              setSelected("yes"); // or "no"
+              updateBookingData({ cleaningMaterials: "yes" });
+            }}
+
           > Yes  </button>
         </div>
         {/* SPECIAL INSTRUCTIONS */}

@@ -1,11 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import payment from './styles/PaymentDetails.module.css';
+import { useBooking } from "@/context/BookingContext";
 
 const PaymentDetails: React.FC = () => {
     const [selected, setSelected] = useState(""); // "credit" or "cash"
+     const { selectionList,  bookingData, latestLocation, } = useBooking();
 
+ useEffect(() => {
+  if (selectionList.length > 0) {
+    const latestDateTime = selectionList[selectionList.length - 1]; // last selected preferredCleaner/date/time
+
+    const mergedFinal = {
+      ...(bookingData || {}),
+      ...(latestLocation || {}),
+      ...(latestDateTime || {}),
+    };
+
+    console.log("Final Booking Data:", mergedFinal);
+  }
+}, [bookingData, latestLocation, selectionList]);
+
+    
     return (
         <div className={payment.main}>
             <div className={payment.paragraph}>

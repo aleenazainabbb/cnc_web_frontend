@@ -72,30 +72,40 @@
     border: 2px solid var(--Blue-100, #1A78F2);
 }
 
-/* Cleaners */
 .cleanerboxes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%;
-    margin-bottom: 30px;
-    cursor: pointer;
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  /* Ensure exactly 4 boxes visible on larger screens */
+  width: 100%;
+}
+
+.cleanerboxes::-webkit-scrollbar {
+  display: none;
 }
 
 .box {
-    flex: 1 1 135px;
-    max-width: 135px;
-    height: 138px;
-    border: 1px solid #D3D8DD;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 10px 0;
-    box-sizing: border-box;
-    text-align: center;
+  scroll-snap-align: start;
+  flex: 0 0 calc((100% - 60px) / 4); /* 20px gap * 3 = 60px total gap */
+  max-width: calc((100% - 60px) / 4);
+  height: 138px;
+  border: 1px solid #D3D8DD;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px 0;
+  box-sizing: border-box;
+  text-align: center;
+   cursor: pointer;
+}
+.selectedCleaner {
+  border: 2px solid #1A78F2;
 }
 
 .box img {
@@ -139,13 +149,11 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 40px;
-    /* space between months */
-    /* padding: 10px 0; */
     scrollbar-width: none;
     -ms-overflow-style: none;
     width: calc(116px * 3 + 40px * 2);
-    /* 3 months + 2 gaps */
     max-width: 100%;
+     cursor: pointer;
 }
 
 .monthScroll::-webkit-scrollbar {
@@ -180,6 +188,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+     cursor: pointer;
 }
 
 .checkblock.selected {
@@ -257,6 +266,7 @@
     .monthScroll {
         gap: 48px;
 
+
     }
 
     .calendarui {
@@ -287,6 +297,7 @@
 
     .monthScroll {
         gap: 30px;
+       
     }
 
     .month {
@@ -373,10 +384,11 @@
         max-width: 28%;
         height: 120px;
     }
+
     .box img {
-    width: 52px;
-    height: 55px;
-}
+        width: 52px;
+        height: 55px;
+    }
 
     .rating,
     .workers {
@@ -417,7 +429,21 @@
     .calendarui {
         margin-top: 10px;
     }
-    .cleanerboxes{
+
+    .cleanerboxes {
         flex-wrap: wrap;
     }
+}
+@media screen and (max-width: 1024px) {
+  .box {
+    flex: 0 0 calc((100% - 40px) / 2); /* Show 2 boxes */
+    max-width: calc((100% - 40px) / 2);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .box {
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
 }

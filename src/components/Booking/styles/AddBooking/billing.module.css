@@ -35,9 +35,17 @@
 .appointmentrow {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 16px;
+  flex-wrap: wrap;
+  /* gap: 5px; */
   width: 100%;
+  word-break: break-word;
+  /* break long words */
+  overflow-wrap: break-word;
+  /* extra safety */
+  white-space: normal;
+  /* Allows multiline */
+  word-break: break-word;
+  /* Breaks long words */
 }
 
 .locationRow {
@@ -58,15 +66,15 @@
   color: #2b3641;
   margin-bottom: 4px;
   height: 20px;
-  width: auto;
-  max-width: 108px;
+  width: 100%;
+  /* max-width: 108px; */
 }
 
 .appointmenttime,
 .changelocation {
   font-family: Poppins;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 23px;
   letter-spacing: 0.003em;
   color: #1a78f2;
@@ -90,12 +98,20 @@
 .locationtext {
   font-family: Poppins;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 23px;
   letter-spacing: 0.003em;
   color: #2b3641;
   margin-top: 10px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  word-break: break-word;
+  /* break long words */
+  overflow-wrap: break-word;
+  /* extra safety */
+  white-space: normal;
+  /* Allows multiline */
+  word-break: break-word;
+  /* Breaks long words */
 }
 
 .pricingbox {
@@ -109,7 +125,7 @@
   margin: 40px 0 24px 0;
   font-family: Poppins;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -158,6 +174,7 @@
   border: none;
   outline: none;
 }
+
 .detailslink {
   font-size: 12px;
   color: #1a78f2;
@@ -166,16 +183,18 @@
 
 
 @media (max-width: 1280px) {
-.billingheading {
+  .billingheading {
     margin-bottom: 15px;
-}
- .appointmentcard,
+  }
+
+  .appointmentcard,
   .pricingbox {
     padding: 11px 10px;
     margin: 22px 0 0px 0;
     max-width: 100%;
   }
 }
+
 @media (max-width: 768px) {
   .billingcontainer {
     padding: 24px 20px;
@@ -238,10 +257,12 @@
     margin-top: 10px;
     margin-bottom: 5px;
   }
+
   .appointmentrow {
-  gap: 0px;
+    gap: 0px;
+  }
 }
-}
+
 @media (max-width: 470px) {
   .billingcontainer {
     padding: 16px 12px;
@@ -291,5 +312,3 @@
     border-radius: 8px;
   }
 }
-
-

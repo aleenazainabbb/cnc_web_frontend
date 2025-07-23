@@ -61,7 +61,6 @@
 .cont {
   display: flex;
   flex-direction: row;
-  /* Change from row to column */
   gap: 10px;
 }
 
@@ -139,6 +138,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  
 }
 
 .customselectwrapper {
@@ -275,7 +275,6 @@ select.input option:disabled {
 
 .optionButton {
   flex: 1 0 auto;
-  /* width: 100%; */
   max-width: 84px;
   height: 55px;
   padding: 10px 16px;
@@ -286,7 +285,6 @@ select.input option:disabled {
   font-weight: 600;
   font-size: 19px;
   color: #4F6071;
-  /* text-align: center; */
   transition: background 0.3s, border 0.3s;
 }
 
@@ -325,11 +323,6 @@ select.input option:disabled {
   border-color: #1A78F2;
   color: #007bff;
 }
-
-.daysoption:not(.selected):hover {
-  border-color: #007bff;
-}
-
 
 .optionWrapper {
   display: flex;
@@ -489,12 +482,6 @@ select.input option:disabled {
   }
 }
 
-
-/* @media (max-width: 1150px) {
-.selectedDropdown {
-  font-size: 12px;
-}
-} */
 @media (max-width: 400px) {
   .container {
     margin-right: 0px !important;
