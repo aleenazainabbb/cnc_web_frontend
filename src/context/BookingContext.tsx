@@ -12,6 +12,12 @@ type BillingData = {
   totalAmount: number;
 };
 
+type UploadedMediaItem = {
+  name: string;
+  previewUrl: string;
+  file: File; // ✅ File object included
+};
+
 type BookingData = {
   service?: string;
   subService?: string;
@@ -30,10 +36,7 @@ type BookingData = {
   specialInput?: string;
   upholsteryItemCount?: number;
   carpetAreas?: string[];
- uploadedMedia?: Array<{
-  name: string;
-  previewUrl: string;
-}>;
+  uploadedMedia?: UploadedMediaItem[];
   make?: string;
   model?: string;
   variant?: string;
@@ -72,9 +75,15 @@ type BookingContextType = {
 
   selectionList: BookingSelection[];
   addSelection: (data: BookingSelection) => void;
+
+  setBillingData: React.Dispatch<React.SetStateAction<BillingData>>;
+
+  submitBookingQuote: () => Promise<any>;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
+// const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = 'http://192.168.18.18:3000';
 
 export const BookingProvider = ({ children }: { children: React.ReactNode }) => {
   const [bookingData, setBookingData] = useState<BookingData>({});
@@ -98,7 +107,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   });
 
   const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(null);
-  const [runtimeBookingList, setRuntimeBookingList] = useState<Array<BookingData & { location: LatestLocation }>>([]);
+  const [runtimeBookingList] = useState<Array<BookingData & { location: LatestLocation }>>([]);
   const [selectionList, setSelectionList] = useState<BookingSelection[]>([]);
 
   const latestListRef = useRef(runtimeBookingList);
@@ -122,17 +131,55 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     setSelectionList((prev) => [...prev, data]);
   };
 
-  // useEffect(() => {
-  //   if (Object.keys(bookingData).length > 0 && latestLocation) {
-  //     const mergedData = {
-  //       ...bookingData,
-  //       location: latestLocation,
-  //     };
-  //     const updatedList = [...latestListRef.current, mergedData];
-  //     setRuntimeBookingList(updatedList);
-  //     console.log("🔄 Runtime Booking List:", updatedList);
-  //   }
-  // }, [bookingData, latestLocation]);
+  const submitBookingQuote = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found. Please log in.");
+
+      const selected = selectionList[selectionList.length - 1];
+      const formData = new FormData();
+
+      formData.append("location", latestLocation?.fullAddress || "");
+      formData.append("date", selected?.date || "");
+      formData.append("time", selected?.time || "");
+      formData.append("cleaningFrequency", bookingData.frequency || "");
+      formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      formData.append("additionalNotes", bookingData.specialInstructions || "");
+      formData.append("numberOfWindows", bookingData.detail || "");
+      formData.append("squareFeet", bookingData.squareFootage || "");
+      formData.append("numberOfItems", bookingData.upholsteryItemCount?.toString() || "");
+      formData.append("make", bookingData.make || "");
+      formData.append("model", bookingData.model || "");
+      formData.append("variant", bookingData.variant || "");
+
+      // ✅ Append media files
+      bookingData.uploadedMedia?.forEach((fileObj) => {
+        if (fileObj.file instanceof File) {
+          const isImage = fileObj.file.type.startsWith("image/");
+          const isVideo = fileObj.file.type.startsWith("video/");
+          if (isImage) formData.append("images", fileObj.file);
+          if (isVideo) formData.append("videos", fileObj.file);
+        }
+      });
+
+      const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Submission failed");
+
+      console.log("✅ Booking submitted:", result);
+      return result;
+    } catch (error: any) {
+      console.error("Booking submit error:", error.message);
+      throw error;
+    }
+  };
 
   return (
     <BookingContext.Provider
@@ -146,6 +193,8 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         runtimeBookingList,
         selectionList,
         addSelection,
+        setBillingData,
+        submitBookingQuote,
       }}
     >
       {children}

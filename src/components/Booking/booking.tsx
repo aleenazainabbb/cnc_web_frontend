@@ -33,6 +33,8 @@ const Bookings: React.FC = () => {
   const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
   const [residentialCleanType, setResidentialCleanType] = useState<string>(""); // for Move-in/out
 
+  const { setBillingData } = useBooking();
+
   // Dropdown toggles
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isSubServiceOpen, setIsSubServiceOpen] = useState(false);
@@ -69,50 +71,22 @@ const Bookings: React.FC = () => {
     selectedService?.toLowerCase() === "cleaning services" &&
     selectedSubService?.toLowerCase() === "vehicle cleaning";
   // Service context
-  const { services, subServices, fetchSubServices, loading } = useService();
+  const { services, subServices, fetchServices, fetchSubServices, loading } = useService();
 
-  //images upload handling
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (files && files.length > 0) {
-  //     const fileArray = Array.from(files);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
 
-  //     const fileWithPaths = fileArray.map((file) => ({
-  //       name: file.name,
-  //       previewUrl: URL.createObjectURL(file),
-  //     }));
+    const uploaded = Array.from(files).map((file) => ({
+      name: file.name,
+      previewUrl: URL.createObjectURL(file),
+      file: file, // ✅ store the actual File
+    }));
 
-  //     updateBookingData({
-  //       ...bookingData,
-  //       uploadedMedia: [
-  //         ...(bookingData.uploadedMedia || []),
-  //         ...fileWithPaths,
-  //       ],
-  //     });
-  //   }
-  // };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const fileArray = Array.from(files);
-
-      const newFiles = fileArray.map((file) => ({
-        name: file.name,
-        previewUrl: URL.createObjectURL(file),
-      }));
-
-      // Manually read latest uploadedMedia before updating
-      const updatedMedia = [
-        ...(bookingData.uploadedMedia || []),
-        ...newFiles,
-      ];
-
-      updateBookingData({
-        uploadedMedia: updatedMedia,
-      });
-    }
+    updateBookingData({
+      uploadedMedia: [...(bookingData.uploadedMedia || []), ...uploaded],
+    });
   };
-
 
   // mouse dropdown behaviour
   useEffect(() => {
@@ -258,12 +232,12 @@ const Bookings: React.FC = () => {
       make,
       model,
       variant,
-      uploadedMedia: uploadedFiles
-        ? Array.from(uploadedFiles).map((file) => ({
-          name: file.name,
-          previewUrl: URL.createObjectURL(file),
-        }))
-        : [],
+      // uploadedMedia: uploadedFiles
+      //   ? Array.from(uploadedFiles).map((file) => ({
+      //     name: file.name,
+      //     previewUrl: URL.createObjectURL(file),
+      //   }))
+      //   : [],
     });
   }, [
     selectedService,
@@ -318,6 +292,31 @@ const Bookings: React.FC = () => {
       appointmentTime: formattedTime,
     });
   }, [selectedFreq]);
+
+  useEffect(() => {
+    const subService = selectedSubService?.toLowerCase() || "";
+    const category = deepCleaningCategory?.toLowerCase() || "";
+
+    const subservicesToSkipPayment = [
+      "windows cleaning",
+      "swimming pool cleaning",
+      "chandelier cleaning services",
+      "vehicle cleaning"
+    ];
+
+    const shouldSkip =
+      subservicesToSkipPayment.includes(subService) ||
+      (subService === "deep cleaning" && category === "commercial");
+
+    setBillingData((prev: any) => ({
+      ...prev,
+      selectedSubService,
+      deepCleaningCategory,
+      skipPaymentStep: shouldSkip, // this is the flag BookingLayout will use
+    }));
+  }, [selectedSubService, deepCleaningCategory]);
+
+
 
   return (
 
@@ -1061,10 +1060,14 @@ const Bookings: React.FC = () => {
                     const fileWithPaths = Array.from(files).map((file) => ({
                       name: file.name,
                       previewUrl: URL.createObjectURL(file),
+                      file: file,
                     }));
 
                     updateBookingData({
-                      uploadedMedia: fileWithPaths,
+                      uploadedMedia: [
+                        ...(bookingData.uploadedMedia || []),
+                        ...fileWithPaths,
+                      ],
                     });
                   }
                 }}

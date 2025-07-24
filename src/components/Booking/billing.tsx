@@ -58,25 +58,25 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
       <div className={styles.pricingbox}>
         <div className={styles.pricingrow}>
           <span>Appointment Value <span className={styles.detailslink}>- Details</span></span>
-          <span className={styles.totalvalue}>${appointmentValue.toFixed(2)}</span>
+          <span className={styles.totalvalue}>AED {appointmentValue.toFixed(2)}</span>
         </div>
         <div className={styles.pricingrow}>
           <span>Discounts <span className={styles.detailslink}>- Details</span></span>
-          <span className={styles.totalvalue}>- ${discountAmount.toFixed(2)}</span>
+          <span className={styles.totalvalue}>- AED {discountAmount.toFixed(2)}</span>
         </div>
         <div className={styles.divider} style={{ marginTop: "10px" }}></div>
         <div className={styles.subtotalrow}>
           <span>Subtotal</span>
-          <span className={styles.totalvalue}>${subtotal.toFixed(2)}</span>
+          <span className={styles.totalvalue}>AED {subtotal.toFixed(2)}</span>
         </div>
         <div className={styles.taxrow}>
           <span>Tax</span>
-          <span className={styles.totalvalue}>+ ${taxAmount.toFixed(2)}</span>
+          <span className={styles.totalvalue}>+ AED {taxAmount.toFixed(2)}</span>
         </div>
         <div className={styles.divider} style={{ marginTop: "17px" }}></div>
         <div className={styles.totalrow}>
           <span>Total</span>
-          <span>${totalAmount.toFixed(2)}</span>
+          <span>AED {totalAmount.toFixed(2)}</span>
         </div>
       </div>
 

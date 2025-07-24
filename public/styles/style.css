@@ -460,6 +460,43 @@ input[type="number"] {
 .service_details_content p:first-child {
     font-size: 24px;
 }
+/* 
+.right-column {
+  position: sticky;
+  top: 20px; 
+  align-self: start;
+} */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  position: relative;
+  padding: 20px;
+}
+
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* dimmed background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* ensure it's on top */
+}
+
+.confirmation-modal {
+  position: relative;
+  z-index: 1001; /* above the overlay */
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .service_details_content p:last-child {
     font-size: 18px;

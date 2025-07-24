@@ -19,6 +19,7 @@ interface AuthContextType {
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
   user: User | null;
+  loading: boolean; // ✅ NEW
 }
 
 // Create the context
@@ -28,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+  const [loading, setLoading] = useState(true); // ✅ NEW
   console.log("API URL:", apiUrl);
 
   // Restore session from localStorage
@@ -37,6 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setLoading(false); // ✅ SET loading to false AFTER checking localStorage
   }, []);
 
   // Login function
@@ -61,13 +63,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     window.dispatchEvent(new Event('storage'));
 
   };
-
-  // // Logout function
-  // const logoutUser = () => {
-  //   localStorage.clear(); // This clears all keys from localStorage
-  //   console.log('User logged out and localStorage cleared');
-  // setUser(null);
-  // };
   const logoutUser = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
@@ -75,9 +70,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   window.location.href = '/Login'; // Or use router.push if you're using Next Router
 };
 
-
   return (
-    <AuthContext.Provider value={{ loginUser, logoutUser, user }}>
+    <AuthContext.Provider value={{ loginUser, logoutUser, user ,loading }}>
       {children}
     </AuthContext.Provider>
   );

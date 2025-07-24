@@ -1,33 +1,30 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import SpinnerLoader from '@/components/Loader/spinner';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth(); // ✅ get loading from context
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/');
-    } else {
-      setLoading(false);
     }
-  }, [user]);
+  }, [loading, user]);
 
-  if (loading) {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}>
-      <SpinnerLoader /> {/* Show spinner */}
-    </div>
-  );
-}
-
+  if (loading || !user) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '100px' }}>
+        <SpinnerLoader />
+      </div>
+    );
+  }
 
   return <>{children}</>;
 };
 
 export default ProtectedRoute;
+

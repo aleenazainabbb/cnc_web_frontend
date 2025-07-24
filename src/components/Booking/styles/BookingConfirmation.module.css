@@ -1,5 +1,5 @@
 .container {
-    background-color: #101010A8;
+    /* background-color: #101010A8; */
     align-items: center;
     display: flex;
     justify-content: center;
@@ -72,7 +72,6 @@
     line-height: 4.6px;
     color: #2E2E2EB8;
     padding: 7px;
-
 }
 
 .content {
@@ -193,8 +192,6 @@
   width: 93.26px;
   height: 93.26px;
   border-radius: 50%;
-  /* background: white; */
-  /* box-shadow: 0px 9.99px 26.65px 0px #00000029; */
   position: absolute;
   transform: translate(3%, -380%);
   display: flex;
@@ -211,6 +208,9 @@
     justify-content: center;
     align-items: center;
 }
-
-
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }
