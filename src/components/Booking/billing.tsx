@@ -7,6 +7,7 @@ import { useBooking } from "@/context/BookingContext";
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
   onNext?: () => void;
+  serviceError?: boolean;
 };
 
 const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext }) => {

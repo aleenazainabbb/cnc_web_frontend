@@ -15,7 +15,7 @@ type BillingData = {
 type UploadedMediaItem = {
   name: string;
   previewUrl: string;
-  file: File; // ✅ File object included
+  file: File; // File object included
 };
 
 type BookingData = {
@@ -29,6 +29,8 @@ type BookingData = {
   hoursCount?: number | null;
   deepCleaningCategory?: string;
   squareFootage?: string;
+  numberOfWindows?: string;
+  numberOfItems?: string;
   siteVisit?: string | null;
   residentialCleanType?: string;
   cleaningMaterials?: "yes" | "no" | null;
@@ -40,6 +42,10 @@ type BookingData = {
   make?: string;
   model?: string;
   variant?: string;
+  cleaningCategory?: string;
+  cleaningType?: string;
+  cleaningArea?: string;
+  // siteVisit?: boolean; 
 };
 
 export type LatestLocation = {
@@ -77,13 +83,12 @@ type BookingContextType = {
   addSelection: (data: BookingSelection) => void;
 
   setBillingData: React.Dispatch<React.SetStateAction<BillingData>>;
-
   submitBookingQuote: () => Promise<any>;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
-// const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-const apiUrl = 'http://192.168.18.18:3000';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+// const apiUrl = 'http://192.168.18.18:3000';
 
 export const BookingProvider = ({ children }: { children: React.ReactNode }) => {
   const [bookingData, setBookingData] = useState<BookingData>({});
@@ -139,18 +144,39 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       const selected = selectionList[selectionList.length - 1];
       const formData = new FormData();
 
-      formData.append("location", latestLocation?.fullAddress || "");
+      formData.append("addressDetails", latestLocation?.fullAddress || "");
+      formData.append("accessInstructions", latestLocation?.access || "");
+      formData.append("anyPets", latestLocation?.pets === "yes" ? "true" : "false");
+      formData.append("petsInfo", latestLocation?.petDetails || "");
+      formData.append("petsAdditionalNotes", latestLocation?.additionalNotes || "");
+
+      formData.append("preferredCleaner", selected?.preferredCleaner || "");
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
+
       formData.append("cleaningFrequency", bookingData.frequency || "");
       formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
       formData.append("additionalNotes", bookingData.specialInstructions || "");
-      formData.append("numberOfWindows", bookingData.detail || "");
+
+      formData.append("numberOfWindows", bookingData.numberOfWindows || "");
       formData.append("squareFeet", bookingData.squareFootage || "");
-      formData.append("numberOfItems", bookingData.upholsteryItemCount?.toString() || "");
+      formData.append("numberOfItems", bookingData.numberOfItems || "");
+
       formData.append("make", bookingData.make || "");
       formData.append("model", bookingData.model || "");
       formData.append("variant", bookingData.variant || "");
+
+      formData.append("service", bookingData.service || "");
+      formData.append("subService", bookingData.subService || "");
+
+      formData.append("cleaningCategory", bookingData.cleaningCategory || "");
+      formData.append("cleaningType", bookingData.cleaningType || "");
+      formData.append("cleaningArea", bookingData.cleaningArea || "");
+
+      // Optional: If couponCode exists
+      // if (bookingData.couponCode) {
+      //   formData.append("couponCode", bookingData.couponCode);
+      // }
 
       // ✅ Append media files
       bookingData.uploadedMedia?.forEach((fileObj) => {

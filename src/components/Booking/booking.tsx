@@ -4,7 +4,12 @@ import booking from "./styles/AddBooking/booking.module.css";
 import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
 
-const Bookings: React.FC = () => {
+type BookingsProps = {
+  serviceError: boolean;
+};
+// const Bookings: React.FC<BookingsProps> = ({ serviceError }) => {
+const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { updateBookingData, updateBillingData, bookingData } = useBooking();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
@@ -26,7 +31,11 @@ const Bookings: React.FC = () => {
   const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no"); // Site visit option
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null); // file uploads
 
-  const [specialInput, setSpecialInput] = useState<string>(""); // used in special cleaning
+  const [specialInput, setSpecialInput] = useState<string>("");
+  const [numberOfWindows, setNumberOfWindows] = useState<string>("");
+  // const [squareFeet, setSquareFeet] = useState<string>("");
+  const [numberOfItems, setNumberOfItems] = useState<string>("");
+
   const [carpetCount, setCarpetCount] = useState<number>(0);
   const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
 
@@ -63,6 +72,10 @@ const Bookings: React.FC = () => {
   const [model, setModel] = useState<string>("");
   const [variant, setVariant] = useState<string>("");
 
+  const [cleaningCategory, setCleaningCategory] = useState<string>("");
+const [cleaningType, setCleaningType] = useState<string>("");
+const [cleaningArea, setCleaningArea] = useState<string>("");
+
   const isGreaseTrapCleaning =
     selectedService?.toLowerCase() === "cleaning services" &&
     selectedSubService?.toLowerCase() === "grease trap cleaning services";
@@ -87,7 +100,6 @@ const Bookings: React.FC = () => {
       uploadedMedia: [...(bookingData.uploadedMedia || []), ...uploaded],
     });
   };
-
   // mouse dropdown behaviour
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -116,6 +128,7 @@ const Bookings: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  
   useEffect(() => {
     if (selectedServiceId !== null) {
       fetchSubServices(selectedServiceId);
@@ -133,6 +146,9 @@ const Bookings: React.FC = () => {
     setSquareFootage("");
     setUpholsteryItemCount(0);
     setSpecialInput("")
+    setNumberOfWindows("");
+    // setSquareFeet("");
+    setNumberOfItems("");
     setDeepCleaningCategory("")
     setSiteVisit(null)
     setResidentialCleanType("");
@@ -206,6 +222,7 @@ const Bookings: React.FC = () => {
     // Set the selected detail if found
     setSelectedDetail(price);
   }, [selectedService, selectedSubService, selectedType, selectedSpecific]);
+
   useEffect(() => {
     updateBookingData({ frequency: "Once" });
   }, []);
@@ -226,18 +243,17 @@ const Bookings: React.FC = () => {
       siteVisit,
       residentialCleanType,
       specialInput,
+      numberOfWindows,
+      numberOfItems,
       upholsteryItemCount,
       carpetAreas,
       specialInstructions: specialInstructions,
       make,
       model,
       variant,
-      // uploadedMedia: uploadedFiles
-      //   ? Array.from(uploadedFiles).map((file) => ({
-      //     name: file.name,
-      //     previewUrl: URL.createObjectURL(file),
-      //   }))
-      //   : [],
+       cleaningCategory,
+    cleaningType,
+    cleaningArea,
     });
   }, [
     selectedService,
@@ -249,6 +265,8 @@ const Bookings: React.FC = () => {
     selectedHours,
     deepCleaningCategory,
     squareFootage,
+    numberOfWindows,
+    numberOfItems,
     siteVisit,
     selected,
     residentialCleanType,
@@ -257,6 +275,7 @@ const Bookings: React.FC = () => {
     upholsteryItemCount,
     carpetAreas,
     make, model, variant, uploadedFiles,
+    cleaningCategory, cleaningType, cleaningArea,
   ]);
   // updateBillingData
   useEffect(() => {
@@ -296,14 +315,12 @@ const Bookings: React.FC = () => {
   useEffect(() => {
     const subService = selectedSubService?.toLowerCase() || "";
     const category = deepCleaningCategory?.toLowerCase() || "";
-
     const subservicesToSkipPayment = [
       "windows cleaning",
       "swimming pool cleaning",
       "chandelier cleaning services",
-      "vehicle cleaning"
+      "vehicle cleaning",
     ];
-
     const shouldSkip =
       subservicesToSkipPayment.includes(subService) ||
       (subService === "deep cleaning" && category === "commercial");
@@ -316,10 +333,7 @@ const Bookings: React.FC = () => {
     }));
   }, [selectedSubService, deepCleaningCategory]);
 
-
-
   return (
-
     <div className={booking.container}>
       <div className={booking.sectionSpacing}>
         <div className={booking.header}>
@@ -362,12 +376,19 @@ const Bookings: React.FC = () => {
                             setSelectedService(service.name.trim());
                             setSelectedServiceId(service.id);
                             setIsServiceOpen(false);
+                            updateBookingData({ service: service.name.trim() }); 
                           }}>
                           {service.name}
                         </div>
                       )))}
                   </div>)}
               </div>
+              {serviceError && (
+                <p style={{ color: 'red', marginTop: '5px', fontSize: '14px' }}>
+                  Service is required.
+                </p>
+              )}
+
             </div>
 
             {/* SUB SERVICE */}
@@ -584,8 +605,8 @@ const Bookings: React.FC = () => {
                       type="number"
                       min="1"
                       placeholder="Enter number of windows"
-                      value={specialInput}
-                      onChange={(e) => setSpecialInput(e.target.value)}
+                      value={numberOfWindows}
+                      onChange={(e) => setNumberOfWindows(e.target.value)}
                       className={booking.input}
                       style={{ backgroundImage: "none" }} />
                   </div>
@@ -598,8 +619,8 @@ const Bookings: React.FC = () => {
                     type="number"
                     min="1"
                     placeholder="Enter area in square feet"
-                    value={specialInput}
-                    onChange={(e) => setSpecialInput(e.target.value)}
+                    value={squareFootage}
+                    onChange={(e) => setSquareFootage(e.target.value)}
                     className={booking.input}
                     style={{ backgroundImage: "none" }} />
                 </>
@@ -611,8 +632,8 @@ const Bookings: React.FC = () => {
                     type="number"
                     min="1"
                     placeholder="Enter no of items"
-                    value={specialInput}
-                    onChange={(e) => setSpecialInput(e.target.value)}
+                    value={numberOfItems}
+                    onChange={(e) => setNumberOfItems(e.target.value)}
                     className={booking.input}
                     style={{ backgroundImage: "none" }} />
                 </>

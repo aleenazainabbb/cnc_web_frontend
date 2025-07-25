@@ -1,7 +1,6 @@
 'use client';
-
+import React, { ReactElement, isValidElement,useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
 import BookingConfirmation from '@/components/Booking/bookingConfirmation';
 import BillingSummary from '@/components/Booking/billing';
 import { useBooking } from '@/context/BookingContext';
@@ -14,7 +13,8 @@ export default function BookingLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
-  const { billingData, submitBookingQuote } = useBooking(); // ✅ import function
+  const { billingData, submitBookingQuote, bookingData } = useBooking();
+  const [serviceError, setServiceError] = useState(false);
 
   const steps = [
     '/BookAservicePage/Location',
@@ -27,26 +27,32 @@ export default function BookingLayout({
     currentIndex < steps.length - 1 ? steps[currentIndex + 1] : null;
 
   const handleNext = async () => {
-    const subService = (billingData as any)?.selectedSubService?.toLowerCase() || "";
-    const deepCleaningCategory = (billingData as any)?.deepCleaningCategory?.toLowerCase() || "";
+    // ✅ Validate service from context
+    if (pathname === '/BookAservicePage' && !bookingData?.service) {
+      setServiceError(true);
+      console.log("⛔ Cannot continue — service not selected");
+      return;
+    } else {
+      setServiceError(false);
+       console.log("continue — service selected");
+    }
 
     const isNoDetailService = (billingData as any)?.skipPaymentStep;
 
     if (pathname === '/BookAservicePage/BookDate&Time') {
       if (isNoDetailService) {
         try {
-          await submitBookingQuote(); // ✅ API call when skipping payment
+          await submitBookingQuote();
           setShowConfirmationPopup(true);
         } catch (error) {
           console.error('Failed to submit quote:', error);
-          // Optional: show snackbar or fallback
         }
       } else {
         router.push('/BookAservicePage/PaymentDetails');
       }
     } else if (pathname === '/BookAservicePage/PaymentDetails') {
       try {
-        await submitBookingQuote(); // ✅ API call here too
+        await submitBookingQuote();
         setShowConfirmationPopup(true);
       } catch (error) {
         console.error('Failed to submit quote:', error);
@@ -58,10 +64,14 @@ export default function BookingLayout({
 
   return (
     <div className="grid-container">
-      <div className="left-column">{children}</div>
+      <div className="left-column">
+        {isValidElement(children)
+          ? React.cloneElement(children as ReactElement<any>, { serviceError })
+          : children}
+      </div>
 
       <div className="right-column">
-        <BillingSummary onNext={handleNext} />
+        <BillingSummary onNext={handleNext} serviceError={serviceError} />
       </div>
 
       {showConfirmationPopup && (
