@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import datetime from './styles/AddBooking/date&time.module.css';
 import bookings from './styles/AddBooking/booking.module.css';
 import { useBooking } from "@/context/BookingContext";
-
 import {
     format,
     startOfMonth,
@@ -15,13 +14,28 @@ import {
     isSameDay
 } from "date-fns";
 
+const months = [
+    "January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"
+];
+
+const workers = [
+    { id: 1, name: "John Smith", rating: 4.8, img: "../images/Booking/booking1.png" },
+    { id: 2, name: "Elizabeth", rating: 4.6, img: "../images/Booking/booking2.png" },
+    { id: 3, name: "Victoria", rating: 4.9, img: "../images/Booking/booking3.png" },
+    { id: 4, name: "Catherine", rating: 4.9, img: "../images/Booking/booking4.png" },
+    { id: 5, name: "John Smith", rating: 4.8, img: "../images/Booking/booking1.png" },
+    { id: 6, name: "Victoria", rating: 4.9, img: "../images/Booking/booking3.png" },
+];
+
 const DateTime: React.FC = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selected, setSelected] = useState("");
-    const [selectedMonth, setSelectedMonth] = useState("April");
+    const [selectedMonth, setSelectedMonth] = useState(months[new Date().getMonth()]);
     const [selectedCleanerId, setSelectedCleanerId] = useState<number | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const monthRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
     const { bookingData, latestLocation, updateBillingData, addSelection } = useBooking();
     const [preferredCleaner, setPreferredCleaner] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
@@ -37,13 +51,29 @@ const DateTime: React.FC = () => {
     }, [preferredCleaner, selectedTime]);
 
     useEffect(() => {
+        const el = monthRefs.current[selectedMonth];
+        if (el) {
+            el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        }
+    }, [selectedMonth]);
+
+    useEffect(() => {
+        // Set default preferred cleaner and time
+        if (workers.length > 0) {
+            setSelectedCleanerId(workers[1].id);
+            setPreferredCleaner(workers[0].name);
+        }
+        handleTimeSelect("Flexible");
+    }, []);
+
+    useEffect(() => {
         const container = scrollRef.current;
         if (container) {
             const step = container.scrollWidth / workers.length;
             container.scrollLeft += step;
         }
     }, []);
-    //show merged list on runtime
+
     useEffect(() => {
         const mergedObject = {
             ...(bookingData || {}),
@@ -53,6 +83,7 @@ const DateTime: React.FC = () => {
     }, [bookingData, latestLocation]);
 
     const handleTimeSelect = (option: string) => {
+        if (selected === option) return;
         setSelected(option);
 
         const timeMap: Record<string, string> = {
@@ -68,20 +99,8 @@ const DateTime: React.FC = () => {
         const appointmentTime = `${formattedDate} at ${timeLabel}`;
 
         updateBillingData({ appointmentTime });
-        setSelectedTime(timeLabel); //to trigger addSelection
+        setSelectedTime(timeLabel);
     };
-
-    const workers = [
-        { id: 1, name: "John Smith", rating: 4.8, img: "../images/Booking/booking1.png" },
-        { id: 2, name: "Elizabeth", rating: 4.6, img: "../images/Booking/booking2.png" },
-        { id: 3, name: "Victoria", rating: 4.9, img: "../images/Booking/booking3.png" },
-        { id: 4, name: "Catherine", rating: 4.9, img: "../images/Booking/booking4.png" },
-        { id: 5, name: "John Smith", rating: 4.8, img: "../images/Booking/booking1.png" },
-        { id: 6, name: "Victoria", rating: 4.9, img: "../images/Booking/booking3.png" },
-    ];
-
-    const months = ["January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"];
 
     const handleMonthChange = (month: string) => {
         const monthIndex = months.indexOf(month);
@@ -163,6 +182,9 @@ const DateTime: React.FC = () => {
                         {months.map((month) => (
                             <span
                                 key={month}
+                                ref={(el) => {
+                                    monthRefs.current[month] = el;
+                                }}
                                 className={`${datetime.month} ${selectedMonth === month ? datetime.active : ""}`}
                                 onClick={() => handleMonthChange(month)}
                             >

@@ -1,76 +1,3 @@
-// 'use client';
-// import React, { useEffect, useState } from 'react';
-// import styles from './styles/profile.module.css';
-// import { useQuoteList } from '@/context/QuoteList';
-// import MyQuotes from '@/components/Booking/myQuote';
-
-// const QuoteList: React.FC = () => {
-//   const { quotes, fetchQuotes, loading, error } = useQuoteList();
-//   const [showPopup, setShowPopup] = useState(false);
-
-//   useEffect(() => {
-//     fetchQuotes();
-//   }, []);
-
-//   const handleOpen = () => setShowPopup(true);
-//   const handleClose = () => setShowPopup(false);
-
-//   return (
-//     <div className={styles.main}>
-//       <div className={styles.container}>
-//         <div className={styles.quotesbuttonContainer}>
-//           <button className={styles.quote_button} onClick={handleOpen}>
-//             Add a Quote
-//           </button>
-//         </div>
-
-//         {loading && <p>Loading...</p>}
-//         {error && <p className="text-red-600">Error: {error}</p>}
-
-//         {!loading && !error && quotes.length > 0 && (
-//           <div className={styles.tableWrapper}>
-//             <table className="min-w-full table-auto border border-gray-300 p-4">
-//               <thead className="bg-gray-200">
-//                 <tr>
-//                   <th className="border px-4 py-2 text-left">Name</th>
-//                   <th className="border px-4 py-2 text-left">Company</th>
-//                   <th className="border px-4 py-2 text-left">Email</th>
-//                   <th className="border px-4 py-2 text-left">Phone</th>
-//                   <th className="border px-4 py-2 text-left">Service</th>
-//                   <th className="border px-4 py-2 text-left">Sub Service</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {quotes.map((q) => (
-//                   <tr key={q.id} className="hover:bg-gray-100">
-//                     <td className="border px-4 py-2">{q.name || q.customer}</td>
-//                     <td className="border px-4 py-2">{q.company || '-'}</td>
-//                     <td className="border px-4 py-2">{q.email}</td>
-//                     <td className="border px-4 py-2">{q.phone}</td>
-//                     <td className="border px-4 py-2">{q.service || '-'}</td>
-//                     <td className="border px-4 py-2">{q.subService || '-'}</td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         )}
-
-//         {showPopup && (
-//           <div className={styles.popupOverlay}>
-//             <div className={styles.popupContent}>
-//               <button className={styles.popupClose} onClick={handleClose}>×</button>
-//               <MyQuotes />
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default QuoteList;
-
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
@@ -93,7 +20,9 @@ const QuoteList: React.FC = () => {
   const handleOpen = () => setShowPopup(true);
   const handleClose = () => setShowPopup(false);
 
-  const headers = ['Name', 'Company', 'Email', 'Phone', 'Service', 'Sub Service'];
+  const server = process.env.NEXT_PUBLIC_API_IMAGE;
+
+  const headers = ['Name', 'Company', 'Email', 'Phone', 'Service', 'Sub Service', 'Image', 'File'];
 
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
@@ -110,6 +39,7 @@ const QuoteList: React.FC = () => {
   return (
     <div className={profile.main}>
       <div className={styles.container}>
+        
         {/* Add Quote Button */}
         <div className={profile.quotesbuttonContainer}>
           <button className={profile.quote_button} onClick={handleOpen}>
@@ -143,6 +73,46 @@ const QuoteList: React.FC = () => {
                   <div className="break-words whitespace-pre-wrap text-sm">{q.phone}</div>
                   <div className="break-words whitespace-pre-wrap text-sm">{q.service || '-'}</div>
                   <div className="break-words whitespace-pre-wrap text-sm">{q.subService || '-'}</div>
+
+                  {/* Image View More */}
+                  <div className="break-words whitespace-pre-wrap text-sm">
+                    {q.uploadImage ? (
+                      <>
+                        <div className="text-gray-500 truncate"></div>
+                        <a
+                          href={`${server}/${q.uploadImage}`}
+
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline text-xs"
+                        >
+                          View More
+                        </a>
+                      </>
+                    ) : (
+                      '-'
+                    )}
+                  </div>
+
+                  {/* File View More */}
+                  <div className="break-words whitespace-pre-wrap text-sm">
+                    {q.leadUploadFile ? (
+                      <>
+                        <div className="text-gray-500 truncate"></div>
+                        <a
+                          href={`${server}/${q.leadUploadFile}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline text-xs"
+
+                        >
+                          View More
+                        </a>
+                      </>
+                    ) : (
+                      '-'
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -167,7 +137,6 @@ const QuoteList: React.FC = () => {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

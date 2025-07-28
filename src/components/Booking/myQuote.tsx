@@ -72,8 +72,7 @@ const MyQuotes: React.FC = () => {
   const handleSubmit = async () => {
     await createLead(formData);
     localStorage.setItem('leadData', JSON.stringify(formData));
-    await fetchQuotes(); // Fetch updated quotes after creating a lead
-    // await fetchQuotes(formData.email);  
+    await fetchQuotes();
   };
 
  const handleCancel = () => {
@@ -88,8 +87,6 @@ const MyQuotes: React.FC = () => {
   }));
   clearMessages();
 };
-
-
   return (
     <div className={styles.main}>
       <div className={styles.profile_container}>

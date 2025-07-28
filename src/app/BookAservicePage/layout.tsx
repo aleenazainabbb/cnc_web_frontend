@@ -1,5 +1,6 @@
 'use client';
-import React, { ReactElement, isValidElement,useState } from 'react';
+
+import React, { ReactElement, isValidElement, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import BookingConfirmation from '@/components/Booking/bookingConfirmation';
 import BillingSummary from '@/components/Booking/billing';
@@ -34,7 +35,7 @@ export default function BookingLayout({
       return;
     } else {
       setServiceError(false);
-       console.log("continue — service selected");
+      console.log("✅ Continue — service selected");
     }
 
     const isNoDetailService = (billingData as any)?.skipPaymentStep;
@@ -63,15 +64,21 @@ export default function BookingLayout({
   };
 
   return (
-    <div className="grid-container">
+    <div className="grid-container layoutWrapper">
       <div className="left-column">
         {isValidElement(children)
-          ? React.cloneElement(children as ReactElement<any>, { serviceError })
+          ? React.cloneElement(children as ReactElement<any>, {
+            serviceError,
+            setServiceError, // ✅ pass the setter function to children
+          })
           : children}
       </div>
 
       <div className="right-column">
-        <BillingSummary onNext={handleNext} serviceError={serviceError} />
+        <BillingSummary onNext={handleNext}
+          serviceError={serviceError}
+          setServiceError={setServiceError}
+          selectedService={bookingData.service} />
       </div>
 
       {showConfirmationPopup && (

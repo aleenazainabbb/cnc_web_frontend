@@ -1,14 +1,14 @@
 .billingcontainer {
   width: 100%;
-  top: 0;
-  right: 0;
+  max-width: 100%;
   background-color: #f4f7f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 44px 44px 44px 19px;
+  padding:44px 25px 44px 25px;
   /* z-index: 1000; */
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+  box-sizing: border-box;
 }
 
 .billingheading {
@@ -190,27 +190,35 @@
   .pricingbox {
     padding: 11px 10px;
     margin: 22px 0 0px 0;
-    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .billingcontainer {
     padding: 24px 20px;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  .appointmentcard,
+  .pricingbox {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 10px;
+    margin: 12px 0;
   }
 
   .billingheading {
     font-size: 22px;
     margin-bottom: 16px;
   }
-
+/* 
   .appointmentcard,
   .pricingbox {
     padding: 11px 10px;
     margin: 17px 0 8px 0;
-    max-width: 100%;
-  }
+   
+  } */
 
   .appointmentrow,
   .locationRow {
@@ -263,19 +271,18 @@
 }
 
 @media (max-width: 470px) {
-  .billingcontainer {
+  /* .billingcontainer {
     padding: 16px 12px;
     box-sizing: border-box;
-  }
+  } */
 
-  .appointmentcard,
+  /* .appointmentcard,
   .pricingbox {
     width: 100%;
-    max-width: 100%;
     padding: 12px 10px;
     margin: 10px 0 8px 0;
     box-sizing: border-box;
-  }
+  } */
 
   .appointmentrow,
   .locationRow {

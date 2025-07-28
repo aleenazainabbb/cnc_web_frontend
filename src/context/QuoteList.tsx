@@ -1,5 +1,4 @@
 'use client';
-import { CloudCog } from 'lucide-react';
 import React, { createContext, useContext, useState } from 'react';
 
 interface Quote {
@@ -11,6 +10,8 @@ interface Quote {
   phone: string;
   service: string;
   subService: string;
+  uploadImage: string;
+  leadUploadFile:string;
 }
 
 interface QuoteListContextType {

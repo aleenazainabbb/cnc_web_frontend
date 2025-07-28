@@ -460,12 +460,6 @@ input[type="number"] {
 .service_details_content p:first-child {
     font-size: 24px;
 }
-/* 
-.right-column {
-  position: sticky;
-  top: 20px; 
-  align-self: start;
-} */
 
 .grid-container {
   display: grid;
@@ -473,6 +467,33 @@ input[type="number"] {
   gap: 20px;
   position: relative;
   padding: 20px;
+}
+/* layout.module.css or any wrapper css file */
+
+.layoutWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftColumn,
+.rightColumn {
+  flex: 1;
+}
+
+/* On smaller screens stack vertically and take full width */
+@media (max-width: 768px) {
+  .layoutWrapper {
+    flex-direction: column;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    width: 100%;
+  }
 }
 
 .confirmation-overlay {

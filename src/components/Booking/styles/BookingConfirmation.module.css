@@ -1,214 +1,213 @@
 .container {
-    /* background-color: #101010A8; */
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  background-color: white;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
 }
 
 .main {
-    height: 713px;
-    width: 574.56px;
-    border-radius: 19.98px;
-    background-color: white;
-    margin-top: 93px;
-    margin-bottom: 93px;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  max-width: 574.56px;
+  border-radius: 19.98px;
+  background-color: white;
+  margin: 93px 0;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 23px;
 
-    /* :white_check_mark: Circular cut effect using mask */
-    -webkit-mask-image: radial-gradient(circle at 30px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 60px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 90px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 120px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 150px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 180px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 210px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 240px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 270px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 300px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 330px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 360px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 390px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 420px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 450px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 480px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 510px 100%, transparent 14px, white 12px),
-        radial-gradient(circle at 540px 100%, transparent 14px, white 12px);
-
-    -webkit-mask-composite: destination-in;
-    mask-composite: intersect;
-}
-
-
-.tick-icon {
-    font-size: 53.29px;
-    background-color: #36B864;
+  -webkit-mask-image: radial-gradient(circle at 30px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 60px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 90px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 120px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 150px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 180px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 210px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 240px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 270px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 300px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 330px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 360px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 390px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 420px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 450px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 480px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 510px 100%, transparent 14px, white 12px),
+    radial-gradient(circle at 540px 100%, transparent 14px, white 12px);
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
 }
 
 .home {
-    position: absolute;
-    top: 22px;
-    right: 22px;
-    font-size: 16px;
-    cursor: pointer;
-    color: #36B864;
-    text-decoration: underline;
-    font-weight: 600;
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #36B864;
+  text-decoration: underline;
+  font-weight: 600;
 }
 
 .titletext {
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 25.6px;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 25.6px;
 }
 
 .paragraph {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 4.6px;
-    color: #2E2E2EB8;
-    padding: 7px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 4.6px;
+  color: #2E2E2EB8;
+  padding: 7px;
 }
 
 .content {
-    font-weight: 600;
-    font-size: 16px;
-    padding: 0px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.line {
-    background-color: #18181829;
-    border-radius: 1.67px;
+.lineShort {
+  width: 65%;
+  background-color: #18181829;
+  border-radius: 1.67px;
+}
+
+.lineFull {
+  width: 100%;
+  background-color: #18181829;
+  border-radius: 1.67px;
+}
+
+.lineAuto {
+  width: auto;
+  background-color: #18181829;
+  border-radius: 1.67px;
 }
 
 .button {
-    border: none;
-    border-radius: 9.99px;
-    width: 316.23px;
-    height: 66.65px;
-    background-color: #36B864;
-    color: #FFFFFF;
-    font-size: 23.32px;
-    font-weight: 400;
-    margin-top: 30px;
-}
-
-.outercircle { 
-  
-  width: 93.26px;
-  height: 93.26px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0px 9.99px 26.65px 0px #00000029;
-  position: absolute;
-  transform: translate(3%, -380%);
+  border: none;
+  border-radius: 9.99px;
+  width: 316.23px;
+  height: 66.65px;
+  background-color: #36B864;
+  color: #FFFFFF;
+  font-size: 23.32px;
+  font-weight: 400;
+  margin-top: 30px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 100;
-}
-.innercircle {
-    width: 44.41px;
-    height: 44.41px;
-    background-color: #36B864;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  align-items: center;
+  gap: 10px;
 }
 
-/* Medium screens: tablets */
+.freqTimeRow {
+  display: flex;
+  gap: 0px;
+}
+
+.freqBox {
+  width: 108px;
+}
+
+.paymentInfo {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.grayText {
+  color: #88939D;
+}
+
+.blackText {
+  color: black;
+}
+
+.boldText {
+  font-weight: 700;
+}
+
+.greenText {
+  color: #36B864;
+}
+
+.refNumber {
+  color: #36B864;
+}
+
 @media (max-width: 768px) {
-    .main {
-        width: 70% !important;
-        height: 70% !important;
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
+  .main {
+    width: 70% !important;
+    height: 70% !important;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 
-    .titletext {
-        font-size: 23px !important;
-    }
+  .titletext {
+    font-size: 23px !important;
+  }
 
-    .paragraph {
-        font-size: 15px !important;
-    }
+  .paragraph,
+  .content {
+    font-size: 15px !important;
+  }
 
-    .content {
-        font-size: 15px !important;
-    }
-
-    .line {
-        width: auto !important;
-    }
-
-    .button {
-        width: 45%;
-        font-size: 17px !important;
-    }
+  .button {
+    width: 45%;
+    font-size: 17px !important;
+  }
 }
 
-/* for mobiles */
 @media (max-width: 600px) {
-    .main {
-        width: 90% !important;
-        padding: 35px;
-    }
+  .main {
+    width: 90% !important;
+    padding: 35px;
+  }
 
-    .titletext {
-        font-size: 20px !important;
-    }
+  .titletext {
+    font-size: 20px !important;
+  }
 
-    .paragraph {
-        font-size: 11px !important;
-        line-height: 1.4 !important;
-    }
+  .paragraph,
+  .content {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
 
-    .content {
-        font-size: 11px !important;
-    }
+  .button {
+    width: 70% !important;
+    height: 30%;
+    font-size: 11px !important;
+  }
 
-    .line {
-        width: 100% !important;
-    }
-
-    .button {
-        width: 70% !important;
-        height: 30%;
-        font-size: 11px !important;
-    }
-
-    .home {
-        top: 10px !important;
-        right: 10px !important;
-        font-size: 10px !important;
-    }
-    .outercircle { 
-  
-  width: 93.26px;
-  height: 93.26px;
-  border-radius: 50%;
-  position: absolute;
-  transform: translate(3%, -380%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
+  .home {
+    top: 10px !important;
+    right: 10px !important;
+    font-size: 10px !important;
+  }
 }
-.innercircle {
-    width: 44.41px;
-    height: 44.41px;
-    background-color: #36B864;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-}
+
 @media print {
   .no-print {
     display: none !important;

@@ -13,8 +13,8 @@ countries.registerLocale(enLocale);
 
 const Location: React.FC = () => {
   const [selected, setSelected] = useState<"Home" | "Office" | "Other">("Home");
-  const [answer, setAnswer] = useState("");
-  const [accessOption, setAccessOption] = useState("");
+  const [answer, setAnswer] = useState("No");
+  const [accessOption, setAccessOption] = useState("Someone is Home");
   const [countryList, setCountryList] = useState<{ [key: string]: string }>({});
   const [selectedCountry, setSelectedCountry] = useState("");
   const [city, setCity] = useState("");

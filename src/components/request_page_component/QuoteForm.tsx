@@ -56,25 +56,35 @@ const QuoteForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const payload = {
-      name: bookingForm.name,
-      company: bookingForm.company,
-      email: bookingForm.email,
-      phone: bookingForm.phone,
-      service: requestForm.services[0].toString(),
-      subService: requestForm.subService || '',
-      message: requestForm.message,
-    };
+  e.preventDefault();
 
-    try {
-      const msg = await submitQuote(payload);
-      setSnackbar({ message: msg, type: 'success' });
-      setIsSubmitted(true);
-    } catch (err: any) {
-      setSnackbar({ message: err.message, type: 'error' });
-    }
+  // Find the selected service and subservice objects
+  const selectedServiceId = requestForm.services[0];
+  const selectedServiceObj = services.find(s => s.id === selectedServiceId);
+  const selectedSubServiceObj = subServices.find(s => s.id.toString() === requestForm.subService);
+
+  // Safely get the names
+  const selectedServiceName = selectedServiceObj?.name || '';
+  const selectedSubServiceName = selectedSubServiceObj?.name || '';
+
+  const payload = {
+    name: bookingForm.name,
+    company: bookingForm.company,
+    email: bookingForm.email,
+    phone: bookingForm.phone,
+    service: selectedServiceName,
+    subService: selectedSubServiceName,
+    message: requestForm.message,
   };
+
+  try {
+    const msg = await submitQuote(payload);
+    setSnackbar({ message: msg, type: 'success' });
+    setIsSubmitted(true);
+  } catch (err: any) {
+    setSnackbar({ message: err.message, type: 'error' });
+  }
+};
 
   const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
     if (

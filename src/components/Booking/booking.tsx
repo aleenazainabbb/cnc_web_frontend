@@ -5,11 +5,12 @@ import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
 
 type BookingsProps = {
-  serviceError: boolean;
+  serviceError?: boolean; // ✅ make optional
+  setServiceError?: (val: boolean) => void; // ✅ if you're using it
 };
 // const Bookings: React.FC<BookingsProps> = ({ serviceError }) => {
-const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) => {
+  // const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
   const { updateBookingData, updateBillingData, bookingData } = useBooking();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
@@ -24,8 +25,6 @@ const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
 
   const [selected, setSelected] = useState<"yes" | "no" | null>("no"); // cleaning material yes/no
   const [specialInstructions, setSpecialInstructions] = useState<string>(""); // textarea input
-
-  const [deepCleaningCategory, setDeepCleaningCategory] = useState<"Residential" | "Commercial" | "">("");
   const [squareFootage, setSquareFootage] = useState<string>("");  // For Commercial
 
   const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no"); // Site visit option
@@ -33,7 +32,6 @@ const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
 
   const [specialInput, setSpecialInput] = useState<string>("");
   const [numberOfWindows, setNumberOfWindows] = useState<string>("");
-  // const [squareFeet, setSquareFeet] = useState<string>("");
   const [numberOfItems, setNumberOfItems] = useState<string>("");
 
   const [carpetCount, setCarpetCount] = useState<number>(0);
@@ -73,8 +71,7 @@ const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
   const [variant, setVariant] = useState<string>("");
 
   const [cleaningCategory, setCleaningCategory] = useState<string>("");
-const [cleaningType, setCleaningType] = useState<string>("");
-const [cleaningArea, setCleaningArea] = useState<string>("");
+  const [cleaningType, setCleaningType] = useState<string>("");
 
   const isGreaseTrapCleaning =
     selectedService?.toLowerCase() === "cleaning services" &&
@@ -128,7 +125,7 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  
+
   useEffect(() => {
     if (selectedServiceId !== null) {
       fetchSubServices(selectedServiceId);
@@ -145,11 +142,10 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
     setSelectedDetail("");
     setSquareFootage("");
     setUpholsteryItemCount(0);
-    setSpecialInput("")
+    setSpecialInput("");
     setNumberOfWindows("");
-    // setSquareFeet("");
     setNumberOfItems("");
-    setDeepCleaningCategory("")
+    setCleaningCategory("")
     setSiteVisit(null)
     setResidentialCleanType("");
     setIsResidentialTypeOpen(false);
@@ -238,7 +234,6 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
       cleaningMaterials: selected,
       staffCount: selectedStaff,
       hoursCount: selectedHours,
-      deepCleaningCategory,
       squareFootage,
       siteVisit,
       residentialCleanType,
@@ -251,9 +246,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
       make,
       model,
       variant,
-       cleaningCategory,
-    cleaningType,
-    cleaningArea,
+      cleaningCategory,
+      cleaningType,
     });
   }, [
     selectedService,
@@ -263,7 +257,6 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
     selectedDetail,
     selectedStaff,
     selectedHours,
-    deepCleaningCategory,
     squareFootage,
     numberOfWindows,
     numberOfItems,
@@ -275,7 +268,7 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
     upholsteryItemCount,
     carpetAreas,
     make, model, variant, uploadedFiles,
-    cleaningCategory, cleaningType, cleaningArea,
+    cleaningCategory, cleaningType
   ]);
   // updateBillingData
   useEffect(() => {
@@ -314,7 +307,7 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
 
   useEffect(() => {
     const subService = selectedSubService?.toLowerCase() || "";
-    const category = deepCleaningCategory?.toLowerCase() || "";
+    const category = cleaningCategory?.toLowerCase() || "";
     const subservicesToSkipPayment = [
       "windows cleaning",
       "swimming pool cleaning",
@@ -328,10 +321,10 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
     setBillingData((prev: any) => ({
       ...prev,
       selectedSubService,
-      deepCleaningCategory,
+      cleaningCategory,
       skipPaymentStep: shouldSkip, // this is the flag BookingLayout will use
     }));
-  }, [selectedSubService, deepCleaningCategory]);
+  }, [selectedSubService, cleaningCategory]);
 
   return (
     <div className={booking.container}>
@@ -354,6 +347,41 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
 
           <div className={booking.cont}>
             {/* SERVICE */}
+            {/* <div className={booking.fieldGroup}>
+              <label className={booking.label}>SERVICE</label>
+              <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
+                <div
+                  className={`${booking.input} ${selectedService ? booking.selectedDropdown : ""}`}
+                  onClick={() => setIsServiceOpen(!isServiceOpen)}
+                >
+                  {selectedService || "Select a service"}
+                </div>
+                {isServiceOpen && (
+                  <div className={booking.customdropdown}>
+                    {loading ? (
+                      <div className={booking.dropdownitem}>Loading...</div>
+                    ) : (
+                      services.map((service) => (
+                        <div
+                          key={service.id}
+                          className={booking.dropdownitem}
+                          onClick={() => {
+                            setSelectedService(service.name.trim());
+                            setSelectedServiceId(service.id);
+                            setIsServiceOpen(false);
+                            updateBookingData({ service: service.name.trim() });
+                          }}>
+                          {service.name}
+                        </div>
+                      )))}
+                  </div>)}
+              </div>
+              {serviceError && (
+                <p style={{ color: 'red', marginTop: '5px', fontSize: '14px' }}>
+                  Service is required.
+                </p>
+              )}
+            </div> */}
             <div className={booking.fieldGroup}>
               <label className={booking.label}>SERVICE</label>
               <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
@@ -376,19 +404,23 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
                             setSelectedService(service.name.trim());
                             setSelectedServiceId(service.id);
                             setIsServiceOpen(false);
-                            updateBookingData({ service: service.name.trim() }); 
-                          }}>
+                            setServiceError?.(false); // ✅ hide error if service is selected
+                            updateBookingData({ service: service.name.trim() });
+                          }}
+                        >
                           {service.name}
                         </div>
-                      )))}
-                  </div>)}
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
+
               {serviceError && (
-                <p style={{ color: 'red', marginTop: '5px', fontSize: '14px' }}>
+                <p style={{ color: "red", marginTop: "5px", fontSize: "14px" }}>
                   Service is required.
                 </p>
               )}
-
             </div>
 
             {/* SUB SERVICE */}
@@ -432,9 +464,11 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
               <label className={booking.label}>CATEGORY</label>
               <div className={booking.customselectwrapper} ref={categoryDropdownRef}>
                 <div
-                  className={`${booking.input} ${deepCleaningCategory ? booking.selectedDropdown : ""}`}
+                  // className={`${booking.input} ${deepCleaningCategory ? booking.selectedDropdown : ""}`}
+                  className={`${booking.input} ${cleaningCategory ? booking.selectedDropdown : ""}`}
                   onClick={() => setIsCategoryOpen((prev) => !prev)} >
-                  {deepCleaningCategory || "Select Category"}
+                  {/* {deepCleaningCategory || "Select Category"} */}
+                  {cleaningCategory || "Select Category"}
                 </div>
                 {isCategoryOpen && (
                   <div className={booking.customdropdown}>
@@ -443,7 +477,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
                         key={category}
                         className={booking.dropdownitem}
                         onClick={() => {
-                          setDeepCleaningCategory(category as "Residential" | "Commercial");
+                          // setDeepCleaningCategory(category as "Residential" | "Commercial");
+                          setCleaningCategory(category as "Residential" | "Commercial");
                           setIsCategoryOpen(false);
                           setSelectedType(""); // reset type
                         }} >
@@ -489,13 +524,14 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
                           Without supplies (45 AED per hour per crew)
                         </div>
                       </>
-                    ) : isDeepCleaning && deepCleaningCategory === "Commercial" ? (
+                    ) : isDeepCleaning && cleaningCategory === "Commercial" ? (
                       ["Office", "Restaurants", "Warehouse", "Others"].map((type) => (
                         <div
                           key={type}
                           className={booking.dropdownitem}
                           onClick={() => {
                             setSelectedType(type);
+                            setCleaningType(type);
                             setIsTypeOpen(false);
                           }} >
                           {type}
@@ -515,13 +551,14 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
                               {type}
                             </div>
                           ))
-                          : isDeepCleaning && deepCleaningCategory === "Commercial"
+                          : isDeepCleaning && cleaningCategory === "Commercial"
                             ? ["Office", "Restaurants", "Warehouse", "Others"].map((type) => (
                               <div
                                 key={type}
                                 className={booking.dropdownitem}
                                 onClick={() => {
-                                  setSelectedType(type);
+                                  setCleaningType(type);
+                                  // updateBookingData({ cleaningType: type });
                                   setIsTypeOpen(false);
                                 }}
                               >
@@ -547,7 +584,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
               </div>
             </>
           )}
-          {isDeepCleaning && deepCleaningCategory === "Commercial" && (
+          {/* {isDeepCleaning && deepCleaningCategory === "Commercial" && ( */}
+          {isDeepCleaning && cleaningCategory === "Commercial" && (
             <>
               <label className={booking.label} >AREA</label>
               <input
@@ -562,7 +600,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
           )}
 
           {/* yes/no radio buttons */}
-          {isDeepCleaning && deepCleaningCategory === "Commercial" && (
+          {/* {isDeepCleaning && deepCleaningCategory === "Commercial" && ( */}
+          {isDeepCleaning && cleaningCategory === "Commercial" && (
             <>
               <label className={booking.label}>SITE VISIT</label>
               <div className={booking.buttonGroup}>
@@ -683,7 +722,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
               </div>
             </>
           )}
-          {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && deepCleaningCategory === "Commercial") && (
+          {/* {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && deepCleaningCategory === "Commercial") && ( */}
+          {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && cleaningCategory === "Commercial") && (
             <>
               {/* SPECIFICS or UNITS Input */}
               {selectedService.trim().toLowerCase() === "cleaning services" &&
@@ -818,7 +858,8 @@ const [cleaningArea, setCleaningArea] = useState<string>("");
                       {/* cleaning services -> deep cleaning -> residential ->  Apartment*/}
                       {selectedService.toLowerCase() === "cleaning services" &&
                         selectedSubService.toLowerCase() === "deep cleaning" &&
-                        deepCleaningCategory === "Residential" &&
+                        // deepCleaningCategory === "Residential" &&
+                        cleaningCategory === "Residential" &&
                         selectedType === "Apartment" && (
                           <div className={booking.formGroup}>
                             <label className={booking.label}>ADDITIONAL SERVICES</label>

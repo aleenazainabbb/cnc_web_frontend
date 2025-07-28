@@ -5,13 +5,12 @@ import payment from './styles/PaymentDetails.module.css';
 import { useBooking } from "@/context/BookingContext";
 
 const PaymentDetails: React.FC = () => {
-    const [selected, setSelected] = useState(""); // "credit" or "cash"
+    const [selected, setSelected] = useState<"credit" | "cash">("credit");
      const { selectionList,  bookingData, latestLocation, } = useBooking();
 
  useEffect(() => {
   if (selectionList.length > 0) {
     const latestDateTime = selectionList[selectionList.length - 1]; // last selected preferredCleaner/date/time
-
     const mergedFinal = {
       ...(bookingData || {}),
       ...(latestLocation || {}),

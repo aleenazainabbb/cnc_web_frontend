@@ -27,7 +27,6 @@ type BookingData = {
   frequency?: string;
   staffCount?: number | null;
   hoursCount?: number | null;
-  deepCleaningCategory?: string;
   squareFootage?: string;
   numberOfWindows?: string;
   numberOfItems?: string;
@@ -44,7 +43,6 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
-  cleaningArea?: string;
   // siteVisit?: boolean; 
 };
 
@@ -128,9 +126,11 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     setBillingData((prev) => ({ ...prev, ...data }));
   };
 
-  const updateLatestLocation = (locationData: LatestLocation) => {
-    setLatestLocation(locationData);
+  const updateLatestLocation = (data: LatestLocation) => {
+    setLatestLocation(data);
+    console.log("✅ Context updated:", data);
   };
+  console.log("🧾 Selection List:", selectionList);
 
   const addSelection = (data: BookingSelection) => {
     setSelectionList((prev) => [...prev, data]);
@@ -171,7 +171,6 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
 
       formData.append("cleaningCategory", bookingData.cleaningCategory || "");
       formData.append("cleaningType", bookingData.cleaningType || "");
-      formData.append("cleaningArea", bookingData.cleaningArea || "");
 
       // Optional: If couponCode exists
       // if (bookingData.couponCode) {

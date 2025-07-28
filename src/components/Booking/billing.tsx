@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import styles from './styles/AddBooking/billing.module.css';
 import { useBooking } from "@/context/BookingContext";
@@ -8,10 +7,19 @@ type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
   onNext?: () => void;
   serviceError?: boolean;
+  setServiceError?: (val: boolean) => void;
+  selectedService?: string;
 };
 
-const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext }) => {
+const BillingSummary: React.FC<BillingSummaryProps> = ({
+  onApplyDiscount,
+  onNext,
+  serviceError,
+  setServiceError,
+  selectedService,
+}) => {
   const { billingData } = useBooking(); 
+
   const {
     appointmentFrequency = "Every 2 weeks",
     appointmentTime,
@@ -24,6 +32,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
   } = billingData;
 
   const [discountInput, setDiscountInput] = React.useState(discountCode);
+
   const formattedNow = React.useMemo(() => {
     return new Date().toLocaleString("en-US", {
       weekday: "long",
@@ -38,6 +47,15 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
 
   const displayAppointmentTime = appointmentTime?.trim() || formattedNow;
   const subtotal = Math.max(0, appointmentValue - discountAmount);
+
+  const handleNextClick = () => {
+    if (!selectedService) {
+      setServiceError?.(true);
+      return;
+    }
+    setServiceError?.(false);
+    onNext?.();
+  };
 
   return (
     <div className={styles.billingcontainer}>
@@ -58,11 +76,15 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
 
       <div className={styles.pricingbox}>
         <div className={styles.pricingrow}>
-          <span>Appointment Value <span className={styles.detailslink}>- Details</span></span>
+          <span>
+            Appointment Value <span className={styles.detailslink}>- Details</span>
+          </span>
           <span className={styles.totalvalue}>AED {appointmentValue.toFixed(2)}</span>
         </div>
         <div className={styles.pricingrow}>
-          <span>Discounts <span className={styles.detailslink}>- Details</span></span>
+          <span>
+            Discounts <span className={styles.detailslink}>- Details</span>
+          </span>
           <span className={styles.totalvalue}>- AED {discountAmount.toFixed(2)}</span>
         </div>
         <div className={styles.divider} style={{ marginTop: "10px" }}></div>
@@ -82,7 +104,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ onApplyDiscount, onNext
       </div>
 
       <div className={styles.buttoncontainer}>
-        <button onClick={onNext} className={styles.nextbutton}>Next</button>
+        <button onClick={handleNextClick} className={styles.nextbutton}>Next</button>
       </div>
     </div>
   );
