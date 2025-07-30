@@ -3,32 +3,35 @@ import React, { useState, useEffect, useRef } from "react";
 import booking from "./styles/AddBooking/booking.module.css";
 import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
+import Snackbar from "@/components/popups/Snackbar";
 
 type BookingsProps = {
-  serviceError?: boolean; // ✅ make optional
-  setServiceError?: (val: boolean) => void; // ✅ if you're using it
+  serviceError?: boolean;
+  setServiceError?: (val: boolean) => void;
 };
-// const Bookings: React.FC<BookingsProps> = ({ serviceError }) => {
 const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) => {
-  // const Bookings: React.FC<{ serviceError?: boolean }> = ({ serviceError }) => {
-  const { updateBookingData, updateBillingData, bookingData } = useBooking();
+
+  const { applyPromoCode } = useBooking();
+  const [snackbar, setSnackbar] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const { updateBookingData, updateBillingData, bookingData, setBillingData } = useBooking();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedSubService, setSelectedSubService] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
   const [selectedSpecific, setSelectedSpecific] = useState<string>("");
   const [selectedDetail, setSelectedDetail] = useState<string>("");
-  const [selectedFreq, setSelectedFreq] = useState("Once"); // default selected
+  const [selectedFreq, setSelectedFreq] = useState("Once");
 
-  const [selectedStaff, setSelectedStaff] = useState<number | null>(null);  // No of staff
-  const [selectedHours, setSelectedHours] = useState<number | null>(null);  // No of hours
+  const [selectedStaff, setSelectedStaff] = useState<number | null>(null);
+  const [selectedHours, setSelectedHours] = useState<number | null>(null);
 
-  const [selected, setSelected] = useState<"yes" | "no" | null>("no"); // cleaning material yes/no
-  const [specialInstructions, setSpecialInstructions] = useState<string>(""); // textarea input
-  const [squareFootage, setSquareFootage] = useState<string>("");  // For Commercial
+  const [selected, setSelected] = useState<"yes" | "no" | null>("no");
+  const [specialInstructions, setSpecialInstructions] = useState<string>("");
+  const [squareFootage, setSquareFootage] = useState<string>("");
 
-  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no"); // Site visit option
-  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null); // file uploads
+  const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no");
+  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
 
   const [specialInput, setSpecialInput] = useState<string>("");
   const [numberOfWindows, setNumberOfWindows] = useState<string>("");
@@ -38,9 +41,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
 
   const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
-  const [residentialCleanType, setResidentialCleanType] = useState<string>(""); // for Move-in/out
-
-  const { setBillingData } = useBooking();
+  const [residentialCleanType, setResidentialCleanType] = useState<string>("");
 
   // Dropdown toggles
   const [isServiceOpen, setIsServiceOpen] = useState(false);
@@ -73,6 +74,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   const [cleaningCategory, setCleaningCategory] = useState<string>("");
   const [cleaningType, setCleaningType] = useState<string>("");
 
+  const [discountInput, setDiscountInput] = useState("");
+
   const isGreaseTrapCleaning =
     selectedService?.toLowerCase() === "cleaning services" &&
     selectedSubService?.toLowerCase() === "grease trap cleaning services";
@@ -80,8 +83,21 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   const isVehicleCleaning =
     selectedService?.toLowerCase() === "cleaning services" &&
     selectedSubService?.toLowerCase() === "vehicle cleaning";
-  // Service context
+
   const { services, subServices, fetchServices, fetchSubServices, loading } = useService();
+
+  const handleApply = async () => {
+    try {
+      const result = await applyPromoCode(discountInput);
+      if (result.success) {
+        setSnackbar({ type: "success", message: result.message });
+      } else {
+        setSnackbar({ type: "error", message: result.message });
+      }
+    } catch (err: any) {
+      setSnackbar({ type: "error", message: err.message });
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -90,7 +106,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
     const uploaded = Array.from(files).map((file) => ({
       name: file.name,
       previewUrl: URL.createObjectURL(file),
-      file: file, // ✅ store the actual File
+      file: file,
     }));
 
     updateBookingData({
@@ -270,19 +286,32 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
     make, model, variant, uploadedFiles,
     cleaningCategory, cleaningType
   ]);
-  // updateBillingData
+
   useEffect(() => {
     if (!selectedDetail) return;
-    const price = parseFloat(selectedDetail.replace(/[^\d.]/g, '')) || 0;
-    const discountAmount = 0;
-    const taxAmount = 0;
-    const totalAmount = price + taxAmount;
 
+    const rawPrice = parseFloat(selectedDetail.replace(/[^\d.]/g, '')) || 0;
+    const discountAmount = 0; // Replace later with coupon logic if needed
+    const subTotal = rawPrice - discountAmount;
+    const taxAmount = parseFloat((subTotal * 0.05).toFixed(2)); // 5% VAT
+    const totalAmount = subTotal + taxAmount;
+
+    // ✅ Update billing summary display
     updateBillingData({
-      appointmentValue: price,
+      appointmentValue: rawPrice,
       discountAmount,
       taxAmount,
       totalAmount,
+    });
+
+    // ✅ Store runtime copy for API submission
+    updateBookingData({
+      appointedPrice: rawPrice,
+      discountAmount,
+      subTotal,
+      taxAmount,
+      totalAmount,
+      status: "pending", // ⬅️ default on every change
     });
   }, [selectedDetail]);
 
@@ -339,49 +368,22 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
               <input
                 type="text"
                 placeholder="Enter coupon"
+                value={discountInput}
+                onChange={(e) => setDiscountInput(e.target.value)}
                 className={booking.couponinput}
               />
-              <button className={booking.applybtn} type="button">Apply</button>
+              <button
+                className={booking.applybtn}
+                type="button"
+                onClick={handleApply}
+              >
+                Apply
+              </button>
             </div>
           </div>
 
           <div className={booking.cont}>
             {/* SERVICE */}
-            {/* <div className={booking.fieldGroup}>
-              <label className={booking.label}>SERVICE</label>
-              <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
-                <div
-                  className={`${booking.input} ${selectedService ? booking.selectedDropdown : ""}`}
-                  onClick={() => setIsServiceOpen(!isServiceOpen)}
-                >
-                  {selectedService || "Select a service"}
-                </div>
-                {isServiceOpen && (
-                  <div className={booking.customdropdown}>
-                    {loading ? (
-                      <div className={booking.dropdownitem}>Loading...</div>
-                    ) : (
-                      services.map((service) => (
-                        <div
-                          key={service.id}
-                          className={booking.dropdownitem}
-                          onClick={() => {
-                            setSelectedService(service.name.trim());
-                            setSelectedServiceId(service.id);
-                            setIsServiceOpen(false);
-                            updateBookingData({ service: service.name.trim() });
-                          }}>
-                          {service.name}
-                        </div>
-                      )))}
-                  </div>)}
-              </div>
-              {serviceError && (
-                <p style={{ color: 'red', marginTop: '5px', fontSize: '14px' }}>
-                  Service is required.
-                </p>
-              )}
-            </div> */}
             <div className={booking.fieldGroup}>
               <label className={booking.label}>SERVICE</label>
               <div className={booking.customselectwrapper} ref={serviceDropdownRef}>
@@ -404,7 +406,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                             setSelectedService(service.name.trim());
                             setSelectedServiceId(service.id);
                             setIsServiceOpen(false);
-                            setServiceError?.(false); // ✅ hide error if service is selected
+                            setServiceError?.(false); //  hide error if service is selected
                             updateBookingData({ service: service.name.trim() });
                           }}
                         >
@@ -415,7 +417,6 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                   </div>
                 )}
               </div>
-
               {serviceError && (
                 <p style={{ color: "red", marginTop: "5px", fontSize: "14px" }}>
                   Service is required.

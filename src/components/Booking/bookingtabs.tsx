@@ -42,3 +42,4 @@ const BookingTabs: React.FC<BookingTabsProps> = ({ range, pendingOrders, history
 };
 
 export default BookingTabs;
+

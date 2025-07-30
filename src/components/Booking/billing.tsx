@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+// import { useEffect } from 'react';
+import React, { useEffect } from "react";
 import styles from './styles/AddBooking/billing.module.css';
 import { useBooking } from "@/context/BookingContext";
 
@@ -18,20 +19,22 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   setServiceError,
   selectedService,
 }) => {
-  const { billingData } = useBooking(); 
-
+  const { billingData, applyPromoCode } = useBooking();
   const {
     appointmentFrequency = "Every 2 weeks",
     appointmentTime,
     appointmentLocation = "Not specified",
-    discountCode = "",
     appointmentValue = 0,
     discountAmount = 0,
     taxAmount = 0,
     totalAmount = 0,
   } = billingData;
 
-  const [discountInput, setDiscountInput] = React.useState(discountCode);
+  const [discountInput, setDiscountInput] = React.useState(discountAmount);
+  // ✅ Sync input when billingData updates (especially after promo applied)
+  useEffect(() => {
+    setDiscountInput(billingData.discountAmount);
+  }, [billingData.discountCode]);
 
   const formattedNow = React.useMemo(() => {
     return new Date().toLocaleString("en-US", {

@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import styles from './styles/pending.module.css'; // Using the same CSS as Pending
+import styles from './styles/pending.module.css';
 import Pagination from '@/components/Booking/pagination';
 import { Range } from 'react-date-range';
 
 interface HistoryProps {
     range: Range[]; // expected to be passed from parent
-     data: string[][];
+    data: string[][];
 }
 
-const History: React.FC<HistoryProps> = ({ range,data }) => {
+const History: React.FC<HistoryProps> = ({ range, data }) => {
     const headers = ['ORDER ID', 'SERVICE', 'DETAIL', 'TIME', 'DATE', 'STATUS', ''];
     const allRows = data;
 
@@ -54,17 +54,27 @@ const History: React.FC<HistoryProps> = ({ range,data }) => {
                 <div className={styles.scrollContainer}>
                     {rows.map((row, ri) => (
                         <div key={ri} className={`${styles.gridContainerHistory} ${styles.row}`}>
-                            {row.map((cell, ci) =>
-                                ci === 3 ? (
-                                    <div key={ci}>
-                                        <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
-                                        {cell}
-                                    </div>
-                                ) : (
-                                    <div key={ci}>{cell}</div>
-                                )
-                            )}
-                            <button className={styles.completedButton}> Completed </button>
+                            {row.map((cell, ci) => {
+                                if (ci === 3) {
+                                    return (
+                                        <div key={ci}>
+                                            <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
+                                            {cell}
+                                        </div>
+                                    );
+                                } else if (ci === 5) {
+                                    // Replace status column with Completed button
+                                    return (
+                                        <div key={ci}>
+                                            <button className={styles.completedButton}>Completed</button>
+                                        </div>
+                                    );
+                                } else {
+                                    return <div key={ci}>{cell}</div>;
+                                }
+                            })}
+
+                            {/* <button className={styles.completedButton}> Completed </button> */}
                             <button className={styles.rescheduleButton}>Reschedule</button>
                         </div>
                     ))}

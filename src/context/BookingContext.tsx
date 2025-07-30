@@ -43,7 +43,14 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
-  // siteVisit?: boolean; 
+
+  // ✅ Promo-related fields:
+  appointedPrice?: number;
+  discountAmount?: number;
+  subTotal?: number;
+  taxAmount?: number;
+  totalAmount?: number;
+  status?: "pending" | "confirmed" | "cancelled";
 };
 
 export type LatestLocation = {
@@ -82,6 +89,12 @@ type BookingContextType = {
 
   setBillingData: React.Dispatch<React.SetStateAction<BillingData>>;
   submitBookingQuote: () => Promise<any>;
+
+  applyPromoCode: (code: string) => Promise<{ success: boolean; message: string }>;
+
+  allOrders: string[][];
+  fetchAllOrders: () => Promise<void>;
+  ordersLoading: boolean;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -112,6 +125,9 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(null);
   const [runtimeBookingList] = useState<Array<BookingData & { location: LatestLocation }>>([]);
   const [selectionList, setSelectionList] = useState<BookingSelection[]>([]);
+
+  const [allOrders, setAllOrders] = useState<string[][]>([]);
+  const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
 
   const latestListRef = useRef(runtimeBookingList);
   useEffect(() => {
@@ -206,6 +222,97 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+  const applyPromoCode = async (code: string): Promise<{ success: boolean; message: string }> => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Authorization token required");
+
+      const response = await fetch(`${apiUrl}/promoCode/validatePromoCode`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ promoCode: code }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // ⛔ Server returned an error (like "Promo code not found")
+        return { success: false, message: result.message || "Invalid promo code" };
+      }
+
+      const { discountType, discountValue, message } = result;
+
+      const price = billingData.appointmentValue;
+      let discount = 0;
+
+      if (discountType === "percentage") {
+        discount = price * (discountValue / 100);
+      } else if (discountType === "fixed") {
+        discount = discountValue;
+      }
+
+      const subTotal = Math.max(price - discount, 0);
+      const taxAmount = subTotal * 0.05;
+      const totalAmount = subTotal + taxAmount;
+
+      updateBillingData({
+        discountCode: code,
+        discountAmount: discount,
+        taxAmount,
+        totalAmount,
+      });
+
+      return { success: true, message: message || "Promo applied successfully" };
+    } catch (err: any) {
+      return { success: false, message: err.message || "Failed to validate promo code." };
+    }
+  };
+
+  const fetchAllOrders = async (): Promise<void> => {
+    try {
+      setOrdersLoading(true);
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Authorization token required");
+
+      const response = await fetch(`${apiUrl}/bookingOrder/getBookingOrder`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to fetch orders.");
+      }
+
+      // Assuming result.data is an array of order objects
+      const sortedOrders = result.data.sort(
+        (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+
+      // Map to string[][] if needed
+      const orderRows: string[][] = sortedOrders.map((order: any) => [
+        order.id || "-",
+        order.service || "-",
+        order.specialInstructions || "-",
+        order.time || "-",
+        order.date || "-",
+        order.status  || "Completed",
+      ]);
+
+      setAllOrders(orderRows);
+    } catch (error: any) {
+      console.error(" Order fetch failed:", error.message);
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
   return (
     <BookingContext.Provider
       value={{
@@ -220,6 +327,10 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         addSelection,
         setBillingData,
         submitBookingQuote,
+        applyPromoCode,
+        allOrders,
+        fetchAllOrders,
+        ordersLoading,
       }}
     >
       {children}
