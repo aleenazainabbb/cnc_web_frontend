@@ -1,3 +1,96 @@
+.savedList {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  /* background-color: #f9fafb; */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.savedListScroll {
+  max-height: 540px;
+  overflow-y: auto;
+  padding-right: 4px;
+  /* avoid scrollbar overlapping content */
+}
+
+.savedList::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  /* light gray thumb */
+  border-radius: 4px;
+}
+
+.savedList::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.savedListHeading {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+
+.savedCard {
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.2s ease;
+  cursor: pointer; 
+}
+
+.savedCard:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.savedLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.savedAddress {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.iconRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.icon {
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s;
+}
+
+.icon:hover {
+  color: #111827;
+}
+
+.trashIcon {
+  cursor: pointer;
+  color: #dc3545; /* red for delete */
+  transition: color 0.2s;
+}
+
+.trashIcon:hover {
+  color: #a30000;
+}
+
+/* ------------------- */
+
+/* ------------------- */
+
 .main {
   font-family: 'Inter', sans-serif;
   background-color: white;
@@ -5,7 +98,6 @@
   display: flex;
   margin: 20px;
   box-sizing: border-box;
-  /* background: #000; */
 }
 
 .container {
@@ -16,6 +108,11 @@
   padding: 50px 73px 50px 68px;
   box-sizing: border-box;
   font-weight: 500;
+}
+
+.mapWrapper {
+  margin-top: 20px;
+  position: relative;
 }
 
 .label {
@@ -59,6 +156,16 @@
   padding: 10px 20px;
   box-sizing: border-box;
 }
+.activeCard {
+  border: 2px solid #1565D8;
+  background-color: #e8f0fe;
+  
+}
+
+
+
+
+
 
 @media (max-width: 768px) {
   .container {
@@ -69,6 +176,11 @@
     max-width: 83px;
     font-size: 11px;
     height: 52px;
+  }
+
+  .main {
+    display: block;
+    flex-direction: column;
   }
 }
 
@@ -98,9 +210,10 @@
     font-size: 7px;
   }
 }
+
 @media (max-width: 1285px) {
-.container {
-  gap: 5px;
-  padding: 35px 44px 35px 44px;
-}
+  .container {
+    gap: 5px;
+    padding: 35px 44px 35px 44px;
+  }
 }

@@ -1,8 +1,9 @@
-"use client";
-// import { useEffect } from 'react';
-import React, { useEffect } from "react";
+'use client';
+
+import React, { useEffect, useState, useMemo ,useRef} from "react";
 import styles from './styles/AddBooking/billing.module.css';
 import { useBooking } from "@/context/BookingContext";
+import { useLocation } from "@/context/Location";
 
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
@@ -19,7 +20,9 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   setServiceError,
   selectedService,
 }) => {
-  const { billingData, applyPromoCode } = useBooking();
+  const { billingData, applyPromoCode, updateBookingData ,updateBillingData,updateLatestLocation } = useBooking();
+  const locationListRef = useRef<HTMLDivElement>(null);
+  
   const {
     appointmentFrequency = "Every 2 weeks",
     appointmentTime,
@@ -30,13 +33,63 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     totalAmount = 0,
   } = billingData;
 
-  const [discountInput, setDiscountInput] = React.useState(discountAmount);
-  // ✅ Sync input when billingData updates (especially after promo applied)
+  const [discountInput, setDiscountInput] = useState(discountAmount);
+  const { savedLocations, fetchSavedLocations,saveLocation } = useLocation();
+  const [showLocationList, setShowLocationList] = useState(false);
+
+  useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      locationListRef.current &&
+      !locationListRef.current.contains(event.target as Node)
+    ) {
+      setShowLocationList(false);
+    }
+  };
+
+  if (showLocationList) {
+    document.addEventListener('mousedown', handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, [showLocationList]);
+
   useEffect(() => {
     setDiscountInput(billingData.discountAmount);
   }, [billingData.discountCode]);
 
-  const formattedNow = React.useMemo(() => {
+  useEffect(() => {
+    if (
+      billingData.discountAmount > 0 ||
+      billingData.taxAmount > 0 ||
+      billingData.totalAmount > 0
+    ) {
+      updateBookingData({
+        discountAmount: billingData.discountAmount,
+        taxAmount: billingData.taxAmount,
+        totalAmount: billingData.totalAmount,
+        appointedPrice: billingData.appointmentValue,
+        ...(billingData.discountCode ? { promoCode: billingData.discountCode } : {}),
+      });
+
+      console.log("Booking data updated at runtime:", {
+        discountAmount: billingData.discountAmount,
+        taxAmount: billingData.taxAmount,
+        totalAmount: billingData.totalAmount,
+        promoCode: billingData.discountCode,
+      });
+    }
+  }, [
+    billingData.discountAmount,
+    billingData.taxAmount,
+    billingData.totalAmount,
+    billingData.appointmentValue,
+    billingData.discountCode,
+  ]);
+
+  const formattedNow = useMemo(() => {
     return new Date().toLocaleString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -60,6 +113,48 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     onNext?.();
   };
 
+  const handleLocationClick = () => {
+    fetchSavedLocations();
+    setShowLocationList(!showLocationList);
+  };
+
+ const handleSelectLocation = async (location: any) => {
+  const formattedAddress = location.formattedAddress;
+
+  // 1. Update both billing & booking context
+  updateBillingData({ appointmentLocation: formattedAddress });
+  updateBookingData({ appointmentLocation: formattedAddress });
+
+  // 2. Save to backend
+  try {
+    await saveLocation({
+      label: location.label || "Saved from billing",
+      placeId: location.placeId || "",
+      formattedAddress,
+    });
+    console.log("✅ Location saved to backend.");
+  } catch (err) {
+    console.error("❌ Failed to save location:", err);
+  }
+
+  // 3. ✅ Save to runtime context
+  updateLatestLocation({
+    type: "Other",
+    street: "",
+    apt: "",
+    city: "",
+    country: "",
+    fullAddress: formattedAddress,
+    access: "",
+    pets: "No",
+    petDetails: "",
+    additionalNotes: "",
+  });
+
+  setShowLocationList(false);
+};
+
+
   return (
     <div className={styles.billingcontainer}>
       <h2 className={styles.billingheading}>Billing</h2>
@@ -72,8 +167,27 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
         <div className={styles.divider}></div>
         <div className={styles.locationRow}>
           <p className={styles.locationtext}>{appointmentLocation}</p>
-          <p className={styles.changelocation}>Change Location</p>
+          <p className={styles.changelocation} onClick={handleLocationClick}>
+            Change Location
+          </p>
         </div>
+        {showLocationList && (
+          <div className={styles.locationList} ref={locationListRef}>
+            {savedLocations.length === 0 ? (
+              <p>No saved locations found.</p>
+            ) : (
+              savedLocations.map((loc) => (
+                <div
+                  key={loc.id}
+                  className={styles.locationItem}
+                  onClick={() => handleSelectLocation(loc)}
+                >
+                  <strong>{loc.label}</strong> — {loc.formattedAddress}
+                </div>
+              ))
+            )}
+          </div>
+        )}
         <div className={styles.divider}></div>
       </div>
 

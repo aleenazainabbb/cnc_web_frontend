@@ -13,7 +13,6 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
 
   const { applyPromoCode } = useBooking();
   const [snackbar, setSnackbar] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
   const { updateBookingData, updateBillingData, bookingData, setBillingData } = useBooking();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
@@ -151,6 +150,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
 
   // subservice changed behaviour
   useEffect(() => {
+    // Reset UI state
     setSelectedType("");
     setSelectedHours(null);
     setSelectedStaff(null);
@@ -161,17 +161,109 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
     setSpecialInput("");
     setNumberOfWindows("");
     setNumberOfItems("");
-    setCleaningCategory("")
-    setSiteVisit(null)
+    setCleaningCategory("");
+    setSiteVisit(null);
     setResidentialCleanType("");
     setIsResidentialTypeOpen(false);
+    setMake("");
+    setModel("");
+    setVariant("");
+    setUploadedFiles(null);
+    setSpecialInstructions("");
+
+    // ✅ Clear booking context (runtime data)
+    updateBookingData({
+      service: selectedService,
+      subService: selectedSubService,
+      type: "",
+      specific: "",
+      detail: "",
+      cleaningMaterials: null,
+      staffCount: null,
+      hoursCount: null,
+      squareFootage: "",
+      siteVisit: null,
+      residentialCleanType: "",
+      specialInput: "",
+      numberOfWindows: "",
+      numberOfItems: "",
+      upholsteryItemCount: 0,
+      carpetAreas: [],
+      appointedPrice: 0,
+      discountAmount: 0,
+      subTotal: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      status: "pending",
+      make: "",
+      model: "",
+      variant: "",
+      cleaningCategory: "",
+      cleaningType: "",
+      uploadedMedia: [],
+      specialInstructions: "",
+    });
+
+    // ✅ Clear billing data too
+    updateBillingData({
+      appointmentValue: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      discountAmount: 0,
+      appointmentFrequency: "Once",
+      appointmentTime: "",
+    });
+
   }, [selectedSubService]);
 
   useEffect(() => {
     setCarpetCount(0);
     setCarpetAreas([]);
     setSelectedSpecific("");
+
+    updateBookingData({
+      specific: "",
+      detail: "",
+      appointedPrice: 0,
+      discountAmount: 0,
+      subTotal: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      status: "pending",
+    });
   }, [selectedType]);
+  useEffect(() => {
+    updateBookingData({
+      detail: "",
+      appointedPrice: 0,
+      discountAmount: 0,
+      subTotal: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      status: "pending",
+    });
+  }, [selectedSpecific]);
+
+  useEffect(() => {
+    updateBookingData({
+      squareFootage: "",
+      detail: "",
+      appointedPrice: 0,
+      discountAmount: 0,
+      subTotal: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      status: "pending",
+    });
+
+    updateBillingData({
+      appointmentValue: 0,
+      discountAmount: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+    });
+  }, [cleaningCategory]);
+
 
   useEffect(() => {
     const service = selectedService.trim().toLowerCase();
@@ -286,6 +378,34 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
     make, model, variant, uploadedFiles,
     cleaningCategory, cleaningType
   ]);
+
+  useEffect(() => {
+    const isMaid = selectedService.trim().toLowerCase() === "cleaning services" &&
+      selectedSubService.trim().toLowerCase() === "maid services / general services";
+
+    if (isMaid && selectedType) {
+      let pricePerHour = 0;
+      if (selectedType === "with-supplies") {
+        pricePerHour = 40;
+      } else if (selectedType === "without-supplies") {
+        pricePerHour = 45;
+      }
+
+      // Only if staff and hours are also selected
+      if (selectedStaff && selectedHours) {
+        const appointmentValue = pricePerHour * selectedStaff * selectedHours;
+        const taxAmount = appointmentValue * 0.05;
+        const totalAmount = appointmentValue + taxAmount;
+
+        updateBillingData({
+          appointmentValue,
+          taxAmount,
+          totalAmount,
+        });
+      }
+    }
+  }, [selectedType, selectedStaff, selectedHours, selectedService, selectedSubService]);
+
 
   useEffect(() => {
     if (!selectedDetail) return;

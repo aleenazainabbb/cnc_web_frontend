@@ -20,6 +20,7 @@ import { QuoteListProvider } from '@/context/QuoteList';
 import { ServiceProvider } from '@/context/allservices';
 import { ProfileImageProvider } from '@/context/imageUpload';
 import { BookingProvider } from "@/context/BookingContext";
+import { LocationProvider } from '@/context/Location';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,6 +84,7 @@ export default function RootLayout({
                           <RegisterProvider>
                             <LeadProvider>
                               <ProfileProvider>
+                                <LocationProvider> 
                                 <ServiceProvider>
                                   <BookingProvider>
                                     <Suspense fallback={<div>Loading...</div>}>
@@ -91,6 +93,7 @@ export default function RootLayout({
                                     </Suspense>
                                   </BookingProvider>
                                 </ServiceProvider>
+                                </LocationProvider>
                               </ProfileProvider>
                             </LeadProvider>
                           </RegisterProvider>

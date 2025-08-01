@@ -6,7 +6,11 @@ import { useBooking } from "@/context/BookingContext";
 
 const PaymentDetails: React.FC = () => {
     const [selected, setSelected] = useState<"credit" | "cash">("credit");
-     const { selectionList,  bookingData, latestLocation, } = useBooking();
+     const { selectionList,  bookingData, latestLocation,updateBookingData  } = useBooking();
+
+     useEffect(() => {
+  updateBookingData({ payment : selected });
+}, [selected]);
 
  useEffect(() => {
   if (selectionList.length > 0) {

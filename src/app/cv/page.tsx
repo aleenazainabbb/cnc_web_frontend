@@ -1,17 +1,17 @@
-// app/services/plumbing/water-heater/page.tsx (or any page)
+// app/services/plumbing/water-heater/page.tsx
 'use client';
-import BookingConfirmation from "@/components/Booking/bookingConfirmation";
+
+import Bookings from '@/components/Booking/booking';
+// import Boo from "@/components/Booking/bookingConfirmation";
 import { useState } from 'react';
 
 export default function Page() {
-const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
     return (
         <div>
-      <BookingConfirmation   onClose={() => setShowConfirmationPopup(false)}/>
-     
-    </div>
-  );
-};
+            <Bookings />
+        </div>
+    );
+}
 
 
 

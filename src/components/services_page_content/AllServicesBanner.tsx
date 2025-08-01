@@ -1,10 +1,10 @@
-import React from "react";
-
 interface AllServicesBannerProps {
   title?: string;
   description?: string | React.ReactNode;
   imageUrl?: string;
   reverseContentOrder?: boolean;
+  hideTitle?: boolean; // 🔹 NEW
+  hideIcon?: boolean;  // 🔹 NEW
 }
 
 const AllServicesBanner: React.FC<AllServicesBannerProps> = ({
@@ -12,6 +12,8 @@ const AllServicesBanner: React.FC<AllServicesBannerProps> = ({
   description,
   imageUrl = "/images/all-services-banner.png",
   reverseContentOrder = false,
+  hideTitle = false,  // default: show title
+  hideIcon = false,   // default: show icon
 }) => {
   const showDescription = description !== undefined;
 
@@ -32,7 +34,9 @@ const AllServicesBanner: React.FC<AllServicesBannerProps> = ({
             <div className="banner_content">
               {reverseContentOrder ? (
                 <>
-                  <h1 className="be-vietnam-pro-bold my-3">{title}</h1>
+                  {!hideTitle && (
+                    <h1 className="be-vietnam-pro-bold my-3">{title}</h1>
+                  )}
                   {showDescription && (
                     <p className="be-vietnam-pro-regular-banner">
                       {description}
@@ -42,19 +46,23 @@ const AllServicesBanner: React.FC<AllServicesBannerProps> = ({
               ) : (
                 <>
                   {showDescription && (
-                    
                     <p className="be-vietnam-pro-regular">{description}</p>
                   )}
-                  <h1 className="be-vietnam-pro-bold my-3">{title}</h1>
+                  {!hideTitle && (
+                    <h1 className="be-vietnam-pro-bold my-3">{title}</h1>
+                  )}
                 </>
               )}
             </div>
           </div>
         </div>
       </div>
-      <div className="services_icon round-icon d-flex align-items-center justify-content-center text-white position-absolute bg_green">
-        <i className="fa-regular fa-comment-dots"></i>
-      </div>
+
+      {!hideIcon && (
+        <div className="services_icon round-icon d-flex align-items-center justify-content-center text-white position-absolute bg_green">
+          <i className="fa-regular fa-comment-dots"></i>
+        </div>
+      )}
     </div>
   );
 };

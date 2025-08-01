@@ -43,14 +43,14 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
-
-  // ✅ Promo-related fields:
   appointedPrice?: number;
   discountAmount?: number;
   subTotal?: number;
   taxAmount?: number;
   totalAmount?: number;
   status?: "pending" | "confirmed" | "cancelled";
+  payment?: "card" | "cash";
+   appointmentLocation?: string;
 };
 
 export type LatestLocation = {
@@ -95,6 +95,8 @@ type BookingContextType = {
   allOrders: string[][];
   fetchAllOrders: () => Promise<void>;
   ordersLoading: boolean;
+
+  createBookingOrder: () => Promise<any>; 
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -134,9 +136,13 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     latestListRef.current = runtimeBookingList;
   }, [runtimeBookingList]);
 
-  const updateBookingData = (data: Partial<BookingData>) => {
-    setBookingData((prev) => ({ ...prev, ...data }));
-  };
+  const updateBookingData = (newData: Partial<BookingData>) => {
+  setBookingData(prev => ({
+    ...prev,
+    ...newData,
+  }));
+};
+
 
   const updateBillingData = (data: Partial<BillingData>) => {
     setBillingData((prev) => ({ ...prev, ...data }));
@@ -188,12 +194,6 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       formData.append("cleaningCategory", bookingData.cleaningCategory || "");
       formData.append("cleaningType", bookingData.cleaningType || "");
 
-      // Optional: If couponCode exists
-      // if (bookingData.couponCode) {
-      //   formData.append("couponCode", bookingData.couponCode);
-      // }
-
-      // ✅ Append media files
       bookingData.uploadedMedia?.forEach((fileObj) => {
         if (fileObj.file instanceof File) {
           const isImage = fileObj.file.type.startsWith("image/");
@@ -202,7 +202,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-
+      // custom api integration
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
@@ -222,6 +222,44 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+  // non custom api Integration
+  const createBookingOrder = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Authorization token required");
+
+      const selected = selectionList[selectionList.length - 1];
+      const payload = {
+        bookingData: {
+          ...bookingData,
+          payment: bookingData.payment || "cash",
+        },
+        billingData,
+        latestLocation,
+        selection: selected,
+      };
+
+      const response = await fetch(`${apiUrl}/bookingOrder/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Order creation failed");
+
+      console.log("✅ Booking order created:", result);
+      return result;
+    } catch (error: any) {
+      console.error("❌ Booking order error:", error.message);
+      throw error;
+    }
+  };
+
+  //  promo code integration
   const applyPromoCode = async (code: string): Promise<{ success: boolean; message: string }> => {
     try {
       const token = localStorage.getItem("token");
@@ -239,7 +277,6 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       const result = await response.json();
 
       if (!response.ok) {
-        // ⛔ Server returned an error (like "Promo code not found")
         return { success: false, message: result.message || "Invalid promo code" };
       }
 
@@ -271,6 +308,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+  //booking pending/orders integration
   const fetchAllOrders = async (): Promise<void> => {
     try {
       setOrdersLoading(true);
@@ -302,7 +340,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         order.specialInstructions || "-",
         order.time || "-",
         order.date || "-",
-        order.status  || "Completed",
+        order.status || "Completed",
       ]);
 
       setAllOrders(orderRows);
@@ -331,6 +369,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         allOrders,
         fetchAllOrders,
         ordersLoading,
+        createBookingOrder,
       }}
     >
       {children}

@@ -48,7 +48,7 @@ const DateTime: React.FC = () => {
                 time: selectedTime,
             });
         }
-    }, [preferredCleaner, selectedTime]);
+    }, [preferredCleaner, selectedTime,selectedDate]);
 
     useEffect(() => {
         const el = monthRefs.current[selectedMonth];
@@ -60,7 +60,7 @@ const DateTime: React.FC = () => {
     useEffect(() => {
         // Set default preferred cleaner and time
         if (workers.length > 0) {
-            setSelectedCleanerId(workers[1].id);
+            setSelectedCleanerId(workers[0].id);
             setPreferredCleaner(workers[0].name);
         }
         handleTimeSelect("Flexible");

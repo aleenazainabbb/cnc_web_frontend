@@ -14,7 +14,7 @@ export default function BookingLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
-  const { billingData, submitBookingQuote, bookingData } = useBooking();
+  const { submitBookingQuote, bookingData, createBookingOrder } = useBooking();
   const [serviceError, setServiceError] = useState(false);
 
   const steps = [
@@ -28,40 +28,41 @@ export default function BookingLayout({
     currentIndex < steps.length - 1 ? steps[currentIndex + 1] : null;
 
   const handleNext = async () => {
-    // ✅ Validate service from context
-    if (pathname === '/BookAservicePage' && !bookingData?.service) {
-      setServiceError(true);
-      console.log("⛔ Cannot continue — service not selected");
-      return;
-    } else {
-      setServiceError(false);
-      console.log("✅ Continue — service selected");
-    }
+  if (pathname === '/BookAservicePage' && !bookingData?.service) {
+    setServiceError(true);
+    console.log("Cannot continue — service not selected");
+    return;
+  } else {
+    setServiceError(false);
+  }
 
-    const isNoDetailService = (billingData as any)?.skipPaymentStep;
+  // const hasPricing = !!bookingData?.detail;
+  const hasPricing = !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
 
-    if (pathname === '/BookAservicePage/BookDate&Time') {
-      if (isNoDetailService) {
-        try {
-          await submitBookingQuote();
-          setShowConfirmationPopup(true);
-        } catch (error) {
-          console.error('Failed to submit quote:', error);
-        }
-      } else {
-        router.push('/BookAservicePage/PaymentDetails');
-      }
-    } else if (pathname === '/BookAservicePage/PaymentDetails') {
-      try {
-        await submitBookingQuote();
-        setShowConfirmationPopup(true);
-      } catch (error) {
-        console.error('Failed to submit quote:', error);
-      }
-    } else if (nextStep) {
-      router.push(nextStep);
+
+if (pathname === '/BookAservicePage/BookDate&Time') {
+  if (hasPricing) {
+    router.push('/BookAservicePage/PaymentDetails');
+  } else {
+    try {
+      await submitBookingQuote();
+      setShowConfirmationPopup(true);
+    } catch (error) {
+      console.error('Quote submission failed:', error);
     }
-  };
+  }
+} else if (pathname === '/BookAservicePage/PaymentDetails') {
+    try {
+
+      await createBookingOrder();          
+      setShowConfirmationPopup(true);
+    } catch (error) {
+      console.error(' Booking order failed:', error);
+    }
+  } else if (nextStep) {
+    router.push(nextStep);
+  }
+};
 
   return (
     <div className="grid-container layoutWrapper">
@@ -69,7 +70,7 @@ export default function BookingLayout({
         {isValidElement(children)
           ? React.cloneElement(children as ReactElement<any>, {
             serviceError,
-            setServiceError, // ✅ pass the setter function to children
+            setServiceError, //  pass the setter function to children
           })
           : children}
       </div>
