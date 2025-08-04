@@ -8,7 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 
-type SavedLocation = {
+export type SavedLocation = {
   id: number;
   label: string;
   placeId: string;
@@ -20,11 +20,14 @@ type SavedLocation = {
 type SaveLocationResponse = {
   message: string;
   type: 'success' | 'error';
+  savedLocation?: SavedLocation;
 };
 
 type LocationContextType = {
   savedLocation: SavedLocation | null;
   savedLocations: SavedLocation[];
+  setSavedLocations: React.Dispatch<React.SetStateAction<SavedLocation[]>>;
+
   saveLocation: (data: {
     label: string;
     placeId: string;
@@ -32,6 +35,7 @@ type LocationContextType = {
     lat: number;
     lng: number;
   }) => Promise<SaveLocationResponse>;
+
   updateLocation: (
     id: number,
     data: {
@@ -82,6 +86,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       return {
         message: result.message || 'Location saved!',
         type: 'success',
+        savedLocation: result.location,
       };
     } catch (err: any) {
       console.error('Save location failed:', err.message);
@@ -208,6 +213,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
         updateLocation,
         fetchSavedLocations,
         deleteLocation,
+        setSavedLocations,
       }}
     >
       {children}

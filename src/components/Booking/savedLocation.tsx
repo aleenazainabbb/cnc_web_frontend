@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from '@/context/Location';
+import type { SavedLocation } from '@/context/Location';
 import Snackbar from '@/components/popups/Snackbar';
 import { FaSearch, FaTimes, FaTrash, FaEdit } from 'react-icons/fa';
 
@@ -43,7 +44,7 @@ const SavedLocation: React.FC = () => {
   const [placeId, setPlaceId] = useState('');
   const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(null);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
-const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
+  const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -53,6 +54,7 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
     deleteLocation,
     updateLocation,
     savedLocations,
+    setSavedLocations
   } = useLocation();
 
   const [isInitialized, setIsInitialized] = useState(false);
@@ -90,16 +92,6 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
     setShowSnackbar(true);
   };
 
-  const resetForm = () => {
-    setLabel('');
-    setFormattedAddress('');
-    setPlaceId('');
-    setSelected(null);
-    setMapCenter(defaultCenter);
-    setIsEditing(false);
-    setEditingLocation(null);
-  };
-
   const handleSave = async () => {
     if (!label || !formattedAddress || !placeId || !selected) {
       showToast('Please complete the form', 'error');
@@ -114,26 +106,38 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
       lng: selected.lng,
     });
 
-    showToast(result.message, result.type);
-    if (result.type === 'success') resetForm();
+    if (result.type === 'success' && result.savedLocation !== undefined) {
+      const newLocation = result.savedLocation as SavedLocation;
+      setSavedLocations((prev) => [...prev, newLocation]);
+      showToast('Location saved', 'success');
+    } else {
+      showToast(result.message || 'Failed to save location', 'error');
+    }
+
   };
 
   const handleUpdate = async () => {
-    if (!editingLocation || !label || !formattedAddress || !placeId || !selected) {
-      showToast('Missing fields for update', 'error');
-      return;
-    }
+    if (!editingLocation) return;
+
+    const updatedLabel = label || editingLocation.label;
+    const updatedFormattedAddress = formattedAddress || editingLocation.formattedAddress;
+    const updatedPlaceId = placeId || editingLocation.placeId;
+    const updatedLat = selected?.lat ?? editingLocation.lat;
+    const updatedLng = selected?.lng ?? editingLocation.lng;
 
     const result = await updateLocation(editingLocation.id, {
-      label,
-      formattedAddress,
-      placeId,
-      lat: selected.lat,
-      lng: selected.lng,
+      label: updatedLabel,
+      formattedAddress: updatedFormattedAddress,
+      placeId: updatedPlaceId,
+      lat: updatedLat,
+      lng: updatedLng,
     });
 
-    showToast(result.message, result.type);
-    if (result.type === 'success') resetForm();
+    if (result.type === 'success') {
+      showToast('Location updated', 'success');
+    } else {
+      showToast('Something went wrong while updating', 'error');
+    }
   };
 
   const handleDelete = async (id: number) => {
@@ -141,20 +145,20 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
     showToast(res.message, res.type);
   };
 
- const handleEditLocation = (loc: SavedLocationType) => {
-  setActiveLocationId(loc.id); // <- NEW LINE
-  setIsEditing(true);
-  setEditingLocation(loc);
-  setLabel(loc.label);
-  setFormattedAddress(loc.formattedAddress);
-  setPlaceId(loc.placeId);
-  setSelected({ lat: loc.lat, lng: loc.lng });
-  setMapCenter({ lat: loc.lat, lng: loc.lng });
+  const handleEditLocation = (loc: SavedLocationType) => {
+    setActiveLocationId(loc.id); 
+    setIsEditing(true);
+    setEditingLocation(loc);
+    setLabel(loc.label);
+    setFormattedAddress(loc.formattedAddress);
+    setPlaceId(loc.placeId);
+    setSelected({ lat: loc.lat, lng: loc.lng });
+    setMapCenter({ lat: loc.lat, lng: loc.lng });
 
-  if (inputRef.current) {
-    inputRef.current.value = loc.formattedAddress;
-  }
-};
+    if (inputRef.current) {
+      inputRef.current.value = loc.formattedAddress;
+    }
+  };
 
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
@@ -203,6 +207,7 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
 
   return (
     <div className={location.main}>
+    
       {showSnackbar && (
         <Snackbar
           message={snackbarMsg}
@@ -279,7 +284,7 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
 
         <div className={location.buttonContainer}>
           <button className={location.button}
-          onClick={isEditing ? handleUpdate : handleSave}>
+            onClick={isEditing ? handleUpdate : handleSave}>
             {isEditing ? 'Update Location' : 'Save Location'}
           </button>
         </div>
@@ -290,31 +295,31 @@ const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
           <h3 className={location.savedListHeading}>Saved Locations</h3>
           <div className={location.savedListScroll}>
             {savedLocations.map((loc) => (
-  <div
-    key={loc.id}
-    className={`${location.savedCard} ${activeLocationId === loc.id ? location.activeCard : ''}`}
-    onClick={() => handleEditLocation(loc)}
-  >
-    <div className={location.savedLabel}>{loc.label}</div>
-    <div className={location.savedAddress}>{loc.formattedAddress}</div>
-    <div className={location.iconRow}>
-      <FaEdit
-        className={location.icon}
-        onClick={(e) => {
-          e.stopPropagation(); // prevent triggering card click
-          handleEditLocation(loc);
-        }}
-      />
-      <FaTrash
-        className={location.trashIcon}
-        onClick={(e) => {
-          e.stopPropagation(); // prevent triggering card click
-          handleDelete(loc.id);
-        }}
-      />
-    </div>
-  </div>
-))}
+              <div
+                key={loc.id}
+                className={`${location.savedCard} ${activeLocationId === loc.id ? location.activeCard : ''}`}
+                onClick={() => handleEditLocation(loc)}
+              >
+                <div className={location.savedLabel}>{loc.label}</div>
+                <div className={location.savedAddress}>{loc.formattedAddress}</div>
+                <div className={location.iconRow}>
+                  <FaEdit
+                    className={location.icon}
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent triggering card click
+                      handleEditLocation(loc);
+                    }}
+                  />
+                  <FaTrash
+                    className={location.trashIcon}
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent triggering card click
+                      handleDelete(loc.id);
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

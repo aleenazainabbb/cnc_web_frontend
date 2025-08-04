@@ -7,6 +7,7 @@ import { useProfile } from '@/context/profileContext';
 import { useProfileImage } from '@/context/imageUpload';
 import { FaCamera } from 'react-icons/fa';
 
+// import SavedLocation from './savedLocation'; 
 const Profile: React.FC = () => {
   const {
     firstName,
@@ -154,6 +155,7 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
           </div>
         </div>
       </div>
+      {/* <SavedLocation /> */}
     </div>
   );
 };

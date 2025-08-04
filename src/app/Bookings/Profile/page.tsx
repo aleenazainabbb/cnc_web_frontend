@@ -9,8 +9,7 @@ export default function RequestPage() {
     <>
       <HeaderBar title="Profile" />
       <Profile />
-      <SavedLocation/>
-
+      <SavedLocation />
     </>
   );
 }

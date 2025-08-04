@@ -37,6 +37,17 @@
     gap: 10px;
     margin-top: 30px;
 }
+.scrollWrapper {
+ overflow-x: auto;
+  max-width: calc(6 * 95px + 4 * 0px); /* 5 buttons width + 4 gaps */
+  scroll-behavior: smooth;
+   /* Hide scrollbar across all browsers */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE and Edge */
+}
+.scrollWrapper::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
 
 .button {
     margin-top: 20px;
@@ -48,11 +59,14 @@
     line-height: 29px;
     background-color: white;
     color: #88939D;
-    border: none;
+    border: 1px solid #36B864;
+    cursor: pointer;
     border-radius: 39px;
+     flex-shrink: 0;
+     /* white-space: nowrap; */
 }
 
-.button.active {
+.button.active, .selectedButton {
     background-color: #36B864;
     color: white;
     border-radius: 39px;
@@ -60,7 +74,9 @@
 
 .buttoncontainer {
     display: flex;
-    gap: 10px;
+  flex-wrap: nowrap;
+  gap: 12px;
+  width: max-content;
 }
 
 .countrySelectWrapper {
@@ -195,6 +211,9 @@
         margin-left: 0px;
         padding: 20px;
     }
+    .scrollWrapper {
+    max-width: calc(5 * 196px + 4 * 12px); /* 5 buttons + 4 gaps */
+  }
 
     .description {
         margin-bottom: 3px;

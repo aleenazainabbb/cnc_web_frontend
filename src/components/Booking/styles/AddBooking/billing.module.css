@@ -12,8 +12,8 @@
 }
 .locationList {
   margin-top: 10px;
-  max-height: 200px;             /* 👈 Limit height */
-  overflow-y: auto;              /* 👈 Enable vertical scrolling */
+  max-height: 200px;          
+  overflow-y: auto;              /* Enable vertical scrolling */
   padding: 10px;
   background-color: #f5f5f5;
   border: 1px solid #ddd;
@@ -48,27 +48,24 @@
   padding: 40px 20px 20px 20px;
   border-radius: 10px;
   margin: 40px 0 24px 0;
-  width: 100%;
-  /* max-width: 440px; */
+  /* width: 100%; */
+  max-width: 420px;
   height: auto;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  overflow-wrap: break-word;
 }
 
 .appointmentrow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* gap: 5px; */
   width: 100%;
   word-break: break-word;
-  /* break long words */
   overflow-wrap: break-word;
-  /* extra safety */
   white-space: normal;
   /* Allows multiline */
   word-break: break-word;
-  /* Breaks long words */
 }
 
 .locationRow {
@@ -77,6 +74,7 @@
   flex-wrap: nowrap;
   gap: 2px;
   width: 100%;
+  flex-wrap: wrap; 
 }
 
 .appointmentfrequency {
@@ -125,15 +123,11 @@
   letter-spacing: 0.003em;
   color: #2b3641;
   margin-top: 10px;
-  /* white-space: nowrap; */
   word-break: break-word;
-  /* break long words */
   overflow-wrap: break-word;
-  /* extra safety */
   white-space: normal;
-  /* Allows multiline */
   word-break: break-word;
-  /* Breaks long words */
+   flex: 1 1 0; 
 }
 
 .pricingbox {
@@ -235,13 +229,6 @@
     font-size: 22px;
     margin-bottom: 16px;
   }
-/* 
-  .appointmentcard,
-  .pricingbox {
-    padding: 11px 10px;
-    margin: 17px 0 8px 0;
-   
-  } */
 
   .appointmentrow,
   .locationRow {
@@ -294,18 +281,6 @@
 }
 
 @media (max-width: 470px) {
-  /* .billingcontainer {
-    padding: 16px 12px;
-    box-sizing: border-box;
-  } */
-
-  /* .appointmentcard,
-  .pricingbox {
-    width: 100%;
-    padding: 12px 10px;
-    margin: 10px 0 8px 0;
-    box-sizing: border-box;
-  } */
 
   .appointmentrow,
   .locationRow {

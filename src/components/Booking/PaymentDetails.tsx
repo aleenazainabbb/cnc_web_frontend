@@ -5,7 +5,7 @@ import payment from './styles/PaymentDetails.module.css';
 import { useBooking } from "@/context/BookingContext";
 
 const PaymentDetails: React.FC = () => {
-    const [selected, setSelected] = useState<"credit" | "cash">("credit");
+    const [selected, setSelected] = useState<"card" | "cash">("card");
      const { selectionList,  bookingData, latestLocation,updateBookingData  } = useBooking();
 
      useEffect(() => {
@@ -36,15 +36,15 @@ const PaymentDetails: React.FC = () => {
             {/* Payment Options */}
             <div>
                 <div
-                    className={`${payment.customblock} ${selected === "credit" ? payment.selected : ""}`}
-                    onClick={() => setSelected("credit")}
+                    className={`${payment.customblock} ${selected === "card" ? payment.selected : ""}`}
+                    onClick={() => setSelected("card")}
                 >
                     <input
                         type="radio"
                         name="payment"
                         className={payment.customRadio}
-                        checked={selected === "credit"}
-                        onChange={() => setSelected("credit")}
+                        checked={selected === "card"}
+                        onChange={() => setSelected("card")}
                     />
                     <div className={`${payment.paragraph} ${payment.optionText}`}>
                         <div className={payment.labelRow}>

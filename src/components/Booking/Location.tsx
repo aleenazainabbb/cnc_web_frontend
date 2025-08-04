@@ -8,10 +8,13 @@ import { useBooking } from "@/context/BookingContext";
 import { GoogleMap, Marker, useLoadScript, Autocomplete } from '@react-google-maps/api';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import type { LatestLocation } from "@/context/BookingContext";
+import { useLocation } from "@/context/Location";
 
 countries.registerLocale(enLocale);
 
 const Location: React.FC = () => {
+  const { savedLocations } = useLocation();
+  const [selectedSavedLocationId, setSelectedSavedLocationId] = useState<number | null>(null);
   const [selected, setSelected] = useState<"Home" | "Office" | "Other">("Home");
   const [answer, setAnswer] = useState("No");
   const [accessOption, setAccessOption] = useState("Someone is Home");
@@ -129,6 +132,18 @@ const Location: React.FC = () => {
   };
 
   const clearSearch = () => setSearchInput("");
+  const labelOccurrences: Record<string, number> = {};
+
+  const processedLocations = savedLocations.map((loc) => {
+    const label = loc.label.toLowerCase();
+    if (!labelOccurrences[label]) {
+      labelOccurrences[label] = 1;
+      return { ...loc, displayLabel: loc.label };
+    } else {
+      const count = labelOccurrences[label]++;
+      return { ...loc, displayLabel: `${loc.label} ${count}` };
+    }
+  });
 
   return (
     <div className={location.main}>
@@ -139,21 +154,73 @@ const Location: React.FC = () => {
         <p>HELP OUR TEAMS GET TO YOUR PLACE ON TIME BY LOCATING IT ON THE MAP BELOW.</p>
       </div>
 
-      <div className={location.subheading}>
-        <p>SAVE YOUR ADDRESS DETAILS</p>
-      </div>
+      {savedLocations.length > 0 ? (() => {
+        const labelOccurrences: Record<string, number> = {};
 
-      <div className={location.buttoncontainer}>
-        {["Home", "Office", "Other"].map((label) => (
-          <button
-            key={label}
-            className={`${location.button} ${selected === label ? location.active : ""}`}
-            onClick={() => setSelected(label as "Home" | "Office" | "Other")}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+        const processedLocations = savedLocations.map((loc) => {
+          const label = loc.label.toLowerCase();
+          if (!labelOccurrences[label]) {
+            labelOccurrences[label] = 1;
+            return { ...loc, displayLabel: loc.label };
+          } else {
+            const count = labelOccurrences[label]++;
+            return { ...loc, displayLabel: `${loc.label} ${count}` };
+          }
+        });
+
+        return (
+          <>
+            <div className={location.subheading}>
+              <p>SAVED LOCATION</p>
+            </div>
+            <div className={location.scrollWrapper}>
+            <div className={location.buttoncontainer}>
+              {processedLocations.map((loc) => (
+                <button
+                  key={loc.id}
+                  className={`${location.button} ${selectedSavedLocationId === loc.id ? location.selectedButton : ""
+                    }`}
+                  onClick={() => {
+                    setSelectedSavedLocationId(loc.id);
+                    setSearchInput(loc.formattedAddress);
+                    setSelectedMarker({ lat: loc.lat, lng: loc.lng });
+                    setMapCenter({ lat: loc.lat, lng: loc.lng });
+
+                    const geocoder = new window.google.maps.Geocoder();
+                    geocoder.geocode({ placeId: loc.placeId }, (results, status) => {
+                      if (status === "OK" && results?.[0]) {
+                        fillAddressFields(results[0].address_components);
+                      }
+                    });
+                  }}
+                >
+                  {loc.displayLabel}
+                </button>
+              ))}
+            </div>
+            </div>
+          </>
+        );
+      })() : (
+        <>
+          <div className={location.subheading}>
+            <p>SAVE YOUR ADDRESS DETAILS</p>
+          </div>
+
+          <div className={location.buttoncontainer}>
+            {["Home", "Office", "Other"].map((label) => (
+              <button
+                key={label}
+                className={`${location.button} ${selected === label ? location.active : ""}`}
+                onClick={() => setSelected(label as "Home" | "Office" | "Other")}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
 
       <div>
         <select
