@@ -1166,7 +1166,7 @@ input[type="number"] {
 
 /* savedlocationcss */
 
-/* .pac-container {
+ .pac-container {
     position: absolute !important;
     top: 100% !important; /* Ensures suggestions appear directly below the input */
     left: 0 !important;   /* Aligns the suggestion box with the input */
@@ -1180,6 +1180,11 @@ input[type="number"] {
   } */
 
 
+.errorText {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
 
 
 .feature_box {

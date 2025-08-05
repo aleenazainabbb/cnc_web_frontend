@@ -1,19 +1,21 @@
 .billingcontainer {
   width: 100%;
-  max-width: 100%;
+  max-width: 450px !important;
   background-color: #f4f7f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding:44px 25px 44px 25px;
+  padding: 44px 25px 44px 25px;
   /* z-index: 1000; */
   display: flex;
   flex-direction: column;
   /* overflow-y: auto; */
   box-sizing: border-box;
 }
+
 .locationList {
   margin-top: 10px;
-  max-height: 200px;          
-  overflow-y: auto;              /* Enable vertical scrolling */
+  max-height: 200px;
+  overflow-y: auto;
+  /* Enable vertical scrolling */
   padding: 10px;
   background-color: #f5f5f5;
   border: 1px solid #ddd;
@@ -48,12 +50,19 @@
   padding: 40px 20px 20px 20px;
   border-radius: 10px;
   margin: 40px 0 24px 0;
-  /* width: 100%; */
-  max-width: 420px;
+  width: 100%;
+  max-width: 100%;
   height: auto;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
+  flex-shrink: 1;
+  /* ✅ allow shrinking */
   overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  /* ✅ for better control */
+  box-sizing: border-box;
 }
 
 .appointmentrow {
@@ -71,10 +80,10 @@
 .locationRow {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 2px;
   width: 100%;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .appointmentfrequency {
@@ -88,10 +97,16 @@
   margin-bottom: 4px;
   height: 20px;
   width: 100%;
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
 }
 
 .appointmenttime,
 .changelocation {
+  width: 100%;
   font-family: Poppins;
   font-weight: 600;
   font-size: 14px;
@@ -100,7 +115,11 @@
   color: #1a78f2;
   margin-top: 10px;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
 }
 
 .changelocation {
@@ -125,15 +144,17 @@
   margin-top: 10px;
   word-break: break-word;
   overflow-wrap: break-word;
-  white-space: normal;
   word-break: break-word;
-   flex: 1 1 0; 
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
 }
 
 .pricingbox {
   width: 100%;
-  /* max-width: 440px; */
-  /* min-width: 100%; */
+  max-width: 100%;
   height: auto;
   background-color: #fff;
   padding: 20px;
@@ -217,6 +238,7 @@
     max-width: 100% !important;
     box-sizing: border-box;
   }
+
   .appointmentcard,
   .pricingbox {
     width: 100% !important;

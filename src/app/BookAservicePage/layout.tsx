@@ -14,7 +14,7 @@ export default function BookingLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
-  const { submitBookingQuote, bookingData, createBookingOrder } = useBooking();
+  const { submitBookingQuote, bookingData, createBookingOrder, formErrors, setFormErrors,latestLocation } = useBooking();
   const [serviceError, setServiceError] = useState(false);
 
   const steps = [
@@ -28,41 +28,48 @@ export default function BookingLayout({
     currentIndex < steps.length - 1 ? steps[currentIndex + 1] : null;
 
   const handleNext = async () => {
-  if (pathname === '/BookAservicePage' && !bookingData?.service) {
-    setServiceError(true);
-    console.log("Cannot continue — service not selected");
-    return;
-  } else {
-    setServiceError(false);
-  }
-
-  // const hasPricing = !!bookingData?.detail;
-  const hasPricing = !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
-
-
-if (pathname === '/BookAservicePage/BookDate&Time') {
-  if (hasPricing) {
-    router.push('/BookAservicePage/PaymentDetails');
-  } else {
-    try {
-      await submitBookingQuote();
-      setShowConfirmationPopup(true);
-    } catch (error) {
-      console.error('Quote submission failed:', error);
+    const newErrors: { [key: string]: string } = {};
+    
+    if (pathname === '/BookAservicePage' && !bookingData?.service) {
+      newErrors.service = 'Please select a service.';
     }
-  }
-} else if (pathname === '/BookAservicePage/PaymentDetails') {
-    try {
 
-      await createBookingOrder();          
-      setShowConfirmationPopup(true);
-    } catch (error) {
-      console.error(' Booking order failed:', error);
+    if (pathname === '/BookAservicePage/Location' && !latestLocation?.fullAddress) { 
+      newErrors.fullAddress = 'Please select a location.';
     }
-  } else if (nextStep) {
-    router.push(nextStep);
-  }
-};
+
+    if (Object.keys(newErrors).length > 0) {
+      setFormErrors(newErrors); // 🟥 Save all errors
+      return; // 🛑 Prevent step navigation
+    }
+
+    setFormErrors({}); // ✅ Clear errors if all good
+
+    const hasPricing = !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
+
+    if (pathname === '/BookAservicePage/BookDate&Time') {
+      if (hasPricing) {
+        router.push('/BookAservicePage/PaymentDetails');
+      } else {
+        try {
+          await submitBookingQuote();
+          setShowConfirmationPopup(true);
+        } catch (error) {
+          console.error('Quote submission failed:', error);
+        }
+      }
+    } else if (pathname === '/BookAservicePage/PaymentDetails') {
+      try {
+
+        await createBookingOrder();
+        setShowConfirmationPopup(true);
+      } catch (error) {
+        console.error(' Booking order failed:', error);
+      }
+    } else if (nextStep) {
+      router.push(nextStep);
+    }
+  };
 
   return (
     <div className="grid-container layoutWrapper">

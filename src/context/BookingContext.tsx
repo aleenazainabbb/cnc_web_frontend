@@ -50,7 +50,7 @@ type BookingData = {
   totalAmount?: number;
   status?: "pending" | "confirmed" | "cancelled";
   payment?: "card" | "cash";
-   appointmentLocation?: string;
+  appointmentLocation?: string;
 };
 
 export type LatestLocation = {
@@ -96,7 +96,10 @@ type BookingContextType = {
   fetchAllOrders: () => Promise<void>;
   ordersLoading: boolean;
 
-  createBookingOrder: () => Promise<any>; 
+  createBookingOrder: () => Promise<any>;
+
+  formErrors: { [key: string]: string };
+  setFormErrors: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -127,7 +130,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(null);
   const [runtimeBookingList] = useState<Array<BookingData & { location: LatestLocation }>>([]);
   const [selectionList, setSelectionList] = useState<BookingSelection[]>([]);
-
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [allOrders, setAllOrders] = useState<string[][]>([]);
   const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
 
@@ -137,12 +140,11 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   }, [runtimeBookingList]);
 
   const updateBookingData = (newData: Partial<BookingData>) => {
-  setBookingData(prev => ({
-    ...prev,
-    ...newData,
-  }));
-};
-
+    setBookingData(prev => ({
+      ...prev,
+      ...newData,
+    }));
+  };
 
   const updateBillingData = (data: Partial<BillingData>) => {
     setBillingData((prev) => ({ ...prev, ...data }));
@@ -370,6 +372,8 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         fetchAllOrders,
         ordersLoading,
         createBookingOrder,
+        formErrors,
+        setFormErrors,
       }}
     >
       {children}

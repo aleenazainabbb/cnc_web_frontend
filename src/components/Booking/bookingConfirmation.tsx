@@ -39,7 +39,7 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({ onClose }) =>
 
     const elementsToHide = input.querySelectorAll('.no-print');
     elementsToHide.forEach((el) => {
-      (el as HTMLElement).style.display = 'none';
+      (el as HTMLElement).style.visibility = 'hidden';
     });
 
     const canvas = await html2canvas(input);

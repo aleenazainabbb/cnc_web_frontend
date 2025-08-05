@@ -8,17 +8,16 @@
 
 .main {
   width: 100%;
-  max-width: 574.56px;
+  max-width: 500.56px;
   border-radius: 19.98px;
   background-color: white;
-  margin: 93px 0;
   font-family: 'Poppins', sans-serif;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 23px;
+  padding: 15px;
 
   -webkit-mask-image: radial-gradient(circle at 30px 100%, transparent 14px, white 12px),
     radial-gradient(circle at 60px 100%, transparent 14px, white 12px),
@@ -156,10 +155,31 @@
   color: #36B864;
 }
 
+@media (max-width: 1281px) {
+  .main {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .titletext {
+    font-size: 24px;
+  }
+
+  .paragraph,
+  .content {
+    font-size: 14px;
+  }
+
+  .button {
+    width: 100%;
+    font-size: 20px;
+  }
+
+}
 @media (max-width: 768px) {
   .main {
     width: 70% !important;
-    height: 70% !important;
+    height: auto !important;
     padding-top: 60px;
     padding-bottom: 60px;
   }
@@ -205,6 +225,9 @@
     top: 10px !important;
     right: 10px !important;
     font-size: 10px !important;
+  }
+  .container{
+    padding: 0px !important;
   }
 }
 

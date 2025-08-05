@@ -29,7 +29,7 @@ const Location: React.FC = () => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [selectedMarker, setSelectedMarker] = useState<{ lat: number; lng: number } | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 24.8607, lng: 67.0011 });
-  const { bookingData, updateBillingData, updateLatestLocation } = useBooking();
+  const { bookingData, updateBillingData, updateLatestLocation, formErrors } = useBooking();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ['places'],
@@ -174,30 +174,30 @@ const Location: React.FC = () => {
               <p>SAVED LOCATION</p>
             </div>
             <div className={location.scrollWrapper}>
-            <div className={location.buttoncontainer}>
-              {processedLocations.map((loc) => (
-                <button
-                  key={loc.id}
-                  className={`${location.button} ${selectedSavedLocationId === loc.id ? location.selectedButton : ""
-                    }`}
-                  onClick={() => {
-                    setSelectedSavedLocationId(loc.id);
-                    setSearchInput(loc.formattedAddress);
-                    setSelectedMarker({ lat: loc.lat, lng: loc.lng });
-                    setMapCenter({ lat: loc.lat, lng: loc.lng });
+              <div className={location.buttoncontainer}>
+                {processedLocations.map((loc) => (
+                  <button
+                    key={loc.id}
+                    className={`${location.button} ${selectedSavedLocationId === loc.id ? location.selectedButton : ""
+                      }`}
+                    onClick={() => {
+                      setSelectedSavedLocationId(loc.id);
+                      setSearchInput(loc.formattedAddress);
+                      setSelectedMarker({ lat: loc.lat, lng: loc.lng });
+                      setMapCenter({ lat: loc.lat, lng: loc.lng });
 
-                    const geocoder = new window.google.maps.Geocoder();
-                    geocoder.geocode({ placeId: loc.placeId }, (results, status) => {
-                      if (status === "OK" && results?.[0]) {
-                        fillAddressFields(results[0].address_components);
-                      }
-                    });
-                  }}
-                >
-                  {loc.displayLabel}
-                </button>
-              ))}
-            </div>
+                      const geocoder = new window.google.maps.Geocoder();
+                      geocoder.geocode({ placeId: loc.placeId }, (results, status) => {
+                        if (status === "OK" && results?.[0]) {
+                          fillAddressFields(results[0].address_components);
+                        }
+                      });
+                    }}
+                  >
+                    {loc.displayLabel}
+                  </button>
+                ))}
+              </div>
             </div>
           </>
         );
@@ -220,8 +220,9 @@ const Location: React.FC = () => {
           </div>
         </>
       )}
-
-
+      {formErrors.fullAddress && (
+        <p className="errorText">{formErrors.fullAddress}</p>
+      )}
       <div>
         <select
           id="country"

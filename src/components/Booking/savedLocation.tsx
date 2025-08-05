@@ -71,20 +71,20 @@ const SavedLocation: React.FC = () => {
     libraries: ['places'],
   });
 
-  useEffect(() => {
-    if (!isInitialized && savedLocation) {
-      setLabel(savedLocation.label);
-      setFormattedAddress(savedLocation.formattedAddress);
-      setPlaceId(savedLocation.placeId);
+  // useEffect(() => {
+  //   if (!isInitialized && savedLocation) {
+  //     setLabel(savedLocation.label);
+  //     setFormattedAddress(savedLocation.formattedAddress);
+  //     setPlaceId(savedLocation.placeId);
 
-      if (savedLocation.lat && savedLocation.lng) {
-        setMapCenter({ lat: savedLocation.lat, lng: savedLocation.lng });
-        setSelected({ lat: savedLocation.lat, lng: savedLocation.lng });
-      }
+  //     if (savedLocation.lat && savedLocation.lng) {
+  //       setMapCenter({ lat: savedLocation.lat, lng: savedLocation.lng });
+  //       setSelected({ lat: savedLocation.lat, lng: savedLocation.lng });
+  //     }
 
-      setIsInitialized(true);
-    }
-  }, [savedLocation, isInitialized]);
+  //     setIsInitialized(true);
+  //   }
+  // }, [savedLocation, isInitialized]);
 
   const showToast = (msg: string, type: 'success' | 'error') => {
     setSnackbarMsg(msg);

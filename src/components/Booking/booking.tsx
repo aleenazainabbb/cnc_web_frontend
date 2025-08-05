@@ -13,7 +13,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
 
   const { applyPromoCode } = useBooking();
   const [snackbar, setSnackbar] = useState<{ message: string; type: "success" | "error" } | null>(null);
-  const { updateBookingData, updateBillingData, bookingData, setBillingData } = useBooking();
+  const { updateBookingData, updateBillingData, bookingData, setBillingData, formErrors } = useBooking();
+
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedSubService, setSelectedSubService] = useState<string>("");
@@ -537,11 +538,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                   </div>
                 )}
               </div>
-              {serviceError && (
-                <p style={{ color: "red", marginTop: "5px", fontSize: "14px" }}>
-                  Service is required.
-                </p>
-              )}
+                {formErrors.service && <p className="errorText">{formErrors.service}</p>}
+
             </div>
 
             {/* SUB SERVICE */}
