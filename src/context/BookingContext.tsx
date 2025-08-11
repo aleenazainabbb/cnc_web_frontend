@@ -51,6 +51,7 @@ type BookingData = {
   status?: "pending" | "confirmed" | "cancelled";
   payment?: "card" | "cash";
   appointmentLocation?: string;
+  selectedType?: string;
 };
 
 export type LatestLocation = {
@@ -100,6 +101,8 @@ type BookingContextType = {
 
   formErrors: { [key: string]: string };
   setFormErrors: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
+
+  validateBooking: () => boolean;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -146,10 +149,128 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     }));
   };
 
+  // UI error handling for billing data
   const updateBillingData = (data: Partial<BillingData>) => {
     setBillingData((prev) => ({ ...prev, ...data }));
   };
 
+  const validateBooking = (): boolean => {
+    const errors: { [key: string]: string } = {};
+    const serviceName = bookingData.service?.trim().toLowerCase() || "";
+    const subServiceName = bookingData.subService?.trim().toLowerCase() || "";
+    if (!bookingData.service) {
+      errors.service = "Please select a service";
+    }
+    if (!bookingData.subService) {
+      errors.subServices = "Please select a sub service";
+    }
+    const isDeepCleaning = bookingData.service?.trim().toLowerCase() === "cleaning services" && subServiceName === "deep cleaning";
+
+    const isSpecialCleaning =
+      ["windows cleaning", "swimming pool cleaning", "chandelier cleaning services", "grease trap cleaning services", "vehicle cleaning"].includes(subServiceName);
+
+    const isVehicleCleaning = subServiceName.includes("vehicle cleaning")
+
+    const isUpholsteryCleaning = serviceName === "cleaning services" && subServiceName === "upholstery cleaning";
+
+    // Deep Cleaning - Commercial
+    if (isDeepCleaning && bookingData.cleaningCategory === "Commercial") {
+      if (!bookingData.cleaningCategory) {
+        errors.cleaningCategory = "Please select a category";
+      }
+    }
+
+    // TYPE 
+    if (
+      (isDeepCleaning && bookingData.cleaningCategory === "Residential") ||
+      (!isSpecialCleaning && !isDeepCleaning)
+    ) {
+      if (!bookingData.type) {
+        errors.type = "Please select a type";
+      }
+    }
+
+    // Special Cleaning - Swimming Pool
+    if (isSpecialCleaning && subServiceName === "swimming pool cleaning") {
+      if (!bookingData.squareFootage) {
+        errors.squareFootage = "Please enter area in square feet";
+      }
+    }
+    // Special Cleaning - Windows
+    if (isSpecialCleaning && subServiceName === "windows cleaning") {
+      if (!bookingData.numberOfWindows) {
+        errors.numberOfWindows = "Please enter number of windows";
+      }
+    }
+    // Special Cleaning - Chandelier
+    if (isSpecialCleaning && subServiceName === "chandelier cleaning services") {
+      if (!bookingData.numberOfItems) {
+        errors.numberOfItems = "Please enter number of items";
+      }
+    }
+
+    // vehicleCleaning
+    if (isVehicleCleaning) {
+      if (!bookingData.make?.trim()) {
+        errors.make = "Please enter the make";
+      }
+      if (!bookingData.model?.trim()) {
+        errors.model = "Please enter the model";
+      }
+      if (!bookingData.variant?.trim()) {
+        errors.variant = "Please enter the variant";
+      }
+    }
+    // Special Cleaning - Upload Media
+    if (isSpecialCleaning && (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)) {
+      errors.uploadedMedia = "Please upload at least one image or video";
+    }
+
+    if (
+      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+      !bookingData.specific?.trim()
+    ) {
+      errors.specific = "Please select a specific";
+    }
+
+    if (
+      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+      bookingData.selectedType &&
+      bookingData.selectedType !== "Carpet" &&
+      bookingData.selectedType !== "Dining Chair / Sofa"
+    ) {
+      if (!bookingData.upholsteryItemCount || bookingData.upholsteryItemCount < 1) {
+        errors.upholsteryItemCount = "Please enter the number of items";
+      }
+    }
+
+    // ✅ Upholstery Cleaning -> Carpet: require carpet area fields
+    if (
+      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+      bookingData.selectedType === "Carpet"
+    ) {
+      if (!bookingData.carpetAreas || bookingData.carpetAreas.length === 0) {
+        errors.carpetAreas = "Please enter carpet area";
+      } else {
+        const hasEmptyArea = bookingData.carpetAreas.some(
+          (area) => !area.trim()
+        );
+        if (hasEmptyArea) {
+          errors.carpetAreas = "Please enter carpet area";
+        }
+      }
+    }
+    setFormErrors(errors);
+
+    // Log errors for debugging
+    if (Object.keys(errors).length > 0) {
+      console.error("Validation errors:", errors);
+    }
+
+    return Object.keys(errors).length === 0;
+  };
+
+  // Update latest location
   const updateLatestLocation = (data: LatestLocation) => {
     setLatestLocation(data);
     console.log("✅ Context updated:", data);
@@ -374,6 +495,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         createBookingOrder,
         formErrors,
         setFormErrors,
+        validateBooking,
       }}
     >
       {children}

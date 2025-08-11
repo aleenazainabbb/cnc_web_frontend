@@ -21,7 +21,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   selectedService,
 }) => {
   // const { billingData, applyPromoCode, updateBookingData, updateBillingData, updateLatestLocation } = useBooking();
-  const { billingData, updateBookingData } = useBooking();
+  const { billingData, updateBookingData ,validateBooking, formErrors} = useBooking();
   const locationListRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -37,6 +37,15 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const [discountInput, setDiscountInput] = useState(discountAmount);
   // const { savedLocations, fetchSavedLocations, saveLocation } = useLocation();
   const [showLocationList, setShowLocationList] = useState(false);
+
+const handleNextClick = () => {
+  if (!validateBooking()) {
+    setServiceError?.(true);
+    return;
+  }
+  setServiceError?.(false);
+  onNext?.();
+};
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -105,14 +114,14 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const displayAppointmentTime = appointmentTime?.trim() || formattedNow;
   const subtotal = Math.max(0, appointmentValue - discountAmount);
 
-  const handleNextClick = () => {
-    if (!selectedService) {
-      setServiceError?.(true);
-      return;
-    }
-    setServiceError?.(false);
-    onNext?.();
-  };
+  // const handleNextClick = () => {
+  //   if (!selectedService) {
+  //     setServiceError?.(true);
+  //     return;
+  //   }
+  //   setServiceError?.(false);
+  //   onNext?.();
+  // };
 
   // const handleLocationClick = () => {
   //   fetchSavedLocations();

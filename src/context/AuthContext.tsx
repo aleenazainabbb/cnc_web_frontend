@@ -38,6 +38,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+  //   else {
+  //   // :white_check_mark: DEV ONLY: Set a dummy user
+  //   const dummyUser = { name: "Test User", email: "test@example.com" ,token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJoYXNzYW50YWxoYTgwN0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NDAyOTg0MCwiZXhwIjoxNzU0NjM0NjQwfQ.DAsquqRTGTnwNV7EU2JxM1c10sBh7FkFObre8i8fgI0"};
+  //   setUser(dummyUser);
+  //   localStorage.setItem('user', JSON.stringify(dummyUser));
+  // }
     setLoading(false); // ✅ SET loading to false AFTER checking localStorage
   }, []);
 

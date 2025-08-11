@@ -4,6 +4,7 @@ import booking from "./styles/AddBooking/booking.module.css";
 import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
 import Snackbar from "@/components/popups/Snackbar";
+import { set } from "nprogress";
 
 type BookingsProps = {
   serviceError?: boolean;
@@ -13,7 +14,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
 
   const { applyPromoCode } = useBooking();
   const [snackbar, setSnackbar] = useState<{ message: string; type: "success" | "error" } | null>(null);
-  const { updateBookingData, updateBillingData, bookingData, setBillingData, formErrors } = useBooking();
+  const { updateBookingData, updateBillingData, bookingData, setBillingData, formErrors, setFormErrors } = useBooking();
 
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
@@ -23,8 +24,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   const [selectedDetail, setSelectedDetail] = useState<string>("");
   const [selectedFreq, setSelectedFreq] = useState("Once");
 
-  const [selectedStaff, setSelectedStaff] = useState<number | null>(null);
-  const [selectedHours, setSelectedHours] = useState<number | null>(null);
+  const [selectedStaff, setSelectedStaff] = useState<number>(1);
+  const [selectedHours, setSelectedHours] = useState<number>(1);
 
   const [selected, setSelected] = useState<"yes" | "no" | null>("no");
   const [specialInstructions, setSpecialInstructions] = useState<string>("");
@@ -153,8 +154,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   useEffect(() => {
     // Reset UI state
     setSelectedType("");
-    setSelectedHours(null);
-    setSelectedStaff(null);
+    setSelectedHours(1);
+    setSelectedStaff(1);
     setSelectedSpecific("");
     setSelectedDetail("");
     setSquareFootage("");
@@ -235,6 +236,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   }, [selectedType]);
   useEffect(() => {
     updateBookingData({
+      squareFootage: "",
       detail: "",
       appointedPrice: 0,
       discountAmount: 0,
@@ -246,17 +248,6 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
   }, [selectedSpecific]);
 
   useEffect(() => {
-    updateBookingData({
-      squareFootage: "",
-      detail: "",
-      appointedPrice: 0,
-      discountAmount: 0,
-      subTotal: 0,
-      taxAmount: 0,
-      totalAmount: 0,
-      status: "pending",
-    });
-
     updateBillingData({
       appointmentValue: 0,
       discountAmount: 0,
@@ -529,6 +520,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                             setIsServiceOpen(false);
                             setServiceError?.(false); //  hide error if service is selected
                             updateBookingData({ service: service.name.trim() });
+                            setFormErrors(prev => ({ ...prev, service: "" }));
                           }}
                         >
                           {service.name}
@@ -538,8 +530,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                   </div>
                 )}
               </div>
-                {formErrors.service && <p className="errorText">{formErrors.service}</p>}
-
+              {formErrors.service && <p className="errorText">{formErrors.service}</p>}
             </div>
 
             {/* SUB SERVICE */}
@@ -567,6 +558,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                           onClick={() => {
                             setSelectedSubService(sub.name.trim());
                             setIsSubServiceOpen(false);
+                            setFormErrors(prev => ({ ...prev, subServices: "" }));
                           }} >
                           {sub.name}
                         </div>
@@ -574,6 +566,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                     )}
                   </div>)}
               </div>
+              {formErrors.subServices && <p className="errorText">{formErrors.subServices}</p>}
             </div>
           </div>
 
@@ -583,10 +576,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
               <label className={booking.label}>CATEGORY</label>
               <div className={booking.customselectwrapper} ref={categoryDropdownRef}>
                 <div
-                  // className={`${booking.input} ${deepCleaningCategory ? booking.selectedDropdown : ""}`}
                   className={`${booking.input} ${cleaningCategory ? booking.selectedDropdown : ""}`}
                   onClick={() => setIsCategoryOpen((prev) => !prev)} >
-                  {/* {deepCleaningCategory || "Select Category"} */}
                   {cleaningCategory || "Select Category"}
                 </div>
                 {isCategoryOpen && (
@@ -596,10 +587,10 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                         key={category}
                         className={booking.dropdownitem}
                         onClick={() => {
-                          // setDeepCleaningCategory(category as "Residential" | "Commercial");
                           setCleaningCategory(category as "Residential" | "Commercial");
                           setIsCategoryOpen(false);
                           setSelectedType(""); // reset type
+                          setFormErrors(prev => ({ ...prev, cleaningCategory: "" }));
                         }} >
                         {category}
                       </div>
@@ -607,6 +598,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                   </div>
                 )}
               </div>
+              {formErrors.cleaningCategory && <p className="errorText">{formErrors.cleaningCategory}</p>}
             </>
           )}
 
@@ -630,6 +622,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                           onClick={() => {
                             setSelectedType("with-supplies");
                             setIsTypeOpen(false);
+                            setFormErrors(prev => ({ ...prev, type: "" }));
                           }} >
                           With supplies (40 AED per hour per crew)
                         </div>
@@ -638,6 +631,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                           onClick={() => {
                             setSelectedType("without-supplies");
                             setIsTypeOpen(false);
+                            setFormErrors(prev => ({ ...prev, type: "" }));
                           }}
                         >
                           Without supplies (45 AED per hour per crew)
@@ -652,6 +646,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                             setSelectedType(type);
                             setCleaningType(type);
                             setIsTypeOpen(false);
+                            setFormErrors(prev => ({ ...prev, type: "" }));
                           }} >
                           {type}
                         </div>
@@ -665,7 +660,9 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                               className={booking.dropdownitem}
                               onClick={() => {
                                 setSelectedType(type);
+                                updateBookingData({ selectedType: type });
                                 setIsTypeOpen(false);
+                                setFormErrors(prev => ({ ...prev, type: "" }));
                               }}>
                               {type}
                             </div>
@@ -677,8 +674,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                 className={booking.dropdownitem}
                                 onClick={() => {
                                   setCleaningType(type);
-                                  // updateBookingData({ cleaningType: type });
                                   setIsTypeOpen(false);
+                                  setFormErrors(prev => ({ ...prev, type: "" }));
                                 }}
                               >
                                 {type}
@@ -692,6 +689,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                   onClick={() => {
                                     setSelectedType(type);
                                     setIsTypeOpen(false);
+                                    setFormErrors(prev => ({ ...prev, type: "" }));
                                   }}
                                 >
                                   {type}
@@ -700,10 +698,10 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                       )
                     )}
                   </div>)}
+                {formErrors.type && <p className="errorText">{formErrors.type}</p>}
               </div>
             </>
           )}
-          {/* {isDeepCleaning && deepCleaningCategory === "Commercial" && ( */}
           {isDeepCleaning && cleaningCategory === "Commercial" && (
             <>
               <label className={booking.label} >AREA</label>
@@ -711,15 +709,18 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                 type="text"
                 placeholder="Enter area in square feet"
                 value={squareFootage}
-                onChange={(e) => setSquareFootage(e.target.value)}
+                onChange={(e) => {
+                  setSquareFootage(e.target.value);
+                  setFormErrors(prev => ({ ...prev, squareFootage: "" }));
+                }}
                 className={booking.input}
                 style={{ backgroundImage: "none" }}
               />
+              {formErrors.squareFootage && <p className="errorText">{formErrors.squareFootage}</p>}
             </>
           )}
 
           {/* yes/no radio buttons */}
-          {/* {isDeepCleaning && deepCleaningCategory === "Commercial" && ( */}
           {isDeepCleaning && cleaningCategory === "Commercial" && (
             <>
               <label className={booking.label}>SITE VISIT</label>
@@ -764,9 +765,16 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                       min="1"
                       placeholder="Enter number of windows"
                       value={numberOfWindows}
-                      onChange={(e) => setNumberOfWindows(e.target.value)}
+                      onChange={(e) => {
+                        setNumberOfWindows(e.target.value);
+                        setFormErrors(prev => ({ ...prev, numberOfWindows: "" }));
+                      }}
                       className={booking.input}
                       style={{ backgroundImage: "none" }} />
+
+                    {formErrors.numberOfWindows && (
+                      <p className="errorText">{formErrors.numberOfWindows}</p>
+                    )}
                   </div>
                 </>
               )}
@@ -778,9 +786,16 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                     min="1"
                     placeholder="Enter area in square feet"
                     value={squareFootage}
-                    onChange={(e) => setSquareFootage(e.target.value)}
+                    onChange={(e) => {
+                      setSquareFootage(e.target.value)
+                      setFormErrors(prev => ({ ...prev, squareFootage: "" }));
+                    }}
                     className={booking.input}
                     style={{ backgroundImage: "none" }} />
+
+                  {formErrors.squareFootage && (
+                    <p className="errorText">{formErrors.squareFootage}</p>
+                  )}
                 </>
               )}
               {selectedSubService.trim().toLowerCase() === "chandelier cleaning services" && (
@@ -791,9 +806,15 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                     min="1"
                     placeholder="Enter no of items"
                     value={numberOfItems}
-                    onChange={(e) => setNumberOfItems(e.target.value)}
+                    onChange={(e) => {
+                      setNumberOfItems(e.target.value)
+                      setFormErrors(prev => ({ ...prev, numberOfItems: "" }));
+                    }}
                     className={booking.input}
                     style={{ backgroundImage: "none" }} />
+                  {formErrors.numberOfItems && (
+                    <p className="errorText">{formErrors.numberOfItems}</p>
+                  )}
                 </>
               )}
 
@@ -804,11 +825,17 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                 accept="image/*,video/*"
                 multiple
                 className={booking.input}
-                onChange={handleFileChange}
+                onChange={(e) => {
+                  handleFileChange(e);
+                  setFormErrors(prev => ({ ...prev, uploadedMedia: "" }));
+                }}
                 style={{ backgroundImage: "none" }} />
+              {formErrors.uploadedMedia && (
+                <p className="errorText">{formErrors.uploadedMedia}</p>
+              )}
             </>
           )}
-          {/* CONDITIONAL UI */}
+
           {isMaidSelected && (
             <>
               {/* NO OF STAFF */}
@@ -841,7 +868,6 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
               </div>
             </>
           )}
-          {/* {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && deepCleaningCategory === "Commercial") && ( */}
           {!isMaidSelected && !isGreaseTrapCleaning && !isVehicleCleaning && !(isDeepCleaning && cleaningCategory === "Commercial") && (
             <>
               {/* SPECIFICS or UNITS Input */}
@@ -853,7 +879,8 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                     type="number"
                     placeholder="Enter number of units"
                     value={selectedSpecific}
-                    onChange={(e) => setSelectedSpecific(e.target.value)}
+                    onChange={(e) => setSelectedSpecific(e.target.value)
+                    }
                     className={booking.input}
                     style={{ backgroundImage: "none" }} />
                 </>
@@ -881,6 +908,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       className={booking.dropdownitem}
                                       onClick={() => {
                                         setSelectedSpecific(`${count}`);
+                                        setFormErrors(prev => ({ ...prev, specific: "" }));
                                         setIsSpecificOpen(false);
                                       }} >
                                       {count}
@@ -893,6 +921,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       className={booking.dropdownitem}
                                       onClick={() => {
                                         setSelectedSpecific(option);
+                                        setFormErrors(prev => ({ ...prev, specific: "" }));
                                         setIsSpecificOpen(false);
                                       }} >
                                       {option}
@@ -906,12 +935,18 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       onClick={() => {
                                         setSelectedSpecific(count.toString());
                                         setCarpetCount(count);
-                                        setCarpetAreas(Array(count).fill("")); // initialize N empty fields
+                                        setCarpetAreas(Array(count).fill(""));
+                                        setFormErrors(prev => ({ ...prev, specific: "" }));
                                         setIsSpecificOpen(false);
                                       }} >
                                       {count}
+
                                     </div>
                                   ))}
+                                {formErrors.carpetAreas && (
+                                  <p className="errorText">{formErrors.carpetAreas}</p>
+                                )}
+
                                 {selectedType === "Rugs" &&
                                   ["Small", "Medium", "Large"].map((option) => (
                                     <div
@@ -920,10 +955,12 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       onClick={() => {
                                         setSelectedSpecific(option);
                                         setIsSpecificOpen(false);
+                                        setFormErrors(prev => ({ ...prev, specific: "" }));
                                       }}>
                                       {option}
                                     </div>
                                   ))}
+
                               </>
                             )}
                             {/* ✅ Regular logic for Apartment, Townhouse, Villa */}
@@ -934,6 +971,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                     <div key={option} className={booking.dropdownitem} onClick={() => {
                                       setSelectedSpecific(option);
                                       setIsSpecificOpen(false);
+                                      // setFormErrors(prev => ({ ...prev, specific: "" }));
                                     }} >
                                       {option}
                                     </div>
@@ -946,6 +984,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       onClick={() => {
                                         setSelectedSpecific(option);
                                         setIsSpecificOpen(false);
+                                        // setFormErrors(prev => ({ ...prev, specific: "" }));
                                       }} >
                                       {option}
                                     </div>
@@ -961,6 +1000,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       onClick={() => {
                                         setSelectedSpecific(option);
                                         setIsSpecificOpen(false);
+                                        // setFormErrors(prev => ({ ...prev, specific: "" }));
                                       }}>
                                       {option}
                                     </div>
@@ -977,7 +1017,6 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                       {/* cleaning services -> deep cleaning -> residential ->  Apartment*/}
                       {selectedService.toLowerCase() === "cleaning services" &&
                         selectedSubService.toLowerCase() === "deep cleaning" &&
-                        // deepCleaningCategory === "Residential" &&
                         cleaningCategory === "Residential" &&
                         selectedType === "Apartment" && (
                           <div className={booking.formGroup}>
@@ -997,6 +1036,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                       onClick={() => {
                                         setResidentialCleanType(option);
                                         setIsResidentialTypeOpen(false);
+                                        // setFormErrors(prev => ({ ...prev, residentialCleanType: "" }));
                                       }} >
                                       {option}
                                     </div>
@@ -1008,6 +1048,7 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                         )}
                     </>
                   )}
+                  {formErrors.specific && <p className="errorText">{formErrors.specific}</p>}
                 </>
               )}
               {/* Carpet Sizes */}
@@ -1031,10 +1072,15 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                                 const updated = [...carpetAreas];
                                 updated[i] = e.target.value;
                                 setCarpetAreas(updated);
+                                setFormErrors(prev => ({ ...prev, carpetAreas: "" }));
                               }}
                               placeholder="sq feets"
                               className={booking.input}
-                              style={{ backgroundImage: "none" }} />
+                              style={{ backgroundImage: "none" }}
+                            />
+                            {formErrors.carpetAreas && (
+                              <p className="errorText">{formErrors.carpetAreas}</p>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -1052,10 +1098,16 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                       min="1"
                       placeholder="Enter number of items"
                       value={upholsteryItemCount}
-                      onChange={(e) => setUpholsteryItemCount(Number(e.target.value))}
+                      onChange={(e) => {
+                        setUpholsteryItemCount(Number(e.target.value));
+                        setFormErrors(prev => ({ ...prev, upholsteryItemCount: "" }));
+                      }}
                       className={booking.input}
                       style={{ backgroundImage: "none" }}
                     />
+                    {formErrors.upholsteryItemCount && (
+                      <p className="errorText">{formErrors.upholsteryItemCount}</p>
+                    )}
                   </div>
                 )}
               {/* DETAILS */}
@@ -1187,32 +1239,45 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
               accept="image/*,video/*"
               multiple
               className={booking.input}
-              onChange={handleFileChange}
+              onChange={(e) => {
+                handleFileChange(e);
+                setFormErrors(prev => ({ ...prev, uploadedMedia: "" }));
+              }}
             />
+            {formErrors.uploadedMedia && (
+              <p className="errorText">{formErrors.uploadedMedia}</p>
+            )}
           </div>
         )}
         {isVehicleCleaning && (
           <>
-            {/* <div className={booking.cont}> */}
             <div className={booking.formGroup}>
               <label className={booking.label}>Make</label>
               <input
                 type="text"
                 value={make}
-                onChange={(e) => setMake(e.target.value)}
+                onChange={(e) => {
+                  setMake(e.target.value);
+                  setFormErrors(prev => ({ ...prev, make: "" }))
+                }}
                 className={booking.input}
                 style={{ backgroundImage: "none" }}
               />
+              {formErrors.make && <p className="errorText">{formErrors.make}</p>}
             </div>
             <div className={booking.formGroup}>
               <label className={booking.label}>Model</label>
               <input
                 type="text"
                 value={model}
-                onChange={(e) => setModel(e.target.value)}
+                onChange={(e) => {
+                  setModel(e.target.value);
+                  setFormErrors(prev => ({ ...prev, model: "" }))
+                }}
                 className={booking.input}
                 style={{ backgroundImage: "none" }}
               />
+              {formErrors.model && <p className="errorText">{formErrors.model}</p>}
             </div>
             {/* </div> */}
 
@@ -1221,10 +1286,15 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
               <input
                 type="text"
                 value={variant}
-                onChange={(e) => setVariant(e.target.value)}
+                onChange={(e) => {
+                  setVariant(e.target.value);
+                  setFormErrors(prev => ({ ...prev, variant: "" }))
+                }
+                }
                 className={booking.input}
                 style={{ backgroundImage: "none" }}
               />
+              {formErrors.variant && <p className="errorText">{formErrors.variant}</p>}
             </div>
 
             <div className={booking.formGroup}>
@@ -1250,9 +1320,13 @@ const Bookings: React.FC<BookingsProps> = ({ serviceError, setServiceError }) =>
                         ...fileWithPaths,
                       ],
                     });
+                    setFormErrors(prev => ({ ...prev, uploadedMedia: "" }));
                   }
                 }}
               />
+              {formErrors.uploadedMedia && (
+                <p className="errorText">{formErrors.uploadedMedia}</p>
+              )}
             </div>
           </>
         )}

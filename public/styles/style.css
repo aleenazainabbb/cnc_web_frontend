@@ -1177,15 +1177,13 @@ input[type="number"] {
 
   .input-wrapper {
     position: relative;
-  } */
-
+  } 
 
 .errorText {
   color: red;
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 5px;
 }
-
 
 .feature_box {
     background-color: #f6f6f6;
