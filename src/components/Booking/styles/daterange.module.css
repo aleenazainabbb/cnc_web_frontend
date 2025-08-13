@@ -1,0 +1,107 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.rangeBox {
+    width: 199px;
+    height: 40px;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0px 4px 16px 0px #0000000A;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rangeBoxSelected {
+    padding: 0px 10px;
+    /* Less padding when selected */
+}
+
+.input {
+    border: none;
+    outline: none;
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    background: transparent;
+    color: #8B909A;
+    width: 100%;
+    transition: font-size 0.2s ease;
+}
+
+.inputSelected {
+    font-size: 12px;
+    color: #8B909A;
+}
+
+.chevron {
+    margin-left: 8px;
+}
+
+.calendarWrapper {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    z-index: 1001;
+    border-radius: 6px;
+    box-shadow: 0px 4px 16px 0px #0000000A;
+}
+
+@media (max-width: 350px) {
+    .calendarWrapper {
+        width: 98vw;
+        left: auto;
+        right: 0;
+        top: 30px;
+    }
+
+
+}
+@media (max-width: 768px) {
+    .datrange.wrapper {
+        flex-direction: column;
+        align-items: flex-end;
+        margin: 10px;
+    }
+
+    .rangeBox {
+        width: 100%;
+        /* full width on small screens */
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .input {
+        font-size: 14px;
+    }
+
+    .calendarWrapper {
+        top: 40px;
+        right: 0;
+        left: auto;
+        width: 95vw;
+    }
+}
+
+@media (max-width: 420px) {
+    .datrange.wrapper {
+        margin: 5px;
+    }
+
+    .rangeBox {
+        height: 36px;
+        padding: 0 8px;
+    }
+
+    .input {
+        font-size: 12px;
+    }
+}

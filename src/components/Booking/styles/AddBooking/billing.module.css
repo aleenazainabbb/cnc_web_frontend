@@ -1,0 +1,340 @@
+.billingcontainer {
+  width: 100%;
+  max-width: 450px !important;
+  background-color: #f4f7f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 44px 25px 44px 25px;
+  /* z-index: 1000; */
+  display: flex;
+  flex-direction: column;
+  /* overflow-y: auto; */
+  box-sizing: border-box;
+}
+
+.locationList {
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.locationItem {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.locationItem:last-child {
+  border-bottom: none;
+}
+
+.locationItem:hover {
+  background-color: #e6f0ff;
+}
+
+.billingheading {
+  color: #0e144a;
+  font-family: 'Averta';
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 100%;
+  margin-bottom: 24px;
+}
+
+.appointmentcard {
+  background-color: #fff;
+  padding: 40px 20px 20px 20px;
+  border-radius: 10px;
+  margin: 40px 0 24px 0;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 1;
+  /* ✅ allow shrinking */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  /* ✅ for better control */
+  box-sizing: border-box;
+}
+
+.appointmentrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  /* Allows multiline */
+  word-break: break-word;
+}
+
+.locationRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.appointmentfrequency {
+  flex-shrink: 0;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 23px;
+  letter-spacing: 0.003em;
+  color: #2b3641;
+  margin-bottom: 4px;
+  height: 20px;
+  width: 100%;
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
+}
+
+.appointmenttime,
+.changelocation {
+  width: 100%;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23px;
+  letter-spacing: 0.003em;
+  color: #1a78f2;
+  margin-top: 10px;
+  cursor: pointer;
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
+}
+
+.changelocation {
+  font-size: 14px;
+}
+
+.divider {
+  border-top: 1px solid #bcc2c8;
+  opacity: 0.5;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.locationtext {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 23px;
+  letter-spacing: 0.003em;
+  color: #2b3641;
+  margin-top: 10px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  /* ✅ allows wrapping */
+  flex: 1 1 auto;
+  /* ✅ allows shrinking and growing */
+  min-width: 0;
+}
+
+.pricingbox {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 40px 0 24px 0;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pricingrow,
+.subtotalrow,
+.taxrow,
+.totalrow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.subtotalrow,
+.taxrow {
+  margin-top: 17px;
+  margin-bottom: 8px;
+  color: #88939d;
+}
+
+.totalrow {
+  padding-top: 12px;
+}
+
+.totalvalue {
+  color: black;
+}
+
+.buttoncontainer {
+  text-align: center;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.nextbutton {
+  width: 100%;
+  max-width: 120px;
+  max-height: 40px;
+  height: 60px;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 18px;
+  background-color: #36b864;
+  color: #fff;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+.detailslink {
+  font-size: 12px;
+  color: #1a78f2;
+  cursor: pointer;
+}
+
+
+@media (max-width: 1280px) {
+  .billingheading {
+    margin-bottom: 15px;
+  }
+
+  .appointmentcard,
+  .pricingbox {
+    padding: 11px 10px;
+    margin: 22px 0 0px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .billingcontainer {
+    padding: 24px 20px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .appointmentcard,
+  .pricingbox {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 10px;
+    margin: 12px 0;
+  }
+
+  .billingheading {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .appointmentrow,
+  .locationRow {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .appointmentfrequency,
+  .appointmenttime,
+  .changelocation,
+  .locationtext {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .changelocation {
+    font-size: 11px;
+  }
+
+  .divider {
+    max-width: 100%;
+  }
+
+  .pricingrow,
+  .subtotalrow,
+  .taxrow,
+  .totalrow {
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .buttoncontainer {
+    margin-top: 24px;
+  }
+
+  .nextbutton {
+    font-size: 13px;
+  }
+
+  .subtotalrow,
+  .taxrow {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .appointmentrow {
+    gap: 0px;
+  }
+}
+
+@media (max-width: 470px) {
+
+  .appointmentrow,
+  .locationRow {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .appointmentfrequency,
+  .appointmenttime,
+  .locationtext {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .changelocation {
+    font-size: 10px;
+  }
+
+  .pricingrow,
+  .subtotalrow,
+  .taxrow,
+  .totalrow {
+    font-size: 11px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nextbutton {
+    height: 44px;
+    font-size: 12px;
+    width: 100%;
+    max-width: 120px;
+    border-radius: 8px;
+  }
+}

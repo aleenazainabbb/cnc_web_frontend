@@ -1,0 +1,144 @@
+.sidebar {
+  width: 260px;
+  background-color: white;
+  border-right: 1px solid #B2B2B2;
+  display: flex;
+  flex-direction: column;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.divider {
+  width: 100%;
+  margin-bottom: 8px;
+  border: 1px solid #BEBEBE;
+}
+
+.navList {
+  list-style: none;
+  padding: 24px;
+  border-radius: 6px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.navList li a {
+  color: #8B909A;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.navLink {
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  color: #8B909A;
+  transition: background-color 0.3s, color 0.3s;
+}
+.active {
+  background-color: #0F60FF;
+  color: white !important;
+}
+
+.active i {
+  color: white !important;
+}
+
+.navLink:hover {
+  background-color: #0F60FF;
+  color: #FFFFFF;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoutBtnn {
+  width: 90%;
+  max-width: 232px;
+  height: 40px;
+  background-color: #EF450F;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  align-self: center;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 800px) {
+
+  /* All images responsive */
+  .logoImage {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 770px) {
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .navList {
+    padding: 12px;
+    gap: 15px;
+  }
+
+  .navLink {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .sidebar {
+    width: 100px;
+
+  }
+
+  .navlist {
+    padding: 0px;
+    gap: 12px;
+  }
+
+  .navLink {
+    padding: 2px;
+  }
+
+  .navList li a {
+    font-size: 8px;
+  }
+
+  .logoutBtnn {
+    height: 30px;
+    font-size: 11px;
+  }
+  .logoContainer {
+    padding: 10px;
+  }
+}
+
+/* Optional: stack vertically on very small screens */
+@media (max-width: 480px) {
+  .headerWrapper {
+    flex-direction: column;
+  }
+
+  .textLogos {
+    align-items: center;
+  }
+}
