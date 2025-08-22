@@ -10,40 +10,167 @@ type BookingsProps = {
   serviceError?: boolean;
   setServiceError?: (val: boolean) => void;
 };
+
+interface UpholsteryRate {
+  type: string;
+  unitPrice?: number;
+  unit?: string;
+  rates?: {
+    [key: string]: number;
+  };
+}
 const Bookings: React.FC<BookingsProps> = ({
   serviceError,
   setServiceError,
 }) => {
+  // Declare all state variables BEFORE any useEffect that uses them
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [selectedSpecific, setSelectedSpecific] = useState<string>("");
+  const [itemCount, setItemCount] = useState<number>(2); // Default to 2 as in the image
+  const [upholsteryRates, setUpholsteryRates] = useState<UpholsteryRate[]>([]);
+
   const { deepCleanings } = useBooking();
   const [withSuppliesPrice, setWithSuppliesPrice] = useState<number | null>(
     null
   );
-const [withoutSuppliesPrice, setWithoutSuppliesPrice] = useState<number | null>(null);
-const [duct, setDuct] = useState<number | null>(null);
+  const [withoutSuppliesPrice, setWithoutSuppliesPrice] = useState<
+    number | null
+  >(null);
+  const [duct, setDuct] = useState<number | null>(null);
 
-useEffect(() => {
-  const fetchPrices = async () => {
-    try {
-      const data = await deepCleanings(); // call backend
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const data = await deepCleanings(); // call backend
 
-      if (data?.maidRates?.withSupplies) {
-        setWithSuppliesPrice(data.maidRates.withSupplies);
-        setWithoutSuppliesPrice(data.maidRates.withoutSupplies);
+        if (data?.maidRates?.withSupplies) {
+          setWithSuppliesPrice(data.maidRates.withSupplies);
+          setWithoutSuppliesPrice(data.maidRates.withoutSupplies);
+        }
+
+        if (data?.ductRates?.ductPerUnit) {
+          setDuct(data.ductRates.ductPerUnit);
+          console.log("Duct Price:", data.ductRates.ductPerUnit);
+        }
+
+        if (data?.upholsteryRates) {
+          setUpholsteryRates(data.upholsteryRates);
+        }
+      } catch (error) {
+        console.error("Error fetching maid/duct rates:", error);
       }
+    };
 
-      if (data?.ductRates?.ductPerUnit) {
-        setDuct(data.ductRates.ductPerUnit);
-        console.log("Duct Price:", data.ductRates.ductPerUnit);
+    fetchPrices();
+  }, []);
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const data = await deepCleanings();
+
+        if (data?.upholsteryRates) {
+          setUpholsteryRates(data.upholsteryRates);
+          setSelectedType("");
+
+          const mattressItem = data.upholsteryRates.find(
+            (item: { type: string }) => item.type === "Mattress"
+          );
+          if (mattressItem?.rates) {
+            const firstRateKey = Object.keys(mattressItem.rates)[0];
+            if (firstRateKey) {
+              setSelectedSpecific(firstRateKey);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching upholstery rates:", error);
       }
-    } catch (error) {
-      console.error("Error fetching maid/duct rates:", error);
+    };
+
+    fetchPrices();
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedType && selectedSpecific && upholsteryRates.length > 0) {
+      calculatePrice(
+        selectedType,
+        selectedSpecific,
+        itemCount,
+        upholsteryRates
+      );
     }
+  }, [selectedType, selectedSpecific, itemCount, upholsteryRates]);
+  const calculatePrice = (
+    type: string,
+    specific: string,
+    count: number,
+    rates: UpholsteryRate[]
+  ) => {
+    if (!type || !specific || !rates.length) {
+      setTotalPrice(0);
+      return;
+    }
+
+    const selectedUpholstery = rates.find((item) => item.type === type);
+    if (!selectedUpholstery) {
+      setTotalPrice(0);
+      return;
+    }
+
+    let price = 0;
+    if (selectedUpholstery.unitPrice) {
+      price = selectedUpholstery.unitPrice;
+    } else if (
+      selectedUpholstery.rates &&
+      selectedUpholstery.rates[specific.toLowerCase()]
+    ) {
+      price = selectedUpholstery.rates[specific.toLowerCase()];
+    }
+
+    setTotalPrice(price * count);
   };
 
-  fetchPrices();
-}, [deepCleanings]);
+  const handleTypeChange = (type: string) => {
+    setSelectedType(type);
 
+    // Auto-select the first available specific option for the type
+    const selectedUpholstery = upholsteryRates.find(
+      (item) => item.type === type
+    );
+    let newSpecific = "";
 
+    if (selectedUpholstery) {
+      if (selectedUpholstery.unitPrice && selectedUpholstery.unit) {
+        newSpecific = selectedUpholstery.unit;
+      } else if (selectedUpholstery.rates) {
+        const firstRateKey = Object.keys(selectedUpholstery.rates)[0];
+        if (firstRateKey) {
+          newSpecific = firstRateKey;
+        }
+      }
+    }
+
+    setSelectedSpecific(newSpecific);
+  };
+
+  const getPriceForSpecific = (type: string, specific: string) => {
+    const selectedUpholstery = upholsteryRates.find(
+      (item) => item.type === type
+    );
+    if (!selectedUpholstery) return 0;
+
+    if (selectedUpholstery.unitPrice) {
+      return selectedUpholstery.unitPrice;
+    } else if (
+      selectedUpholstery.rates &&
+      selectedUpholstery.rates[specific.toLowerCase()]
+    ) {
+      return selectedUpholstery.rates[specific.toLowerCase()];
+    }
+
+    return 0;
+  };
   const { applyPromoCode } = useBooking();
   const [snackbar, setSnackbar] = useState<{
     message: string;
@@ -58,13 +185,18 @@ useEffect(() => {
     setFormErrors,
   } = useBooking();
 
+  // const [upholsteryRates, setUpholsteryRates] = useState<UpholsteryRate[]>([]);
+
+  // const [itemCount, setItemCount] = useState<number>(2); // Default to 2 as in the image
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
     null
   );
   const [selectedSubService, setSelectedSubService] = useState<string>("");
-  const [selectedType, setSelectedType] = useState<string>("");
-  const [selectedSpecific, setSelectedSpecific] = useState<string>("");
+  // const [selectedType, setSelectedType] = useState<string>("");
+  // const [selectedSpecific, setSelectedSpecific] = useState<string>("");
   const [selectedDetail, setSelectedDetail] = useState<string>("");
   const [selectedFreq, setSelectedFreq] = useState("Once");
 
@@ -157,6 +289,49 @@ useEffect(() => {
     fetchPrices();
   }, [deepCleanings]);
 
+// State for prices
+const [sofaUnitPrice, setSofaUnitPrice] = useState<number>(0);
+const [carpetPricePerSqm, setCarpetPricePerSqm] = useState<number>(0);
+
+// Hook to fetch both prices
+useEffect(() => {
+  const fetchPrices = async () => {
+    try {
+      const data = await deepCleanings();
+      
+      if (data?.upholsteryRates) {
+        // Get Dining chair / Sofa price
+        const sofaData = data.upholsteryRates.find(
+          (item: any) => item.type === "Dining chair / Sofa"
+        );
+        if (sofaData) {
+          setSofaUnitPrice(sofaData.unitPrice); // 120
+        }
+
+        // Get Carpet price
+        const carpetData = data.upholsteryRates.find(
+          (item: any) => item.type === "Carpet"
+        );
+        if (carpetData) {
+          setCarpetPricePerSqm(carpetData.unitPrice); // 70
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching prices:", error);
+    }
+  };
+
+  fetchPrices();
+}, [deepCleanings]);
+// Hook to calculate carpet total price
+useEffect(() => {
+  if (selectedType === "Carpet" && selectedSpecific && carpetPricePerSqm > 0) {
+    const area = parseFloat(selectedSpecific);
+    const totalPrice = carpetPricePerSqm * area;
+    setSelectedDetail(`${totalPrice} AED`);
+  }
+}, [selectedType, selectedSpecific, carpetPricePerSqm]);
+
   const handleApply = async () => {
     try {
       const result = await applyPromoCode(discountInput);
@@ -169,6 +344,8 @@ useEffect(() => {
       setSnackbar({ type: "error", message: err.message });
     }
   };
+
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -292,6 +469,7 @@ useEffect(() => {
       cleaningType: "",
       uploadedMedia: [],
       specialInstructions: "",
+      // selectedSpecific: "",
     });
 
     // ✅ Clear billing data too
@@ -309,6 +487,7 @@ useEffect(() => {
     setCarpetCount(0);
     setCarpetAreas([]);
     setSelectedSpecific("");
+    setUpholsteryItemCount(0);
 
     updateBookingData({
       specific: "",
@@ -319,8 +498,10 @@ useEffect(() => {
       taxAmount: 0,
       totalAmount: 0,
       status: "pending",
+      // numberOfItems:"0",
     });
   }, [selectedType]);
+
   useEffect(() => {
     updateBookingData({
       squareFootage: "",
@@ -331,6 +512,7 @@ useEffect(() => {
       taxAmount: 0,
       totalAmount: 0,
       status: "pending",
+      // numberOfItems:"",
     });
   }, [selectedSpecific]);
 
@@ -387,14 +569,14 @@ useEffect(() => {
     // Cleaning Services → Upholstery Cleaning
     else if (subservice === "upholstery cleaning") {
       const upholsteryMap: Record<string, string> = {
-        "dining chair / sofa|per chair / seater": "29 AED per chair / seater",
-        "mattress|single": "179 AED",
-        "mattress|double queen": "279 AED",
-        "mattress|double king": "319 AED",
-        "carpet|per sq m": "35 AED",
-        "rugs|small": "79 AED",
-        "rugs|medium": "119 AED",
-        "rugs|large": "199 AED",
+        // "dining chair / sofa|per chair / seater": "29 AED per chair / seater",
+        // "mattress|single": "179 AED",
+        // "mattress|double queen": "279 AED",
+        // "mattress|double king": "319 AED",
+        // "carpet|per sq m": "35 AED",
+        // "rugs|small": "79 AED",
+        // "rugs|medium": "119 AED",
+        // "rugs|large": "199 AED",
       };
       const normalizedType = type.trim().toLowerCase();
       const normalizedSpecific = specific.trim().toLowerCase();
@@ -770,7 +952,8 @@ useEffect(() => {
                             {/* With supplies (40 AED per hour per crew) */}
 
                             <p className={booking.price}>
-                            with supplies  AED {withSuppliesPrice } per hour per crew
+                              with supplies AED {withSuppliesPrice} per hour per
+                              crew
                             </p>
                           </div>
                           <div
@@ -783,8 +966,8 @@ useEffect(() => {
                           >
                             {/* Without supplies (45 AED per hour per crew) */}
                             <p className={booking.price}>
-                            without supplies  AED {withoutSuppliesPrice  } per hour per
-                              crew 
+                              without supplies AED {withoutSuppliesPrice} per
+                              hour per crew
                             </p>
                           </div>
                         </>
@@ -821,7 +1004,7 @@ useEffect(() => {
                             key={type}
                             className={booking.dropdownitem}
                             onClick={() => {
-                              setSelectedType(type);
+                              handleTypeChange(type);
                               updateBookingData({ selectedType: type });
                               setIsTypeOpen(false);
                               setFormErrors((prev) => ({ ...prev, type: "" }));
@@ -1118,7 +1301,25 @@ useEffect(() => {
                             }`}
                             onClick={() => setIsSpecificOpen(!isSpecificOpen)}
                           >
-                            {selectedSpecific || "Select Specific"}
+                            <p className={booking.place}>
+                              <span className={booking.placeholder}>
+                                Select Specific
+                              </span>
+                              {selectedSpecific && (
+                                <span className={booking.value}>
+                                  {" "}
+                                  {selectedSpecific}
+                                </span>
+                              )}
+
+                              {isSpecialCleaning && (
+                                <div>
+                                  {selectedSpecific
+                                    ? booking.selectedDropdown
+                                    : ""}
+                                </div>
+                              )}
+                            </p>
                           </div>
                           {isSpecificOpen && (
                             <div className={booking.customdropdown}>
@@ -1150,8 +1351,8 @@ useEffect(() => {
                                   {selectedType === "Mattress" &&
                                     [
                                       "Single",
-                                      "Double Queen",
                                       "Double King",
+                                      "Double Queen",
                                     ].map((option) => (
                                       <div
                                         key={option}
@@ -1197,24 +1398,33 @@ useEffect(() => {
                                   )}
 
                                   {selectedType === "Rugs" &&
-                                    ["Small", "Medium", "Large"].map(
-                                      (option) => (
-                                        <div
-                                          key={option}
-                                          className={booking.dropdownitem}
-                                          onClick={() => {
-                                            setSelectedSpecific(option);
-                                            setIsSpecificOpen(false);
-                                            setFormErrors((prev) => ({
-                                              ...prev,
-                                              specific: "",
-                                            }));
-                                          }}
-                                        >
-                                          {option}
-                                        </div>
-                                      )
-                                    )}
+                                    Object.keys(
+                                      upholsteryRates.find(
+                                        (item) => item.type === "Rugs"
+                                      )?.rates || {}
+                                    ).map((option) => (
+                                      <div
+                                        key={option}
+                                        className={booking.dropdownitem}
+                                        onClick={() => {
+                                          setSelectedSpecific(option);
+                                          setIsSpecificOpen(false);
+                                          setFormErrors((prev) => ({
+                                            ...prev,
+                                            specific: "",
+                                          }));
+                                          calculatePrice(
+                                            "Rugs",
+                                            option,
+                                            itemCount,
+                                            upholsteryRates
+                                          ); // ✅ update price
+                                        }}
+                                      >
+                                        {option.charAt(0).toUpperCase() +
+                                          option.slice(1)}
+                                      </div>
+                                    ))}
                                 </>
                               )}
                               {/* ✅ Regular logic for Apartment, Townhouse, Villa */}
@@ -1412,13 +1622,27 @@ useEffect(() => {
                   selectedType !== "Dining Chair / Sofa" && (
                     <div className={booking.formGroup}>
                       <label className={booking.label}>No of Items</label>
+
                       <input
                         type="number"
                         min="1"
                         placeholder="Enter number of items"
-                        value={upholsteryItemCount}
+                        value={
+                          upholsteryItemCount === 0 ? "" : upholsteryItemCount
+                        } // show empty if 0
                         onChange={(e) => {
-                          setUpholsteryItemCount(Number(e.target.value));
+                          const rawValue = e.target.value;
+
+                          if (rawValue === "") {
+                            setUpholsteryItemCount(0);
+                            return;
+                          }
+
+                          const value = Number(rawValue);
+                          if (value >= 1) {
+                            setUpholsteryItemCount(value);
+                          }
+
                           setFormErrors((prev) => ({
                             ...prev,
                             upholsteryItemCount: "",
@@ -1427,6 +1651,7 @@ useEffect(() => {
                         className={booking.input}
                         style={{ backgroundImage: "none" }}
                       />
+
                       {formErrors.upholsteryItemCount && (
                         <p className="errorText">
                           {formErrors.upholsteryItemCount}
@@ -1454,7 +1679,6 @@ useEffect(() => {
                         </div>
                         {isDetailOpen && (
                           <div className={booking.customdropdown}>
-                            {/* ✅ Show only auto-selected detail for Pest Control */}
                             {selectedService.trim().toLowerCase() ===
                             "pest control" ? (
                               selectedDetail ? (
@@ -1486,20 +1710,111 @@ useEffect(() => {
                                 </div>
                               )
                             ) : selectedSubService.trim().toLowerCase() ===
-                              "upholstery cleaning" ? (
-                              selectedDetail ? (
+                                "upholstery cleaning" && selectedSpecific ? (
+                              selectedType === "Rugs" ? (
                                 <div
                                   className={booking.dropdownitem}
-                                  onClick={() => setIsDetailOpen(false)}
+                                  onClick={() => {
+                                    // Selected detail shows total price (price * count) - SAME AS MATTRESS
+                                    setSelectedDetail(
+                                      ` ${
+                                        getPriceForSpecific(
+                                          selectedType,
+                                          selectedSpecific
+                                        ) * (upholsteryItemCount || 1)
+                                      } AED`
+                                    );
+                                  }}
                                 >
-                                  {selectedDetail}
+                                  {/* Dropdown shows total price */}
+                                  {upholsteryItemCount || 1} Piece Rugs -
+                                  {getPriceForSpecific(
+                                    selectedType,
+                                    selectedSpecific
+                                  ) * (upholsteryItemCount || 1)}
+                                  AED
                                 </div>
-                              ) : (
-                                <div className={booking.dropdownitem}>
-                                  Please select Type and Specific
+                              ) : selectedType === "Mattress" ? (
+                                <div
+                                  className={booking.dropdownitem}
+                                  onClick={() => {
+                                    // Selected detail shows total price (price * count)
+                                    setSelectedDetail(
+                                      `${selectedSpecific} – ${
+                                        getPriceForSpecific(
+                                          selectedType,
+                                          selectedSpecific
+                                        ) * (upholsteryItemCount || 1)
+                                      } AED`
+                                    );
+                                    setIsDetailOpen(false);
+                                  }}
+                                >
+                                  {/* Dropdown shows total price */}
+                                  {selectedSpecific} –{" "}
+                                  {getPriceForSpecific(
+                                    selectedType,
+                                    selectedSpecific
+                                  ) * (upholsteryItemCount || 1)}
+                                  AED
                                 </div>
-                              )
-                            ) : (
+                              ) 
+                          :selectedType ? (
+  selectedType === "Dining chair / Sofa" ? (
+    <div
+      className={booking.dropdownitem}
+      onClick={() => {
+        const count = selectedSpecific ? parseInt(selectedSpecific) : 1;
+        const totalPrice = sofaUnitPrice * count;
+        setSelectedDetail(`${totalPrice} AED`);
+        setIsDetailOpen(false);
+        // Reset billing for other options
+        setSelectedType("");
+        setSelectedSubService("");
+        setSelectedSpecific("");
+      }}
+    >
+      <p>
+        {sofaUnitPrice * (selectedSpecific ? parseInt(selectedSpecific) : 1)} AED
+      </p>
+    </div>
+  ) : selectedType === "Carpet" ? (
+    <div
+      className={booking.dropdownitem}
+      onClick={() => {
+        const area = selectedSpecific ? parseFloat(selectedSpecific) : 1;
+        const totalPrice = carpetPricePerSqm * area; // Calculate total price
+        setSelectedDetail(`${totalPrice} AED`); // Show total price in details
+        setIsDetailOpen(false);
+        // Reset billing for other options
+        setSelectedType("");
+        setSelectedSubService("");
+        setSelectedSpecific("");
+      }}
+    >
+      <p>
+        {carpetPricePerSqm * (selectedSpecific ? parseFloat(selectedSpecific) : 1)} AED
+      </p>
+    </div>
+  ) : (
+    <div 
+  className={booking.dropdownitem}
+  onClick={() => {
+    const count = selectedSpecific ? parseInt(selectedSpecific) : 1;
+    const totalPrice = sofaUnitPrice * count;
+    setSelectedDetail(`${totalPrice} AED`);
+  }}
+>
+  {sofaUnitPrice * (selectedSpecific ? parseInt(selectedSpecific) : 1)} AED
+</div>
+  )
+) : (
+  <div className={booking.dropdownitem}>
+    <p>Please select type first</p>
+  </div>
+)
+
+): (
                               <>
                                 {/* Apartment Details */}
                                 {selectedType === "Apartment" &&
@@ -1775,11 +2090,12 @@ useEffect(() => {
                               </>
                             )}
                             {/* Default fallback */}
-                            {(!selectedType || !selectedSpecific) && (
+                            {selectedSubService?.trim().toLowerCase() ===
+                              "duct cleaning" && (
                               <div className={booking.dropdownitem}>
                                 <p className={booking.price}>
-    AED {duct ?? "-"} per unit (duct cleaning)
-  </p>
+                                  AED {duct ?? "-"} per unit (duct cleaning)
+                                </p>
                               </div>
                             )}
                           </div>
@@ -2004,3 +2320,10 @@ useEffect(() => {
   );
 };
 export default Bookings;
+function setSofaUnitPrice(unitPrice: any) {
+  throw new Error("Function not implemented.");
+}
+
+function setSofaUnit(unit: any) {
+  throw new Error("Function not implemented.");
+}

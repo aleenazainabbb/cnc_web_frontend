@@ -52,6 +52,7 @@ type BookingData = {
   payment?: "card" | "cash";
   appointmentLocation?: string;
   selectedType?: string;
+  
 };
 
 export type LatestLocation = {
@@ -480,32 +481,33 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
 
-  const deepCleanings = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Authorization token required");
+ // --- API call ---
+const deepCleanings = async (type?: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Authorization token required");
 
-      const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ type }), // 👈 restrict API by type/specific
+    });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to fetch deep cleaning services.");
-      }
-
-      // Process the result as needed
-      console.log("✅ Deep cleaning services fetched:", result);
-      return result;
-    } catch (error: any) {
-      console.error("❌ Deep cleaning services error:", error.message);
-      throw error;
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.message || "Failed to fetch deep cleaning services.");
     }
-  };
+
+    console.log(`✅ Deep cleaning fetched for ${type}:`, result);
+    return result;
+  } catch (error: any) {
+    console.error("❌ Deep cleaning services error:", error.message);
+    throw error;
+  }
+};
+
 
 
 
