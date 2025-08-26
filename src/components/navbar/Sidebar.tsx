@@ -1,11 +1,11 @@
-'use client';
-import React from 'react';
-import side from './styles/sidebar.module.css';
-import Image from 'next/image';
-import LinkWithLoader from '@/components/Loader/Link';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext'; // ✅ Import your auth context
+"use client";
+import React from "react";
+import side from "./styles/sidebar.module.css";
+import Image from "next/image";
+import LinkWithLoader from "@/components/Loader/Link";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext"; // ✅ Import your auth context
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -13,8 +13,8 @@ export default function Sidebar() {
   const { logoutUser } = useAuth(); // ✅ Access logoutUser from context
 
   const handleLogout = () => {
-     logoutUser();    
-    router.push('/');
+    logoutUser();
+    router.push("/");
   };
   return (
     <div className={side.sidebar}>
@@ -30,7 +30,12 @@ export default function Sidebar() {
       <div className={side.divider} />
       <ul className={side.navList}>
         <li>
-          <LinkWithLoader href="/Bookings/Dashboard" className={`${side.navLink} ${pathname.includes('/Bookings/Dashboard') ? side.active : ''}`}>
+          <LinkWithLoader
+            href="/Bookings/Dashboard"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/Dashboard") ? side.active : ""
+            }`}
+          >
             <span className={side.iconText}>
               <i className="fa-solid fa-table-list"></i>
               My Booking
@@ -39,7 +44,12 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/QuoteList" className={`${side.navLink} ${pathname.includes('/Bookings/QuoteList') ? side.active : ''}`}>
+          <LinkWithLoader
+            href="/Bookings/QuoteList"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/QuoteList") ? side.active : ""
+            }`}
+          >
             <span className={side.iconText}>
               <i className="fa-regular fa-rectangle-list"></i>
               My Quotes
@@ -47,7 +57,12 @@ export default function Sidebar() {
           </LinkWithLoader>
         </li>
         <li>
-          <LinkWithLoader href="/Bookings/Profile" className={`${side.navLink} ${pathname.includes('/Bookings/Profile') ? side.active : ''}`}>
+          <LinkWithLoader
+            href="/Bookings/Profile"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/Profile") ? side.active : ""
+            }`}
+          >
             <span className={side.iconText}>
               <i className="fa-regular fa-user"></i>
               Profile
@@ -65,7 +80,12 @@ export default function Sidebar() {
         </li> */}
 
         <li>
-          <LinkWithLoader href="/Bookings/PaymentMethods" className={`${side.navLink} ${pathname.includes('/Bookings/PaymentMethods') ? side.active : ''}`}>
+          <LinkWithLoader
+            href="/Bookings/PaymentMethods"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/PaymentMethods") ? side.active : ""
+            }`}
+          >
             <span className={side.iconText}>
               <i className="fa-solid fa-money-check"></i>
               Payment Methods
@@ -74,15 +94,36 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <LinkWithLoader href="/Bookings/MyWallet" className={`${side.navLink} ${pathname.includes('/Bookings/MyWallet') ? side.active : ''}`}>
+          <LinkWithLoader
+            href="/Bookings/MyWallet"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/MyWallet") ? side.active : ""
+            }`}
+          >
             <span className={side.iconText}>
               <i className="fa-solid fa-wallet"></i>
               My Wallet
             </span>
           </LinkWithLoader>
         </li>
+        <li>
+          <LinkWithLoader
+            href="/Bookings/Complaint"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/Complaint") ? side.active : ""
+            }`}
+          >
+            <span className={side.iconText}>
+              <i className="fa-solid fa-triangle-exclamation"></i>
+              {/* Changed icon */}
+              Complaint
+            </span>
+          </LinkWithLoader>
+        </li>
       </ul>
-      <button className={side.logoutBtnn} onClick={handleLogout}>Logout</button>
-    </div >
+      <button className={side.logoutBtnn} onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
   );
 }

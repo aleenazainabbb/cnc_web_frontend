@@ -47,7 +47,6 @@ const Bookings: React.FC<BookingsProps> = ({
           setWithSuppliesPrice(data.maidRates.withSupplies);
           setWithoutSuppliesPrice(data.maidRates.withoutSupplies);
         }
-
         if (data?.ductRates?.ductPerUnit) {
           setDuct(data.ductRates.ductPerUnit);
           console.log("Duct Price:", data.ductRates.ductPerUnit);
@@ -60,7 +59,6 @@ const Bookings: React.FC<BookingsProps> = ({
         console.error("Error fetching maid/duct rates:", error);
       }
     };
-
     fetchPrices();
   }, []);
   useEffect(() => {
@@ -86,11 +84,8 @@ const Bookings: React.FC<BookingsProps> = ({
         console.error("Error fetching upholstery rates:", error);
       }
     };
-
     fetchPrices();
   }, []);
-
-
   useEffect(() => {
     if (selectedType && selectedSpecific && upholsteryRates.length > 0) {
       calculatePrice(
@@ -111,13 +106,11 @@ const Bookings: React.FC<BookingsProps> = ({
       setTotalPrice(0);
       return;
     }
-
     const selectedUpholstery = rates.find((item) => item.type === type);
     if (!selectedUpholstery) {
       setTotalPrice(0);
       return;
     }
-
     let price = 0;
     if (selectedUpholstery.unitPrice) {
       price = selectedUpholstery.unitPrice;
@@ -127,14 +120,10 @@ const Bookings: React.FC<BookingsProps> = ({
     ) {
       price = selectedUpholstery.rates[specific.toLowerCase()];
     }
-
     setTotalPrice(price * count);
   };
-
   const handleTypeChange = (type: string) => {
     setSelectedType(type);
-
-    // Auto-select the first available specific option for the type
     const selectedUpholstery = upholsteryRates.find(
       (item) => item.type === type
     );
@@ -150,10 +139,8 @@ const Bookings: React.FC<BookingsProps> = ({
         }
       }
     }
-
     setSelectedSpecific(newSpecific);
   };
-
   const getPriceForSpecific = (type: string, specific: string) => {
     const selectedUpholstery = upholsteryRates.find(
       (item) => item.type === type
@@ -171,11 +158,23 @@ const Bookings: React.FC<BookingsProps> = ({
 
     return 0;
   };
-  const { applyPromoCode } = useBooking();
-  const [snackbar, setSnackbar] = useState<{
-    message: string;
-    type: "success" | "error";
-  } | null>(null);
+  
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const data = await deepCleanings();
+        if (data?.maidRates?.withSupplies) {
+          setWithSuppliesPrice(data.maidRates.withSupplies);
+        }
+      } catch (error) {
+       
+      }
+    };
+
+    fetchPrices();
+  }, [deepCleanings]);
+  
+
   const {
     updateBookingData,
     updateBillingData,
@@ -185,38 +184,37 @@ const Bookings: React.FC<BookingsProps> = ({
     setFormErrors,
   } = useBooking();
 
-  // const [upholsteryRates, setUpholsteryRates] = useState<UpholsteryRate[]>([]);
 
-  // const [itemCount, setItemCount] = useState<number>(2); // Default to 2 as in the image
+
+
+
+  const { applyPromoCode } = useBooking();
+  const [snackbar, setSnackbar] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
     null
   );
   const [selectedSubService, setSelectedSubService] = useState<string>("");
-  // const [selectedType, setSelectedType] = useState<string>("");
-  // const [selectedSpecific, setSelectedSpecific] = useState<string>("");
+  const [sofaUnitPrice, setSofaUnitPrice] = useState<number>(0);
+  const [carpetPricePerSqm, setCarpetPricePerSqm] = useState<number>(0);
   const [selectedDetail, setSelectedDetail] = useState<string>("");
   const [selectedFreq, setSelectedFreq] = useState("Once");
-
   const [selectedStaff, setSelectedStaff] = useState<number>(1);
   const [selectedHours, setSelectedHours] = useState<number>(1);
-
   const [selected, setSelected] = useState<"yes" | "no" | null>("no");
   const [specialInstructions, setSpecialInstructions] = useState<string>("");
   const [squareFootage, setSquareFootage] = useState<string>("");
-
   const [siteVisit, setSiteVisit] = useState<"yes" | "no" | null>("no");
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
-
   const [specialInput, setSpecialInput] = useState<string>("");
   const [numberOfWindows, setNumberOfWindows] = useState<string>("");
   const [numberOfItems, setNumberOfItems] = useState<string>("");
-
   const [carpetCount, setCarpetCount] = useState<number>(0);
   const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
-
   const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
   const [residentialCleanType, setResidentialCleanType] = useState<string>("");
 
@@ -247,20 +245,18 @@ const Bookings: React.FC<BookingsProps> = ({
     selectedSubService.trim().toLowerCase()
   );
   const isMaidSelected =
-    selectedSubService.trim().toLowerCase() ===
-    "maid services / general services";
+  selectedSubService.trim().toLowerCase() ===
+  "maid services / general services";
   const isDeepCleaning =
-    selectedService.trim().toLowerCase() === "cleaning services" &&
-    selectedSubService.trim().toLowerCase() === "deep cleaning";
+  selectedService.trim().toLowerCase() === "cleaning services" &&
+  selectedSubService.trim().toLowerCase() === "deep cleaning";
 
   //Vehicle cleaning
   const [make, setMake] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [variant, setVariant] = useState<string>("");
-
   const [cleaningCategory, setCleaningCategory] = useState<string>("");
   const [cleaningType, setCleaningType] = useState<string>("");
-
   const [discountInput, setDiscountInput] = useState("");
 
   const isGreaseTrapCleaning =
@@ -270,7 +266,6 @@ const Bookings: React.FC<BookingsProps> = ({
   const isVehicleCleaning =
     selectedService?.toLowerCase() === "cleaning services" &&
     selectedSubService?.toLowerCase() === "vehicle cleaning";
-
   const { services, subServices, fetchServices, fetchSubServices, loading } =
     useService();
 
@@ -282,18 +277,14 @@ const Bookings: React.FC<BookingsProps> = ({
           setWithSuppliesPrice(data.maidRates.withSupplies);
         }
       } catch (error) {
-        // console.error("Error fetching maid rates:", error);
+        console.error("Error fetching maid rates:", error);
       }
     };
 
     fetchPrices();
   }, [deepCleanings]);
 
-// State for prices
-const [sofaUnitPrice, setSofaUnitPrice] = useState<number>(0);
-const [carpetPricePerSqm, setCarpetPricePerSqm] = useState<number>(0);
 
-// Hook to fetch both prices
 useEffect(() => {
   const fetchPrices = async () => {
     try {
@@ -1779,23 +1770,27 @@ useEffect(() => {
       </p>
     </div>
   ) : selectedType === "Carpet" ? (
-    <div
-      className={booking.dropdownitem}
-      onClick={() => {
-        const area = selectedSpecific ? parseFloat(selectedSpecific) : 1;
-        const totalPrice = carpetPricePerSqm * area; // Calculate total price
-        setSelectedDetail(`${totalPrice} AED`); // Show total price in details
-        setIsDetailOpen(false);
-        // Reset billing for other options
-        setSelectedType("");
-        setSelectedSubService("");
-        setSelectedSpecific("");
-      }}
-    >
-      <p>
-        {carpetPricePerSqm * (selectedSpecific ? parseFloat(selectedSpecific) : 1)} AED
-      </p>
-    </div>
+   <div
+  className={booking.dropdownitem}
+  onClick={() => {
+    // Sum all carpet areas
+    const totalArea = carpetAreas.reduce((sum, area) => {
+      return sum + (parseFloat(area) || 0);
+    }, 0);
+    
+    const totalPrice = carpetPricePerSqm * totalArea; // Calculate total price
+    setSelectedDetail(`${totalPrice} AED`); // Show total price in details
+    setIsDetailOpen(false);
+    // Reset billing for other options
+    setSelectedType("");
+    setSelectedSubService("");
+    setSelectedSpecific("");
+  }}
+>
+  <p>
+    {carpetPricePerSqm * carpetAreas.reduce((sum, area) => sum + (parseFloat(area) || 0), 0)} AED
+  </p>
+</div>
   ) : (
     <div 
   className={booking.dropdownitem}

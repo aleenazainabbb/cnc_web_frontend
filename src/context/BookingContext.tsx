@@ -1,5 +1,11 @@
-'use client';
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+"use client";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 
 type BillingData = {
   appointmentFrequency: string;
@@ -52,7 +58,6 @@ type BookingData = {
   payment?: "card" | "cash";
   appointmentLocation?: string;
   selectedType?: string;
-  
 };
 
 export type LatestLocation = {
@@ -92,7 +97,9 @@ type BookingContextType = {
   setBillingData: React.Dispatch<React.SetStateAction<BillingData>>;
   submitBookingQuote: () => Promise<any>;
 
-  applyPromoCode: (code: string) => Promise<{ success: boolean; message: string }>;
+  applyPromoCode: (
+    code: string
+  ) => Promise<{ success: boolean; message: string }>;
 
   allOrders: string[][];
   fetchAllOrders: () => Promise<void>;
@@ -101,21 +108,30 @@ type BookingContextType = {
   createBookingOrder: () => Promise<any>;
 
   formErrors: { [key: string]: string };
-  setFormErrors: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
+  setFormErrors: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string }>
+  >;
 
   validateBooking: () => boolean;
 
   deepCleanings: () => Promise<any>;
+  allOrdersObject: any[];                     // full objects
+setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;  // optional for updates
+
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 // const apiUrl = 'http://192.168.18.18:3000';
 
-export const BookingProvider = ({ children }: { children: React.ReactNode }) => {
+export const BookingProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [billingData, setBillingData] = useState<BillingData>({
-    appointmentFrequency: 'Every 3 weeks',
+    appointmentFrequency: "Every 3 weeks",
     appointmentTime: new Date().toLocaleString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -125,22 +141,24 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       minute: "2-digit",
       hour12: true,
     }),
-    appointmentLocation: '114 Broadway New York, NY 10005',
-    discountCode: '',
+    appointmentLocation: "114 Broadway New York, NY 10005",
+    discountCode: "",
     appointmentValue: 0,
     discountAmount: 0,
     taxAmount: 0,
     totalAmount: 0,
   });
 
-
-
-  
-  const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(null);
-  const [runtimeBookingList] = useState<Array<BookingData & { location: LatestLocation }>>([]);
+  const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(
+    null
+  );
+  const [runtimeBookingList] = useState<
+    Array<BookingData & { location: LatestLocation }>
+  >([]);
   const [selectionList, setSelectionList] = useState<BookingSelection[]>([]);
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [allOrders, setAllOrders] = useState<string[][]>([]);
+  const [allOrdersObject, setAllOrdersObject] = useState<any[]>([]);
   const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
 
   const latestListRef = useRef(runtimeBookingList);
@@ -149,7 +167,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   }, [runtimeBookingList]);
 
   const updateBookingData = (newData: Partial<BookingData>) => {
-    setBookingData(prev => ({
+    setBookingData((prev) => ({
       ...prev,
       ...newData,
     }));
@@ -170,14 +188,23 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
     if (!bookingData.subService) {
       errors.subServices = "Please select a sub service";
     }
-    const isDeepCleaning = bookingData.service?.trim().toLowerCase() === "cleaning services" && subServiceName === "deep cleaning";
+    const isDeepCleaning =
+      bookingData.service?.trim().toLowerCase() === "cleaning services" &&
+      subServiceName === "deep cleaning";
 
-    const isSpecialCleaning =
-      ["windows cleaning", "swimming pool cleaning", "chandelier cleaning services", "grease trap cleaning services", "vehicle cleaning"].includes(subServiceName);
+    const isSpecialCleaning = [
+      "windows cleaning",
+      "swimming pool cleaning",
+      "chandelier cleaning services",
+      "grease trap cleaning services",
+      "vehicle cleaning",
+    ].includes(subServiceName);
 
-    const isVehicleCleaning = subServiceName.includes("vehicle cleaning")
+    const isVehicleCleaning = subServiceName.includes("vehicle cleaning");
 
-    const isUpholsteryCleaning = serviceName === "cleaning services" && subServiceName === "upholstery cleaning";
+    const isUpholsteryCleaning =
+      serviceName === "cleaning services" &&
+      subServiceName === "upholstery cleaning";
 
     // Deep Cleaning - Commercial
     if (isDeepCleaning && bookingData.cleaningCategory === "Commercial") {
@@ -186,7 +213,7 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       }
     }
 
-    // TYPE 
+    // TYPE
     if (
       (isDeepCleaning && bookingData.cleaningCategory === "Residential") ||
       (!isSpecialCleaning && !isDeepCleaning)
@@ -209,7 +236,10 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       }
     }
     // Special Cleaning - Chandelier
-    if (isSpecialCleaning && subServiceName === "chandelier cleaning services") {
+    if (
+      isSpecialCleaning &&
+      subServiceName === "chandelier cleaning services"
+    ) {
       if (!bookingData.numberOfItems) {
         errors.numberOfItems = "Please enter number of items";
       }
@@ -228,7 +258,10 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       }
     }
     // Special Cleaning - Upload Media
-    if (isSpecialCleaning && (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)) {
+    if (
+      isSpecialCleaning &&
+      (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)
+    ) {
       errors.uploadedMedia = "Please upload at least one image or video";
     }
 
@@ -245,7 +278,10 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       bookingData.selectedType !== "Carpet" &&
       bookingData.selectedType !== "Dining Chair / Sofa"
     ) {
-      if (!bookingData.upholsteryItemCount || bookingData.upholsteryItemCount < 1) {
+      if (
+        !bookingData.upholsteryItemCount ||
+        bookingData.upholsteryItemCount < 1
+      ) {
         errors.upholsteryItemCount = "Please enter the number of items";
       }
     }
@@ -297,16 +333,25 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
 
       formData.append("addressDetails", latestLocation?.fullAddress || "");
       formData.append("accessInstructions", latestLocation?.access || "");
-      formData.append("anyPets", latestLocation?.pets === "yes" ? "true" : "false");
+      formData.append(
+        "anyPets",
+        latestLocation?.pets === "yes" ? "true" : "false"
+      );
       formData.append("petsInfo", latestLocation?.petDetails || "");
-      formData.append("petsAdditionalNotes", latestLocation?.additionalNotes || "");
+      formData.append(
+        "petsAdditionalNotes",
+        latestLocation?.additionalNotes || ""
+      );
 
       formData.append("preferredCleaner", selected?.preferredCleaner || "");
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
 
       formData.append("cleaningFrequency", bookingData.frequency || "");
-      formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      formData.append(
+        "cleaningMaterial",
+        bookingData.cleaningMaterials === "yes" ? "true" : "false"
+      );
       formData.append("additionalNotes", bookingData.specialInstructions || "");
 
       formData.append("numberOfWindows", bookingData.numberOfWindows || "");
@@ -378,7 +423,8 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       });
 
       const result = await response.json();
-      if (!response.ok) throw new Error(result.message || "Order creation failed");
+      if (!response.ok)
+        throw new Error(result.message || "Order creation failed");
 
       console.log("✅ Booking order created:", result);
       return result;
@@ -389,7 +435,9 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   //  promo code integration
-  const applyPromoCode = async (code: string): Promise<{ success: boolean; message: string }> => {
+  const applyPromoCode = async (
+    code: string
+  ): Promise<{ success: boolean; message: string }> => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authorization token required");
@@ -406,7 +454,10 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
       const result = await response.json();
 
       if (!response.ok) {
-        return { success: false, message: result.message || "Invalid promo code" };
+        return {
+          success: false,
+          message: result.message || "Invalid promo code",
+        };
       }
 
       const { discountType, discountValue, message } = result;
@@ -431,13 +482,18 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         totalAmount,
       });
 
-      return { success: true, message: message || "Promo applied successfully" };
+      return {
+        success: true,
+        message: message || "Promo applied successfully",
+      };
     } catch (err: any) {
-      return { success: false, message: err.message || "Failed to validate promo code." };
+      return {
+        success: false,
+        message: err.message || "Failed to validate promo code.",
+      };
     }
   };
 
-  //booking pending/orders integration
   const fetchAllOrders = async (): Promise<void> => {
     try {
       setOrdersLoading(true);
@@ -457,97 +513,99 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
         throw new Error(result.message || "Failed to fetch orders.");
       }
 
-      // Assuming result.data is an array of order objects
-      const sortedOrders = result.data.sort(
-        (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      // Keep original data
+      const orders = result.data || [];
+
+      // Sort by date
+      const sortedOrders = orders.sort(
+        (a: any, b: any) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime()
       );
 
-      // Map to string[][] if needed
+      // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
-        order.service || "-",
+        order.subSubService || order.service || "-",
         order.specialInstructions || "-",
         order.time || "-",
         order.date || "-",
         order.status || "Completed",
       ]);
 
-      setAllOrders(orderRows);
+      // Save both in state
+      setAllOrders(orderRows); // for UI table
+      setAllOrdersObject(sortedOrders); // original objects for detail view or API logic
     } catch (error: any) {
-      console.error(" Order fetch failed:", error.message);
+      console.error("Order fetch failed:", error.message);
     } finally {
       setOrdersLoading(false);
     }
   };
 
+  // --- API call ---
+  const deepCleanings = async (type?: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Authorization token required");
 
- // --- API call ---
-const deepCleanings = async (type?: string) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authorization token required");
+      const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ type }), // 👈 restrict API by type/specific
+      });
 
-    const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ type }), // 👈 restrict API by type/specific
-    });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          result.message || "Failed to fetch deep cleaning services."
+        );
+      }
 
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || "Failed to fetch deep cleaning services.");
+      console.log(`✅ Deep cleaning fetched for ${type}:`, result);
+      return result;
+    } catch (error: any) {
+      console.error("❌ Deep cleaning services error:", error.message);
+      throw error;
     }
+  };
 
-    console.log(`✅ Deep cleaning fetched for ${type}:`, result);
-    return result;
-  } catch (error: any) {
-    console.error("❌ Deep cleaning services error:", error.message);
-    throw error;
-  }
-};
-
-
-
-
- return (
-  <BookingContext.Provider
-    value={{
-      bookingData,
-      updateBookingData,
-      billingData,
-      deepCleanings, // ✅ Now included in value
-      updateBillingData,
-      latestLocation,
-      updateLatestLocation,
-      runtimeBookingList,
-      selectionList,
-      addSelection,
-      setBillingData,
-      submitBookingQuote,
-      applyPromoCode,
-      allOrders,
-      fetchAllOrders,
-      ordersLoading,
-      createBookingOrder,
-      formErrors,
-      setFormErrors,
-      validateBooking,
-    }}
-  >
-    {children}
-  </BookingContext.Provider>
-);
-
+  return (
+    <BookingContext.Provider
+      value={{
+        bookingData,
+        updateBookingData,
+        billingData,
+        deepCleanings, // ✅ Now included in value
+        updateBillingData,
+        latestLocation,
+        updateLatestLocation,
+        runtimeBookingList,
+        selectionList,
+        addSelection,
+        setBillingData,
+        submitBookingQuote,
+        applyPromoCode,
+        allOrders,
+        allOrdersObject,        // ✅ full objects now available
+    setAllOrdersObject,     //
+        fetchAllOrders,
+     ordersLoading,
+        createBookingOrder,
+        formErrors,
+        setFormErrors,
+        validateBooking,
+      }}
+    >
+      {children}
+    </BookingContext.Provider>
+  );
 };
 
 export const useBooking = () => {
   const context = useContext(BookingContext);
-  if (!context) throw new Error("useBooking must be used within BookingProvider");
+  if (!context)
+    throw new Error("useBooking must be used within BookingProvider");
   return context;
 };
-
-
-
-
