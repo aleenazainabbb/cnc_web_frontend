@@ -45,7 +45,6 @@ const ComplaintForm = () => {
   const { allOrdersObject, fetchAllOrders, ordersLoading } = useBooking();
   const [submittedContent, setSubmittedContent] = useState<string | null>(null);
 
-
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">(
     "success"
@@ -128,34 +127,31 @@ const ComplaintForm = () => {
     }
   };
 
-const handleSuggestionSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSuggestionSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!suggestionText) {
-    alert("Please write your suggestion!");
-    return;
-  }
+    if (!suggestionText) {
+      alert("Please write your suggestion!");
+      return;
+    }
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // ✅ returns only the suggestion content (string)
-    const content = await createSuggestion(suggestionText);
+      // ✅ returns only the suggestion content (string)
+      const content = await createSuggestion(suggestionText);
 
-    console.log("Submitted content:", content); // "hello world"
+      console.log("Submitted content:", content); // "hello world"
 
-    // reset form
-    setSuggestionText("");
-
-  } catch (error) {
-    console.error(error);
-    alert("Failed to submit suggestion. Try again.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+      // reset form
+      setSuggestionText("");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to submit suggestion. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles.main}>
@@ -204,6 +200,7 @@ const handleSuggestionSubmit = async (e: React.FormEvent) => {
                   const selectedOrder = allOrdersObject?.find(
                     (order: any) => order.bookingId === bookingId
                   );
+                  console.log("complaint order id", selectedOrder);
                   const serviceLabel =
                     selectedOrder?.subSubService ||
                     selectedOrder?.service ||
@@ -222,7 +219,7 @@ const handleSuggestionSubmit = async (e: React.FormEvent) => {
                     : "-";
                   return (
                     <option key={index} value={order.bookingId}>
-                      {serviceLabel} - {dateLabel}
+                      {order.bookingId} - { serviceLabel && order.subService } - {dateLabel}
                     </option>
                   );
                 })}
@@ -326,43 +323,40 @@ const handleSuggestionSubmit = async (e: React.FormEvent) => {
           </div>
         )}
 
-      {activeTab === "suggestions" && (
-  <div className={styles.complaintsList}>
-    <form
-      onSubmit={handleSuggestionSubmit}
-      className={styles.complaintForm}
-    >
-      <div className={styles.formGroup}>
-        <label className={styles.formLabel}>Your Suggestion</label>
-        <textarea
-          value={suggestionText}
-          onChange={(e) => setSuggestionText(e.target.value)}
-          placeholder="Share your suggestions or feedback..."
-          rows={4}
-          className={styles.formTextarea}
-        />
-      </div>
-      <button
-        type="submit"
-        className={styles.submitBtn}
-        disabled={loading}
-      >
-        {loading ? "Submitting..." : "Submit Suggestion"}
-        
-      </button>
-    </form>
+        {activeTab === "suggestions" && (
+          <div className={styles.complaintsList}>
+            <form
+              onSubmit={handleSuggestionSubmit}
+              className={styles.complaintForm}
+            >
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Your Suggestion</label>
+                <textarea
+                  value={suggestionText}
+                  onChange={(e) => setSuggestionText(e.target.value)}
+                  placeholder="Share your suggestions or feedback..."
+                  rows={4}
+                  className={styles.formTextarea}
+                />
+              </div>
+              <button
+                type="submit"
+                className={styles.submitBtn}
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit Suggestion"}
+              </button>
+            </form>
 
-    {/* ✅ Show submitted content */}
-    {submittedContent && (
-      <div className={styles.suggestionsContainer}>
-        <h3>Last Submitted Suggestion</h3>
-        <p className={styles.suggestionMessage}>{submittedContent}</p>
-      </div>
-    )}
-  </div>
-)}
-
-
+            {/* ✅ Show submitted content */}
+            {submittedContent && (
+              <div className={styles.suggestionsContainer}>
+                <h3>Last Submitted Suggestion</h3>
+                <p className={styles.suggestionMessage}>{submittedContent}</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

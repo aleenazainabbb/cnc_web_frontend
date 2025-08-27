@@ -1281,19 +1281,18 @@ const Bookings: React.FC<BookingsProps> = ({
                           className={booking.customselectwrapper}
                           ref={specificDropdownRef}
                         >
-                         <div
-  className={`${booking.input} ${
-    selectedSpecific ? booking.selectedDropdown : ""
-  }`}
-  onClick={() => setIsSpecificOpen(!isSpecificOpen)}
->
-  <p className={booking.place}>
-    <span className={booking.placeholder}>
-      Select Specific
-    </span>
-  </p>
-</div>
-
+                          <div
+                            className={`${booking.input} ${
+                              selectedSpecific ? booking.selectedDropdown : ""
+                            }`}
+                            onClick={() => setIsSpecificOpen(!isSpecificOpen)}
+                          >
+                            <p className={booking.place}>
+                              <span className={booking.placeholder}>
+                                {selectedSpecific || "Select Specific"}
+                              </span>
+                            </p>
+                          </div>
 
                           {/* ✅ Dropdown menu */}
                           {isSpecificOpen && (
