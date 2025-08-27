@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from './styles/AddBooking/billing.module.css';
 import { useBooking } from "@/context/BookingContext";
-import { useLocation } from "@/context/Location";
+// import { useLocation } from "@/context/Location";
 
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
@@ -16,11 +16,9 @@ type BillingSummaryProps = {
 const BillingSummary: React.FC<BillingSummaryProps> = ({
   onApplyDiscount,
   onNext,
-  // serviceError,
   setServiceError,
   selectedService,
 }) => {
-  // const { billingData, applyPromoCode, updateBookingData, updateBillingData, updateLatestLocation } = useBooking();
   const { billingData, updateBookingData ,validateBooking, formErrors} = useBooking();
   const locationListRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +33,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   } = billingData;
 
   const [discountInput, setDiscountInput] = useState(discountAmount);
-  // const { savedLocations, fetchSavedLocations, saveLocation } = useLocation();
   const [showLocationList, setShowLocationList] = useState(false);
 
 const handleNextClick = () => {
@@ -113,58 +110,6 @@ const handleNextClick = () => {
 
   const displayAppointmentTime = appointmentTime?.trim() || formattedNow;
   const subtotal = Math.max(0, appointmentValue - discountAmount);
-
-  // const handleNextClick = () => {
-  //   if (!selectedService) {
-  //     setServiceError?.(true);
-  //     return;
-  //   }
-  //   setServiceError?.(false);
-  //   onNext?.();
-  // };
-
-  // const handleLocationClick = () => {
-  //   fetchSavedLocations();
-  //   setShowLocationList(!showLocationList);
-  // };
-
-  // const handleSelectLocation = async (location: any) => {
-  //   const formattedAddress = location.formattedAddress;
-
-  //   // 1. Update both billing & booking context
-  //   updateBillingData({ appointmentLocation: formattedAddress });
-  //   updateBookingData({ appointmentLocation: formattedAddress });
-
-  //   // 2. Save to backend
-  //   try {
-  //     await saveLocation({
-  //       label: location.label || "Saved from billing",
-  //       placeId: location.placeId || "",
-  //       formattedAddress,
-  //       lat: location.lat,
-  //       lng: location.lng,
-  //     });
-  //     console.log("✅ Location saved to backend.");
-  //   } catch (err) {
-  //     console.error("❌ Failed to save location:", err);
-  //   }
-
-  //   // 3. ✅ Save to runtime context
-  //   updateLatestLocation({
-  //     type: "Other",
-  //     street: "",
-  //     apt: "",
-  //     city: "",
-  //     country: "",
-  //     fullAddress: formattedAddress,
-  //     access: "",
-  //     pets: "No",
-  //     petDetails: "",
-  //     additionalNotes: "",
-  //   });
-
-  //   setShowLocationList(false);
-  // };
 
 
   return (

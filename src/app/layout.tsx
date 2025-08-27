@@ -21,7 +21,7 @@ import { ServiceProvider } from '@/context/allservices';
 import { ProfileImageProvider } from '@/context/imageUpload';
 import { BookingProvider } from "@/context/BookingContext";
 import { LocationProvider } from '@/context/Location';
-
+import { ContactProvider } from "@/context/Contactus";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -87,10 +87,12 @@ export default function RootLayout({
                                 <LocationProvider> 
                                 <ServiceProvider>
                                   <BookingProvider>
+                                     <ContactProvider>
                                     <Suspense fallback={<div>Loading...</div>}>
                                       <RouteProgressDone />
                                       <ConditionalLayout>{children}</ConditionalLayout>
                                     </Suspense>
+                                    </ContactProvider>
                                   </BookingProvider>
                                 </ServiceProvider>
                                 </LocationProvider>

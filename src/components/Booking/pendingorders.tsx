@@ -25,7 +25,7 @@ interface PendingProps {
 }
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
-  const headers = ['ORDER ID', 'SERVICE', 'DETAIL', 'TIME', 'DATE', 'STATUS'];
+  const headers = ['ORDER ID', 'SERVICE', 'SUB-SERVICE', 'TIME', 'DATE', 'STATUS'];
   const allRows = data;
 
   const [currentPage, setCurrentPage] = React.useState(1);

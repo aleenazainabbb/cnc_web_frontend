@@ -336,8 +336,6 @@ useEffect(() => {
     }
   };
 
-
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
