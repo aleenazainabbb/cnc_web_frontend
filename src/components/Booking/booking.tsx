@@ -158,7 +158,7 @@ const Bookings: React.FC<BookingsProps> = ({
 
     return 0;
   };
-  
+
   useEffect(() => {
     const fetchPrices = async () => {
       try {
@@ -166,14 +166,11 @@ const Bookings: React.FC<BookingsProps> = ({
         if (data?.maidRates?.withSupplies) {
           setWithSuppliesPrice(data.maidRates.withSupplies);
         }
-      } catch (error) {
-       
-      }
+      } catch (error) {}
     };
 
     fetchPrices();
   }, [deepCleanings]);
-  
 
   const {
     updateBookingData,
@@ -183,10 +180,6 @@ const Bookings: React.FC<BookingsProps> = ({
     formErrors,
     setFormErrors,
   } = useBooking();
-
-
-
-
 
   const { applyPromoCode } = useBooking();
   const [snackbar, setSnackbar] = useState<{
@@ -245,11 +238,11 @@ const Bookings: React.FC<BookingsProps> = ({
     selectedSubService.trim().toLowerCase()
   );
   const isMaidSelected =
-  selectedSubService.trim().toLowerCase() ===
-  "maid services / general services";
+    selectedSubService.trim().toLowerCase() ===
+    "maid services / general services";
   const isDeepCleaning =
-  selectedService.trim().toLowerCase() === "cleaning services" &&
-  selectedSubService.trim().toLowerCase() === "deep cleaning";
+    selectedService.trim().toLowerCase() === "cleaning services" &&
+    selectedSubService.trim().toLowerCase() === "deep cleaning";
 
   //Vehicle cleaning
   const [make, setMake] = useState<string>("");
@@ -284,44 +277,47 @@ const Bookings: React.FC<BookingsProps> = ({
     fetchPrices();
   }, [deepCleanings]);
 
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const data = await deepCleanings();
 
-useEffect(() => {
-  const fetchPrices = async () => {
-    try {
-      const data = await deepCleanings();
-      
-      if (data?.upholsteryRates) {
-        // Get Dining chair / Sofa price
-        const sofaData = data.upholsteryRates.find(
-          (item: any) => item.type === "Dining chair / Sofa"
-        );
-        if (sofaData) {
-          setSofaUnitPrice(sofaData.unitPrice); // 120
-        }
+        if (data?.upholsteryRates) {
+          // Get Dining chair / Sofa price
+          const sofaData = data.upholsteryRates.find(
+            (item: any) => item.type === "Dining chair / Sofa"
+          );
+          if (sofaData) {
+            setSofaUnitPrice(sofaData.unitPrice); // 120
+          }
 
-        // Get Carpet price
-        const carpetData = data.upholsteryRates.find(
-          (item: any) => item.type === "Carpet"
-        );
-        if (carpetData) {
-          setCarpetPricePerSqm(carpetData.unitPrice); // 70
+          // Get Carpet price
+          const carpetData = data.upholsteryRates.find(
+            (item: any) => item.type === "Carpet"
+          );
+          if (carpetData) {
+            setCarpetPricePerSqm(carpetData.unitPrice); // 70
+          }
         }
+      } catch (error) {
+        console.error("Error fetching prices:", error);
       }
-    } catch (error) {
-      console.error("Error fetching prices:", error);
-    }
-  };
+    };
 
-  fetchPrices();
-}, [deepCleanings]);
-// Hook to calculate carpet total price
-useEffect(() => {
-  if (selectedType === "Carpet" && selectedSpecific && carpetPricePerSqm > 0) {
-    const area = parseFloat(selectedSpecific);
-    const totalPrice = carpetPricePerSqm * area;
-    setSelectedDetail(`${totalPrice} AED`);
-  }
-}, [selectedType, selectedSpecific, carpetPricePerSqm]);
+    fetchPrices();
+  }, [deepCleanings]);
+  // Hook to calculate carpet total price
+  useEffect(() => {
+    if (
+      selectedType === "Carpet" &&
+      selectedSpecific &&
+      carpetPricePerSqm > 0
+    ) {
+      const area = parseFloat(selectedSpecific);
+      const totalPrice = carpetPricePerSqm * area;
+      setSelectedDetail(`${totalPrice} AED`);
+    }
+  }, [selectedType, selectedSpecific, carpetPricePerSqm]);
 
   const handleApply = async () => {
     try {
@@ -335,8 +331,6 @@ useEffect(() => {
       setSnackbar({ type: "error", message: err.message });
     }
   };
-
-
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -427,6 +421,7 @@ useEffect(() => {
     setModel("");
     setVariant("");
     setUploadedFiles(null);
+
     setSpecialInstructions("");
 
     // ✅ Clear booking context (runtime data)
@@ -1286,32 +1281,45 @@ useEffect(() => {
                           className={booking.customselectwrapper}
                           ref={specificDropdownRef}
                         >
-                          <div
-                            className={`${booking.input} ${
-                              selectedSpecific ? booking.selectedDropdown : ""
-                            }`}
-                            onClick={() => setIsSpecificOpen(!isSpecificOpen)}
-                          >
-                            <p className={booking.place}>
-                              <span className={booking.placeholder}>
-                                Select Specific
-                              </span>
-                              {selectedSpecific && (
-                                <span className={booking.value}>
-                                  {" "}
-                                  {selectedSpecific}
-                                </span>
-                              )}
+                         <div
+  className={`${booking.input} ${
+    selectedSpecific ? booking.selectedDropdown : ""
+  }`}
+  onClick={() => setIsSpecificOpen(!isSpecificOpen)}
+>
+  <p className={booking.place}>
+    <span className={booking.placeholder}>
+      Select Specific
+    </span>
+  </p>
+</div>
 
+
+                          {/* ✅ Dropdown menu */}
+                          {isSpecificOpen && (
+                            <div className={booking.dropdown}>
                               {isSpecialCleaning && (
-                                <div>
-                                  {selectedSpecific
-                                    ? booking.selectedDropdown
-                                    : ""}
-                                </div>
+                                <>
+                                  {selectedSpecific ? (
+                                    <div
+                                      className={booking.dropdownitem}
+                                      onClick={() => {
+                                        setSelectedSpecific(selectedSpecific); // ✅ set value
+                                        setIsSpecificOpen(false); // ✅ close dropdown
+                                      }}
+                                    >
+                                      {selectedSpecific}
+                                    </div>
+                                  ) : (
+                                    <div className={booking.dropdownitem}>
+                                      Please select Type and Specific
+                                    </div>
+                                  )}
+                                </>
                               )}
-                            </p>
-                          </div>
+                            </div>
+                          )}
+
                           {isSpecificOpen && (
                             <div className={booking.customdropdown}>
                               {/* ✅ Upholstery Cleaning logic */}
@@ -1684,22 +1692,6 @@ useEffect(() => {
                                   Please select Type and Specific
                                 </div>
                               )
-                            ) : selectedService.trim().toLowerCase() ===
-                                "cleaning services" &&
-                              selectedSubService.trim().toLowerCase() ===
-                                "duct cleaning" ? (
-                              selectedDetail ? (
-                                <div
-                                  className={booking.dropdownitem}
-                                  onClick={() => setIsDetailOpen(false)}
-                                >
-                                  {selectedDetail}
-                                </div>
-                              ) : (
-                                <div className={booking.dropdownitem}>
-                                  Please select Type and Specific
-                                </div>
-                              )
                             ) : selectedSubService.trim().toLowerCase() ===
                                 "upholstery cleaning" && selectedSpecific ? (
                               selectedType === "Rugs" ? (
@@ -1749,67 +1741,87 @@ useEffect(() => {
                                   ) * (upholsteryItemCount || 1)}
                                   AED
                                 </div>
-                              ) 
-                          :selectedType ? (
-  selectedType === "Dining chair / Sofa" ? (
-    <div
-      className={booking.dropdownitem}
-      onClick={() => {
-        const count = selectedSpecific ? parseInt(selectedSpecific) : 1;
-        const totalPrice = sofaUnitPrice * count;
-        setSelectedDetail(`${totalPrice} AED`);
-        setIsDetailOpen(false);
-        // Reset billing for other options
-        setSelectedType("");
-        setSelectedSubService("");
-        setSelectedSpecific("");
-      }}
-    >
-      <p>
-        {sofaUnitPrice * (selectedSpecific ? parseInt(selectedSpecific) : 1)} AED
-      </p>
-    </div>
-  ) : selectedType === "Carpet" ? (
-   <div
-  className={booking.dropdownitem}
-  onClick={() => {
-    // Sum all carpet areas
-    const totalArea = carpetAreas.reduce((sum, area) => {
-      return sum + (parseFloat(area) || 0);
-    }, 0);
-    
-    const totalPrice = carpetPricePerSqm * totalArea; // Calculate total price
-    setSelectedDetail(`${totalPrice} AED`); // Show total price in details
-    setIsDetailOpen(false);
-    // Reset billing for other options
-    setSelectedType("");
-    setSelectedSubService("");
-    setSelectedSpecific("");
-  }}
->
-  <p>
-    {carpetPricePerSqm * carpetAreas.reduce((sum, area) => sum + (parseFloat(area) || 0), 0)} AED
-  </p>
-</div>
-  ) : (
-    <div 
-  className={booking.dropdownitem}
-  onClick={() => {
-    const count = selectedSpecific ? parseInt(selectedSpecific) : 1;
-    const totalPrice = sofaUnitPrice * count;
-    setSelectedDetail(`${totalPrice} AED`);
-  }}
->
-  {sofaUnitPrice * (selectedSpecific ? parseInt(selectedSpecific) : 1)} AED
-</div>
-  )
-) : (
-  <div className={booking.dropdownitem}>
-    <p>Please select type first</p>
-  </div>
-)
+                              ) : selectedType ? (
+                                selectedSubService === "Dining chair / Sofa" ? (
+                                  <div
+                                    className={booking.dropdownitem}
+                                    onClick={() => {
+                                      const count = selectedSpecific
+                                        ? parseInt(selectedSpecific)
+                                        : 1;
+                                      const totalPrice = sofaUnitPrice * count;
+                                      setSelectedDetail(`${totalPrice} AED`);
+                                      setIsDetailOpen(false);
+                                      // Reset billing for other options
+                                      setSelectedType("");
+                                      setSelectedSubService("");
+                                      setSelectedSpecific("");
+                                    }}
+                                  >
+                                    <p>
+                                      {sofaUnitPrice *
+                                        (selectedSpecific
+                                          ? parseInt(selectedSpecific)
+                                          : 1)}{" "}
+                                      AED
+                                    </p>
+                                  </div>
+                                ) : selectedType === "Carpet" ? (
+                                  <div
+                                    className={booking.dropdownitem}
+                                    onClick={() => {
+                                      // Sum all carpet areas
+                                      const totalArea = carpetAreas.reduce(
+                                        (sum, area) => {
+                                          return sum + (parseFloat(area) || 0);
+                                        },
+                                        0
+                                      );
 
-): (
+                                      const totalPrice =
+                                        carpetPricePerSqm * totalArea; // Calculate total price
+                                      setSelectedDetail(`${totalPrice} AED`); // Show total price in details
+                                      setIsDetailOpen(false);
+                                      // Reset billing for other options
+                                      setSelectedType("");
+                                      setSelectedSubService("");
+                                      setSelectedSpecific("");
+                                    }}
+                                  >
+                                    <p>
+                                      {carpetPricePerSqm *
+                                        carpetAreas.reduce(
+                                          (sum, area) =>
+                                            sum + (parseFloat(area) || 0),
+                                          0
+                                        )}{" "}
+                                      AED
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={booking.dropdownitem}
+                                    onClick={() => {
+                                      const count = selectedSpecific
+                                        ? parseInt(selectedSpecific)
+                                        : 1;
+                                      const totalPrice = sofaUnitPrice * count;
+                                      setSelectedDetail(`${totalPrice} AED`);
+                                    }}
+                                  >
+                                    {sofaUnitPrice *
+                                      (selectedSpecific
+                                        ? parseInt(selectedSpecific)
+                                        : 1)}{" "}
+                                    AED
+                                  </div>
+                                )
+                              ) : (
+                                <div className={booking.dropdownitem}>
+                                  <p>Please select type first</p>
+                                </div>
+                              )
+                            ) : (
                               <>
                                 {/* Apartment Details */}
                                 {selectedType === "Apartment" &&
@@ -2087,10 +2099,20 @@ useEffect(() => {
                             {/* Default fallback */}
                             {selectedSubService?.trim().toLowerCase() ===
                               "duct cleaning" && (
-                              <div className={booking.dropdownitem}>
-                                <p className={booking.price}>
-                                  AED {duct ?? "-"} per unit (duct cleaning)
-                                </p>
+                              <div
+                                className={booking.dropdownitem}
+                                onClick={() => {
+                                  const units = Number(selectedSpecific) || 0;
+                                  const total = (duct ?? 0) * units;
+                                  setSelectedDetail(`AED ${total}`);
+                                }}
+                              >
+                                {selectedSpecific
+                                  ? `Total: AED ${
+                                      (duct ?? 0) *
+                                      (Number(selectedSpecific) || 0)
+                                    }`
+                                  : `Please enter units`}
                               </div>
                             )}
                           </div>
