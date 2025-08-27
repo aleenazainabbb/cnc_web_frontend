@@ -71,21 +71,6 @@ const SavedLocation: React.FC = () => {
     libraries: ['places'],
   });
 
-  // useEffect(() => {
-  //   if (!isInitialized && savedLocation) {
-  //     setLabel(savedLocation.label);
-  //     setFormattedAddress(savedLocation.formattedAddress);
-  //     setPlaceId(savedLocation.placeId);
-
-  //     if (savedLocation.lat && savedLocation.lng) {
-  //       setMapCenter({ lat: savedLocation.lat, lng: savedLocation.lng });
-  //       setSelected({ lat: savedLocation.lat, lng: savedLocation.lng });
-  //     }
-
-  //     setIsInitialized(true);
-  //   }
-  // }, [savedLocation, isInitialized]);
-
   const showToast = (msg: string, type: 'success' | 'error') => {
     setSnackbarMsg(msg);
     setSnackbarType(type);
@@ -107,13 +92,12 @@ const SavedLocation: React.FC = () => {
     });
 
     if (result.type === 'success' && result.savedLocation !== undefined) {
-      const newLocation = result.savedLocation as SavedLocation;
-      setSavedLocations((prev) => [...prev, newLocation]);
+      // const newLocation = result.savedLocation as SavedLocation;
+      // setSavedLocations((prev) => [...prev, newLocation]);
       showToast('Location saved', 'success');
     } else {
       showToast(result.message || 'Failed to save location', 'error');
     }
-
   };
 
   const handleUpdate = async () => {

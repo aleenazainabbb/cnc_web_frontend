@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
+import { useContact } from "@/context/Contactus";
 
 interface InfoItem {
   iconClass: string;
@@ -47,6 +48,7 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({
     service: "",
     message: "",
   });
+  const { createContact, error, success, loading, clearMessages } = useContact();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -55,9 +57,17 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Contact Form Submitted:", formData);
+    await createContact(formData);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      service: "",
+      message: "",
+    });
   };
 
   return (
@@ -148,13 +158,17 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({
                 onChange={handleChange}
               />
             </div>
+           
             <div style={{ paddingLeft: "10px" }}>
-              <button type="submit" className="mt-3 text-white">
-                Send Message
+              <button type="submit" className="mt-3 text-white" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </div>
           </div>
         </form>
+         {/* Show feedback */}
+        {success && <p className="text-success mt-3">{success}</p>}
+        {error && <p className="text-danger mt-3">{error}</p>}
       </div>
     </div>
   );
