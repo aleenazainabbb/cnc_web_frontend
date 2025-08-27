@@ -115,8 +115,8 @@ type BookingContextType = {
   validateBooking: () => boolean;
 
   deepCleanings: () => Promise<any>;
-  allOrdersObject: any[];                     // full objects
-setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;  // optional for updates
+  allOrdersObject: any[];                    
+setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>; 
 
 };
 

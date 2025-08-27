@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-// import "./style/Complaint.css";
 import styles from "./styles/complaint.module.css";
-
-import { createComplaint, fetchComplaints } from "@/context/ComplaintContext";
+import {
+  createComplaint,
+  createSuggestion,
+  fetchComplaints,
+} from "@/context/ComplaintContext";
 import { useBooking } from "@/context/BookingContext";
+
+import Snackbar from "@/components/popups/Snackbar";
 
 interface TicketFile {
   fileName: string;
@@ -22,42 +26,74 @@ interface Ticket {
   file?: TicketFile[];
 }
 
+interface Suggestion {
+  id: number;
+  message: string;
+  createdAt: string;
+}
+
 const ComplaintForm = () => {
   const [orderId, setOrderId] = useState("");
   const [message, setMessage] = useState("");
-  
+  const [suggestionText, setSuggestionText] = useState("");
   const [selectedService, setSelectedService] = useState("");
-
   const [image, setImage] = useState<File | null>(null);
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [activeTab, setActiveTab] = useState("submit");
   const [loading, setLoading] = useState(false);
-  const { allOrdersObject, allOrders, fetchAllOrders, ordersLoading } =
-    useBooking();
+  const { allOrdersObject, fetchAllOrders, ordersLoading } = useBooking();
+  const [submittedContent, setSubmittedContent] = useState<string | null>(null);
+
+
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">(
+    "success"
+  );
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   // ✅ Fetch orders ONCE when component mounts
   useEffect(() => {
     fetchAllOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 👈 empty dependency, prevents infinite calls
+  }, []);
 
-  // ✅ Fetch complaints when switching tab
+  // ✅ Fetch complaints or suggestions when switching tab
   useEffect(() => {
     if (activeTab === "myComplaints") {
-      const loadComplaints = async () => {
-        try {
-          setLoading(true);
-          const data = await fetchComplaints();
-          setTickets(data?.tickets || []);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
-      };
       loadComplaints();
+    } else if (activeTab === "suggestions") {
+      loadSuggestions();
     }
   }, [activeTab]);
+
+  const loadComplaints = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchComplaints();
+      setTickets(data?.tickets || []);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadSuggestions = async () => {
+    try {
+      setLoading(true);
+      // Use the same API endpoint but with a different parameter or handle differently
+      // This is a placeholder - you might need to adjust based on your actual API
+      const data = await fetchComplaints();
+      // Assuming the API returns suggestions in a different format
+      // You might need to create a separate fetchSuggestions function
+      setSuggestions(data?.suggestions || []);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ✅ Submit complaint
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,8 +128,36 @@ const ComplaintForm = () => {
     }
   };
 
+const handleSuggestionSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!suggestionText) {
+    alert("Please write your suggestion!");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    // ✅ returns only the suggestion content (string)
+    const content = await createSuggestion(suggestionText);
+
+    console.log("Submitted content:", content); // "hello world"
+
+    // reset form
+    setSuggestionText("");
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to submit suggestion. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   return (
-    //    <div> <h2 className={styles.topHeader}>Submit Complaints</h2>
     <div className={styles.main}>
       <div className={styles.container}>
         {/* Tabs */}
@@ -106,123 +170,131 @@ const ComplaintForm = () => {
           >
             Submit Complaint
           </button>
+
           <button
             className={`${styles.tabButton} ${
-              activeTab === "myComplaints" ? "active" : ""
-            }${styles.tabButton} `}
+              activeTab === "myComplaints" ? styles.active : ""
+            }`}
             onClick={() => setActiveTab("myComplaints")}
           >
             My Complaints
           </button>
+
+          <button
+            className={`${styles.tabButton} ${
+              activeTab === "suggestions" ? styles.active : ""
+            }`}
+            onClick={() => setActiveTab("suggestions")}
+          >
+            Suggestions
+          </button>
         </div>
 
-        {activeTab === "submit" ? (
-          <>
-            <form onSubmit={handleSubmit} className={styles.complaintForm}>
-              {/* Order ID Dropdown */}
-              <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Order ID</label>
-                <select
-                  value={orderId}
-                  onChange={(e) => {
-                    const bookingId = e.target.value;
-                    setOrderId(bookingId);
+        {activeTab === "submit" && (
+          <form onSubmit={handleSubmit} className={styles.complaintForm}>
+            {/* Order ID Dropdown */}
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Order ID</label>
+              <select
+                value={orderId}
+                onChange={(e) => {
+                  const bookingId = e.target.value;
+                  setOrderId(bookingId);
 
-                    
-                    const selectedOrder = allOrdersObject?.find(
-                      (order: any) => order.bookingId === bookingId
-                    );
-                    const serviceLabel =
-                      selectedOrder?.subSubService ||
-                      selectedOrder?.service ||
-                      "-";
-                    setSelectedService(serviceLabel);
-                  }}
-                  className={styles.formInput}
-                  disabled={ordersLoading}
+                  const selectedOrder = allOrdersObject?.find(
+                    (order: any) => order.bookingId === bookingId
+                  );
+                  const serviceLabel =
+                    selectedOrder?.subSubService ||
+                    selectedOrder?.service ||
+                    "-";
+                  setSelectedService(serviceLabel);
+                }}
+                className={styles.formInput}
+                disabled={ordersLoading}
+              >
+                <option value="">-- Select Order --</option>
+                {allOrdersObject?.map((order: any, index: number) => {
+                  const serviceLabel =
+                    order.subSubService || order.service || "-";
+                  const dateLabel = order.createdAt
+                    ? new Date(order.createdAt).toLocaleDateString()
+                    : "-";
+                  return (
+                    <option key={index} value={order.bookingId}>
+                      {serviceLabel} - {dateLabel}
+                    </option>
+                  );
+                })}
+              </select>
+
+              {ordersLoading && (
+                <p className={styles.loadingText}>Loading orders...</p>
+              )}
+            </div>
+
+            {/* Complaint Message */}
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Message</label>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Write your complaint..."
+                rows={4}
+                className={styles.formTextarea}
+              />
+            </div>
+
+            {/* Image Upload */}
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>
+                Upload Image (Optional)
+              </label>
+              <div className={styles.imageuploadContainer}>
+                <label
+                  htmlFor="image-upload"
+                  className={styles.imageuploadlabel}
                 >
-                  <option value="">-- Select Order --</option>
-                  {allOrdersObject?.map((order: any, index: number) => {
-                    const serviceLabel =
-                      order.subSubService || order.service || "-";
-                    const dateLabel = order.createdAt
-                      ? new Date(order.createdAt).toLocaleDateString()
-                      : "-";
-                    return (
-                      <option key={index} value={order.bookingId}>
-                        {serviceLabel} - {dateLabel}
-                      </option>
-                    );
-                  })}
-                </select>
+                  <i className="upload-icon">📷</i>
+                  <span>{image ? "Change Image" : "Choose an image"}</span>
+                </label>
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setImage(e.target.files ? e.target.files[0] : null)
+                  }
+                  className={styles.imageInput}
+                />
 
-                {ordersLoading && (
-                  <p className="loading-text">Loading orders...</p>
+                {image && (
+                  <div className={styles.imageInfo}>
+                    <i className="file-icon">📄</i>
+                    <span>{image.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => setImage(null)}
+                      className={styles.textremoveBtn}
+                    >
+                      ×
+                    </button>
+                  </div>
                 )}
               </div>
+              <button
+                type="submit"
+                className={styles.submitBtn}
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit Complaint"}
+              </button>
+            </div>
+          </form>
+        )}
 
-              {/* Complaint Message */}
-              <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Message</label>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write your complaint..."
-                  rows={4}
-                  className={styles.formTextarea}
-                />
-              </div>
-
-              {/* Image Upload */}
-              <div className={styles.formGroup}>
-                <label className={styles.formLabel}>
-                  Upload Image (Optional)
-                </label>
-                <div className={styles.imageuploadContainer}>
-                  <label
-                    htmlFor="image-upload"
-                    className={styles.imageuploadlabel}
-                  >
-                    <i className="upload-icon">📷</i>
-                    <span>{image ? "Change Image" : "Choose an image"}</span>
-                  </label>
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) =>
-                      setImage(e.target.files ? e.target.files[0] : null)
-                    }
-                    className={styles.imageInput}
-                  />
-
-                  {image && (
-                    <div className={styles.imageInfo}>
-                      <i className="file-icon">📄</i>
-                      <span>{image.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => setImage(null)}
-                        className={styles.textremoveBtn}
-                      >
-                        ×
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className={styles.submitBtn}
-                  disabled={loading}
-                >
-                  {loading ? "Submitting..." : "Submit Complaint"}
-                </button>
-              </div>
-            </form>
-          </>
-        ) : (
+        {activeTab === "myComplaints" && (
           <div className={styles.complaintsList}>
-            <h2 className="complaint-title">My Complaints</h2>
             {loading ? (
               <p className={styles.noComplains}>Loading complaints...</p>
             ) : tickets.length === 0 ? (
@@ -247,14 +319,50 @@ const ComplaintForm = () => {
                     </div>
                     <span>Message :</span>
                     <p className={styles.complaintMessage}>{ticket.message}</p>
-
-                    {/* Files */}
                   </div>
                 ))}
               </div>
             )}
           </div>
         )}
+
+      {activeTab === "suggestions" && (
+  <div className={styles.complaintsList}>
+    <form
+      onSubmit={handleSuggestionSubmit}
+      className={styles.complaintForm}
+    >
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Your Suggestion</label>
+        <textarea
+          value={suggestionText}
+          onChange={(e) => setSuggestionText(e.target.value)}
+          placeholder="Share your suggestions or feedback..."
+          rows={4}
+          className={styles.formTextarea}
+        />
+      </div>
+      <button
+        type="submit"
+        className={styles.submitBtn}
+        disabled={loading}
+      >
+        {loading ? "Submitting..." : "Submit Suggestion"}
+        
+      </button>
+    </form>
+
+    {/* ✅ Show submitted content */}
+    {submittedContent && (
+      <div className={styles.suggestionsContainer}>
+        <h3>Last Submitted Suggestion</h3>
+        <p className={styles.suggestionMessage}>{submittedContent}</p>
+      </div>
+    )}
+  </div>
+)}
+
+
       </div>
     </div>
   );
