@@ -376,13 +376,10 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-
-
       // custom api integration
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
-          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: formData,
@@ -528,9 +525,8 @@ export const BookingProvider = ({
       // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
-        // order.subSubService || order.service || "-",
-        order.service || "-",
-        order.subService || "-",
+        order.subSubService || order.service || "-",
+        order.specialInstructions || "-",
         order.time || "-",
         order.date || "-",
         order.status || "Completed",
@@ -546,7 +542,7 @@ export const BookingProvider = ({
     }
   };
 
-  // --- Prices integration (non-custom) ---
+  // --- API call ---
   const deepCleanings = async (type?: string) => {
     try {
       const token = localStorage.getItem("token");
@@ -593,9 +589,9 @@ export const BookingProvider = ({
         applyPromoCode,
         allOrders,
         allOrdersObject,        // ✅ full objects now available
-        setAllOrdersObject,
+    setAllOrdersObject,     //
         fetchAllOrders,
-        ordersLoading,
+     ordersLoading,
         createBookingOrder,
         formErrors,
         setFormErrors,

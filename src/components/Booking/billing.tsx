@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from './styles/AddBooking/billing.module.css';
 import { useBooking } from "@/context/BookingContext";
+import { redirect } from "next/navigation";
+
 // import { useLocation } from "@/context/Location";
 
 type BillingSummaryProps = {
@@ -42,6 +44,9 @@ const handleNextClick = () => {
   }
   setServiceError?.(false);
   onNext?.();
+  // if(billingData){
+  //   redirect("./Bookings/Dashboard")
+  // }
 };
 
   useEffect(() => {

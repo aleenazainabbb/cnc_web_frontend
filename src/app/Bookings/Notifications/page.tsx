@@ -1,10 +1,9 @@
 'use client';
 
-import { NotificationItem } from '@/components/Notification/NotificationItem';
-import React from "react";
+import { useEffect, useState } from 'react';
 import HeaderBar from '@/components/navbar/HeaderBar';
-// import styles from '@/components/navbar/styles/HeaderBar.module.css';
-// import Link from 'next/link';
+import { NotificationItem } from '@/components/Notification/NotificationItem';
+import { getNotification } from '@/context/NotificationContext';
 
 import {
   CheckCircle,
@@ -12,96 +11,151 @@ import {
   Bell,
   UserCheck,
   XCircle,
-} from "lucide-react";
+} from 'lucide-react';
 
-// Define the props for each notification item
-type Notification = {
+type ApiNotification = {
+  id: number;
+  type: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+};
+
+type NotificationUI = {
+  id: number;
   title: string;
   description: string;
   time: string;
-  icon: React.ReactElement;   // Must be a React element, not just ReactNode
+  icon: React.ReactElement;
   iconBgColor: string;
+  read: boolean;
 };
 
-// Sample notifications array with full typing
-const notifications: Notification[] = [
-  {
-    title: "Order Accepted",
-    description: "We have accepted your order. Click to view details.",
-    time: "2 min ago",
-    icon: <CheckCircle size={20} color="#fff" />,
-    iconBgColor: "#FF9800",
-  },
-  {
-    title: "Confirm Order",
-    description: "We have added items in your order. Please check and confirm.",
-    time: "5 min ago",
-    icon: <ShieldCheck size={20} color="#fff" />,
-    iconBgColor: "#9C27B0",
-  },
-  {
-    title: "Order Assigned",
-    description: "We have assigned your order to a worker. Click to view details.",
-    time: "10 min ago",
-    icon: <UserCheck size={20} color="#fff" />,
-    iconBgColor: "#2196F3",
-  },
-  {
-    title: "Order Completed",
-    description: "Your order has been completed. Please check the work done.",
-    time: "20 min ago",
-    icon: <CheckCircle size={20} color="#fff" />,
-    iconBgColor: "#4CAF50",
-  },
-  {
-    title: "Order Cancelled",
-    description: "Your order has been cancelled. Click to view details.",
-    time: "30 min ago",
-    icon: <XCircle size={20} color="#fff" />,
-    iconBgColor: "#F44336",
-  },
-  {
-    title: "Announcement",
-    description: "Our service will be down tomorrow for planned maintenance.",
-    time: "1 hour ago",
-    icon: <Bell size={20} color="#fff" />,
-    iconBgColor: "#616161",
-  },
-];
+const getIconAndColor = (type: string) => {
+  switch (type.toLowerCase()) {
+    case 'accepted':
+      return { icon: <CheckCircle size={20} color="#fff" />, iconBgColor: '#FF9800' };
+    case 'confirmed':
+      return { icon: <ShieldCheck size={20} color="#fff" />, iconBgColor: '#9C27B0' };
+    case 'assigned':
+      return { icon: <UserCheck size={20} color="#fff" />, iconBgColor: '#2196F3' };
+    case 'completed':
+      return { icon: <CheckCircle size={20} color="#fff" />, iconBgColor: '#4CAF50' };
+    case 'cancelled':
+      return { icon: <XCircle size={20} color="#fff" />, iconBgColor: '#F44336' };
+      case 'booking':
+      return { icon: <Bell size={20} color="#fff" />, iconBgColor: '#FF9800' };
+      default:
+      return { icon: <Bell size={20} color="#fff" />, iconBgColor: '#958383ff' };
+  }
+};
 
-// OR for empty list use:
-// const notifications: Notification[] = [];
+function getRelativeTime(createdAt: string): string {
+  const now = new Date();
+  const past = new Date(createdAt);
+  const diffMs = now.getTime() - past.getTime();
+
+  const seconds = Math.floor(diffMs / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (seconds < 60) return `${seconds} sec ago`;
+  if (minutes < 60) return `${minutes} min ago`;
+  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  return `${days} day${days > 1 ? "s" : ""} ago`;
+}
+
 
 export default function NotificationList() {
-  const isEmpty = notifications.length === 0;
+  const [notifications, setNotifications] = useState<NotificationUI[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data: ApiNotification[] = await getNotification();
+
+        const mapped = data.map((item) => {
+          const { icon, iconBgColor } = getIconAndColor(item.type);
+
+          return {
+            id: item.id,
+            
+            title: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+
+            
+            description: item.message,
+            time: getRelativeTime(item.createdAt),
+
+            icon,
+            iconBgColor,
+            read: item.read,
+          };
+        });
+
+        setNotifications(mapped);
+      } catch (error) {
+        console.error('Failed to load notifications:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <HeaderBar title="Notification" />
+        <p style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</p>
+      </div>
+    );
+  }
+
+  if (notifications.length === 0) {
+    return (
+      <div>
+        <HeaderBar title="Notification" />
+        <div className="emptyState" style={{ textAlign: 'center', marginTop: '40px' }}>
+          <img
+            src="/Images/no_notifications.png"
+            alt="No notifications"
+            className="emptyImage"
+            style={{ width: '150px', margin: '0 auto' }}
+          />
+          <h2>No Notifications</h2>
+          <p>You’re all caught up! Check back later for updates.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-  <div>
-    <HeaderBar title="Notification" />
-    {isEmpty ? (
-      <div className="emptyState">
-        <img
-          src="/Images/no_notifications.png"
-          alt="No notifications"
-          className="emptyImage"
-        />
-        <h2>No Notifications</h2>
-        <p>You’re all caught up! Check back later for updates.</p>
-      </div>
-    ) : (
+    <div>
+      <HeaderBar title="Notification" />
       <div
         style={{
           padding: '0 20px',
-          maxHeight: '88vh',     // or a fixed pixel value like '500px'
+          maxHeight: '88vh',
           overflowY: 'auto',
         }}
       >
-        {notifications.map((item, idx) => (
-          <NotificationItem key={idx} {...item} />
+        {notifications.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              backgroundColor: item.read ? '#fff' : '#f3f4f6', // 👈 highlight unread
+              borderRadius: '10px',
+              marginBottom: '10px',
+              padding: '8px',
+            }}
+          >
+            <NotificationItem {...item} />
+          </div>
         ))}
       </div>
-    )}
-  </div>
-);
-
+    </div>
+  );
 }
