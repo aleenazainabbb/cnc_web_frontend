@@ -1167,12 +1167,13 @@ input[type="number"] {
 /* savedlocationcss */
 
  .pac-container {
-    position: absolute !important;
+    position: relative !important;
     top: 100% !important; /* Ensures suggestions appear directly below the input */
     left: 0 !important;   /* Aligns the suggestion box with the input */
     right: 0 !important;  /* Stretches it across the width of the input */
     z-index: 9999 !important; /* Ensures it appears on top of other elements */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important; /* Adds shadow */
+    /* margin-bottom: 100px !important; */
   }
 
   .input-wrapper {
