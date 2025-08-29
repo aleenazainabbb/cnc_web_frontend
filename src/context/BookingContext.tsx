@@ -36,6 +36,7 @@ type BookingData = {
   squareFootage?: string;
   numberOfWindows?: string;
   numberOfItems?: string;
+  units?: string;
   siteVisit?: string | null;
   residentialCleanType?: string;
   cleaningMaterials?: "yes" | "no" | null;
@@ -115,8 +116,8 @@ type BookingContextType = {
   validateBooking: () => boolean;
 
   deepCleanings: () => Promise<any>;
-  allOrdersObject: any[];                    
-setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>; 
+  allOrdersObject: any[];
+  setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;
 
 };
 
@@ -323,6 +324,7 @@ export const BookingProvider = ({
     setSelectionList((prev) => [...prev, data]);
   };
 
+  // custom api integration
   const submitBookingQuote = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -377,12 +379,9 @@ export const BookingProvider = ({
         }
       });
 
-
-      // custom api integration
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
-          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: formData,
@@ -403,26 +402,60 @@ export const BookingProvider = ({
   const createBookingOrder = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) throw new Error("Authorization token required");
+      if (!token) throw new Error("No token found. Please log in.");
 
       const selected = selectionList[selectionList.length - 1];
-      const payload = {
-        bookingData: {
-          ...bookingData,
-          payment: bookingData.payment || "cash",
-        },
-        billingData,
-        latestLocation,
-        selection: selected,
-      };
+      const formData = new FormData();
+
+      formData.append("date", selected?.date || "");
+      formData.append("time", selected?.time || "");
+      formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      formData.append("workers", (bookingData.staffCount ?? 0).toString());
+      formData.append("noHours", (bookingData.hoursCount ?? 0).toString());
+      formData.append("BookingStatus", bookingData.status || "");
+      // formData.append("units", bookingData.units || "");
+
+      formData.append("service", bookingData.service || "");
+      formData.append("subSubService", bookingData.subService || "");
+
+      formData.append("category", bookingData.cleaningCategory || "");
+      formData.append("cleaningType", bookingData.cleaningType || ""); 
+      formData.append("location", latestLocation?.fullAddress || "");
+      formData.append("accessInstructions", latestLocation?.access || "");
+
+     
+      // formData.append("category", bookingData.cleaningCategory || "");
+      // formData.append("additionalServices", bookingData.detail || "");
+      // formData.append("needCleaning", bookingData.frequency || "");
+      //change their parameters
+      formData.append("specialInstructions", bookingData.specialInstructions || "");
+
+      // ✅ Billing Data mapping
+      formData.append("VAT", billingData.taxAmount.toString());
+      formData.append("promoCode", billingData.discountCode || "");
+      formData.append("discountPrice", billingData.discountAmount.toString());
+      formData.append("subTotalPrice", billingData.appointmentValue.toString());
+      // formData.append("totalPrice", billingData.subTotal.toString());
+      //  formData.append("price", billingData.totalAmount.toString());
+      formData.append("payment", bookingData.payment || "");
+    
+      bookingData.uploadedMedia?.forEach((fileObj) => {
+        if (fileObj.file instanceof File) {
+          const isImage = fileObj.file.type.startsWith("image/");
+          const isVideo = fileObj.file.type.startsWith("video/");
+          if (isImage) formData.append("images", fileObj.file);
+          if (isVideo) formData.append("videos", fileObj.file);
+        }
+      });
 
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        // body: JSON.stringify(payload),
+        body: formData,
       });
 
       const result = await response.json();
@@ -530,7 +563,7 @@ export const BookingProvider = ({
         order.id || "-",
         // order.subSubService || order.service || "-",
         order.service || "-",
-        order.subService || "-",
+        order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
         order.status || "Completed",
