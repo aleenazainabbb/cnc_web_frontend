@@ -79,6 +79,18 @@ type BookingSelection = {
   time?: string;
 };
 
+type DeepCleaningItem = {
+  id: number;
+  category: string;
+  type: string;
+  specification: string | null;
+  unit: string | null;
+  price: number;
+  vat: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type BookingContextType = {
   billingData: BillingData;
   updateBillingData: (data: Partial<BillingData>) => void;
@@ -114,10 +126,15 @@ type BookingContextType = {
 
   validateBooking: () => boolean;
 
-  deepCleanings: () => Promise<any>;
+  deepCleanings: (type?: string, category?: string, specification?: string) => Promise<any>;
+  getMaidPrices: () => Promise<any>;
+  getUpholsteryPrices: (type?: string, specification?: string) => Promise<any>;
+  getDeepCleaningPrices: (type?: string, specification?: string) => Promise<any>;
+  getDuctPrices: () => Promise<any>;
   allOrdersObject: any[];                    
-setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>; 
-
+  setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;
+  deepCleaningData: DeepCleaningItem[] | null;
+  deepCleaningLoading: boolean;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -160,6 +177,9 @@ export const BookingProvider = ({
   const [allOrders, setAllOrders] = useState<string[][]>([]);
   const [allOrdersObject, setAllOrdersObject] = useState<any[]>([]);
   const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
+  const [deepCleaningData, setDeepCleaningData] = useState<DeepCleaningItem[] | null>(null);
+  const [deepCleaningLoading, setDeepCleaningLoading] = useState<boolean>(false);
+  const [hasFetchedDeepCleaning, setHasFetchedDeepCleaning] = useState<boolean>(false);
 
   const latestListRef = useRef(runtimeBookingList);
   useEffect(() => {
@@ -315,7 +335,7 @@ export const BookingProvider = ({
   // Update latest location
   const updateLatestLocation = (data: LatestLocation) => {
     setLatestLocation(data);
-    console.log("✅ Context updated:", data);
+    console.log("Context updated:", data);
   };
   console.log("🧾 Selection List:", selectionList);
 
@@ -388,7 +408,7 @@ export const BookingProvider = ({
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Submission failed");
 
-      console.log("✅ Booking submitted:", result);
+      console.log("Booking submitted:", result);
       return result;
     } catch (error: any) {
       console.error("Booking submit error:", error.message);
@@ -426,10 +446,10 @@ export const BookingProvider = ({
       if (!response.ok)
         throw new Error(result.message || "Order creation failed");
 
-      console.log("✅ Booking order created:", result);
+      console.log("Booking order created:", result);
       return result;
     } catch (error: any) {
-      console.error("❌ Booking order error:", error.message);
+      console.error("Booking order error:", error.message);
       throw error;
     }
   };
@@ -542,18 +562,40 @@ export const BookingProvider = ({
     }
   };
 
-  // --- API call ---
-  const deepCleanings = async (type?: string) => {
+  // --- Enhanced Deep Cleaning API call ---
+  const deepCleanings = async (type?: string, category?: string, specification?: string) => {
+    // If we've already fetched the data, return filtered data from state
+    if (hasFetchedDeepCleaning && deepCleaningData) {
+      // Filter the data based on provided parameters
+      let filteredData = deepCleaningData;
+      
+      if (type) {
+        filteredData = filteredData.filter((item) => item.type === type);
+      }
+      
+      if (category) {
+        filteredData = filteredData.filter((item) => item.category === category);
+      }
+      
+      if (specification) {
+        filteredData = filteredData.filter((item) => item.specification === specification);
+      }
+      
+      return { success: true, data: filteredData };
+    }
+
     try {
+      setDeepCleaningLoading(true);
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authorization token required");
 
       const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ type }), // 👈 restrict API by type/specific
+        body: JSON.stringify({ type, category, specification }),
       });
 
       const result = await response.json();
@@ -563,12 +605,55 @@ export const BookingProvider = ({
         );
       }
 
-      console.log(`✅ Deep cleaning fetched for ${type}:`, result);
-      return result;
+      console.log(`✅ Deep cleaning data fetched:`, result);
+      
+      // Store the complete data and mark as fetched
+      setDeepCleaningData(result.data || []);
+      setHasFetchedDeepCleaning(true);
+      
+      // Return filtered data based on parameters
+      let filteredData = result.data || [];
+      
+      if (type) {
+        filteredData = filteredData.filter((item: any) => item.type === type);
+      }
+      
+      if (category) {
+        filteredData = filteredData.filter((item: any) => item.category === category);
+      }
+      
+      if (specification) {
+        filteredData = filteredData.filter((item: any) => item.specification === specification);
+      }
+      
+      return { success: true, data: filteredData };
     } catch (error: any) {
       console.error("❌ Deep cleaning services error:", error.message);
-      throw error;
+      return { 
+        success: false, 
+        message: error.message,
+        data: [] 
+      };
+    } finally {
+      setDeepCleaningLoading(false);
     }
+  };
+
+  // Helper functions for specific categories
+  const getMaidPrices = async () => {
+    return await deepCleanings(undefined, "maid");
+  };
+
+  const getUpholsteryPrices = async (type?: string, specification?: string) => {
+    return await deepCleanings(type, "upholstery", specification);
+  };
+
+  const getDeepCleaningPrices = async (type?: string, specification?: string) => {
+    return await deepCleanings(type, "deep", specification);
+  };
+
+  const getDuctPrices = async () => {
+    return await deepCleanings(undefined, "duct");
   };
 
   return (
@@ -577,7 +662,11 @@ export const BookingProvider = ({
         bookingData,
         updateBookingData,
         billingData,
-        deepCleanings, // ✅ Now included in value
+        deepCleanings,
+        getMaidPrices,
+        getUpholsteryPrices,
+        getDeepCleaningPrices,
+        getDuctPrices,
         updateBillingData,
         latestLocation,
         updateLatestLocation,
@@ -588,14 +677,16 @@ export const BookingProvider = ({
         submitBookingQuote,
         applyPromoCode,
         allOrders,
-        allOrdersObject,        // ✅ full objects now available
-    setAllOrdersObject,     //
+        allOrdersObject,
+        setAllOrdersObject,
         fetchAllOrders,
-     ordersLoading,
+        ordersLoading,
         createBookingOrder,
         formErrors,
         setFormErrors,
         validateBooking,
+        deepCleaningData,
+        deepCleaningLoading,
       }}
     >
       {children}

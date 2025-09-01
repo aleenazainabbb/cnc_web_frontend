@@ -164,19 +164,21 @@ const SavedLocation: React.FC = () => {
     });
   };
 
-  const onPlaceChanged = () => {
-    if (!autocompleteRef.current) return;
-    const place = autocompleteRef.current.getPlace();
-    if (!place.geometry || !place.geometry.location) return;
+const onPlaceChanged = () => {
+  if (!autocompleteRef.current) return;
 
-    const lat = place.geometry.location.lat();
-    const lng = place.geometry.location.lng();
+  const place = autocompleteRef.current.getPlace();
+  if (!place.geometry?.location) return;
 
-    setSelected({ lat, lng });
-    setMapCenter({ lat, lng });
-    setFormattedAddress(place.formatted_address || place.name || '');
-    setPlaceId(place.place_id || '');
-  };
+  const lat = place.geometry.location.lat();
+  const lng = place.geometry.location.lng();
+
+  setSelected({ lat, lng });
+  setMapCenter({ lat, lng });
+  setFormattedAddress(place.formatted_address || place.name || "");
+  setPlaceId(place.place_id || "");
+};
+
 
   const clearSearch = () => {
     if (inputRef.current) inputRef.current.value = '';
@@ -242,7 +244,7 @@ const SavedLocation: React.FC = () => {
                 onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
                 onPlaceChanged={onPlaceChanged}
               >
-                <div style={{ position: 'relative', width: '100%' }}>
+                <div  style={{ position: 'relative', width: '100%' }}>
                   <FaSearch className={location.searchIcon} />
                   <input
                     ref={inputRef}
@@ -250,6 +252,7 @@ const SavedLocation: React.FC = () => {
                     placeholder="Search for your building or area"
                     style={{
                       width: '100%',
+                      
                       height: '36px',
                       padding: '0 36px',
                       borderRadius: '8px',

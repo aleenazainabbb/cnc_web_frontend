@@ -116,7 +116,7 @@ export default function NotificationList() {
 
   if (notifications.length === 0) {
     return (
-      <div>
+      <div className="notificationItem">
         <HeaderBar title="Notification" />
         <div className="emptyState" style={{ textAlign: 'center', marginTop: '40px' }}>
           <img
@@ -156,6 +156,7 @@ export default function NotificationList() {
           </div>
         ))}
       </div>
+      
     </div>
   );
 }

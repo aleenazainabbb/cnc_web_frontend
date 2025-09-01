@@ -324,10 +324,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
-    /* For Firefox */
-}
+
 
 /* End Utilities */
 
@@ -1166,14 +1163,27 @@ input[type="number"] {
 
 /* savedlocationcss */
 
- .pac-container {
-    position: absolute !important;
-    top: 100% !important; /* Ensures suggestions appear directly below the input */
-    left: 0 !important;   /* Aligns the suggestion box with the input */
-    right: 0 !important;  /* Stretches it across the width of the input */
-    z-index: 9999 !important; /* Ensures it appears on top of other elements */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important; /* Adds shadow */
-  }
+.pac-container {
+  position: relative !important;
+flex-direction: column;
+  /* Position relative to the input */
+
+   /* Move dropdown above/below input (adjust as needed) */
+  left: 360px !important;   /* Push it 40px from the left */
+  right: 500px !important; /* Push it 200px from the right */
+ 
+  /* Visuals */
+/* z-index: 1000%; */
+ 
+  
+    margin-top: -107.5%;
+}
+
+
+
+
+
+  
 
   .input-wrapper {
     position: relative;

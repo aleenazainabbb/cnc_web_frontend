@@ -149,7 +149,7 @@
 }
 
 .profileImage {
-  border-radius: 50%;
+  border-radius: 100%;
   object-fit: cover;
   border: 3px solid #ddd;
 }
@@ -160,13 +160,22 @@
   right: 0;
   background-color: #2563eb;
   padding: 6px;
-  border-radius: 50%;
+  border-radius: 100%;
   cursor: pointer;
+  height: 23%;
+  width: 23%;
 }
 
 .uploadIcon {
   color: white;
   font-size: 10px;
+  height: 80%;
+  width: 80%;
+  margin-top: -11px;
+  margin-left: 2px;
+  
+ 
+
 }
 
 .hiddenInput {
