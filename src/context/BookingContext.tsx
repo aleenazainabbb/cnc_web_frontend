@@ -586,9 +586,8 @@ if (Object.keys(errors).length > 0) {
 
     // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
-        order.id || "-",
+        order.bookingId || "-",
         order.service || "-",
-        order.subSubService || order.subService || "-",
         order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
