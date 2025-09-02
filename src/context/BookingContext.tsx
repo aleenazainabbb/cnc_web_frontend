@@ -471,8 +471,6 @@ if (Object.keys(errors).length > 0) {
         },
         // body: JSON.stringify(payload),
         body: formData,
-        // body: JSON.stringify(payload),
-        body: formData,
       });
       const result = await response.json();
       if (!response.ok)
