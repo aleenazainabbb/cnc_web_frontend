@@ -87,23 +87,23 @@ const Bookings: React.FC<BookingsProps> = ({
     }
     setSelectedSpecific(newSpecific);
   };
-  const getPriceForSpecific = (type: string, specific: string) => {
-    const selectedUpholstery = upholsteryRates.find(
-      (item) => item.type === type
-    );
-    if (!selectedUpholstery) return 0;
+  // const getPriceForSpecific = (type: string, specific: string) => {
+  //   const selectedUpholstery = upholsteryRates.find(
+  //     (item) => item.type === type
+  //   );
+  //   if (!selectedUpholstery) return 0;
 
-    if (selectedUpholstery.unitPrice) {
-      return selectedUpholstery.unitPrice;
-    } else if (
-      selectedUpholstery.rates &&
-      selectedUpholstery.rates[specific.toLowerCase()]
-    ) {
-      return selectedUpholstery.rates[specific.toLowerCase()];
-    }
+  //   if (selectedUpholstery.unitPrice) {
+  //     return selectedUpholstery.unitPrice;
+  //   } else if (
+  //     selectedUpholstery.rates &&
+  //     selectedUpholstery.rates[specific.toLowerCase()]
+  //   ) {
+  //     return selectedUpholstery.rates[specific.toLowerCase()];
+  //   }
 
-    return 0;
-  };
+  //   return 0;
+  // };
   const {
     updateBookingData,
     updateBillingData,

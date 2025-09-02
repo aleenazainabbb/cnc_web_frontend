@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import styles from './styles/AddBooking/billing.module.css';
+import styles from "./styles/AddBooking/billing.module.css";
 import { useBooking } from "@/context/BookingContext";
 import { redirect } from "next/navigation";
 
@@ -21,7 +21,8 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   setServiceError,
   selectedService,
 }) => {
-  const { billingData, updateBookingData ,validateBooking, formErrors} = useBooking();
+  const { billingData, updateBookingData, validateBooking, formErrors } =
+    useBooking();
   const locationListRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -37,17 +38,17 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const [discountInput, setDiscountInput] = useState(discountAmount);
   const [showLocationList, setShowLocationList] = useState(false);
 
-const handleNextClick = () => {
-  if (!validateBooking()) {
-    setServiceError?.(true);
-    return;
-  }
-  setServiceError?.(false);
-  onNext?.();
-  // if(billingData){
-  //   redirect("./Bookings/Dashboard")
-  // }
-};
+  const handleNextClick = () => {
+    if (!validateBooking()) {
+      setServiceError?.(true);
+      return;
+    }
+    setServiceError?.(false);
+    onNext?.();
+    // if(billingData){
+    //   redirect("./Bookings/Dashboard")
+    // }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,11 +61,11 @@ const handleNextClick = () => {
     };
 
     if (showLocationList) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showLocationList]);
 
@@ -83,7 +84,9 @@ const handleNextClick = () => {
         taxAmount: billingData.taxAmount,
         totalAmount: billingData.totalAmount,
         appointedPrice: billingData.appointmentValue,
-        ...(billingData.discountCode ? { promoCode: billingData.discountCode } : {}),
+        ...(billingData.discountCode
+          ? { promoCode: billingData.discountCode }
+          : {}),
       });
 
       console.log("Booking data updated at runtime:", {
@@ -116,7 +119,6 @@ const handleNextClick = () => {
   const displayAppointmentTime = appointmentTime?.trim() || formattedNow;
   const subtotal = Math.max(0, appointmentValue - discountAmount);
 
-
   return (
     <div className={styles.billingcontainer}>
       <h2 className={styles.billingheading}>Billing</h2>
@@ -128,43 +130,29 @@ const handleNextClick = () => {
         </div>
         <div className={styles.divider}></div>
         <div className={styles.locationRow}>
-          <p className={styles.locationtext} >{appointmentLocation}</p>
-          {/* <p className={styles.changelocation} onClick={handleLocationClick}>
-            Change Location
-          </p> */}
+          <p className={styles.locationtext}>{appointmentLocation}</p>
         </div>
-        {/* {showLocationList && (
-          <div className={styles.locationList} ref={locationListRef}>
-            {savedLocations.length === 0 ? (
-              <p>No saved locations found.</p>
-            ) : (
-              savedLocations.map((loc) => (
-                <div
-                  key={loc.id}
-                  className={styles.locationItem}
-                  onClick={() => handleSelectLocation(loc)}
-                >
-                  <strong>{loc.label}</strong> — {loc.formattedAddress}
-                </div>
-              ))
-            )}
-          </div>
-        )} */}
+
         <div className={styles.divider}></div>
       </div>
 
       <div className={styles.pricingbox}>
         <div className={styles.pricingrow}>
           <span>
-            Appointment Value <span className={styles.detailslink}>- Details</span>
+            Appointment Value{" "}
+            <span className={styles.detailslink}>- Details</span>
           </span>
-          <span className={styles.totalvalue}>AED {appointmentValue.toFixed(2)}</span>
+          <span className={styles.totalvalue}>
+            AED {appointmentValue.toFixed(2)}
+          </span>
         </div>
         <div className={styles.pricingrow}>
           <span>
             Discounts <span className={styles.detailslink}>- Details</span>
           </span>
-          <span className={styles.totalvalue}>- AED {discountAmount.toFixed(2)}</span>
+          <span className={styles.totalvalue}>
+            - AED {discountAmount.toFixed(2)}
+          </span>
         </div>
         <div className={styles.divider} style={{ marginTop: "10px" }}></div>
         <div className={styles.subtotalrow}>
@@ -173,7 +161,9 @@ const handleNextClick = () => {
         </div>
         <div className={styles.taxrow}>
           <span>Tax</span>
-          <span className={styles.totalvalue}>+ AED {taxAmount.toFixed(2)}</span>
+          <span className={styles.totalvalue}>
+            + AED {taxAmount.toFixed(2)}
+          </span>
         </div>
         <div className={styles.divider} style={{ marginTop: "17px" }}></div>
         <div className={styles.totalrow}>
@@ -183,7 +173,9 @@ const handleNextClick = () => {
       </div>
 
       <div className={styles.buttoncontainer}>
-        <button onClick={handleNextClick} className={styles.nextbutton}>Next</button>
+        <button onClick={handleNextClick} className={styles.nextbutton}>
+          Next
+        </button>
       </div>
     </div>
   );
