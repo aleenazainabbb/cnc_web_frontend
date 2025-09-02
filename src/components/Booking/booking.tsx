@@ -1244,11 +1244,15 @@ useEffect(() => {
                 {[1, 2, 3, 4, 5, 6].map((num) => (
                   <button
                     key={num}
-                    onClick={() => setSelectedStaff(num)}
+                    onClick={ () =>{
+                       setSelectedStaff(num),
+                     updateBookingData({ staffCount: num });
+                    }}
                     className={`${booking.optionButton} ${
                       selectedStaff === num ? booking.selected : ""
                     } ${booking.fixedSizeBtn}`}
                     type="button"
+                    
                   >
                     {num}
                   </button>
@@ -1268,7 +1272,11 @@ useEffect(() => {
                 ].map(({ hour, price }) => (
                   <div key={hour} className={booking.optionWrapper}>
                     <button
-                      onClick={() => setSelectedHours(hour)}
+                      onClick={() =>
+                        {
+                           setSelectedHours(hour),
+                            updateBookingData({ hoursCount: hour });
+                        }}
                       className={`${booking.optionButton} ${
                         selectedHours === hour ? booking.selected : ""
                       }`}
@@ -1599,6 +1607,7 @@ useEffect(() => {
                                         onClick={() => {
                                           setResidentialCleanType(option);
                                           setIsResidentialTypeOpen(false);
+                                           updateBookingData({ residentialCleanType: option });
                                           // setFormErrors(prev => ({ ...prev, residentialCleanType: "" }));
                                         }}
                                       >

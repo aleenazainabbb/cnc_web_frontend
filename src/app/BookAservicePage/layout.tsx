@@ -39,11 +39,11 @@ export default function BookingLayout({
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setFormErrors(newErrors); // 🟥 Save all errors
-      return; // 🛑 Prevent step navigation
+      setFormErrors(newErrors); // Save all errors
+      return; // Prevent step navigation
     }
 
-    setFormErrors({}); // ✅ Clear errors if all good
+    setFormErrors({}); // Clear errors if all good
 
     const hasPricing = !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
 
