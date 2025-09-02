@@ -256,8 +256,8 @@
 .complaintItem {
   background: #f8fafc;
   border-radius: 12px;
-  padding: 1.25rem;
-  border-left: 4px solid #0f60ff;
+  padding: 1rem;
+  border-left: 4px solid #0ebe2e;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -265,7 +265,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .complaintOrder {

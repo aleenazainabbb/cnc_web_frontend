@@ -325,9 +325,12 @@ export const BookingProvider = ({
     setFormErrors(errors);
 
     // Log errors for debugging
-    if (Object.keys(errors).length > 0) {
-      console.error("Validation errors:", errors);
-    }
+  // In validateBooking function
+if (Object.keys(errors).length > 0) {
+  console.error("Validation errors:", errors);
+} else {
+  console.log("No validation errors found"); // Optional: for debugging
+}
 
     return Object.keys(errors).length === 0;
   };
@@ -416,44 +419,66 @@ export const BookingProvider = ({
     }
   };
 
-  // non custom api Integration
+// non custom api Integration
   const createBookingOrder = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) throw new Error("Authorization token required");
-
+      if (!token) throw new Error("No token found. Please log in.");
       const selected = selectionList[selectionList.length - 1];
-      const payload = {
-        bookingData: {
-          ...bookingData,
-          payment: bookingData.payment || "cash",
-        },
-        billingData,
-        latestLocation,
-        selection: selected,
-      };
-
+      const formData = new FormData();
+      formData.append("date", selected?.date || "");
+      formData.append("time", selected?.time || "");
+      formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      formData.append("workers", (bookingData.staffCount ?? 0).toString());
+      formData.append("noHours", (bookingData.hoursCount ?? 0).toString());
+      formData.append("BookingStatus", bookingData.status || "");
+      // formData.append("units", bookingData.units || "");
+      formData.append("service", bookingData.service || "");
+      formData.append("subSubService", bookingData.subService || "");
+      formData.append("category", bookingData.cleaningCategory || "");
+      formData.append("cleaningType", bookingData.cleaningType || "");
+      formData.append("location", latestLocation?.fullAddress || "");
+      formData.append("accessInstructions", latestLocation?.access || "");
+      // formData.append("category", bookingData.cleaningCategory || "");
+      // formData.append("additionalServices", bookingData.detail || "");
+      // formData.append("needCleaning", bookingData.frequency || "");
+      //change their parameters
+      formData.append("specialInstructions", bookingData.specialInstructions || "");
+      // :white_check_mark: Billing Data mapping
+      formData.append("VAT", billingData.taxAmount.toString());
+      formData.append("promoCode", billingData.discountCode || "");
+      formData.append("discountPrice", billingData.discountAmount.toString());
+      formData.append("subTotalPrice", billingData.appointmentValue.toString());
+      // formData.append("totalPrice", billingData.subTotal.toString());
+      //  formData.append("price", billingData.totalAmount.toString());w
+      formData.append("payment", bookingData.payment || "");
+      bookingData.uploadedMedia?.forEach((fileObj) => {
+        if (fileObj.file instanceof File) {
+          const isImage = fileObj.file.type.startsWith("image/");
+          const isVideo = fileObj.file.type.startsWith("video/");
+          if (isImage) formData.append("images", fileObj.file);
+          if (isVideo) formData.append("videos", fileObj.file);
+        }
+      });
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        // body: JSON.stringify(payload),
+        body: formData,
       });
-
       const result = await response.json();
       if (!response.ok)
         throw new Error(result.message || "Order creation failed");
-
-      console.log("Booking order created:", result);
+      console.log(":white_check_mark: Booking order created:", result);
       return result;
     } catch (error: any) {
-      console.error("Booking order error:", error.message);
+      console.error(":x: Booking order error:", error.message);
       throw error;
     }
   };
-
   //  promo code integration
   const applyPromoCode = async (
     code: string
@@ -542,11 +567,11 @@ export const BookingProvider = ({
           new Date(b.date).getTime() - new Date(a.date).getTime()
       );
 
-      // Map for table/grid if needed
+    // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
-        order.subSubService || order.service || "-",
-        order.specialInstructions || "-",
+        order.service || "-",
+        order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
         order.status || "Completed",
