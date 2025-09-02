@@ -16,6 +16,7 @@ type BillingData = {
   discountAmount: number;
   taxAmount: number;
   totalAmount: number;
+  subTotal: number;
 };
 
 type UploadedMediaItem = {
@@ -36,7 +37,8 @@ type BookingData = {
   squareFootage?: string;
   numberOfWindows?: string;
   numberOfItems?: string;
-  units?: string;
+  units?: number | null;
+  selectedspecific?: string;
   siteVisit?: string | null;
   residentialCleanType?: string;
   cleaningMaterials?: "yes" | "no" | null;
@@ -50,11 +52,15 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
+
   appointedPrice?: number;
   discountAmount?: number;
   subTotal?: number;
   taxAmount?: number;
   totalAmount?: number;
+  // subtotal?: number;
+  price?: number;
+
   status?: "pending" | "confirmed" | "cancelled";
   payment?: "card" | "cash";
   appointmentLocation?: string;
@@ -144,10 +150,11 @@ export const BookingProvider = ({
     }),
     appointmentLocation: "114 Broadway New York, NY 10005",
     discountCode: "",
-    appointmentValue: 0,
+    appointmentValue: 0, // base price before discounts/taxes: totalPrice
     discountAmount: 0,
+    subTotal: 0,
     taxAmount: 0,
-    totalAmount: 0,
+    totalAmount: 0, // final price after discounts/taxes: price
   });
 
   const [latestLocation, setLatestLocation] = useState<LatestLocation | null>(
@@ -333,7 +340,8 @@ export const BookingProvider = ({
       const selected = selectionList[selectionList.length - 1];
       const formData = new FormData();
 
-      formData.append("addressDetails", latestLocation?.fullAddress || "");
+      // formData.append("addressDetails", latestLocation?.fullAddress || "");
+       formData.append("location", latestLocation?.fullAddress || "");
       formData.append("accessInstructions", latestLocation?.access || "");
       formData.append(
         "anyPets",
@@ -409,36 +417,36 @@ export const BookingProvider = ({
 
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
-      formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
-      formData.append("workers", (bookingData.staffCount ?? 0).toString());
-      formData.append("noHours", (bookingData.hoursCount ?? 0).toString());
+      formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
+
+      const isMaidOrGeneral =
+        bookingData.subService?.trim().toLowerCase() === "maid services / general services";
+      formData.append("workers", isMaidOrGeneral ? String(bookingData.staffCount ?? 0) : "0");
+      formData.append("noHours", isMaidOrGeneral ? String(bookingData.hoursCount ?? 0) : "0");
+
       formData.append("BookingStatus", bookingData.status || "");
-      // formData.append("units", bookingData.units || "");
+      formData.append("units", (bookingData.units ?? 0).toString());
 
       formData.append("service", bookingData.service || "");
       formData.append("subSubService", bookingData.subService || "");
 
       formData.append("category", bookingData.cleaningCategory || "");
-      formData.append("cleaningType", bookingData.cleaningType || ""); 
       formData.append("location", latestLocation?.fullAddress || "");
-      formData.append("accessInstructions", latestLocation?.access || "");
+      // formData.append("accessInstructions", latestLocation?.access || "");
 
-     
-      // formData.append("category", bookingData.cleaningCategory || "");
-      // formData.append("additionalServices", bookingData.detail || "");
-      // formData.append("needCleaning", bookingData.frequency || "");
-      //change their parameters
+      formData.append("additionalServices", bookingData.residentialCleanType || "");
+      // formData.append("needCleaning", bookingData.cleaningMaterials  || "");
       formData.append("specialInstructions", bookingData.specialInstructions || "");
 
-      // ✅ Billing Data mapping
+      formData.append("totalPrice", billingData.appointmentValue.toString());  // Billing Data mapping
+      formData.append("discountPrice", billingData.discountAmount.toString());
+      formData.append("subTotalPrice", billingData.subTotal.toString());
       formData.append("VAT", billingData.taxAmount.toString());
       formData.append("promoCode", billingData.discountCode || "");
-      formData.append("discountPrice", billingData.discountAmount.toString());
-      formData.append("subTotalPrice", billingData.appointmentValue.toString());
-      // formData.append("totalPrice", billingData.subTotal.toString());
-      //  formData.append("price", billingData.totalAmount.toString());
+      formData.append("price", billingData.totalAmount.toString());
+
       formData.append("payment", bookingData.payment || "");
-    
+
       bookingData.uploadedMedia?.forEach((fileObj) => {
         if (fileObj.file instanceof File) {
           const isImage = fileObj.file.type.startsWith("image/");
@@ -514,6 +522,7 @@ export const BookingProvider = ({
       updateBillingData({
         discountCode: code,
         discountAmount: discount,
+        subTotal,
         taxAmount,
         totalAmount,
       });
@@ -529,7 +538,7 @@ export const BookingProvider = ({
       };
     }
   };
-
+  // get all orders list in pending and history
   const fetchAllOrders = async (): Promise<void> => {
     try {
       setOrdersLoading(true);
@@ -561,7 +570,6 @@ export const BookingProvider = ({
       // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
-        // order.subSubService || order.service || "-",
         order.service || "-",
         order.subSubService || order.subService || "-",
         order.time || "-",
@@ -590,7 +598,7 @@ export const BookingProvider = ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ type }), // 👈 restrict API by type/specific
+        body: JSON.stringify({ type }), // restrict API by type/specific
       });
 
       const result = await response.json();
@@ -614,7 +622,7 @@ export const BookingProvider = ({
         bookingData,
         updateBookingData,
         billingData,
-        deepCleanings, // ✅ Now included in value
+        deepCleanings,
         updateBillingData,
         latestLocation,
         updateLatestLocation,
@@ -625,7 +633,7 @@ export const BookingProvider = ({
         submitBookingQuote,
         applyPromoCode,
         allOrders,
-        allOrdersObject,        // ✅ full objects now available
+        allOrdersObject,
         setAllOrdersObject,
         fetchAllOrders,
         ordersLoading,
