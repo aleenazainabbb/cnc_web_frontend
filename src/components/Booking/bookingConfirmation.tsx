@@ -2,11 +2,11 @@
 
 import React, { useRef } from 'react';
 import styles from './styles/BookingConfirmation.module.css';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useBooking } from '@/context/BookingContext';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import { FaTimes } from "react-icons/fa"; 
 interface BookingConfirmationProps {
   onClose: () => void;
 }
@@ -65,17 +65,31 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({ onClose }) =>
     pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, finalImgHeight);
     pdf.save(`Booking_Confirmation_${refNumber}.pdf`);
 
+    
+    router.push("/Bookings/Dashboard");
     onClose();
   };
 
+// For cross
+//   const handleClick=() =>{
+// redirect("/Bookings/Dashboard")
+//   }
   return (
     <div className={styles.container}>
+      
       <div className={styles.main} ref={pdfRef}>
+      
+        {/* <FaTimes  className={styles.cross} onClick={handleClick}/> */}
+   
         <div className={`${styles.home} no-print`} onClick={goToHome}>
           Go to Home
         </div>
+        
+
+        
 
         <h2 className={styles.titletext}>Order Booked</h2>
+        
         <p className={styles.paragraph}>Your payment has been successfully done.</p>
         <p className={styles.content}>
           Ref No: <span className={styles.refNumber}>{refNumber}</span>

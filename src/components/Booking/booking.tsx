@@ -12,6 +12,9 @@ type BookingsProps = {
 };
 
 interface UpholsteryRate {
+  price: any;
+  specification: any;
+  category: string;
   type: string;
   unitPrice?: number;
   unit?: string;
@@ -29,63 +32,6 @@ const Bookings: React.FC<BookingsProps> = ({
   const [itemCount, setItemCount] = useState<number>(2); // Default to 2 as in the image
   const [upholsteryRates, setUpholsteryRates] = useState<UpholsteryRate[]>([]);
 
-  const { deepCleanings } = useBooking();
-  const [withSuppliesPrice, setWithSuppliesPrice] = useState<number | null>(
-    null
-  );
-  const [withoutSuppliesPrice, setWithoutSuppliesPrice] = useState<
-    number | null
-  >(null);
-  const [duct, setDuct] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const data = await deepCleanings(); // call backend
-
-        if (data?.maidRates?.withSupplies) {
-          setWithSuppliesPrice(data.maidRates.withSupplies);
-          setWithoutSuppliesPrice(data.maidRates.withoutSupplies);
-        }
-        if (data?.ductRates?.ductPerUnit) {
-          setDuct(data.ductRates.ductPerUnit);
-          console.log("Duct Price:", data.ductRates.ductPerUnit);
-        }
-
-        if (data?.upholsteryRates) {
-          setUpholsteryRates(data.upholsteryRates);
-        }
-      } catch (error) {
-        console.error("Error fetching maid/duct rates:", error);
-      }
-    };
-    fetchPrices();
-  }, []);
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const data = await deepCleanings();
-
-        if (data?.upholsteryRates) {
-          setUpholsteryRates(data.upholsteryRates);
-          setSelectedType("");
-
-          const mattressItem = data.upholsteryRates.find(
-            (item: { type: string }) => item.type === "Mattress"
-          );
-          if (mattressItem?.rates) {
-            const firstRateKey = Object.keys(mattressItem.rates)[0];
-            if (firstRateKey) {
-              setSelectedSpecific(firstRateKey);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching upholstery rates:", error);
-      }
-    };
-    fetchPrices();
-  }, []);
   useEffect(() => {
     if (selectedType && selectedSpecific && upholsteryRates.length > 0) {
       calculatePrice(
@@ -158,20 +104,6 @@ const Bookings: React.FC<BookingsProps> = ({
 
     return 0;
   };
-
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const data = await deepCleanings();
-        if (data?.maidRates?.withSupplies) {
-          setWithSuppliesPrice(data.maidRates.withSupplies);
-        }
-      } catch (error) {}
-    };
-
-    fetchPrices();
-  }, [deepCleanings]);
-
   const {
     updateBookingData,
     updateBillingData,
@@ -179,6 +111,7 @@ const Bookings: React.FC<BookingsProps> = ({
     setBillingData,
     formErrors,
     setFormErrors,
+    deepCleanings, // Make sure this is destructured from useBooking
   } = useBooking();
 
   const { applyPromoCode } = useBooking();
@@ -192,8 +125,6 @@ const Bookings: React.FC<BookingsProps> = ({
     null
   );
   const [selectedSubService, setSelectedSubService] = useState<string>("");
-  const [sofaUnitPrice, setSofaUnitPrice] = useState<number>(0);
-  const [carpetPricePerSqm, setCarpetPricePerSqm] = useState<number>(0);
   const [selectedDetail, setSelectedDetail] = useState<string>("");
   const [selectedFreq, setSelectedFreq] = useState("Once");
   const [selectedStaff, setSelectedStaff] = useState<number>(1);
@@ -210,7 +141,14 @@ const Bookings: React.FC<BookingsProps> = ({
   const [carpetAreas, setCarpetAreas] = useState<string[]>([]);
   const [upholsteryItemCount, setUpholsteryItemCount] = useState<number>(0);
   const [residentialCleanType, setResidentialCleanType] = useState<string>("");
-
+ 
+  const [serviceOptions, setServiceOptions] = useState([]);
+  const [withoutSuppliesPrice, setWithoutSuppliesPrice] = useState<
+    number | null
+  >(null);
+  const [duct, setDuct] = useState<number | null>(null);
+  const [sofaUnitPrice, setSofaUnitPrice] = useState<number>(0);
+  const [carpetPricePerSqm, setCarpetPricePerSqm] = useState<number>(0);
   // Dropdown toggles
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isSubServiceOpen, setIsSubServiceOpen] = useState(false);
@@ -262,62 +200,147 @@ const Bookings: React.FC<BookingsProps> = ({
   const { services, subServices, fetchServices, fetchSubServices, loading } =
     useService();
 
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const data = await deepCleanings(); // call backend
-        if (data?.maidRates?.withSupplies) {
-          setWithSuppliesPrice(data.maidRates.withSupplies);
+
+
+
+
+
+// State variables for all pricing categories
+const [pricingData, setPricingData] = useState<any[]>([]);
+const [maidWithSuppliesPrice, setMaidWithSuppliesPrice] = useState<number>(0);
+const [maidWithoutSuppliesPrice, setMaidWithoutSuppliesPrice] = useState<number>(0);
+const [ductPrice, setDuctPrice] = useState<number>(0);
+
+const [diningChairPrice, setDiningChairPrice] = useState<number>(0);
+
+const [mattressPrices, setMattressPrices] = useState<any[]>([]);
+const [rugsPrices, setRugsPrices] = useState<any[]>([]);
+const [deepCleaningPrices, setDeepCleaningPrices] = useState<any[]>([]);
+const [residentialPrices, setResidentialPrices] = useState<any[]>([]);
+
+useEffect(() => {
+  const fetchPrices = async () => {
+    try {
+      const data = await deepCleanings();
+
+      if (data?.success && data.data) {
+        setPricingData(data.data); // Store the entire data array
+
+        // Extract maid service prices
+        const maidWithSupplies = data.data.find(
+          (item: any) => item.category === "maid" && item.type === "withSupplies"
+        );
+        const maidWithoutSupplies = data.data.find(
+          (item: any) => item.category === "maid" && item.type === "withoutSupplies"
+        );
+
+        if (maidWithSupplies) {
+          setMaidWithSuppliesPrice(maidWithSupplies.price);
         }
-      } catch (error) {
-        console.error("Error fetching maid rates:", error);
+        if (maidWithoutSupplies) {
+          setMaidWithoutSuppliesPrice(maidWithoutSupplies.price);
+        }
+
+        // Extract duct cleaning price
+        const ductCleaning = data.data.find(
+          (item: any) => item.category === "duct"
+        );
+        if (ductCleaning) {
+          setDuctPrice(ductCleaning.price);
+        }
+
+        // Extract upholstery prices
+        const sofaPrices = data.data.filter(
+          (item: any) => item.category === "upholstery" && item.type === "sofa"
+        );
+        
+        // Dining chair price
+        const diningChair = data.data.find(
+          (item: any) => item.category === "upholstery" && item.type === "dining chair / sofa"
+        );
+        if (diningChair) {
+          setDiningChairPrice(diningChair.price);
+        }
+        
+        // Carpet price
+        const carpet = data.data.find(
+          (item: any) => item.category === "upholstery" && item.type === "carpet"
+        );
+        if (carpet) {
+          setCarpetPricePerSqm(carpet.price);
+        }
+
+        // Mattress prices
+        const mattressData = data.data.filter(
+          (item: any) => item.category === "upholstery" && item.type === "mattress"
+        );
+        setMattressPrices(mattressData);
+
+        // Rugs prices
+        const rugsData = data.data.filter(
+          (item: any) => item.category === "upholstery" && item.type === "rugs"
+        );
+        setRugsPrices(rugsData);
+
+        // Set sofa unit price (average of all sofa types)
+        if (sofaPrices.length > 0) {
+          const averageSofaPrice = sofaPrices.reduce(
+            (sum: number, item: any) => sum + item.price, 0
+          ) / sofaPrices.length;
+          setSofaUnitPrice(averageSofaPrice);
+        }
+
+        // Extract deep cleaning prices
+        const deepCleaningData = data.data.filter(
+          (item: any) => item.category === "deep"
+        );
+        setDeepCleaningPrices(deepCleaningData);
+
+        // Extract residential prices (Apartments, Townhouses, Villas)
+        const residentialData = data.data.filter(
+          (item: any) => item.category === "Residential"
+        );
+        setResidentialPrices(residentialData);
+
+        // Log all extracted data for verification
+        console.log("Maid with supplies:", maidWithSupplies?.price);
+        console.log("Maid without supplies:", maidWithoutSupplies?.price);
+        console.log("Duct cleaning:", ductCleaning?.price);
+        console.log("Sofa prices:", sofaPrices);
+        console.log("Dining chair:", diningChair?.price);
+        console.log("Carpet:", carpet?.price);
+        console.log("Mattress prices:", mattressData);
+        console.log("Rugs prices:", rugsData);
+        console.log("Deep cleaning:", deepCleaningData);
+        console.log("Residential prices:", residentialData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching prices:", error);
+    }
+  };
 
-    fetchPrices();
-  }, [deepCleanings]);
+  fetchPrices();
+}, [deepCleanings]);
 
+
+
+
+
+
+  // 1️⃣ Fetch prices once
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const data = await deepCleanings();
-
-        if (data?.upholsteryRates) {
-          // Get Dining chair / Sofa price
-          const sofaData = data.upholsteryRates.find(
-            (item: any) => item.type === "Dining chair / Sofa"
-          );
-          if (sofaData) {
-            setSofaUnitPrice(sofaData.unitPrice); // 120
-          }
-
-          // Get Carpet price
-          const carpetData = data.upholsteryRates.find(
-            (item: any) => item.type === "Carpet"
-          );
-          if (carpetData) {
-            setCarpetPricePerSqm(carpetData.unitPrice); // 70
-          }
+        const data = await deepCleanings(); // your API call
+        if (data?.success && data.data) {
+          setServiceOptions(data.data); // store all fetched data
         }
       } catch (error) {
         console.error("Error fetching prices:", error);
       }
     };
-
     fetchPrices();
-  }, [deepCleanings]);
-  // Hook to calculate carpet total price
-  useEffect(() => {
-    if (
-      selectedType === "Carpet" &&
-      selectedSpecific &&
-      carpetPricePerSqm > 0
-    ) {
-      const area = parseFloat(selectedSpecific);
-      const totalPrice = carpetPricePerSqm * area;
-      setSelectedDetail(`${totalPrice} AED`);
-    }
-  }, [selectedType, selectedSpecific, carpetPricePerSqm]);
+  }, []);
 
   const handleApply = async () => {
     try {
@@ -629,40 +652,45 @@ const Bookings: React.FC<BookingsProps> = ({
     cleaningType,
   ]);
 
-  useEffect(() => {
-    const isMaid =
-      selectedService.trim().toLowerCase() === "cleaning services" &&
-      selectedSubService.trim().toLowerCase() ===
-        "maid services / general services";
+useEffect(() => {
+  const isMaid =
+    selectedService.trim().toLowerCase() === "cleaning services" &&
+    selectedSubService.trim().toLowerCase() === "maid services / general services";
 
-    if (isMaid && selectedType) {
-      let pricePerHour = 0;
-      if (selectedType === "with-supplies") {
-        pricePerHour = 40;
-      } else if (selectedType === "without-supplies") {
-        pricePerHour = 45;
-      }
-
-      // Only if staff and hours are also selected
-      if (selectedStaff && selectedHours) {
-        const appointmentValue = pricePerHour * selectedStaff * selectedHours;
-        const taxAmount = appointmentValue * 0.05;
-        const totalAmount = appointmentValue + taxAmount;
-
-        updateBillingData({
-          appointmentValue,
-          taxAmount,
-          totalAmount,
-        });
-      }
+  if (isMaid && selectedType) {
+    let pricePerHour = 0;
+    
+    // Use the prices from state that were fetched from the API
+    if (selectedType === "with-supplies") {
+      pricePerHour = maidWithSuppliesPrice || 40; // Fallback to 40 if not loaded
+    } else if (selectedType === "without-supplies") {
+      pricePerHour = maidWithoutSuppliesPrice || 45; // Fallback to 45 if not loaded
     }
-  }, [
-    selectedType,
-    selectedStaff,
-    selectedHours,
-    selectedService,
-    selectedSubService,
-  ]);
+
+    // Only if staff and hours are also selected
+    if (selectedStaff && selectedHours) {
+      const appointmentValue = pricePerHour * selectedStaff * selectedHours;
+      const taxAmount = appointmentValue * 0.05;
+      const totalAmount = appointmentValue + taxAmount;
+
+      updateBillingData({
+        appointmentValue,
+        taxAmount,
+        totalAmount,
+      });
+    }
+  }
+}, [
+  selectedType,
+  selectedStaff,
+  selectedHours,
+  selectedService,
+  selectedSubService,
+  selectedDetail,
+  // Always include these dependencies, even if they're initially undefined
+  maidWithSuppliesPrice,
+  maidWithoutSuppliesPrice,
+]);
 
   useEffect(() => {
     if (!selectedDetail) return;
@@ -935,10 +963,11 @@ const Bookings: React.FC<BookingsProps> = ({
                               setFormErrors((prev) => ({ ...prev, type: "" }));
                             }}
                           >
-                            {/* With supplies (40 AED per hour per crew) */}
+                           
 
                             <p className={booking.price}>
-                              with supplies AED {withSuppliesPrice} per hour per
+                            With supplies AED {maidWithSuppliesPrice} per hour per crew
+
                               crew
                             </p>
                           </div>
@@ -950,10 +979,10 @@ const Bookings: React.FC<BookingsProps> = ({
                               setFormErrors((prev) => ({ ...prev, type: "" }));
                             }}
                           >
-                            {/* Without supplies (45 AED per hour per crew) */}
+                            
                             <p className={booking.price}>
-                              without supplies AED {withoutSuppliesPrice} per
-                              hour per crew
+                             Without supplies AED {maidWithoutSuppliesPrice} per hour per crew
+                           
                             </p>
                           </div>
                         </>
@@ -1302,34 +1331,8 @@ const Bookings: React.FC<BookingsProps> = ({
                             </p>
                           </div>
 
-                          {/* ✅ Dropdown menu */}
-                          {isSpecificOpen && (
-                            <div className={booking.dropdown}>
-                              {isSpecialCleaning && (
-                                <>
-                                  {selectedSpecific ? (
-                                    <div
-                                      className={booking.dropdownitem}
-                                      onClick={() => {
-                                        setSelectedSpecific(selectedSpecific); // ✅ set value
-                                        setIsSpecificOpen(false); // ✅ close dropdown
-                                      }}
-                                    >
-                                      {selectedSpecific}
-                                    </div>
-                                  ) : (
-                                    <div className={booking.dropdownitem}>
-                                      Please select Type and Specific
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          )}
-
                           {isSpecificOpen && (
                             <div className={booking.customdropdown}>
-                              {/* ✅ Upholstery Cleaning logic */}
                               {selectedSubService.trim().toLowerCase() ===
                                 "upholstery cleaning" && (
                                 <>
@@ -1359,12 +1362,12 @@ const Bookings: React.FC<BookingsProps> = ({
                                       "Single",
                                       "Double King",
                                       "Double Queen",
-                                    ].map((option) => (
+                                    ].map((price) => (
                                       <div
-                                        key={option}
+                                        key={price}
                                         className={booking.dropdownitem}
                                         onClick={() => {
-                                          setSelectedSpecific(option);
+                                          setSelectedSpecific(price);
                                           setFormErrors((prev) => ({
                                             ...prev,
                                             specific: "",
@@ -1372,9 +1375,49 @@ const Bookings: React.FC<BookingsProps> = ({
                                           setIsSpecificOpen(false);
                                         }}
                                       >
-                                        {option}
+                                        {price}
                                       </div>
                                     ))}
+                                  {selectedType.trim().toLowerCase() ===
+                                    "rugs" &&
+                                    ["Small", "medium", "large"].map(
+                                      (size) => {
+                                        // Find the corresponding price from your upholstery data
+                                        const rugItem = upholsteryRates.find(
+                                          (item) =>
+                                            item.category === "upholstery" &&
+                                            item.type === "rugs" &&
+                                            item.specification?.toLowerCase() ===
+                                              size.toLowerCase()
+                                        );
+
+                                        return (
+                                          <div
+                                            key={size}
+                                            className={booking.dropdownitem}
+                                            onClick={() => {
+                                              setSelectedSpecific(size);
+                                              setFormErrors((prev) => ({
+                                                ...prev,
+                                                specific: "",
+                                              }));
+                                              setIsSpecificOpen(false);
+                                              // Optionally, you can also set the price somewhere
+                                              if (rugItem)
+                                                setSelectedDetail(
+                                                  `${size} - ${rugItem.price} AED`
+                                                );
+                                            }}
+                                          >
+                                            {size}{" "}
+                                            {rugItem
+                                              ? `- ${rugItem.price} AED`
+                                              : ""}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+
                                   {selectedType === "Carpet" &&
                                     Array.from(
                                       { length: 10 },
@@ -1404,33 +1447,44 @@ const Bookings: React.FC<BookingsProps> = ({
                                   )}
 
                                   {selectedType === "Rugs" &&
-                                    Object.keys(
-                                      upholsteryRates.find(
-                                        (item) => item.type === "Rugs"
-                                      )?.rates || {}
-                                    ).map((option) => (
-                                      <div
-                                        key={option}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(option);
-                                          setIsSpecificOpen(false);
-                                          setFormErrors((prev) => ({
-                                            ...prev,
-                                            specific: "",
-                                          }));
-                                          calculatePrice(
-                                            "Rugs",
-                                            option,
-                                            itemCount,
-                                            upholsteryRates
-                                          ); // ✅ update price
-                                        }}
-                                      >
-                                        {option.charAt(0).toUpperCase() +
-                                          option.slice(1)}
-                                      </div>
-                                    ))}
+                                    serviceOptions
+                                      .filter(
+                                        (item: any) =>
+                                          item.type.toLowerCase() === "rugs" &&
+                                          item.category.toLowerCase() === "deep"
+                                      )
+                                      .map((option: any) => (
+                                        <div
+                                          key={option.id}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(
+                                              option.specification
+                                            ); // e.g., Small / Medium / Large
+                                            setIsSpecificOpen(false);
+                                            setFormErrors((prev) => ({
+                                              ...prev,
+                                              specific: "",
+                                            }));
+
+                                            // Dynamically calculate and set price
+                                            calculatePrice(
+                                              "Rugs",
+                                              option.specification,
+                                              itemCount, // number of rugs selected
+                                              serviceOptions
+                                            );
+
+                                            // Also set the selected detail text
+                                            setSelectedDetail(
+                                              `${option.specification} - ${option.price} AED`
+                                            );
+                                          }}
+                                        >
+                                          {option.specification} – AED{" "}
+                                          {option.price}
+                                        </div>
+                                      ))}
                                 </>
                               )}
                               {/* ✅ Regular logic for Apartment, Townhouse, Villa */}
@@ -1448,9 +1502,13 @@ const Bookings: React.FC<BookingsProps> = ({
                                         key={option}
                                         className={booking.dropdownitem}
                                         onClick={() => {
-                                          setSelectedSpecific(option);
-                                          setIsSpecificOpen(false);
-                                          // setFormErrors(prev => ({ ...prev, specific: "" }));
+                                          setSelectedSpecific(option); // ✅ save the chosen option
+                                          setIsSpecificOpen(false); // ✅ close dropdown
+                                          setFormErrors((prev) => ({
+                                            // ✅ clear error if any
+                                            ...prev,
+                                            specific: "",
+                                          }));
                                         }}
                                       >
                                         {option}
@@ -1703,76 +1761,76 @@ const Bookings: React.FC<BookingsProps> = ({
                             ) : selectedSubService.trim().toLowerCase() ===
                                 "upholstery cleaning" && selectedSpecific ? (
                               selectedType === "Rugs" ? (
-                                <div
-                                  className={booking.dropdownitem}
-                                  onClick={() => {
-                                    // Selected detail shows total price (price * count) - SAME AS MATTRESS
-                                    setSelectedDetail(
-                                      ` ${
-                                        getPriceForSpecific(
-                                          selectedType,
-                                          selectedSpecific
-                                        ) * (upholsteryItemCount || 1)
-                                      } AED`
-                                    );
-                                  }}
-                                >
-                                  {/* Dropdown shows total price */}
-                                  {upholsteryItemCount || 1} Piece Rugs -
-                                  {getPriceForSpecific(
-                                    selectedType,
-                                    selectedSpecific
-                                  ) * (upholsteryItemCount || 1)}
-                                  AED
-                                </div>
-                              ) : selectedType === "Mattress" ? (
-                                <div
-                                  className={booking.dropdownitem}
-                                  onClick={() => {
-                                    // Selected detail shows total price (price * count)
-                                    setSelectedDetail(
-                                      `${selectedSpecific} – ${
-                                        getPriceForSpecific(
-                                          selectedType,
-                                          selectedSpecific
-                                        ) * (upholsteryItemCount || 1)
-                                      } AED`
-                                    );
-                                    setIsDetailOpen(false);
-                                  }}
-                                >
-                                  {/* Dropdown shows total price */}
-                                  {selectedSpecific} –{" "}
-                                  {getPriceForSpecific(
-                                    selectedType,
-                                    selectedSpecific
-                                  ) * (upholsteryItemCount || 1)}
-                                  AED
-                                </div>
-                              ) : selectedType ? (
-                                selectedSubService === "Dining chair / Sofa" ? (
+  <div
+    className={booking.dropdownitem}
+    onClick={() => {
+      // Find the rug price from API data
+      const rugItem = rugsPrices.find(
+        item => item.specification?.toLowerCase() === selectedSpecific?.toLowerCase()
+      );
+      const price = rugItem ? rugItem.price : 0;
+      const totalPrice = price * (upholsteryItemCount || 1);
+      
+      setSelectedDetail(`${totalPrice} AED`);
+      setIsDetailOpen(false);
+    }}
+  >
+    {(() => {
+      const rugItem = rugsPrices.find(
+        item => item.specification?.toLowerCase() === selectedSpecific?.toLowerCase()
+      );
+      return (rugItem?.price || 0) * (upholsteryItemCount || 1);
+    })()} AED
+  </div>
+) : selectedType === "Mattress" ? (
+  <div
+    className={booking.dropdownitem}
+    onClick={() => {
+      // Find the mattress price from API data
+      const mattressItem = mattressPrices.find(
+        item => item.specification?.toLowerCase() === selectedSpecific?.toLowerCase()
+      );
+      const price = mattressItem ? mattressItem.price : 0;
+      const totalPrice = price * (upholsteryItemCount || 1);
+      
+      setSelectedDetail(
+        `${selectedSpecific} – ${totalPrice} AED`
+      );
+      setIsDetailOpen(false);
+    }}
+  >
+    {/* Dropdown shows total price */}
+    {selectedSpecific} –{" "}
+    {(() => {
+      const mattressItem = mattressPrices.find(
+        item => item.specification?.toLowerCase() === selectedSpecific?.toLowerCase()
+      );
+      return (mattressItem?.price || 0) * (upholsteryItemCount || 1);
+    })()}
+    AED
+  </div>
+): selectedType ? (
+                                selectedType === "Dining Chair / Sofa" ? (
                                   <div
-                                    className={booking.dropdownitem}
-                                    onClick={() => {
-                                      const count = selectedSpecific
-                                        ? parseInt(selectedSpecific)
-                                        : 1;
-                                      const totalPrice = sofaUnitPrice * count;
-                                      setSelectedDetail(`${totalPrice} AED`);
-                                      setIsDetailOpen(false);
-                                      // Reset billing for other options
-                                      setSelectedType("");
-                                      setSelectedSubService("");
-                                      setSelectedSpecific("");
-                                    }}
-                                  >
-                                    <p>
-                                      {sofaUnitPrice *
-                                        (selectedSpecific
-                                          ? parseInt(selectedSpecific)
-                                          : 1)}{" "}
-                                      AED
-                                    </p>
+    className={booking.dropdownitem}
+    onClick={() => {
+      const count = selectedSpecific
+        ? parseInt(selectedSpecific)
+        : 1;
+      const totalPrice = diningChairPrice * count; // Use diningChairPrice instead of sofaUnitPrice
+      setSelectedDetail(`${totalPrice} AED`);
+      setIsDetailOpen(false);
+      // Reset selections
+  
+    }}
+  >
+                                   <p>
+      {diningChairPrice * // Use diningChairPrice instead of sofaUnitPrice
+        (selectedSpecific
+          ? parseInt(selectedSpecific)
+          : 1)}{" "}
+      AED
+    </p>
                                   </div>
                                 ) : selectedType === "Carpet" ? (
                                   <div
@@ -1790,10 +1848,10 @@ const Bookings: React.FC<BookingsProps> = ({
                                         carpetPricePerSqm * totalArea; // Calculate total price
                                       setSelectedDetail(`${totalPrice} AED`); // Show total price in details
                                       setIsDetailOpen(false);
-                                      // Reset billing for other options
-                                      setSelectedType("");
-                                      setSelectedSubService("");
-                                      setSelectedSpecific("");
+
+                                      // setSelectedType("");
+                                      // setSelectedSubService("");
+                                      // setSelectedSpecific("");
                                     }}
                                   >
                                     <p>
@@ -1834,242 +1892,165 @@ const Bookings: React.FC<BookingsProps> = ({
                                 {/* Apartment Details */}
                                 {selectedType === "Apartment" &&
                                   selectedSpecific === "Studio" && (
-                                    <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - 350 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - 350 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - 300 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - 300 AED
-                                      </div>
-                                    </>
+                                   <>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Apartment" && 
+          item.specification === "Studio"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {selectedType === "Apartment" &&
                                   selectedSpecific === "1BHK Apartment" && (
-                                    <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - 525 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - 525 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - 475 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - 475 AED
-                                      </div>
-                                    </>
+                                     <>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Apartment" && 
+          item.specification === "1BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {selectedType === "Apartment" &&
                                   selectedSpecific === "2BHK Apartment" && (
-                                    <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - 650 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - 650 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - 570 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - 570 AED
-                                      </div>
-                                    </>
+                                     <>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Apartment" && 
+          item.specification === "2BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {selectedType === "Apartment" &&
                                   selectedSpecific === "3BHK Apartment" && (
                                     <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - 850 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - 850 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - 775 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - 775 AED
-                                      </div>
-                                    </>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Apartment" && 
+          item.specification === "3BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {/* Townhouse Details */}
                                 {selectedType === "Townhouse" &&
                                   selectedSpecific === "2BHK" && (
                                     <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal Only: 800 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal Only: 800 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal & External: 1250 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal & External: 1250
-                                        AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - Internal Only: 750 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - Internal Only: 750 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - Internal & External: 1200 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - Internal & External: 1200
-                                        AED
-                                      </div>
-                                    </>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Townhouse" && 
+          item.specification === "2BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {selectedType === "Townhouse" &&
                                   selectedSpecific === "3BHK" && (
-                                    <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal Only: 1000 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal Only: 1000 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal & External: 1400 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal & External: 1400
-                                        AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - Internal Only: 900 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - Internal Only: 900 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Unfurnished - Internal & External: 1300 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished - Internal & External: 1300
-                                        AED
-                                      </div>
-                                    </>
+                                     <>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Townhouse" && 
+          item.specification === "3BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {selectedType === "Townhouse" &&
                                   selectedSpecific === "4BHK" && (
                                     <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal Only: 1350 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal Only: 1350 AED
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail(
-                                            "Furnished - Internal & External: 1800 AED"
-                                          );
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished - Internal & External: 1800
-                                        AED
-                                      </div>
-                                    </>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Townhouse" && 
+          item.specification === "4BHK"
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                                 {/* Villa Details */}
                                 {[
@@ -2082,46 +2063,43 @@ const Bookings: React.FC<BookingsProps> = ({
                                 ].includes(selectedSpecific) &&
                                   selectedType === "Villa" && (
                                     <>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail("Furnished");
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Furnished
-                                      </div>
-                                      <div
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedDetail("Unfurnished");
-                                          setIsDetailOpen(false);
-                                        }}
-                                      >
-                                        Unfurnished
-                                      </div>
-                                    </>
+      {residentialPrices
+        .filter(item => 
+          item.type === "Villa" && 
+          item.specification === selectedSpecific
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            className={booking.dropdownitem}
+            onClick={() => {
+              setSelectedDetail(`${item.details} - ${item.price} AED`);
+              setIsDetailOpen(false);
+            }}
+          >
+            {item.details} - {item.price} AED
+          </div>
+        ))
+      }
+    </>
                                   )}
                               </>
                             )}
                             {/* Default fallback */}
-                            {selectedSubService?.trim().toLowerCase() ===
-                              "duct cleaning" && (
-                              <div
-                                className={booking.dropdownitem}
-                                onClick={() => {
-                                  const units = Number(selectedSpecific) || 0;
-                                  const total = (duct ?? 0) * units;
-                                  setSelectedDetail(`AED ${total}`);
-                                }}
-                              >
-                                {selectedSpecific
-                                  ? `Total: AED ${
-                                      (duct ?? 0) *
-                                      (Number(selectedSpecific) || 0)
-                                    }`
-                                  : `Please enter units`}
-                              </div>
+                           {selectedSubService?.trim().toLowerCase() === "duct cleaning" && (
+  <div
+    className={booking.dropdownitem}
+    onClick={() => {
+      const units = Number(selectedSpecific) || 0;
+      const total = ductPrice * units;
+      setSelectedDetail(`AED ${total}`);
+      setIsDetailOpen(false);
+    }}
+  >
+    {selectedSpecific
+      ? `Total: AED ${ductPrice * (Number(selectedSpecific) || 0)}`
+      : `Please enter units`}
+  </div>
                             )}
                           </div>
                         )}
@@ -2131,6 +2109,15 @@ const Bookings: React.FC<BookingsProps> = ({
               </>
             )}
         </div>
+
+
+
+
+
+
+
+
+        
 
         {isGreaseTrapCleaning && (
           <div className={booking.formGroup}>
@@ -2350,5 +2337,12 @@ function setSofaUnitPrice(unitPrice: any) {
 }
 
 function setSofaUnit(unit: any) {
+  throw new Error("Function not implemented.");
+}
+function setWithSuppliesPrice(price: any) {
+  throw new Error("Function not implemented.");
+}
+
+function setDuct(price: any) {
   throw new Error("Function not implemented.");
 }

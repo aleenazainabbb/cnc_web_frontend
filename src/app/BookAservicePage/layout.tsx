@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactElement, isValidElement, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import BookingConfirmation from '@/components/Booking/bookingConfirmation';
 import BillingSummary from '@/components/Booking/billing';
 import { useBooking } from '@/context/BookingContext';
@@ -69,6 +69,9 @@ export default function BookingLayout({
     } else if (nextStep) {
       router.push(nextStep);
     }
+    // else if(nextStep){
+    //   redirect("./Bookings/Dashboard")
+    // }
   };
 
   return (

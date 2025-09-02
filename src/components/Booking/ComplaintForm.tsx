@@ -8,8 +8,7 @@ import {
   fetchComplaints,
 } from "@/context/ComplaintContext";
 import { useBooking } from "@/context/BookingContext";
-
-import Snackbar from "@/components/popups/Snackbar";
+import Snackbar from "../popups/Snackbar";
 
 interface TicketFile {
   fileName: string;
@@ -51,6 +50,17 @@ const ComplaintForm = () => {
   );
   const [showSnackbar, setShowSnackbar] = useState(false);
 
+  // Show snackbar
+  const displaySnackbar = (message: string, type: "success" | "error") => {
+    setSnackbarMsg(message);
+    setSnackbarType(type);
+    setShowSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   // ✅ Fetch orders ONCE when component mounts
   useEffect(() => {
     fetchAllOrders();
@@ -73,6 +83,7 @@ const ComplaintForm = () => {
       setTickets(data?.tickets || []);
     } catch (error) {
       console.error(error);
+      displaySnackbar("Failed to load complaints", "error");
     } finally {
       setLoading(false);
     }
@@ -89,6 +100,7 @@ const ComplaintForm = () => {
       setSuggestions(data?.suggestions || []);
     } catch (error) {
       console.error(error);
+      displaySnackbar("Failed to load suggestions", "error");
     } finally {
       setLoading(false);
     }
@@ -99,7 +111,7 @@ const ComplaintForm = () => {
     e.preventDefault();
 
     if (!orderId || !message) {
-      alert("Please fill in all required fields!");
+      displaySnackbar("Please fill in all required fields!", "error");
       return;
     }
 
@@ -117,11 +129,14 @@ const ComplaintForm = () => {
       setMessage("");
       setImage(null);
 
+      // show success message
+      displaySnackbar("Complaint submitted successfully!", "success");
+
       // switch to complaints tab and reload
       setActiveTab("myComplaints");
     } catch (error) {
       console.error(error);
-      alert("Failed to submit complaint. Try again.");
+      displaySnackbar("Failed to submit complaint. Try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -131,7 +146,7 @@ const ComplaintForm = () => {
     e.preventDefault();
 
     if (!suggestionText) {
-      alert("Please write your suggestion!");
+      displaySnackbar("Please write your suggestion!", "error");
       return;
     }
 
@@ -140,17 +155,45 @@ const ComplaintForm = () => {
 
       // ✅ returns only the suggestion content (string)
       const content = await createSuggestion(suggestionText);
+      setSubmittedContent(content);
 
-      console.log("Submitted content:", content); // "hello world"
+      console.log("Submitted content:", content);
 
       // reset form
       setSuggestionText("");
+
+      // show success message
+      displaySnackbar("Suggestion submitted successfully!", "success");
     } catch (error) {
       console.error(error);
-      alert("Failed to submit suggestion. Try again.");
+      displaySnackbar("Failed to submit suggestion. Try again.", "error");
     } finally {
       setLoading(false);
     }
+  };
+  const formatDateWithOrdinal = (date: Date): string => {
+    const day = date.getDate();
+    const month = date
+      .toLocaleString("default", { month: "long" })
+      .toLowerCase();
+    const year = date.getFullYear();
+
+    // Add ordinal suffix (st, nd, rd, th)
+    const getOrdinalSuffix = (n: number): string => {
+      if (n > 3 && n < 21) return "th";
+      switch (n % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    return `${day}${getOrdinalSuffix(day)}-${month}-${year}`;
   };
 
   return (
@@ -213,13 +256,17 @@ const ComplaintForm = () => {
                 <option value="">-- Select Order --</option>
                 {allOrdersObject?.map((order: any, index: number) => {
                   const serviceLabel =
-                    order.subSubService || order.service || "-";
+                    order.subService ||
+                    order.subSubService || [
+                      order.service && order.subService,
+                    ] ||
+                    "-";
                   const dateLabel = order.createdAt
                     ? new Date(order.createdAt).toLocaleDateString()
                     : "-";
                   return (
                     <option key={index} value={order.bookingId}>
-                      {order.bookingId} - { serviceLabel && order.subService } - {dateLabel}
+                      {order.bookingId} - {serviceLabel} - {dateLabel}
                     </option>
                   );
                 })}
@@ -303,6 +350,7 @@ const ComplaintForm = () => {
                     <div className={styles.set}>
                       <span className={styles.ticket}>Tickets</span>
                       <span className={styles.complaintDate}>
+                        Order Submition Date : {""}
                         {new Date(ticket.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -347,17 +395,18 @@ const ComplaintForm = () => {
                 {loading ? "Submitting..." : "Submit Suggestion"}
               </button>
             </form>
-
-            {/* ✅ Show submitted content */}
-            {submittedContent && (
-              <div className={styles.suggestionsContainer}>
-                <h3>Last Submitted Suggestion</h3>
-                <p className={styles.suggestionMessage}>{submittedContent}</p>
-              </div>
-            )}
           </div>
         )}
       </div>
+
+      {/* Snackbar component */}
+      {showSnackbar && (
+        <Snackbar
+          message={snackbarMsg}
+          type={snackbarType}
+          onClose={handleCloseSnackbar}
+        />
+      )}
     </div>
   );
 };
