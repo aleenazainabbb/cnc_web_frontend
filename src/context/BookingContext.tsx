@@ -36,6 +36,7 @@ type BookingData = {
   squareFootage?: string;
   numberOfWindows?: string;
   numberOfItems?: string;
+  units?: string;
   siteVisit?: string | null;
   residentialCleanType?: string;
   cleaningMaterials?: "yes" | "no" | null;
@@ -346,6 +347,7 @@ if (Object.keys(errors).length > 0) {
     setSelectionList((prev) => [...prev, data]);
   };
 
+  // custom api integration
   const submitBookingQuote = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -464,8 +466,11 @@ if (Object.keys(errors).length > 0) {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        // body: JSON.stringify(payload),
+        body: formData,
         // body: JSON.stringify(payload),
         body: formData,
       });
@@ -571,6 +576,7 @@ if (Object.keys(errors).length > 0) {
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
         order.service || "-",
+        order.subSubService || order.subService || "-",
         order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
