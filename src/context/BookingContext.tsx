@@ -80,6 +80,18 @@ type BookingSelection = {
   time?: string;
 };
 
+type DeepCleaningItem = {
+  id: number;
+  category: string;
+  type: string;
+  specification: string | null;
+  unit: string | null;
+  price: number;
+  vat: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type BookingContextType = {
   billingData: BillingData;
   updateBillingData: (data: Partial<BillingData>) => void;
@@ -115,10 +127,15 @@ type BookingContextType = {
 
   validateBooking: () => boolean;
 
-  deepCleanings: () => Promise<any>;
-  allOrdersObject: any[];
+  deepCleanings: (type?: string, category?: string, specification?: string) => Promise<any>;
+  getMaidPrices: () => Promise<any>;
+  getUpholsteryPrices: (type?: string, specification?: string) => Promise<any>;
+  getDeepCleaningPrices: (type?: string, specification?: string) => Promise<any>;
+  getDuctPrices: () => Promise<any>;
+  allOrdersObject: any[];                    
   setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;
-
+  deepCleaningData: DeepCleaningItem[] | null;
+  deepCleaningLoading: boolean;
 };
 
 const BookingContext = createContext<BookingContextType | null>(null);
@@ -161,6 +178,9 @@ export const BookingProvider = ({
   const [allOrders, setAllOrders] = useState<string[][]>([]);
   const [allOrdersObject, setAllOrdersObject] = useState<any[]>([]);
   const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
+  const [deepCleaningData, setDeepCleaningData] = useState<DeepCleaningItem[] | null>(null);
+  const [deepCleaningLoading, setDeepCleaningLoading] = useState<boolean>(false);
+  const [hasFetchedDeepCleaning, setHasFetchedDeepCleaning] = useState<boolean>(false);
 
   const latestListRef = useRef(runtimeBookingList);
   useEffect(() => {
@@ -306,9 +326,12 @@ export const BookingProvider = ({
     setFormErrors(errors);
 
     // Log errors for debugging
-    if (Object.keys(errors).length > 0) {
-      console.error("Validation errors:", errors);
-    }
+  // In validateBooking function
+if (Object.keys(errors).length > 0) {
+  console.error("Validation errors:", errors);
+} else {
+  console.log("No validation errors found"); // Optional: for debugging
+}
 
     return Object.keys(errors).length === 0;
   };
@@ -316,7 +339,7 @@ export const BookingProvider = ({
   // Update latest location
   const updateLatestLocation = (data: LatestLocation) => {
     setLatestLocation(data);
-    console.log("✅ Context updated:", data);
+    console.log("Context updated:", data);
   };
   console.log("🧾 Selection List:", selectionList);
 
@@ -378,7 +401,7 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-
+      // custom api integration
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
@@ -390,7 +413,7 @@ export const BookingProvider = ({
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Submission failed");
 
-      console.log("✅ Booking submitted:", result);
+      console.log("Booking submitted:", result);
       return result;
     } catch (error: any) {
       console.error("Booking submit error:", error.message);
@@ -398,15 +421,13 @@ export const BookingProvider = ({
     }
   };
 
-  // non custom api Integration
+// non custom api Integration
   const createBookingOrder = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found. Please log in.");
-
       const selected = selectionList[selectionList.length - 1];
       const formData = new FormData();
-
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
       formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
@@ -414,31 +435,25 @@ export const BookingProvider = ({
       formData.append("noHours", (bookingData.hoursCount ?? 0).toString());
       formData.append("BookingStatus", bookingData.status || "");
       // formData.append("units", bookingData.units || "");
-
       formData.append("service", bookingData.service || "");
       formData.append("subSubService", bookingData.subService || "");
-
       formData.append("category", bookingData.cleaningCategory || "");
-      formData.append("cleaningType", bookingData.cleaningType || ""); 
+      formData.append("cleaningType", bookingData.cleaningType || "");
       formData.append("location", latestLocation?.fullAddress || "");
       formData.append("accessInstructions", latestLocation?.access || "");
-
-     
       // formData.append("category", bookingData.cleaningCategory || "");
       // formData.append("additionalServices", bookingData.detail || "");
       // formData.append("needCleaning", bookingData.frequency || "");
       //change their parameters
       formData.append("specialInstructions", bookingData.specialInstructions || "");
-
-      // ✅ Billing Data mapping
+      // :white_check_mark: Billing Data mapping
       formData.append("VAT", billingData.taxAmount.toString());
       formData.append("promoCode", billingData.discountCode || "");
       formData.append("discountPrice", billingData.discountAmount.toString());
       formData.append("subTotalPrice", billingData.appointmentValue.toString());
       // formData.append("totalPrice", billingData.subTotal.toString());
-      //  formData.append("price", billingData.totalAmount.toString());
+      //  formData.append("price", billingData.totalAmount.toString());w
       formData.append("payment", bookingData.payment || "");
-    
       bookingData.uploadedMedia?.forEach((fileObj) => {
         if (fileObj.file instanceof File) {
           const isImage = fileObj.file.type.startsWith("image/");
@@ -447,29 +462,26 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
         headers: {
+          // "Content-Type": "application/json",
           // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         // body: JSON.stringify(payload),
         body: formData,
       });
-
       const result = await response.json();
       if (!response.ok)
         throw new Error(result.message || "Order creation failed");
-
-      console.log("✅ Booking order created:", result);
+      console.log(":white_check_mark: Booking order created:", result);
       return result;
     } catch (error: any) {
-      console.error("❌ Booking order error:", error.message);
+      console.error(":x: Booking order error:", error.message);
       throw error;
     }
   };
-
   //  promo code integration
   const applyPromoCode = async (
     code: string
@@ -558,11 +570,11 @@ export const BookingProvider = ({
           new Date(b.date).getTime() - new Date(a.date).getTime()
       );
 
-      // Map for table/grid if needed
+    // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
         order.id || "-",
-        // order.subSubService || order.service || "-",
         order.service || "-",
+        order.subSubService || order.subService || "-",
         order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
@@ -579,18 +591,40 @@ export const BookingProvider = ({
     }
   };
 
-  // --- Prices integration (non-custom) ---
-  const deepCleanings = async (type?: string) => {
+  // --- Enhanced Deep Cleaning API call ---
+  const deepCleanings = async (type?: string, category?: string, specification?: string) => {
+    // If we've already fetched the data, return filtered data from state
+    if (hasFetchedDeepCleaning && deepCleaningData) {
+      // Filter the data based on provided parameters
+      let filteredData = deepCleaningData;
+      
+      if (type) {
+        filteredData = filteredData.filter((item) => item.type === type);
+      }
+      
+      if (category) {
+        filteredData = filteredData.filter((item) => item.category === category);
+      }
+      
+      if (specification) {
+        filteredData = filteredData.filter((item) => item.specification === specification);
+      }
+      
+      return { success: true, data: filteredData };
+    }
+
     try {
+      setDeepCleaningLoading(true);
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authorization token required");
 
       const response = await fetch(`${apiUrl}/deepCleaning/getBasePrices`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ type }), // 👈 restrict API by type/specific
+        body: JSON.stringify({ type, category, specification }),
       });
 
       const result = await response.json();
@@ -600,12 +634,55 @@ export const BookingProvider = ({
         );
       }
 
-      console.log(`✅ Deep cleaning fetched for ${type}:`, result);
-      return result;
+      console.log(`✅ Deep cleaning data fetched:`, result);
+      
+      // Store the complete data and mark as fetched
+      setDeepCleaningData(result.data || []);
+      setHasFetchedDeepCleaning(true);
+      
+      // Return filtered data based on parameters
+      let filteredData = result.data || [];
+      
+      if (type) {
+        filteredData = filteredData.filter((item: any) => item.type === type);
+      }
+      
+      if (category) {
+        filteredData = filteredData.filter((item: any) => item.category === category);
+      }
+      
+      if (specification) {
+        filteredData = filteredData.filter((item: any) => item.specification === specification);
+      }
+      
+      return { success: true, data: filteredData };
     } catch (error: any) {
       console.error("❌ Deep cleaning services error:", error.message);
-      throw error;
+      return { 
+        success: false, 
+        message: error.message,
+        data: [] 
+      };
+    } finally {
+      setDeepCleaningLoading(false);
     }
+  };
+
+  // Helper functions for specific categories
+  const getMaidPrices = async () => {
+    return await deepCleanings(undefined, "maid");
+  };
+
+  const getUpholsteryPrices = async (type?: string, specification?: string) => {
+    return await deepCleanings(type, "upholstery", specification);
+  };
+
+  const getDeepCleaningPrices = async (type?: string, specification?: string) => {
+    return await deepCleanings(type, "deep", specification);
+  };
+
+  const getDuctPrices = async () => {
+    return await deepCleanings(undefined, "duct");
   };
 
   return (
@@ -614,7 +691,11 @@ export const BookingProvider = ({
         bookingData,
         updateBookingData,
         billingData,
-        deepCleanings, // ✅ Now included in value
+        deepCleanings,
+        getMaidPrices,
+        getUpholsteryPrices,
+        getDeepCleaningPrices,
+        getDuctPrices,
         updateBillingData,
         latestLocation,
         updateLatestLocation,
@@ -625,7 +706,7 @@ export const BookingProvider = ({
         submitBookingQuote,
         applyPromoCode,
         allOrders,
-        allOrdersObject,        // ✅ full objects now available
+        allOrdersObject,
         setAllOrdersObject,
         fetchAllOrders,
         ordersLoading,
@@ -633,6 +714,8 @@ export const BookingProvider = ({
         formErrors,
         setFormErrors,
         validateBooking,
+        deepCleaningData,
+        deepCleaningLoading,
       }}
     >
       {children}

@@ -115,7 +115,7 @@ export default function Sidebar() {
           >
             <span className={side.iconText}>
               <i className="fa-solid fa-triangle-exclamation"></i>
-              {/* Changed icon */}
+         
               Complaint
             </span>
           </LinkWithLoader>

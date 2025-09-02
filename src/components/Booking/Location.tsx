@@ -42,6 +42,76 @@ const Location: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Add styles for pac-container when component mounts
+    const style = document.createElement('style');
+    style.textContent = `
+      .pac-container {
+        font-family: inherit;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        border: none;
+        margin-top: -1395px;
+        margin-left:-288px;
+        z-index: 10000;
+        overflow:hidden;
+           width: "100%",
+      }
+      
+      .pac-item {
+        padding: 2px;
+        cursor: pointer;
+        border-top: 1px solid #e6e6e6;
+     
+      }
+      
+      .pac-item:first-child {
+        border-top: none;
+      }
+      
+      .pac-item:hover {
+        background-color: #f5f5f5;
+      }
+      
+     .pac-icon {
+  display: inline-block !important; /* restores Google's default icons */
+  margin-right: 8px; /* optional spacing */
+ color: red !important;  
+                 /* adjust size if needed */
+  
+ filter: invert(28%) sepia(95%) saturate(7496%) hue-rotate(0deg) brightness(92%) contrast(114%);
+  
+}
+      .pac-item-query {
+        font-size: 14px;
+        color: #333;
+      }
+        @media (max-width: 480px) {
+  .pac-container {
+    margin-top: -965px;
+   margin-left:-308px;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 4px;
+
+  }
+}
+@media (max-width: 1024px) {
+  .pac-container {
+    margin-top: -1737px;
+   margin-left:-308px;
+    width: 90%;
+  }
+}
+  `;
+    document.head.appendChild(style);
+
+    // Clean up on unmount
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  useEffect(() => {
     const countryName = countries.getName(selectedCountry, 'en') || "";
     const fullAddress = `${street ? street + ', ' : ''}${apt ? 'Apt ' + apt + ', ' : ''}${city ? city + ', ' : ''}${countryName}`;
 
@@ -282,7 +352,13 @@ const Location: React.FC = () => {
             onClick={handleMapClick}
             options={{ disableDefaultUI: true, zoomControl: true }}
           >
-            <div style={{ position: 'absolute', top: '10px', left: '10px', right: '10px', zIndex: 1000 }}>
+            <div style={{ 
+              position: 'absolute', 
+              top: '10px', 
+              left: '10px', 
+              right: '10px', 
+              zIndex: 1000,
+            }}>
               <Autocomplete
                 onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
                 onPlaceChanged={onPlaceChanged}
