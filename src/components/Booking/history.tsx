@@ -11,7 +11,7 @@ interface HistoryProps {
 }
 
 const History: React.FC<HistoryProps> = ({ range, data }) => {
-    const headers = ['ORDER ID', 'SERVICE', 'SUB-SERVICE', 'TIME', 'DATE', 'STATUS', ''];
+    const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'TIME', 'DATE', 'STATUS', ''];
     const allRows = data;
 
 
