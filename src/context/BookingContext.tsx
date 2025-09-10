@@ -604,7 +604,7 @@ export const BookingProvider = ({
         order.time || "-",
         order.date || "-",
         order.BookingStatus || "Completed",
-        order.bookingPaymentStatus,
+        order.bookingPaymentStatus || "none",
       ]);
 
       // Save both in state

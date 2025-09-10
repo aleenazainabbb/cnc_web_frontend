@@ -1,23 +1,18 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styles from './styles/pending.module.css';
 import Pagination from '@/components/Booking/pagination';
 import { Range } from 'react-date-range';
 import { getStatusColor } from '@/utils/statusColors';
+import LinkWithLoader from '../Loader/Link';
+import wallet from './styles/mywallet.module.css';
+import PaymentDetails from '@/components/Booking/PaymentDetails'; 
 
 interface PendingProps {
   range: Range[];
   data: string[][];
 }
-
-// const isValidPrice = (price: string): boolean => {
-//   if (!price) return false;
-//   if (price === "Prices will be listed soon") return false;
-
-//   const numericPart = price.replace(/[^\d.]/g, '');
-//   return !isNaN(Number(numericPart)) && numericPart.length > 0;
-// };
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'PRICE', 'TIME', 'DATE', 'STATUS', 'PAY NOW'];
@@ -25,7 +20,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-
+const [showModal, setShowModal] = useState(false);
   const isRangeSelected =
     !!range[0].startDate &&
     !!range[0].endDate &&
@@ -34,7 +29,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-      const date = new Date(row[5]); // DATE is at index 5 (check your data)
+      const date = new Date(row[5]); // DATE is at index 5
       const start = range[0].startDate!;
       const end = range[0].endDate!;
       return date >= start && date <= end;
@@ -85,9 +80,10 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     <div key={ci}>{cell}</div>
                   )
                 )}
-
                 {paymentStatus === "added" ? (
-                  <button className={styles.payNowButton}>Pay Now</button>
+                  <button className={styles.payNowButton}  onClick={() => setShowModal(true)}>
+                    Pay Now
+                  </button>
                 ) : paymentStatus === "none" ? (
                   <button className={styles.payNowButton} disabled>
                     Pay Now
@@ -97,6 +93,26 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     Paid
                   </button>
                 )}
+                
+                {/* {paymentStatus === "none" ? (
+                  // Disabled Pay Now button
+                  <button className={`${styles.payNowButton} ${styles.disabled}`} disabled>
+                    Pay Now
+                  </button>
+                ) : paymentStatus === "paid" || paymentStatus === "nonCustom" ? (
+                  // Paid button
+                  <button className={`${styles.payNowButton}`} disabled>
+                    Paid
+                  </button>
+                ) : (
+                  // Active Pay Now with redirect
+                  <LinkWithLoader
+                    href={`/BookAservicePage/PaymentDetails?bookingId=${row[0]}`}
+                    className={styles.payNowButton}
+                  >
+                    Pay Now
+                  </LinkWithLoader>
+                )} */}
 
               </div>
             );
@@ -109,6 +125,15 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
           onChange={handlePaginationChange}
         />
       </div>
+       {/* ✅ Payment Modal */}
+      {showModal && (
+        <div className={wallet.modalOverlay}>
+          <div className={wallet.modal}>
+            <button className={wallet.close} onClick={() => setShowModal(false)}>×</button>
+            <PaymentDetails /> {/* ✅ Your payment form goes here */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
