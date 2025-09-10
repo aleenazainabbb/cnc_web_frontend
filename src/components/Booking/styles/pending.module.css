@@ -32,14 +32,18 @@
   display: grid;
   border-radius: 16px;
   grid-template-columns:
-    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
+    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(100px, 1.5fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
   gap: 1.5rem;
   overflow-x: auto;
 }
 
-.gridContainerHistory {
+.gridContainerHistory{
   grid-template-columns:
-    minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr) minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr) minmax(100px, 0.4fr);
+    minmax(60px, 0.3fr) minmax(90px, 0.4fr) minmax(100px, 0.5fr)minmax(80px, 0.4fr) minmax(80px, 0.3fr) minmax(80px, 0.3fr) minmax(90px, 0.4fr) minmax(80px, 0.4fr);
+}
+.gridContainer{
+ grid-template-columns: 
+ minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr) minmax(80px, 0.5fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(90px, 0.4fr) minmax(80px, 0.4fr);
 }
 .gridContainerQuotes{
   grid-template-columns:
@@ -48,7 +52,6 @@
     minmax(100px, 0.5fr)
     minmax(100px, 0.5fr);
 }
-
 
 .rowHeader {
   color: #8B909A;
@@ -92,40 +95,51 @@
   color: #8B909A;
 }
 
-.row div:nth-child(4),
+.row div:nth-child(4) {
+  font-weight: 400;
+  color: #8B909A;
+}
 .row div:nth-child(5) {
   font-weight: 400;
-  /* font-size: 15.09px; */
+  font-size: 15px;
   color: #8B909A;
 }
 
-.statusButton,
-.completedButton {
-  width: 103px;
+.statusButton, .payNowButton {
+  max-width: 103px;
+  width:100%;
   border-radius: 30px;
-  height: 30px;
+  height: 32px;
   border: 1px solid;
   background-color: transparent;
   font-weight: 500;
   font-size: 14px;
+  /* padding: 6px; */
   cursor: default;
   transition: border-color 0.3s ease, color 0.3s ease;
 }
-
-.completedButton {
-  border-color: #0F9918;
-  color: #0F9918;
+.payNowButton {
+  background-color: #36B864;
+  color: white;
+ 
 }
-
 .rescheduleButton {
-  width: 81px;
-  height: 30px;
+  /* width: 81px; */
+  height: 32px;
   border-radius: 30px;
   background-color: #1A78F2;
   color: white;
+  padding: 5px;
   border: none;
   font-size: 14px;
   cursor: pointer;
+}
+
+
+.payNowButton:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
 }
 
 /* Responsive adjustments */

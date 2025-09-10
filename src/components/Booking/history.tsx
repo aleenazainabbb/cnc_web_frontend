@@ -4,6 +4,9 @@ import React from 'react';
 import styles from './styles/pending.module.css';
 import Pagination from '@/components/Booking/pagination';
 import { Range } from 'react-date-range';
+import LinkWithLoader from '@/components/Loader/Link';
+import { getStatusColor } from '@/utils/statusColors';
+
 
 interface HistoryProps {
     range: Range[]; // expected to be passed from parent
@@ -11,10 +14,8 @@ interface HistoryProps {
 }
 
 const History: React.FC<HistoryProps> = ({ range, data }) => {
-    const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'TIME', 'DATE', 'STATUS', ''];
+    const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'PRICE', 'TIME', 'DATE', 'STATUS', ''];
     const allRows = data;
-
-
     const [currentPage, setCurrentPage] = React.useState(1);
     const [perPage, setPerPage] = React.useState(5);
 
@@ -27,7 +28,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
         }
 
         return allRows.filter((row) => {
-            const rowDate = new Date(row[4]);
+            const rowDate = new Date(row[5]);
             return rowDate >= startDate && rowDate <= endDate;
         });
     }, [range]);
@@ -55,18 +56,27 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                     {rows.map((row, ri) => (
                         <div key={ri} className={`${styles.gridContainerHistory} ${styles.row}`}>
                             {row.map((cell, ci) => {
-                                if (ci === 3) {
+                                if (ci === 4) {
                                     return (
                                         <div key={ci}>
                                             <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
                                             {cell}
                                         </div>
                                     );
-                                } else if (ci === 5) {
-                                    // Replace status column with Completed button
+                                } else if (ci === 6) {
+                                    const status = cell.trim().toLowerCase();
+                                    
                                     return (
                                         <div key={ci}>
-                                            <button className={styles.completedButton}>Completed</button>
+                                            <button
+                                                className={styles.statusButton}
+                                                 style={{
+                                                    borderColor: getStatusColor(status) ,
+                                                    color: getStatusColor(status) ,
+                                                }}
+                                            >
+                                                {cell}
+                                            </button>
                                         </div>
                                     );
                                 } else {
@@ -74,8 +84,11 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                                 }
                             })}
 
-                            {/* <button className={styles.completedButton}> Completed </button> */}
-                            <button className={styles.rescheduleButton}>Reschedule</button>
+                            <LinkWithLoader
+                                className={styles.rescheduleButton}
+                                href="/BookAservicePage"
+                            >
+                                Reschedule</LinkWithLoader>
                         </div>
                     ))}
                 </div>

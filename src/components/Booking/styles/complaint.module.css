@@ -140,6 +140,39 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
+/* .formInput { 
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+ 
+  white-space: normal;
+    max-height:  200px !important;   
+ 
+}
+
+.formInput option {
+  white-space: normal;  
+  word-break: break-word; 
+  padding: 6px;
+  font-size: 12px;
+}
+*/
+@media (max-width: 480px) {
+  .formInput {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .formInput option {
+    font-size: 12px;
+  }
+}
+
+
 .formInput:focus,
 .formTextarea:focus {
   outline: none;

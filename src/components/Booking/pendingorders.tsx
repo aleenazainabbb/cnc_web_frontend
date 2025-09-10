@@ -1,35 +1,30 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './styles/pending.module.css';
 import Pagination from '@/components/Booking/pagination';
 import { Range } from 'react-date-range';
-
-type Status = 'Pending' | 'Confirmed' | 'Accepted' | 'Assigned';
-
-const statusColors: Record<Status, string> = {
-  Pending: '#FF8800',
-  Confirmed: '#0F9918',
-  Accepted: '#F16BC9',
-  Assigned: '#3C88EE',
-};
-
-const getStatusStyle = (status: string) => {
-  const statusKey = status as Status;
-  return { color: statusColors[statusKey] ?? '#000' };
-};
+import { getStatusColor } from '@/utils/statusColors';
 
 interface PendingProps {
   range: Range[];
   data: string[][];
 }
 
+// const isValidPrice = (price: string): boolean => {
+//   if (!price) return false;
+//   if (price === "Prices will be listed soon") return false;
+
+//   const numericPart = price.replace(/[^\d.]/g, '');
+//   return !isNaN(Number(numericPart)) && numericPart.length > 0;
+// };
+
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
-  const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'TIME', 'DATE', 'STATUS'];
+  const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'PRICE', 'TIME', 'DATE', 'STATUS', 'PAY NOW'];
   const allRows = data;
 
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [perPage, setPerPage] = React.useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
 
   const isRangeSelected =
     !!range[0].startDate &&
@@ -39,11 +34,11 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[4]);
-        const start = range[0].startDate!;
-        const end = range[0].endDate!;
-        return date >= start && date <= end;
-      })
+      const date = new Date(row[5]); // DATE is at index 5 (check your data)
+      const start = range[0].startDate!;
+      const end = range[0].endDate!;
+      return date >= start && date <= end;
+    })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -66,17 +61,19 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => {
-            const status = row[5];
-            const { color } = getStatusStyle(status);
+            const status = row[6]; // STATUS column
+            const paymentStatus = row[7]; // bookingPaymentStatus column
+            const color = getStatusColor(status);
+
             return (
               <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
                 {row.map((cell, ci) =>
-                  ci === 3 ? (
+                  ci === 4 ? (
                     <div key={ci}>
-                      <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
+                      <i className="fa-regular fa-clock" style={{ marginRight: 6 }} />
                       {cell}
                     </div>
-                  ) : ci === 5 ? (
+                  ) : ci === 6 ? (
                     <button
                       key={ci}
                       className={styles.statusButton}
@@ -84,15 +81,28 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     >
                       {cell}
                     </button>
-                  ) : (
+                  ) : ci === 7 ? null : ( // hide raw bookingPaymentStatus
                     <div key={ci}>{cell}</div>
                   )
                 )}
+
+                {paymentStatus === "added" ? (
+                  <button className={styles.payNowButton}>Pay Now</button>
+                ) : paymentStatus === "none" ? (
+                  <button className={styles.payNowButton} disabled>
+                    Pay Now
+                  </button>
+                ) : (
+                  <button className={styles.payNowButton} disabled>
+                    Paid
+                  </button>
+                )}
+
               </div>
             );
           })}
-        </div>
 
+        </div>
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}

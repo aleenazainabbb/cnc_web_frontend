@@ -45,9 +45,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     }
     setServiceError?.(false);
     onNext?.();
-    // if(billingData){
-    //   redirect("./Bookings/Dashboard")
-    // }
   };
 
   useEffect(() => {

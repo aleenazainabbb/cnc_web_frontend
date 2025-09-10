@@ -9,7 +9,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import { useRegister } from "../../context/registerContext";
 import Snackbar from '../popups/Snackbar';
-import { isValidEmail, isValidPassword } from '../../../utils/validators';
+import { isValidEmail, isValidPassword } from '../../utils/validators';
 
 const Signup: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);

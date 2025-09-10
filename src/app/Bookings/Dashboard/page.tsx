@@ -35,8 +35,12 @@ export default function RequestPage() {
 
   if (loading || ordersLoading) return null;
 
-  const pendingOrders = allOrders.filter(order => order[5]?.toLowerCase() === 'pending');
-  const historyOrders = allOrders.filter(order => order[5]?.toLowerCase() !== 'pending');
+  const pendingStatus = ['pending', 'confirmed', 'postponed'];
+  const historyStatus = ['completed', 'cancelled'];
+
+  const pendingOrders = allOrders.filter(order => pendingStatus.includes(order[6]?.toLowerCase()));
+
+  const historyOrders = allOrders.filter(order => historyStatus.includes(order[6]?.toLowerCase()));
 
   const noOrdersAvailable = pendingOrders.length === 0 && historyOrders.length === 0;
 
