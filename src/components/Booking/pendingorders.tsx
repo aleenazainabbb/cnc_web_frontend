@@ -7,7 +7,8 @@ import { Range } from 'react-date-range';
 import { getStatusColor } from '@/utils/statusColors';
 import LinkWithLoader from '../Loader/Link';
 import wallet from './styles/mywallet.module.css';
-import PaymentDetails from '@/components/Booking/PaymentDetails'; 
+import PaymentDetails from '@/components/Booking/PaymentDetails';
+import BillingSummary from '@/components/Booking/billing';
 
 interface PendingProps {
   range: Range[];
@@ -20,7 +21,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const isRangeSelected =
     !!range[0].startDate &&
     !!range[0].endDate &&
@@ -81,7 +82,7 @@ const [showModal, setShowModal] = useState(false);
                   )
                 )}
                 {paymentStatus === "added" ? (
-                  <button className={styles.payNowButton}  onClick={() => setShowModal(true)}>
+                  <button className={styles.payNowButton} onClick={() => setShowModal(true)}>
                     Pay Now
                   </button>
                 ) : paymentStatus === "none" ? (
@@ -93,7 +94,7 @@ const [showModal, setShowModal] = useState(false);
                     Paid
                   </button>
                 )}
-                
+
                 {/* {paymentStatus === "none" ? (
                   // Disabled Pay Now button
                   <button className={`${styles.payNowButton} ${styles.disabled}`} disabled>
@@ -125,12 +126,28 @@ const [showModal, setShowModal] = useState(false);
           onChange={handlePaginationChange}
         />
       </div>
-       {/* ✅ Payment Modal */}
+      {/* Payment Modal */}
       {showModal && (
         <div className={wallet.modalOverlay}>
           <div className={wallet.modal}>
             <button className={wallet.close} onClick={() => setShowModal(false)}>×</button>
-            <PaymentDetails /> {/* ✅ Your payment form goes here */}
+            <div className={styles.componentRow}>
+            <PaymentDetails /> {/* Your payment form goes here */}
+            <BillingSummary/>
+            
+            <div className={wallet.modalFooter}>
+              <button
+                className={wallet.redeemBtn}
+                onClick={() => {
+                  // handle final payment submission here
+                  console.log('Pay Now clicked');
+                }}
+              >
+                Pay Now
+              </button>
+
+            </div>
+            </div>
           </div>
         </div>
       )}

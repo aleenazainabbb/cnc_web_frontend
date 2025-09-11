@@ -101,7 +101,7 @@
 }
 .row div:nth-child(5) {
   font-weight: 400;
-  font-size: 15px;
+  /* font-size: 15px; */
   color: #8B909A;
 }
 
@@ -171,7 +171,7 @@
     padding: 20px 15px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 80px;
   }
 
@@ -201,7 +201,7 @@
     font-size: 13px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 70px;
     font-size: 12px;
     height: 28px;
@@ -226,7 +226,7 @@
     font-size: 8px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 65px;
     font-size: 10px;
     height: 25px;
@@ -245,12 +245,11 @@
     gap: 2px;
   }
 
-  .rowHeader,
   .row {
-    font-size: 6px;
+    font-size: 9px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 50px;
     font-size: 8px;
     height: 22px;
