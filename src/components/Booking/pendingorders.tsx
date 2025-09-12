@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import styles from './styles/pending.module.css';
@@ -16,7 +16,16 @@ interface PendingProps {
 }
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
-  const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'PRICE', 'TIME', 'DATE', 'STATUS', 'PAY NOW'];
+  const headers = [
+    "ORDER ID",
+    "SERVICE",
+    "DETAILS",
+    "PRICE",
+    "TIME",
+    "DATE",
+    "STATUS",
+    "PAY NOW",
+  ];
   const allRows = data;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,11 +39,11 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-      const date = new Date(row[5]); // DATE is at index 5
-      const start = range[0].startDate!;
-      const end = range[0].endDate!;
-      return date >= start && date <= end;
-    })
+        const date = new Date(row[5]); // DATE is at index 5
+        const start = range[0].startDate!;
+        const end = range[0].endDate!;
+        return date >= start && date <= end;
+      })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -104,7 +113,10 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                 {row.map((cell, ci) =>
                   ci === 4 ? (
                     <div key={ci}>
-                      <i className="fa-regular fa-clock" style={{ marginRight: 6 }} />
+                      <i
+                        className="fa-regular fa-clock"
+                        style={{ marginRight: 6 }}
+                      />
                       {cell}
                     </div>
                   ) : ci === 6 ? (
@@ -139,7 +151,6 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
               </div>
             );
           })}
-
         </div>
         <Pagination
           totalItems={filteredRows.length}
@@ -151,7 +162,12 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
       {showModal && (
         <div className={wallet.modalOverlay}>
           <div className={wallet.modal}>
-            <button className={wallet.close} onClick={() => setShowModal(false)}>×</button>
+            <button
+              className={wallet.close}
+              onClick={() => setShowModal(false)}
+            >
+              ×
+            </button>
             <div className={styles.componentRow}>
             <PaymentDetails /> {/* Your payment form goes here */}
               
