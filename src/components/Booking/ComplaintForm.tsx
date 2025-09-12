@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import styles from "./styles/complaint.module.css";
 import {
@@ -9,12 +8,10 @@ import {
 } from "@/context/ComplaintContext";
 import { useBooking } from "@/context/BookingContext";
 import Snackbar from "../popups/Snackbar";
-
 interface TicketFile {
   fileName: string;
   filePath: string;
 }
-
 interface Ticket {
   id: number;
   bookingId: string;
@@ -24,13 +21,11 @@ interface Ticket {
   createdAt: string;
   file?: TicketFile[];
 }
-
 interface Suggestion {
   id: number;
   message: string;
   createdAt: string;
 }
-
 const ComplaintForm = () => {
   const [orderId, setOrderId] = useState("");
   const [message, setMessage] = useState("");
@@ -43,31 +38,23 @@ const ComplaintForm = () => {
   const [loading, setLoading] = useState(false);
   const { allOrdersObject, fetchAllOrders, ordersLoading } = useBooking();
   const [submittedContent, setSubmittedContent] = useState<string | null>(null);
-
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">(
     "success"
   );
   const [showSnackbar, setShowSnackbar] = useState(false);
-
-  // Show snackbar
   const displaySnackbar = (message: string, type: "success" | "error") => {
     setSnackbarMsg(message);
     setSnackbarType(type);
     setShowSnackbar(true);
   };
-
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
   };
-
-  // ✅ Fetch orders ONCE when component mounts
   useEffect(() => {
     fetchAllOrders();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ✅ Fetch complaints or suggestions when switching tab
   useEffect(() => {
     if (activeTab === "myComplaints") {
       loadComplaints();
@@ -75,7 +62,6 @@ const ComplaintForm = () => {
       loadSuggestions();
     }
   }, [activeTab]);
-
   const loadComplaints = async () => {
     try {
       setLoading(true);
@@ -92,11 +78,7 @@ const ComplaintForm = () => {
   const loadSuggestions = async () => {
     try {
       setLoading(true);
-      // Use the same API endpoint but with a different parameter or handle differently
-      // This is a placeholder - you might need to adjust based on your actual API
       const data = await fetchComplaints();
-      // Assuming the API returns suggestions in a different format
-      // You might need to create a separate fetchSuggestions function
       setSuggestions(data?.suggestions || []);
     } catch (error) {
       console.error(error);
@@ -106,7 +88,6 @@ const ComplaintForm = () => {
     }
   };
 
-  // ✅ Submit complaint
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -124,15 +105,10 @@ const ComplaintForm = () => {
         image ? [image] : []
       );
 
-      // reset form
       setOrderId("");
       setMessage("");
       setImage(null);
-
-      // show success message
       displaySnackbar("Complaint submitted successfully!", "success");
-
-      // switch to complaints tab and reload
       setActiveTab("myComplaints");
     } catch (error) {
       console.error(error);
@@ -153,16 +129,12 @@ const ComplaintForm = () => {
     try {
       setLoading(true);
 
-      // ✅ returns only the suggestion content (string)
       const content = await createSuggestion(suggestionText);
       setSubmittedContent(content);
 
       console.log("Submitted content:", content);
 
-      // reset form
       setSuggestionText("");
-
-      // show success message
       displaySnackbar("Suggestion submitted successfully!", "success");
     } catch (error) {
       console.error(error);
@@ -178,7 +150,6 @@ const ComplaintForm = () => {
       .toLowerCase();
     const year = date.getFullYear();
 
-    // Add ordinal suffix (st, nd, rd, th)
     const getOrdinalSuffix = (n: number): string => {
       if (n > 3 && n < 21) return "th";
       switch (n % 10) {
@@ -199,7 +170,6 @@ const ComplaintForm = () => {
   return (
     <div className={styles.main}>
       <div className={styles.container}>
-        {/* Tabs */}
         <div className={styles.complaintTabs}>
           <button
             className={`${styles.tabButton} ${

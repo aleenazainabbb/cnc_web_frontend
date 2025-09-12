@@ -50,15 +50,15 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                     ))}
                 </div>
 
-                {/* Scrollable Order Rows */}
+                
                 <div className={styles.scrollContainer}>
                     {rows.map((row, ri) => (
                         <div key={ri} className={`${styles.gridContainerHistory} ${styles.row}`}>
                             {row.map((cell, ci) => {
-                                if (ci === 3) {
+                                if (ci === 5) {
                                     return (
                                         <div key={ci}>
-                                            <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
+                                            <i className="fa-regular fa-clock" style={{ marginRight: 106, color: '#8B909A' }} />
                                             {cell}
                                         </div>
                                     );

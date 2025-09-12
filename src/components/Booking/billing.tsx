@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from "./styles/AddBooking/billing.module.css";
 import { useBooking } from "@/context/BookingContext";
 import { redirect } from "next/navigation";
+import BillingPricesBox from "../BillingPricesBox";
 
 // import { useLocation } from "@/context/Location";
 
@@ -135,7 +136,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
         <div className={styles.divider}></div>
       </div>
-
+{/* 
       <div className={styles.pricingbox}>
         <div className={styles.pricingrow}>
           <span>
@@ -170,8 +171,8 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
           <span>Total</span>
           <span>AED {totalAmount.toFixed(2)}</span>
         </div>
-      </div>
-
+      </div> */}
+<BillingPricesBox/>
       <div className={styles.buttoncontainer}>
         <button onClick={handleNextClick} className={styles.nextbutton}>
           Next

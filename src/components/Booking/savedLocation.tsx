@@ -153,6 +153,13 @@ const SavedLocation: React.FC = () => {
       reverseGeocode(lat, lng);
     }
   };
+  const clearSearch = () => {
+  if (inputRef.current) inputRef.current.value = "";
+  setFormattedAddress("");
+  setSelected(null);
+  setMapCenter(defaultCenter);
+  setPlaceId("");
+};
 
   const reverseGeocode = (lat: number, lng: number) => {
     const geocoder = new window.google.maps.Geocoder();
@@ -163,12 +170,14 @@ const SavedLocation: React.FC = () => {
       }
     });
   };
-
 const onPlaceChanged = () => {
   if (!autocompleteRef.current) return;
 
   const place = autocompleteRef.current.getPlace();
-  if (!place.geometry?.location) return;
+  if (!place || !place.geometry || !place.geometry.location) {
+    console.warn("Invalid place object or missing geometry:", place);
+    return;
+  }
 
   const lat = place.geometry.location.lat();
   const lng = place.geometry.location.lng();
@@ -179,14 +188,6 @@ const onPlaceChanged = () => {
   setPlaceId(place.place_id || "");
 };
 
-
-  const clearSearch = () => {
-    if (inputRef.current) inputRef.current.value = '';
-    autocompleteRef.current = null;
-    setFormattedAddress('');
-    setSelected(null);
-    setMapCenter(defaultCenter);
-  };
 
   if (loadError) return <div>Map failed to load</div>;
   if (!isLoaded) return <div>Loading map...</div>;

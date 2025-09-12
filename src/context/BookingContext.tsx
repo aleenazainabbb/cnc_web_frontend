@@ -591,7 +591,7 @@ if (Object.keys(errors).length > 0) {
         order.subSubService || order.subService || "-",
         order.time || "-",
         order.date || "-",
-        order.status || "Completed",
+        order.BookingStatus || "Completed",
       ]);
 
       // Save both in state
@@ -606,9 +606,9 @@ if (Object.keys(errors).length > 0) {
 
   // --- Enhanced Deep Cleaning API call ---
   const deepCleanings = async (type?: string, category?: string, specification?: string) => {
-    // If we've already fetched the data, return filtered data from state
+ 
     if (hasFetchedDeepCleaning && deepCleaningData) {
-      // Filter the data based on provided parameters
+ 
       let filteredData = deepCleaningData;
       
       if (type) {

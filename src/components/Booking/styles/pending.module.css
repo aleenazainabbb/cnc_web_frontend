@@ -1,104 +1,142 @@
+/* ============================= */
+/* ✅ Main Container             */
+/* ============================= */
 .main {
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-top: 85px;
-  margin-left: 20px;
-  margin-bottom: 0 !important;
-  border-radius: 12px;
+  margin: 80px auto 0 auto; /* centers container */
+  width: 100%;              
+  max-width: 1100px;        /* ✅ keeps it from growing too wide */
+  position: relative;
+  box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
   height: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 12px;
 }
 
+/* ✅ For tablets */
+@media (max-width: 1024px) {
+  .main {
+    margin-top: 70px;
+    padding: 0.75rem;
+  }
+}
+
+/* ✅ For mobile */
+@media (max-width: 768px) {
+  .main {
+    margin-top: 60px;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+}
+
+/* ============================= */
+/* ✅ Containers & Scroll        */
+/* ============================= */
 .container {
-  padding: 21px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 10px;
 }
 
-.scrollContainer,.scrollContainerQuotes {
+.scrollContainer,
+.scrollContainerQuotes {
   max-height: 250px;
   max-height: calc(4 * 50px);
   overflow-y: auto;
   padding-right: 4px;
 }
-.scrollContainerQuotes{
-   max-height: calc(6 * 50px);
+
+.scrollContainerQuotes {
+  max-height: calc(6 * 50px);
 }
 
+/* ============================= */
+/* ✅ Grid Layouts               */
+/* ============================= */
 .gridContainer,
 .gridContainerHistory,
 .gridContainerQuotes {
   display: grid;
   border-radius: 16px;
-  grid-template-columns:
-    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
   gap: 1.5rem;
-  overflow-x: auto;
+  overflow-x: auto;   /* ✅ enable horizontal scroll on small screens */
+  -webkit-overflow-scrolling: touch;
+}
+
+.gridContainer {
+  grid-template-columns:
+    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr)
+    minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
 }
 
 .gridContainerHistory {
   grid-template-columns:
-    minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr) minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr) minmax(100px, 0.4fr);
+    minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr)
+    minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr)
+    minmax(100px, 0.4fr);
 }
-.gridContainerQuotes{
+
+.gridContainerQuotes {
   grid-template-columns:
-  minmax(50px, 0.4fr) minmax(60px, 0.4fr) minmax(120px, 0.5fr) minmax(70px, 0.4fr) minmax(70px, 0.4fr) 
-    minmax(65px, 0.4fr)
-    minmax(100px, 0.5fr)
-    minmax(100px, 0.5fr);
+    minmax(50px, 0.4fr) minmax(60px, 0.4fr) minmax(120px, 0.5fr)
+    minmax(70px, 0.4fr) minmax(70px, 0.4fr) minmax(65px, 0.4fr)
+    minmax(100px, 0.5fr) minmax(100px, 0.5fr);
 }
 
-
+/* ============================= */
+/* ✅ Row Styling                */
+/* ============================= */
 .rowHeader {
-  color: #8B909A;
-  padding: 4px 0;
+  color: #8b909a;
+  padding: 6px 0;
   font-size: 13px;
   font-weight: 500;
   font-family: 'Public Sans', sans-serif;
-  border-bottom: 1px solid #E9E7FD;
-  border-radius: 0 !important;
+  border-bottom: 1px solid #e9e7fd;
 }
 
 .row {
   color: #000000;
   padding: 10px 0;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   font-family: 'Roboto Flex', sans-serif;
-  border-bottom: 1px solid #CFCFCF;
-  border-radius: 0 !important;
+  border-bottom: 1px solid #cfcfcf;
 }
-/* Email and Phone should wrap instead of overflow */
+
+/* ✅ Wrap long text properly */
 .gridContainerHistory div:nth-child(3),
+.gridContainerHistory div:nth-child(4),
+.gridContainerQuotes div:nth-child(3),
 .gridContainerQuotes div:nth-child(4),
 .gridContainerQuotes div:nth-child(7),
-.gridContainerQuotes div:nth-child(8),
-.gridContainerQuotes div:nth-child(3),
-.gridContainerHistory div:nth-child(4) {
+.gridContainerQuotes div:nth-child(8) {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
   line-height: 1.4;
 }
 
+/* ✅ Row highlight styles */
 .row div:nth-child(2) {
   font-weight: 500;
 }
 
-.row div:nth-child(3) {
-  font-weight: 400;
-  /* font-size: 14px; */
-  color: #8B909A;
-}
-
+.row div:nth-child(3),
 .row div:nth-child(4),
 .row div:nth-child(5) {
+  color: #8b909a;
   font-weight: 400;
-  /* font-size: 15.09px; */
-  color: #8B909A;
 }
 
+/* ============================= */
+/* ✅ Buttons                    */
+/* ============================= */
 .statusButton,
 .completedButton {
   width: 103px;
@@ -113,26 +151,29 @@
 }
 
 .completedButton {
-  border-color: #0F9918;
-  color: #0F9918;
+  border-color: #0f9918;
+  color: #0f9918;
 }
 
 .rescheduleButton {
   width: 81px;
   height: 30px;
   border-radius: 30px;
-  background-color: #1A78F2;
+  background-color: #1a78f2;
   color: white;
   border: none;
   font-size: 14px;
   cursor: pointer;
 }
 
-/* Responsive adjustments */
+/* ============================= */
+/* ✅ Responsive Adjustments     */
+/* ============================= */
 
+/* Tablet */
 @media (max-width: 1025px) {
   .container {
-    padding: 20px 15px;
+    padding: 15px;
   }
 
   .statusButton {
@@ -142,19 +183,21 @@
   .rescheduleButton {
     font-size: 13px;
   }
+
   .gridContainerQuotes {
-    grid-template-columns: repeat(4, 1fr); /* stack 2 rows */
+    grid-template-columns: repeat(4, 1fr);
     row-gap: 0.8rem;
   }
-  .row{
+
+  .row {
     font-size: 13px;
   }
 }
 
+/* Small Laptop / Large Tablet */
 @media (max-width: 900px) {
-
   .gridContainer,
-  .gridContainerHistory ,
+  .gridContainerHistory,
   .gridContainerQuotes {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
@@ -172,52 +215,54 @@
   }
 }
 
+/* Tablet / Mobile */
 @media (max-width: 600px) {
-
   .gridContainer,
   .gridContainerHistory,
   .gridContainerQuotes {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.6rem;
-     max-height: calc(2* 50px);
+    gap: 0.8rem;
+    overflow-x: auto;
   }
-.scrollContainerQuotes,
-.scrollContainer{
-   max-height: calc(2* 50px);
-}
+
+  .scrollContainer,
+  .scrollContainerQuotes {
+    max-height: calc(2 * 50px);
+  }
+
   .rowHeader,
   .row {
-    font-size: 8px;
+    font-size: 12px;
   }
 
   .statusButton {
     width: 65px;
-    font-size: 10px;
+    font-size: 11px;
     height: 25px;
   }
+
   .gridContainerQuotes {
-    grid-template-columns: repeat(2, 1fr); /* stack 4 rows */
+    grid-template-columns: repeat(2, 1fr);
     row-gap: 0.6rem;
   }
 }
 
+/* Small Mobile */
 @media (max-width: 420px) {
-
-
   .container {
-    padding: 10px;
+    padding: 6px;
     gap: 2px;
   }
 
   .rowHeader,
   .row {
-    font-size: 6px;
+    font-size: 11px;
   }
 
   .statusButton {
-    width: 50px;
-    font-size: 8px;
-    height: 22px;
+    width: 55px;
+    font-size: 10px;
+    height: 24px;
   }
 
   .completedButton,
@@ -226,9 +271,25 @@
     font-size: 10px;
     height: 26px;
   }
-   .gridContainerQuotes {
-    grid-template-columns: 2fr;
-    gap: 0.3rem;
-   }
 
+  /* ✅ Make grids horizontally scrollable instead of stacking */
+  .gridContainer,
+  .gridContainerHistory,
+  .gridContainerQuotes {
+    display: flex;               /* switch to flexbox */
+    flex-direction: row;         /* row layout */
+    flex-wrap: nowrap;           /* no wrapping */
+    gap: 0.2rem;
+    overflow-x: auto;            /* allow horizontal scroll */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  }
+
+  /* ✅ Prevent items from shrinking too small */
+  .gridContainer > div,
+  .gridContainerHistory > div,
+  .gridContainerQuotes > div {
+    min-width: 10px; /* adjust as needed for your content */
+    padding: 2px;
+    flex-shrink: 0;
+  }
 }
