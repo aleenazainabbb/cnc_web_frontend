@@ -1,4 +1,3 @@
-// context/MessageContext.ts
 "use client";
 
 import React, {
@@ -8,73 +7,11 @@ import React, {
   useEffect,
   ReactNode,
   useRef,
-  useCallback,
 } from "react";
-import io, { Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-// ================= Interfaces =================
-export interface ConversationMessage {
-  id: number;
-  conversationId: number;
-  senderId: number;
-  content: string;
-  direction: "outgoing" | "incoming";
-  read: boolean;
-  createdAt: string;
-  updatedAt: string;
-  sender?: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    role?: string;
-    email?: string;
-  };
-  receiver?: null | any;
-}
-
-export interface ConversationUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-}
-
-export interface ConversationAgent {
-  id: number;
-  firstName: string;
-  lastName: string;
-}
-
-export interface ConversationAdmin {
-  id: number;
-  firstName: string;
-  lastName: string;
-}
-
-export interface Conversation {
-  id: number;
-  userId?: number;
-  adminId?: number | null;
-  assignedAgentId?: number | null;
-  isAssigned?: boolean;
-  status?: string;
-  lastMessageAt?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  user?: ConversationUser;
-  admin?: ConversationAdmin | null;
-  agent?: ConversationAgent | null;
-  messages: ConversationMessage[];
-}
-
-export interface ConversationsResponse {
-  success: boolean;
-  conversations: Conversation[];
-  totalCount?: number;
-}
-
-export interface Message {
+// ======================= Types =======================
+export type Message = {
   id: number;
   text: string;
   sender: "me" | "them";
@@ -82,57 +19,63 @@ export interface Message {
   userId: number;
   isSent: boolean;
   tempId?: string;
-}
+};
 
-export interface SendMessageResponse {
-  success: boolean;
-  message: ConversationMessage;
+export type ConversationMessage = {
+  id: number;
   conversationId: number;
-}
+  senderId: number;
+  receiverId: number | null;
+  content: string;
+  direction: "outgoing" | "incoming";
+  createdAt: string;
+};
 
-export type ConversationsLocal = Record<number, Message[]>;
+export type Conversation = {
+  id: number;
+  userId: number;
+  messages: ConversationMessage[];
+};
 
-// ================= Context Type =================
 interface MessageContextType {
   activeConversationId: number | null;
   setActiveConversationId: (id: number | null) => void;
   messageText: string;
   setMessageText: (text: string) => void;
-  apiConversations: Conversation[];
-  localMessages: ConversationsLocal;
+  localMessages: Record<number, Message[]>;
   handleSendMessage: () => void;
-  isSocketConnected: boolean;
-  isLoading: boolean;
+  initializeConversations: () => Promise<void>;
 }
 
-// ================= Context =================
+// ======================= Context =======================
 const MessageContext = createContext<MessageContextType | undefined>(undefined);
 
-// ================= API =================
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+// ✅ Token helper
 const getToken = () =>
   typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-export const fetchConversationsApi =
-  async (): Promise<ConversationsResponse> => {
-    const token = getToken();
-    const res = await fetch(`${BASE_URL}/chat/conversations`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-    });
-    if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(`Failed to fetch conversations: ${res.status} ${txt}`);
-    }
-    return await res.json();
-  };
+// ======================= API Calls =======================
+export const fetchConversationsApi = async (): Promise<{
+  conversations: Conversation[];
+}> => {
+  const token = getToken();
+  const res = await fetch(`${BASE_URL}/chat/conversations`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+  if (!res.ok) throw new Error("Failed to fetch conversations");
+  return res.json();
+};
 
 export const sendMessageApi = async (
   content: string,
   conversationId: number
-): Promise<SendMessageResponse> => {
+) => {
   const token = getToken();
   const res = await fetch(`${BASE_URL}/chat/send-message`, {
     method: "POST",
@@ -140,93 +83,13 @@ export const sendMessageApi = async (
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ content, conversationId }),
   });
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Failed to send message: ${res.status} ${txt}`);
-  }
-  return await res.json();
+  if (!res.ok) throw new Error("Failed to send message");
+  return res.json();
 };
 
-// ================= Helper Functions (keeps signatures used by UI) =================
-export const getReceiverName = (conversation: Conversation): string => {
-  if (conversation.agent) {
-    return `${conversation.agent.firstName} ${conversation.agent.lastName}`.trim();
-  } else if (conversation.admin) {
-    return `${conversation.admin.firstName} ${conversation.admin.lastName}`.trim();
-  } else if (conversation.user) {
-    return `${conversation.user.firstName} ${conversation.user.lastName}`.trim();
-  }
-  return "Support Team";
-};
-
-export const getReceiverInitials = (conversation: Conversation): string => {
-  if (conversation.agent) {
-    return `${conversation.agent.firstName.charAt(0) || ""}${
-      conversation.agent.lastName.charAt(0) || ""
-    }`;
-  } else if (conversation.admin) {
-    return `${conversation.admin.firstName.charAt(0) || ""}${
-      conversation.admin.lastName.charAt(0) || ""
-    }`;
-  } else if (conversation.user) {
-    return `${conversation.user.firstName?.charAt(0) || ""}${
-      conversation.user.lastName?.charAt(0) || ""
-    }`;
-  }
-  return "ST";
-};
-
-export const getReceiverRole = (conversation: Conversation): string => {
-  if (conversation.agent) return "Agent";
-  if (conversation.admin) return "Admin";
-  if (conversation.user) return "User";
-  return "Support";
-};
-
-export const getUnreadCount = (conversation: Conversation): number => {
-  return conversation.messages.filter(
-    (msg) => msg.direction === "incoming" && !msg.read
-  ).length;
-};
-
-export const getLastMessage = (
-  conversation: Conversation
-): ConversationMessage | null => {
-  if (
-    !conversation ||
-    !conversation.messages ||
-    conversation.messages.length === 0
-  )
-    return null;
-  return conversation.messages[conversation.messages.length - 1];
-};
-
-export const formatMessageTime = (dateString: string): string => {
-  try {
-    return new Date(dateString).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return "";
-  }
-};
-
-// Convert API message → UI message (MessageBox expects this shape)
-const convertApiMessageToLocal = (
-  apiMessage: ConversationMessage
-): Message => ({
-  id: apiMessage.id,
-  text: apiMessage.content,
-  sender: apiMessage.direction === "outgoing" ? "me" : "them",
-  time: formatMessageTime(apiMessage.createdAt),
-  userId: apiMessage.conversationId,
-  isSent: true,
-});
-
-// ================= Provider =================
+// ======================= Provider =======================
 export const MessageProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -234,236 +97,166 @@ export const MessageProvider: React.FC<{ children: ReactNode }> = ({
     number | null
   >(null);
   const [messageText, setMessageText] = useState("");
-  const [apiConversations, setApiConversations] = useState<Conversation[]>([]);
-  const [localMessages, setLocalMessages] = useState<ConversationsLocal>({});
-  const [isSocketConnected, setIsSocketConnected] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [localMessages, setLocalMessages] = useState<Record<number, Message[]>>(
+    {}
+  );
   const socketRef = useRef<Socket | null>(null);
-  const hasInitializedRef = useRef(false);
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hasInitialized = useRef(false);
+  const userId = 1; // Replace with actual user ID
 
-  // Convert arrays from API into localMessages shape
-  const convertApiMessagesToLocal = (
-    apiMessages: ConversationMessage[],
-    conversationId: number
-  ): Message[] => apiMessages.map((m) => convertApiMessageToLocal(m));
-
-  // Load conversations once (production: called once per mount)
-  const initializeConversations = useCallback(async () => {
+  // ======================= Initialize Conversations =======================
+  const initializeConversations = async () => {
+    if (hasInitialized.current) return;
     try {
-      setIsLoading(true);
-      const response = await fetchConversationsApi();
-      setApiConversations(response.conversations || []);
-
-      const initialMessages: ConversationsLocal = {};
-      (response.conversations || []).forEach((conv) => {
-        initialMessages[conv.id] = convertApiMessagesToLocal(
-          conv.messages || [],
-          conv.id
-        );
+      const res = await fetchConversationsApi();
+      const messages: Record<number, Message[]> = {};
+      res.conversations.forEach((conv) => {
+        messages[conv.id] = conv.messages.map((m) => ({
+          id: m.id,
+          text: m.content,
+          sender: (m.direction === "outgoing" ? "me" : "them") as "me" | "them",
+          time: new Date(m.createdAt).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          userId: m.senderId,
+          isSent: true,
+        }));
       });
-      setLocalMessages(initialMessages);
-
-      if (
-        response.conversations &&
-        response.conversations.length > 0 &&
-        !activeConversationId
-      ) {
-        setActiveConversationId(response.conversations[0].id);
-      }
+      setLocalMessages(messages);
+      if (res.conversations.length > 0)
+        setActiveConversationId(res.conversations[0].id);
+      hasInitialized.current = true;
     } catch (err) {
-      console.error("initializeConversations error:", err);
-    } finally {
-      setIsLoading(false);
+      console.error("Failed to initialize conversations:", err);
     }
-  }, [activeConversationId]);
+  };
 
-  // Real-time handler: called when a new ConversationMessage arrives
-  const onReceiveMessage = useCallback((message: ConversationMessage) => {
-    // update localMessages
-    setLocalMessages((prev) => {
-      const existing = prev[message.conversationId] || [];
-      // avoid duplicates (by id)
-      if (existing.some((m) => m.id === message.id)) return prev;
-
-      const newLocal = convertApiMessageToLocal(message);
-      return { ...prev, [message.conversationId]: [...existing, newLocal] };
-    });
-
-    // update apiConversations for sidebar/listing
-    setApiConversations((prev) =>
-      prev.map((conv) =>
-        conv.id === message.conversationId
-          ? {
-              ...conv,
-              messages: [...(conv.messages || []), message],
-              lastMessageAt: message.createdAt,
-            }
-          : conv
-      )
-    );
-  }, []);
-
-  // Send message → call API, update states, emit socket event
-  const handleSendMessage = useCallback(async () => {
-    if (
-      !messageText.trim() ||
-      activeConversationId === null ||
-      activeConversationId === undefined
-    )
+  // ======================= Handle Sending Message =======================
+  const handleSendMessage = () => {
+    if (!messageText.trim() || !activeConversationId || !socketRef.current)
       return;
 
-    const textToSend = messageText;
+    const tempId = `temp-${Date.now()}`;
+    const tempMessage: Message = {
+      id: 0,
+      text: messageText,
+      sender: "me",
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      userId: activeConversationId,
+      isSent: false,
+      tempId,
+    };
+
+    setLocalMessages((prev) => ({
+      ...prev,
+      [activeConversationId]: [
+        ...(prev[activeConversationId] || []),
+        tempMessage,
+      ],
+    }));
+
     setMessageText("");
-    setIsLoading(true);
 
-    try {
-      const response = await sendMessageApi(textToSend, activeConversationId);
+    // Emit via socket
+    socketRef.current.emit("sendMessage", {
+      conversationId: activeConversationId,
+      senderId: userId,
+      content: messageText,
+      tempId,
+    });
 
-      if (response && response.success) {
-        const savedMessage = response.message;
+    // Persist via API
+    sendMessageApi(messageText, activeConversationId)
+      .then((msg: ConversationMessage) => {
+        setLocalMessages((prev) => ({
+          ...prev,
+          [activeConversationId]: prev[activeConversationId].map((m) =>
+            m.tempId === tempId
+              ? { ...m, id: msg.id, isSent: true, tempId: undefined }
+              : m
+          ),
+        }));
+      })
+      .catch(console.error);
+  };
 
-        // Update localMessages with the saved message (no temp)
-        setLocalMessages((prev) => {
-          const existing = prev[activeConversationId] || [];
-          // avoid duplicate
-          if (existing.some((m) => m.id === savedMessage.id)) return prev;
+  // ======================= Receive Message =======================
+  const onReceiveMessage = (message: ConversationMessage) => {
+    const newMessage: Message = {
+      id: message.id,
+      text: message.content,
+      sender: (message.direction === "outgoing" ? "me" : "them") as
+        | "me"
+        | "them",
+      time: new Date(message.createdAt).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      userId: message.senderId,
+      isSent: true,
+    };
 
-          return {
-            ...prev,
-            [activeConversationId]: [
-              ...existing,
-              convertApiMessageToLocal(savedMessage),
-            ],
-          };
-        });
+    setLocalMessages((prev) => ({
+      ...prev,
+      [message.conversationId]: [
+        ...(prev[message.conversationId] || []),
+        newMessage,
+      ],
+    }));
+  };
 
-        // Update apiConversations (sidebar)
-        setApiConversations((prev) =>
-          prev.map((conv) =>
-            conv.id === activeConversationId
-              ? {
-                  ...conv,
-                  messages: [...(conv.messages || []), savedMessage],
-                  lastMessageAt: savedMessage.createdAt,
-                }
-              : conv
-          )
-        );
-
-        // Emit socket so other participants get the message (server may also broadcast)
-        try {
-          socketRef.current?.emit("send_message", savedMessage);
-        } catch (emitErr) {
-          // ignore emit errors (server may broadcast on save)
-        }
-      } else {
-        // restore text if send fails
-        setMessageText(textToSend);
-      }
-    } catch (err) {
-      console.error("handleSendMessage error:", err);
-      setMessageText(textToSend);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [messageText, activeConversationId]);
-
-  // Initialize once
-  useEffect(() => {
-    if (!hasInitializedRef.current) {
-      hasInitializedRef.current = true;
-      initializeConversations();
-    }
-  }, [initializeConversations]);
-
-  // Socket setup: listen for new_message and keep connection alive
+  // ======================= Socket + Polling =======================
   useEffect(() => {
     const token = getToken();
-    if (!token) {
-      // no socket without token
-      return;
-    }
+    if (!token) return;
 
-    // create socket
-    const socket = io(BASE_URL, {
-      auth: { token },
-      transports: ["websocket"],
-      reconnection: true,
-      reconnectionAttempts: Infinity,
-      reconnectionDelay: 1000,
-    });
-
+    const socket = io(BASE_URL, { auth: { token }, transports: ["websocket"] });
     socketRef.current = socket;
 
     socket.on("connect", () => {
-      setIsSocketConnected(true);
-
-      // join conversation rooms so server can route messages to this socket
-      const conversationIds = apiConversations.map((c) => c.id);
-      if (conversationIds.length) {
-        socket.emit("join_conversations", conversationIds);
-      }
+      console.log("✅ Socket connected:", socket.id);
+      socket.emit("joinUserRoom", userId);
     });
 
-    socket.on("new_message", (message: ConversationMessage) => {
-      // ensure shape then update
-      if (message && message.conversationId) {
-        onReceiveMessage(message);
-      }
-    });
+    socket.on("newMessage", onReceiveMessage);
 
-   
-
-    socket.on("disconnect", (reason) => {
-      setIsSocketConnected(false);
-      // reconnection handled by socket.io client config
-    });
-
-    socket.on("connect_error", (err) => {
-      console.error("Socket connect_error:", err);
-    });
+    // Polling fallback if socket fails
+    pollingRef.current = setInterval(() => {
+      initializeConversations();
+    }, 5000);
 
     return () => {
-      try {
-        socket.disconnect();
-      } catch {}
-      socketRef.current = null;
-      setIsSocketConnected(false);
+      socket.disconnect();
+      if (pollingRef.current) clearInterval(pollingRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiConversations, onReceiveMessage]);
-
-  // Make sure to re-join rooms when conversations list changes (e.g., after creating new conv)
-  useEffect(() => {
-    const socket = socketRef.current;
-    if (!socket || !socket.connected) return;
-    const ids = apiConversations.map((c) => c.id);
-    if (ids.length) {
-      socket.emit("join_conversations", ids);
-    }
-  }, [apiConversations]);
-
-  const value: MessageContextType = {
-    activeConversationId,
-    setActiveConversationId,
-    messageText,
-    setMessageText,
-    apiConversations,
-    localMessages,
-    handleSendMessage,
-    isSocketConnected,
-    isLoading,
-  };
+  }, []);
 
   return (
-    <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
+    <MessageContext.Provider
+      value={{
+        activeConversationId,
+        setActiveConversationId,
+        messageText,
+        setMessageText,
+        localMessages,
+        handleSendMessage,
+        initializeConversations,
+      }}
+    >
+      {children}
+    </MessageContext.Provider>
   );
 };
 
-// ================= Hook =================
+// ======================= Hook =======================
 export const useMessage = () => {
-  const ctx = useContext(MessageContext);
-  if (!ctx) throw new Error("useMessage must be used within a MessageProvider");
-  return ctx;
+  const context = useContext(MessageContext);
+  if (!context)
+    throw new Error("useMessage must be used within a MessageProvider");
+  return context;
 };

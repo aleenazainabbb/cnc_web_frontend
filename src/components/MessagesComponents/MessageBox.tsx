@@ -1,376 +1,387 @@
+// "use client";
+
+// import React, { useEffect, useRef } from "react";
+// import { useMessage, Message } from "@/context/MessageContext"; // import Message from context
+// import styles from "../Booking/styles/message.module.css";
+
+// const ChatApp: React.FC = () => {
+//   const {
+//     activeConversationId,
+//     setActiveConversationId,
+//     messageText,
+//     setMessageText,
+//     localMessages,
+//     handleSendMessage,
+//     initializeConversations,
+//   } = useMessage();
+
+//   const messagesEndRef = useRef<HTMLDivElement>(null);
+//   const POLLING_INTERVAL = 5000;
+//   const pollingRef = useRef<number | null>(null);
+
+//   const ADMIN_CONVERSATION_ID = 0;
+
+//   useEffect(() => {
+//     initializeConversations();
+//     if (!localMessages[ADMIN_CONVERSATION_ID]) {
+//       setActiveConversationId(ADMIN_CONVERSATION_ID);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [localMessages, activeConversationId]);
+
+//   useEffect(() => {
+//     let socketActive = false;
+
+//     const pollMessages = async () => {
+//       try {
+//         const res = await fetch(
+//           `${process.env.NEXT_PUBLIC_API_URL}/chat/conversations`
+//         );
+//         const data = await res.json();
+//         if (data.conversations) {
+//           data.conversations.forEach((conv: any) => {
+//             const existingIds =
+//               localMessages[conv.id]?.map((m: Message) => m.id) || [];
+//             const newMessages = conv.messages.filter(
+//               (m: any) => !existingIds.includes(m.id)
+//             );
+
+//             newMessages.forEach((m: any) => {
+//               const formatted: Message = {
+//                 id: m.id ?? Date.now(), // always a number
+//                 text: m.content,
+//                 sender: m.direction === "outgoing" ? "me" : "them",
+//                 time: new Date(m.createdAt).toLocaleTimeString([], {
+//                   hour: "2-digit",
+//                   minute: "2-digit",
+//                 }),
+//                 userId: m.senderId,
+//                 isSent: true,
+//               };
+//               localMessages[conv.id]
+//                 ? localMessages[conv.id].push(formatted)
+//                 : (localMessages[conv.id] = [formatted]);
+//             });
+//           });
+//         }
+//       } catch (err) {
+//         console.error("Polling failed:", err);
+//       }
+//     };
+
+//     try {
+//       const socket = (window as any).socket;
+//       if (socket) {
+//         socketActive = true;
+//         socket.on("newMessage", (msg: any) => {
+//           const formatted: Message = {
+//             id: msg.id ?? Date.now(),
+//             text: msg.content,
+//             sender: msg.direction === "outgoing" ? "me" : "them",
+//             time: new Date(msg.createdAt).toLocaleTimeString([], {
+//               hour: "2-digit",
+//               minute: "2-digit",
+//             }),
+//             userId: msg.senderId,
+//             isSent: true,
+//           };
+//           localMessages[msg.conversationId]
+//             ? localMessages[msg.conversationId].push(formatted)
+//             : (localMessages[msg.conversationId] = [formatted]);
+//         });
+//       }
+//     } catch {
+//       socketActive = false;
+//     }
+
+//     if (!socketActive) {
+//       pollingRef.current = window.setInterval(pollMessages, POLLING_INTERVAL);
+//     }
+
+//     return () => {
+//       if (pollingRef.current) clearInterval(pollingRef.current);
+//     };
+//   }, [localMessages]);
+
+//   const conversations = [
+//     { id: ADMIN_CONVERSATION_ID, name: "Support Admin" },
+//     ...Object.keys(localMessages)
+//       .filter((id) => parseInt(id) !== ADMIN_CONVERSATION_ID)
+//       .map((id) => ({ id: parseInt(id), name: `Conversation ${id}` })),
+//   ];
+
+//   const activeMessages = activeConversationId
+//     ? localMessages[activeConversationId] || []
+//     : [];
+
+//   return (
+//     <div className={styles.chatContainer}>
+//       <div className={styles.sidebar}>
+//         <h2 className={styles.sidebarTitle}>Conversations</h2>
+//         {conversations.map((conv) => {
+//           const lastMsg =
+//             conv.id === ADMIN_CONVERSATION_ID
+//               ? activeMessages[activeMessages.length - 1]
+//               : localMessages[conv.id]?.[localMessages[conv.id].length - 1];
+//           return (
+//             <div
+//               key={conv.id}
+//               className={`${styles.conversationItem} ${
+//                 activeConversationId === conv.id
+//                   ? styles.activeConversation
+//                   : ""
+//               }`}
+//               onClick={() => setActiveConversationId(conv.id)}
+//             >
+//               <p className={styles.conversationTitle}>{conv.name}</p>
+//               {lastMsg && (
+//                 <p className={styles.conversationLastMsg}>{lastMsg.text}</p>
+//               )}
+//             </div>
+//           );
+//         })}
+//       </div>
+
+//       <div className={styles.chatBox}>
+//         <div className={styles.messagesContainer}>
+//           {!activeConversationId && (
+//             <p className={styles.noConversationSelected}>
+//               Select a conversation to start chatting
+//             </p>
+//           )}
+
+//           {activeMessages.map((msg, index) => (
+//             <div
+//               key={msg.id ?? `${msg.userId}-${index}`}
+//               className={`${styles.messageWrapper} ${
+//                 msg.sender === "me" ? styles.messageRight : styles.messageLeft
+//               }`}
+//             >
+//               <div
+//                 className={`${styles.messageBubble} ${
+//                   msg.sender === "me" ? styles.bubbleMe : styles.bubbleThem
+//                 }`}
+//               >
+//                 {msg.text}
+//                 <div className={styles.messageTime}>{msg.time}</div>
+//               </div>
+//             </div>
+//           ))}
+//           <div ref={messagesEndRef} />
+//         </div>
+
+//         {activeConversationId !== null && (
+//           <div className={styles.inputContainer}>
+//             <input
+//               type="text"
+//               value={messageText}
+//               onChange={(e) => setMessageText(e.target.value)}
+//               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+//               placeholder="Type a message..."
+//               className={styles.messageInput}
+//             />
+//             <button onClick={handleSendMessage} className={styles.sendButton}>
+//               Send
+//             </button>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ChatApp;
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { getSocket } from "./../../lib/socket";
+
+// export default function Chat() {
+//   const [messages, setMessages] = useState<string[]>([]);
+//   const [socketConnected, setSocketConnected] = useState(false);
+
+//   useEffect(() => {
+//     const socket = getSocket();
+
+//     socket.on("connect", () => {
+//       console.log("Socket connected");
+//       setSocketConnected(true);
+//     });
+
+//     socket.on("message", (msg: string) => {
+//       setMessages((prev) => [...prev, msg]);
+//     });
+
+//     return () => {
+//       socket.disconnect();
+//     };
+//   }, []);
+
+//   const sendMessage = () => {
+//     const socket = getSocket();
+//     socket.emit("message", "Hello from client (TS)!");
+//   };
+
+//   return (
+//     <div>
+//       <h2>Chat (TypeScript)</h2>
+//       <button onClick={sendMessage} disabled={!socketConnected}>
+//         Send Message
+//       </button>
+//       <ul>
+//         {messages.map((msg, idx) => (
+//           <li key={idx}>{msg}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { getSocket } from "../../lib/socket";
+
+// export default function Chat() {
+//   const [messages, setMessages] = useState<string[]>([]);
+//   const [socketConnected, setSocketConnected] = useState(false);
+//   const [input, setInput] = useState(""); // state to track input field
+
+//   useEffect(() => {
+//     const socket = getSocket();
+
+//     socket.on("connect", () => {
+//       console.log("Socket connected");
+//       setSocketConnected(true);
+//     });
+
+//     socket.on("message", (msg: string) => {
+//       setMessages((prev) => [...prev, msg]);
+//     });
+
+//     return () => {
+//       socket.disconnect();
+//     };
+//   }, []);
+
+//   const sendMessage = () => {
+//     const trimmed = input.trim();
+//     if (!trimmed) return;
+
+//     const socket = getSocket();
+//     socket.emit("message", trimmed);
+
+//     setInput(""); // clear input after sending
+//   };
+
+//   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+//     if (e.key === "Enter") {
+//       sendMessage();
+//     }
+//   };
+
+//   return (
+//     <div style={{ padding: "1rem", maxWidth: "600px", margin: "0 auto" }}>
+//       <h2>Chat </h2>
+
+//       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+//         <input
+//           type="text"
+//           value={input}
+//           onChange={(e) => setInput(e.target.value)}
+//           onKeyDown={handleKeyPress}
+//           placeholder="Type your message..."
+//           disabled={!socketConnected}
+//           style={{ flex: 1, padding: "0.5rem" }}
+//         />
+//         <button
+//           onClick={sendMessage}
+//           disabled={!socketConnected || !input.trim()}
+//         >
+//           Send
+//         </button>
+//       </div>
+
+//       <ul>
+//         {messages.map((msg, idx) => (
+//           <li key={idx} style={{ marginBottom: "0.5rem" }}>
+//             {msg}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import styles from "../Booking/styles/message.module.css";
+import { useEffect, useState } from "react";
+import { getSocket } from "@/lib/socket"; // adjust path if needed
 
-// Define TypeScript interfaces
-interface Message {
-  id?: number;
-  tempId?: string;
-  text: string;
-  sender: string;
-  time: string;
-  isSent?: boolean;
-  direction?: string;
-  read?: boolean;
-  timestamp?: string;
-  createdAt?: string;
-}
+export default function Chat() {
+  const [messages, setMessages] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
 
-interface Conversation {
-  id: number;
-  agent?: {
-    firstName: string;
-    lastName: string;
-  };
-  admin?: {
-    firstName: string;
-    lastName: string;
-  };
-  messages?: Message[];
-}
-
-interface User {
-  id: number;
-  name: string;
-  initials: string;
-  status: string;
-  unread: number;
-  conversation: Conversation;
-  time: string;
-  lastMessage: string;
-}
-
-interface MessageBoxProps {
-  isSocketConnected: boolean;
-  apiConversations: Conversation[] | undefined;
-  localMessages: { [key: number]: Message[] };
-  activeConversationId: number | null;
-  setActiveConversationId: (id: number) => void;
-  messageText: string;
-  setMessageText: (text: string) => void;
-  handleSendMessage: () => void;
-}
-
-const MessageBox = ({
-  isSocketConnected,
-  apiConversations,
-  localMessages,
-  activeConversationId,
-  setActiveConversationId,
-  messageText,
-  setMessageText,
-  handleSendMessage,
-}: MessageBoxProps) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [typingStatus, setTypingStatus] = useState<{ [key: number]: boolean }>(
-    {}
-  );
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Get active conversation
-  const activeConversation = activeConversationId
-    ? localMessages[activeConversationId] || []
-    : [];
-
-  // Get the active conversation data with null check
-  const activeConversationData = apiConversations?.find(
-    (conv) => conv.id === activeConversationId
-  );
-
-  // Helper functions
-  const getReceiverName = (conversation: Conversation) => {
-    if (conversation.agent) {
-      return `${conversation.agent.firstName} ${conversation.agent.lastName}`.trim();
-    } else if (conversation.admin) {
-      return `${conversation.admin.firstName} ${conversation.admin.lastName}`.trim();
-    }
-    return "Support Team";
-  };
-
-  const getReceiverInitials = (conversation: Conversation) => {
-    if (conversation.agent) {
-      return `${conversation.agent.firstName.charAt(
-        0
-      )}${conversation.agent.lastName.charAt(0)}`;
-    } else if (conversation.admin) {
-      return `${conversation.admin.firstName.charAt(
-        0
-      )}${conversation.admin.lastName.charAt(0)}`;
-    }
-    return "ST";
-  };
-
-  const getReceiverRole = (conversation: Conversation) => {
-    if (conversation.agent) {
-      return "Agent";
-    } else if (conversation.admin) {
-      return "Admin";
-    }
-    return "Support";
-  };
-
-  const getUnreadCount = (conversation: Conversation) => {
-    if (!conversation.messages) return 0;
-    return conversation.messages.filter(
-      (msg: Message) => msg.direction === "incoming" && !msg.read
-    ).length;
-  };
-
-  const formatMessageTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  // Prepare user list data for sidebar with null check
-  const users: User[] = (apiConversations || []).map((conv) => {
-    const lastMessage =
-      conv.messages && conv.messages.length > 0
-        ? conv.messages[conv.messages.length - 1]
-        : null;
-
-    return {
-      id: conv.id,
-      name: getReceiverName(conv),
-      initials: getReceiverInitials(conv),
-      status: "online",
-      unread: getUnreadCount(conv),
-      conversation: conv,
-      time: lastMessage
-        ? formatMessageTime(
-            lastMessage.timestamp || lastMessage.createdAt || ""
-          )
-        : "",
-      lastMessage: lastMessage ? lastMessage.text : "No messages yet",
-    };
-  });
-
-  // Auto-scroll to bottom of messages
   useEffect(() => {
-    scrollToBottom();
-  }, [activeConversation]);
+    const socket = getSocket();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    socket.on("connect", () => {
+      setIsConnected(true);
+    });
+
+    socket.on("message", (msg: string) => {
+      console.log("📨 Message received:", msg);
+      setMessages((prev) => [...prev, msg]);
+    });
+
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    const socket = getSocket();
+    socket.emit("message", trimmed);
+    setInput("");
   };
-
-  // Handle Enter key
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  // Handle typing indicator
-  const handleTyping = () => {
-    if (activeConversationId) {
-      // Clear previous timeout
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-
-      // Set typing status
-      setTypingStatus((prev) => ({ ...prev, [activeConversationId]: true }));
-
-      // Clear typing status after 2 seconds
-      typingTimeoutRef.current = setTimeout(() => {
-        setTypingStatus((prev) => ({ ...prev, [activeConversationId]: false }));
-      }, 2000);
-    }
-  };
-
-  // Handle input change with typing indicator
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessageText(e.target.value);
-    handleTyping();
-  };
-
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
-    <div className={styles.messagingContainer}>
-      <div className={styles.sidebar}>
-        <div className={styles.header}>
-          <div className={styles.profileHeader}>
-            <div className={styles.profileAvatar}>U</div>
-            <div className={styles.headerActions}>
-              <button className={styles.headerButton} title="Status">
-                <i className="fas fa-status"></i>
-              </button>
-              <button className={styles.headerButton} title="New Chat">
-                <i className="fas fa-comment-alt"></i>
-              </button>
-              <button className={styles.headerButton} title="Menu">
-                <i className="fas fa-ellipsis-v"></i>
-              </button>
-            </div>
-          </div>
-          <div className={styles.searchContainer}>
-            <div className={styles.searchWrapper}>
-              <i className={`fas fa-search ${styles.searchIcon}`}></i>
-              <input
-                type="text"
-                placeholder="Search or start new chat"
-                className={styles.searchInput}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button className={styles.filterButton} title="Filter">
-                <i className="fas fa-filter"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.userList}>
-          {filteredUsers.map((user) => (
-            <div
-              key={user.id}
-              className={`${styles.userItem} ${
-                activeConversationId === user.id ? styles.active : ""
-              }`}
-              onClick={() => setActiveConversationId(user.id)}
-            >
-              <div className={styles.avatarContainer}>
-                <div className={styles.avatar}>{user.initials}</div>
-                <div
-                  className={`${styles.statusIndicator} ${
-                    user.status === "online" ? styles.online : styles.offline
-                  }`}
-                ></div>
-              </div>
-
-              <div className={styles.userInfo}>
-                <div className={styles.nameTime}>
-                  <h3 className={styles.userName}>{user.name}</h3>
-                  <span className={styles.time}>{user.time}</span>
-                </div>
-                <div className={styles.messagePreview}>
-                  <p className={styles.lastMessage}>{user.lastMessage}</p>
-                  {user.unread > 0 && (
-                    <span className={styles.unreadBadge}>{user.unread}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div style={{ padding: "1rem", maxWidth: "600px", margin: "0 auto" }}>
+      <h2>Chat</h2>
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          placeholder="Type a message..."
+          disabled={!isConnected}
+          style={{ flex: 1, padding: "0.5rem" }}
+        />
+        <button onClick={sendMessage} disabled={!isConnected || !input.trim()}>
+          Send
+        </button>
       </div>
 
-      <div className={styles.chatArea}>
-        {activeConversationId && activeConversationData ? (
-          <>
-            <div className={styles.chatHeader}>
-              <div className={styles.chatUserInfo}>
-                <div className={styles.chatAvatarContainer}>
-                  <div className={styles.chatAvatar}>
-                    {getReceiverInitials(activeConversationData)}
-                  </div>
-                  <div
-                    className={`${styles.statusIndicator} ${styles.online}`}
-                  ></div>
-                </div>
-                <div className={styles.chatUserDetails}>
-                  <h3>{getReceiverName(activeConversationData)}</h3>
-                  <p className={styles.userStatus}>
-                    {getReceiverRole(activeConversationData)} •{" "}
-                    {isSocketConnected ? "online" : "offline"}
-                    {typingStatus[activeConversationId] && " • typing..."}
-                  </p>
-                </div>
-              </div>
-              <div className={styles.chatActions}>
-                <button className={styles.actionButton} title="Call">
-                  <i className="fas fa-phone-alt"></i>
-                </button>
-                <button className={styles.actionButton} title="Video Call">
-                  <i className="fas fa-video"></i>
-                </button>
-                <button className={styles.actionButton} title="Menu">
-                  <i className="fas fa-ellipsis-v"></i>
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.messagesContainer}>
-              <div className={styles.messagesWrapper}>
-                {activeConversation.map((message) => (
-                  <div
-                    key={message.tempId || message.id}
-                    className={`${styles.message} ${
-                      message.sender === "me"
-                        ? styles.myMessage
-                        : styles.theirMessage
-                    } ${!message.isSent ? styles.sending : ""}`}
-                  >
-                    <div className={styles.messageContent}>
-                      <p>{message.text}</p>
-                      <span className={styles.messageTime}>
-                        {message.time}
-                        {!message.isSent && " • Sending..."}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Typing indicator */}
-                {typingStatus[activeConversationId] && (
-                  <div className={`${styles.message} ${styles.theirMessage}`}>
-                    <div className={styles.messageContent}>
-                      <div className={styles.typingIndicator}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div ref={messagesEndRef} />
-              </div>
-            </div>
-
-            <div className={styles.messageInputContainer}>
-              <div className={styles.messageInputWrapper}>
-                <button className={styles.emojiButton} title="Emoji">
-                  <i className="fas fa-smile"></i>
-                </button>
-                <button className={styles.attachButton} title="Attach File">
-                  <i className="fas fa-paperclip"></i>
-                </button>
-                <input
-                  type="text"
-                  placeholder="Type a message"
-                  className={styles.messageInput}
-                  value={messageText}
-                  onChange={handleInputChange}
-                  onKeyPress={handleKeyPress}
-                />
-                <button
-                  className={styles.sendButton}
-                  onClick={handleSendMessage}
-                  disabled={messageText.trim() === ""}
-                  title="Send"
-                >
-                  <i className="fas fa-paper-plane"></i>
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className={styles.noConversationSelected}>
-            <p>Select a conversation to start messaging</p>
-          </div>
-        )}
-      </div>
+      <ul>
+        {messages.map((msg, idx) => (
+          <li key={idx} style={{ marginBottom: "0.5rem" }}>
+            {msg}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
-
-export default MessageBox;
+}
