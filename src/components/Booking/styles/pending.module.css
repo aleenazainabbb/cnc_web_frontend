@@ -101,11 +101,11 @@
 }
 .row div:nth-child(5) {
   font-weight: 400;
-  font-size: 15px;
+  /* font-size: 15px; */
   color: #8B909A;
 }
 
-.statusButton, .payNowButton {
+.statusButton {
   max-width: 103px;
   width:100%;
   border-radius: 30px;
@@ -119,9 +119,31 @@
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 .payNowButton {
+  max-width: 103px;
+  width: 100%;
+  border-radius: 30px;
+  height: 32px;
+  border: 1px solid;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: default;
+  transition: border-color 0.3s ease, color 0.3s ease;
   background-color: #36B864;
   color: white;
- 
+  display: flex;              
+  align-items: center;        
+  justify-content: center;    
+}
+.payNowButton:hover:not(:disabled) {
+  background-color: #2e9e54; 
+  border-color: #2e9e54;
+  cursor: pointer;
+}
+.payNowButton:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #ccc;
 }
 .rescheduleButton {
   /* width: 81px; */
@@ -149,7 +171,7 @@
     padding: 20px 15px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 80px;
   }
 
@@ -179,7 +201,7 @@
     font-size: 13px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 70px;
     font-size: 12px;
     height: 28px;
@@ -204,7 +226,7 @@
     font-size: 8px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 65px;
     font-size: 10px;
     height: 25px;
@@ -223,12 +245,11 @@
     gap: 2px;
   }
 
-  .rowHeader,
   .row {
-    font-size: 6px;
+    font-size: 9px;
   }
 
-  .statusButton {
+  .statusButton,.payNowButton {
     width: 50px;
     font-size: 8px;
     height: 22px;

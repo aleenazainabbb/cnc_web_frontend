@@ -43,7 +43,7 @@ interface User {
 
 interface MessageBoxProps {
   isSocketConnected: boolean;
-  apiConversations?: Conversation[]; // Make optional with default
+  apiConversations: Conversation[] | undefined;
   localMessages: { [key: number]: Message[] };
   activeConversationId: number | null;
   setActiveConversationId: (id: number) => void;
@@ -54,7 +54,7 @@ interface MessageBoxProps {
 
 const MessageBox = ({
   isSocketConnected,
-  apiConversations = [], // Default empty array
+  apiConversations,
   localMessages,
   activeConversationId,
   setActiveConversationId,
@@ -75,9 +75,9 @@ const MessageBox = ({
     : [];
 
   // Get the active conversation data with null check
-  const activeConversationData = activeConversationId
-    ? apiConversations.find((conv) => conv.id === activeConversationId)
-    : null;
+  const activeConversationData = apiConversations?.find(
+    (conv) => conv.id === activeConversationId
+  );
 
   // Helper functions
   const getReceiverName = (conversation: Conversation) => {
@@ -119,15 +119,14 @@ const MessageBox = ({
   };
 
   const formatMessageTime = (dateString: string) => {
-    if (!dateString) return "";
     return new Date(dateString).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
   };
 
-  // Prepare user list data for sidebar
-  const users: User[] = apiConversations.map((conv) => {
+  // Prepare user list data for sidebar with null check
+  const users: User[] = (apiConversations || []).map((conv) => {
     const lastMessage =
       conv.messages && conv.messages.length > 0
         ? conv.messages[conv.messages.length - 1]
