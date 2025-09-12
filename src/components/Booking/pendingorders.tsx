@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "./styles/pending.module.css";
-import Pagination from "@/components/Booking/pagination";
-import { Range } from "react-date-range";
-import { getStatusColor } from "@/utils/statusColors";
-import LinkWithLoader from "../Loader/Link";
-import wallet from "./styles/mywallet.module.css";
-import PaymentDetails from "@/components/Booking/PaymentDetails";
-import BillingSummary from "@/components/Booking/billing";
+import React, { useState } from 'react';
+import styles from './styles/pending.module.css';
+import Pagination from '@/components/Booking/pagination';
+import { Range } from 'react-date-range';
+import { getStatusColor } from '@/utils/statusColors';
+import wallet from './styles/mywallet.module.css';
+import PaymentDetails from '@/components/Booking/PaymentDetails';
+import BillingSummary from '@/components/Booking/billing';
+import { useBooking } from "@/context/BookingContext";
 
 interface PendingProps {
   range: Range[];
@@ -49,11 +49,49 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
+  const { updateBookingData, updateBillingData } = useBooking(); 
+ const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
 
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);
   };
+  const handlePayNow = (row: string[]) => {
+  const [
+    // orderId,
+    service,
+    subService,
+    price,
+    time,
+    date,
+    status,
+    paymentStatus
+  ] = row;
+
+  updateBookingData({
+    service,
+    subService,
+    totalAmount: Number(price) || 0,
+    // status,
+    // payment: paymentStatus,
+    appointmentLocation: "", // supply real location if available
+  });
+
+  updateBillingData({
+    appointmentFrequency: "One time",
+    appointmentTime: `${date} ${time}`,
+    appointmentLocation: "",
+    appointmentValue: Number(price) || 0,
+    discountCode: "",
+    discountAmount: 0,
+    subTotal: Number(price) || 0,
+    taxAmount: 0,
+    totalAmount: Number(price) || 0,
+  });
+
+  setShowModal(true);
+};
+
 
   return (
     <div className={styles.main}>
@@ -94,10 +132,11 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                   )
                 )}
                 {paymentStatus === "added" ? (
-                  <button
-                    className={styles.payNowButton}
-                    onClick={() => setShowModal(true)}
-                  >
+                  <button className={styles.payNowButton} 
+                  onClick={() => 
+                  // setShowModal(true) 
+                  handlePayNow(row)
+                  }>
                     Pay Now
                   </button>
                 ) : paymentStatus === "none" ? (
@@ -109,26 +148,6 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     Paid
                   </button>
                 )}
-
-                {/* {paymentStatus === "none" ? (
-                  // Disabled Pay Now button
-                  <button className={`${styles.payNowButton} ${styles.disabled}`} disabled>
-                    Pay Now
-                  </button>
-                ) : paymentStatus === "paid" || paymentStatus === "nonCustom" ? (
-                  // Paid button
-                  <button className={`${styles.payNowButton}`} disabled>
-                    Paid
-                  </button>
-                ) : (
-                  // Active Pay Now with redirect
-                  <LinkWithLoader
-                    href={`/BookAservicePage/PaymentDetails?bookingId=${row[0]}`}
-                    className={styles.payNowButton}
-                  >
-                    Pay Now
-                  </LinkWithLoader>
-                )} */}
               </div>
             );
           })}
@@ -150,22 +169,29 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
               ×
             </button>
             <div className={styles.componentRow}>
-              <PaymentDetails /> {/* Your payment form goes here */}
-              <BillingSummary />
-              <div className={wallet.modalFooter}>
-                <button
-                  className={wallet.redeemBtn}
-                  onClick={() => {
-                    // handle final payment submission here
-                    console.log("Pay Now clicked");
-                  }}
-                >
-                  Pay Now
-                </button>
-              </div>
+            <PaymentDetails /> {/* Your payment form goes here */}
+              
+            {/* <div className={wallet.modalFooter}>
+              <button
+                className={wallet.redeemBtn}
+                onClick={() => {
+                  // handle final payment submission here
+                  console.log('Pay Now clicked');
+                }}
+              >
+                Pay Now
+              </button>
+
+            </div> */}
+              <div className={styles.billingCenter}>
+            <BillingSummary/>
             </div>
+            </div>
+           
           </div>
+          
         </div>
+        
       )}
     </div>
   );

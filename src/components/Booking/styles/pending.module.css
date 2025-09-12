@@ -156,13 +156,16 @@
   font-size: 14px;
   cursor: pointer;
 }
-
-
 .payNowButton:disabled {
   background: #ccc;
   border-color: #ccc;
   cursor: not-allowed;
 }
+.billingCenter {
+  display: flex;
+  justify-content: center;
+}
+
 
 /* Responsive adjustments */
 
@@ -234,6 +237,9 @@
   .gridContainerQuotes {
     grid-template-columns: repeat(2, 1fr); /* stack 4 rows */
     row-gap: 0.6rem;
+  }
+  .billingCenter{
+    padding: 10px ;
   }
 }
 
