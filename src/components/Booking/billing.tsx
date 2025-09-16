@@ -3,9 +3,6 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from "./styles/AddBooking/billing.module.css";
 import { useBooking } from "@/context/BookingContext";
-import { redirect } from "next/navigation";
-
-// import { useLocation } from "@/context/Location";
 
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
@@ -13,20 +10,19 @@ type BillingSummaryProps = {
   serviceError?: boolean;
   setServiceError?: (val: boolean) => void;
   selectedService?: string;
+  buttonLabel?: string;
 };
 
 const BillingSummary: React.FC<BillingSummaryProps> = ({
   onApplyDiscount,
   onNext,
   setServiceError,
-  selectedService,
+  buttonLabel = "Next",
 }) => {
-  const { billingData, updateBookingData, validateBooking, formErrors } =
-    useBooking();
+  const { billingData, updateBookingData, validateBooking,submitBookingQuote,createBookingOrder, formErrors } = useBooking();
   const locationListRef = useRef<HTMLDivElement>(null);
-
   const {
-    appointmentFrequency = "Every 2 weeks",
+    appointmentFrequency = "Once",
     appointmentTime,
     appointmentLocation = "Not specified",
     appointmentValue = 0,
@@ -38,13 +34,24 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const [discountInput, setDiscountInput] = useState(discountAmount);
   const [showLocationList, setShowLocationList] = useState(false);
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     if (!validateBooking()) {
       setServiceError?.(true);
       return;
     }
     setServiceError?.(false);
-    onNext?.();
+
+    try {
+      //  call API only when the button label is "Pay Now"
+      if (buttonLabel === "Pay Now") {
+        await createBookingOrder();
+        console.log("Booking quote submitted successfully");
+      }
+
+      onNext?.();  // let parent handle the next popup or step
+    } catch (err: any) {
+      console.error("Booking submission failed:", err.message);
+    }
   };
 
   useEffect(() => {
@@ -171,7 +178,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
       <div className={styles.buttoncontainer}>
         <button onClick={handleNextClick} className={styles.nextbutton}>
-          Next
+          {buttonLabel}
         </button>
       </div>
     </div>

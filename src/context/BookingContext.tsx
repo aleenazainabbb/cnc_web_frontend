@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import React, {createContext, useContext, useState,useEffect, useRef} from "react";
 
 type BillingData = {
   appointmentFrequency: string;
@@ -52,15 +46,12 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
-
   appointedPrice?: number;
   discountAmount?: number;
   subTotal?: number;
   taxAmount?: number;
   totalAmount?: number;
-  // subtotal?: number;
   price?: number;
-
   status?: "pending" | "confirmed" | "cancelled";
   payment?: "card" | "cash";
   appointmentLocation?: string;
@@ -132,7 +123,6 @@ type BookingContextType = {
   >;
 
   validateBooking: () => boolean;
-
   deepCleanings: (type?: string, category?: string, specification?: string) => Promise<any>;
   getMaidPrices: () => Promise<any>;
   getUpholsteryPrices: (type?: string, specification?: string) => Promise<any>;
@@ -143,10 +133,8 @@ type BookingContextType = {
   deepCleaningData: DeepCleaningItem[] | null;
   deepCleaningLoading: boolean;
 };
-
 const BookingContext = createContext<BookingContextType | null>(null);
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-// const apiUrl = 'http://192.168.18.18:3000';
 
 export const BookingProvider = ({
   children,
@@ -155,7 +143,7 @@ export const BookingProvider = ({
 }) => {
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [billingData, setBillingData] = useState<BillingData>({
-    appointmentFrequency: "Every 3 weeks",
+    appointmentFrequency: "Once",
     appointmentTime: new Date().toLocaleString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -220,6 +208,9 @@ export const BookingProvider = ({
       bookingData.service?.trim().toLowerCase() === "cleaning services" &&
       subServiceName === "deep cleaning";
 
+    // const isVehicleCleaning = subServiceName.includes("vehicle cleaning");
+    const isVehicleCleaning = subServiceName === "vehicle cleaning";
+
     const isSpecialCleaning = [
       "windows cleaning",
       "swimming pool cleaning",
@@ -228,11 +219,7 @@ export const BookingProvider = ({
       "vehicle cleaning",
     ].includes(subServiceName);
 
-    const isVehicleCleaning = subServiceName.includes("vehicle cleaning");
-
-    const isUpholsteryCleaning =
-      serviceName === "cleaning services" &&
-      subServiceName === "upholstery cleaning";
+    const isUpholsteryCleaning = serviceName === "cleaning services" && subServiceName === "upholstery cleaning";
 
     // Deep Cleaning - Commercial
     if (isDeepCleaning && bookingData.cleaningCategory === "Commercial") {
@@ -286,12 +273,12 @@ export const BookingProvider = ({
       }
     }
     // Special Cleaning - Upload Media
-    if (
-      isSpecialCleaning &&
-      (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)
-    ) {
-      errors.uploadedMedia = "Please upload at least one image or video";
-    }
+    // if (
+    //   isSpecialCleaning &&
+    //   (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)
+    // ) {
+    //   errors.uploadedMedia = "Please upload at least one image or video";
+    // }
 
     if (
       bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
@@ -339,7 +326,6 @@ export const BookingProvider = ({
     } else {
       console.log("No validation errors found"); // Optional: for debugging
     }
-
     return Object.keys(errors).length === 0;
   };
 
@@ -349,7 +335,6 @@ export const BookingProvider = ({
     console.log("Context updated:", data);
   };
   console.log("🧾 Selection List:", selectionList);
-
   const addSelection = (data: BookingSelection) => {
     setSelectionList((prev) => [...prev, data]);
   };
@@ -400,7 +385,14 @@ export const BookingProvider = ({
 
       formData.append("cleaningCategory", bookingData.cleaningCategory || "");
       formData.append("cleaningType", bookingData.cleaningType || "");
-       formData.append("cncChargesInclVat", billingData.totalAmount.toString());
+
+      // formData.append("totalPrice", billingData.appointmentValue.toString());
+      // formData.append("discountPrice", billingData.discountAmount.toString());
+      // formData.append("cncChargesExclVat", billingData.subTotal.toString());
+      // formData.append("VAT", billingData.taxAmount.toString());
+      // formData.append("promoCode", billingData.discountCode || "");
+      // formData.append("cncChargesInclVat", billingData.totalAmount.toString());
+      formData.append("payment", bookingData.payment || "");
 
       bookingData.uploadedMedia?.forEach((fileObj) => {
         if (fileObj.file instanceof File) {
@@ -410,7 +402,7 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-      // custom api integration
+
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
@@ -440,34 +432,24 @@ export const BookingProvider = ({
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
       formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
-
-      const isMaidOrGeneral =
-        bookingData.subService?.trim().toLowerCase() === "maid services / general services";
+      const isMaidOrGeneral = bookingData.subService?.trim().toLowerCase() === "maid services / general services";
       formData.append("workers", isMaidOrGeneral ? String(bookingData.staffCount ?? 0) : "0");
       formData.append("noHours", isMaidOrGeneral ? String(bookingData.hoursCount ?? 0) : "0");
-
-      formData.append("BookingStatus", bookingData.status || "");
+      // formData.append("BookingStatus", bookingData.status || "");
       formData.append("units", (bookingData.units ?? 0).toString());
-
       formData.append("service", bookingData.service || "");
       formData.append("subSubService", bookingData.subService || "");
       formData.append("category", bookingData.cleaningCategory || "");
       formData.append("location", latestLocation?.fullAddress || "");
       // formData.append("accessInstructions", latestLocation?.access || "");
-
       formData.append("additionalServices", bookingData.residentialCleanType || "");
-      // formData.append("needCleaning", bookingData.cleaningMaterials  || "");
       formData.append("specialInstructions", bookingData.specialInstructions || "");
-
       formData.append("totalPrice", billingData.appointmentValue.toString());
       formData.append("discountPrice", billingData.discountAmount.toString());
-      // formData.append("subTotalPrice", billingData.subTotal.toString());
       formData.append("cncChargesExclVat", billingData.subTotal.toString());
       formData.append("VAT", billingData.taxAmount.toString());
       formData.append("promoCode", billingData.discountCode || "");
-      // formData.append("price", billingData.totalAmount.toString());
       formData.append("cncChargesInclVat", billingData.totalAmount.toString());
-
       formData.append("payment", bookingData.payment || "");
 
       bookingData.uploadedMedia?.forEach((fileObj) => {
@@ -478,6 +460,24 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
+      // ----------------------------------
+      // formData.append("anyPets",latestLocation?.pets === "yes" ? "true" : "false" );
+      // formData.append("petsInfo", latestLocation?.petDetails || "");
+      // formData.append("petsAdditionalNotes",latestLocation?.additionalNotes || "");
+      // formData.append("preferredCleaner", selected?.preferredCleaner || "");
+      // formData.append("cleaningFrequency", bookingData.frequency || "");
+      // // formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      // formData.append("additionalNotes", bookingData.specialInstructions || "");
+      // formData.append("numberOfWindows", bookingData.numberOfWindows || "");
+      // formData.append("squareFeet", bookingData.squareFootage || "");
+      // formData.append("numberOfItems", bookingData.numberOfItems || "");
+      // formData.append("make", bookingData.make || "");
+      // formData.append("model", bookingData.model || "");
+      // formData.append("variant", bookingData.variant || "");
+      // formData.append("cleaningCategory", bookingData.cleaningCategory || "");
+      // formData.append("cleaningType", bookingData.cleaningType || "");
+      // -----------------------------------------
+
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
         headers: {
@@ -541,7 +541,6 @@ export const BookingProvider = ({
       }
 
       const subTotal = Math.max(price - discount, 0);
-
       // Only tax comes from backend
       const taxAmount = result.taxAmount ?? 0;
       const totalAmount = subTotal + taxAmount;
@@ -553,7 +552,6 @@ export const BookingProvider = ({
         taxAmount,
         totalAmount,
       });
-
 
       return {
         success: true,
@@ -600,7 +598,7 @@ export const BookingProvider = ({
         order.bookingId || "-",
         order.service || "-",
         order.subSubService || order.subService || "-",
-        order.cncChargesInclVat !== null && order.cncChargesInclVat !== ""  ? `${Number(order.cncChargesInclVat).toFixed(2)} AED` : "Prices will be listed soon",
+        order.cncChargesInclVat !== null && order.cncChargesInclVat !== "" ? `${Number(order.cncChargesInclVat).toFixed(2)} AED` : "Prices will be listed soon",
         order.time || "-",
         order.date || "-",
         order.BookingStatus || "Completed",
@@ -742,6 +740,7 @@ export const BookingProvider = ({
         validateBooking,
         deepCleaningData,
         deepCleaningLoading,
+        
       }}
     >
       {children}
