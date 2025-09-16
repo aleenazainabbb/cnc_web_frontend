@@ -1,251 +1,382 @@
 "use client";
 
-import React, {
+import {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useState,
   ReactNode,
   useRef,
+  useCallback,
 } from "react";
-import { io, Socket } from "socket.io-client";
-
-// ======================= Types =======================
-export type Message = {
-  id: number;
-  text: string;
-  sender: "me" | "them";
-  time: string;
-  userId: number;
-  isSent: boolean;
-  tempId?: string;
-};
-
-export type ConversationMessage = {
-  id: number;
-  conversationId: number;
-  senderId: number;
-  receiverId: number | null;
-  content: string;
-  direction: "outgoing" | "incoming";
-  createdAt: string;
-};
-
-export type Conversation = {
-  id: number;
-  userId: number;
-  messages: ConversationMessage[];
-};
+import { getSocket } from "@/lib/socket";
+import {
+  getConversations,
+  Conversation,
+  User,
+  Message, // ✅ using updated Message type that includes tempId, isSent, isProcessing, failed
+} from "@/context/service/messageapi";
 
 interface MessageContextType {
-  activeConversationId: number | null;
-  setActiveConversationId: (id: number | null) => void;
-  messageText: string;
-  setMessageText: (text: string) => void;
-  localMessages: Record<number, Message[]>;
-  handleSendMessage: () => void;
-  initializeConversations: () => Promise<void>;
+  conversations: Conversation[];
+  conversationId: number | null;
+  setConversationId: (id: number | null) => void;
+  handleSendMessage: (
+    content: string,
+    messageType?: string,
+    files?: File[]
+  ) => Promise<void>;
+  fetchConversations: () => Promise<void>;
+  currentUser: User | null;
+  isLoading: boolean;
+  retryFailedMessage: (tempId: string) => void;
+  isSending: boolean;
 }
 
-// ======================= Context =======================
-const MessageContext = createContext<MessageContextType | undefined>(undefined);
+const MessageContext = createContext<MessageContextType | null>(null);
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const receivedMessageIds = new Set<string>();
 
-// ✅ Token helper
-const getToken = () =>
-  typeof window !== "undefined" ? localStorage.getItem("token") : null;
+const safeMessageType = (type: string): string =>
+  ["text", "image", "video", "file"].includes(type) ? type : "text";
 
-// ======================= API Calls =======================
-export const fetchConversationsApi = async (): Promise<{
-  conversations: Conversation[];
-}> => {
-  const token = getToken();
-  const res = await fetch(`${BASE_URL}/chat/conversations`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-  });
-  if (!res.ok) throw new Error("Failed to fetch conversations");
-  return res.json();
-};
+export const MessageProvider = ({ children }: { children: ReactNode }) => {
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversationId, setConversationId] = useState<number | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
 
-export const sendMessageApi = async (
-  content: string,
-  conversationId: number
-) => {
-  const token = getToken();
-  const res = await fetch(`${BASE_URL}/chat/send-message`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({ content, conversationId }),
-  });
-  if (!res.ok) throw new Error("Failed to send message");
-  return res.json();
-};
+  const socketRef = useRef<any>(null);
+  const sendingRef = useRef(false);
 
-// ======================= Provider =======================
-export const MessageProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [activeConversationId, setActiveConversationId] = useState<
-    number | null
-  >(null);
-  const [messageText, setMessageText] = useState("");
-  const [localMessages, setLocalMessages] = useState<Record<number, Message[]>>(
-    {}
-  );
-  const socketRef = useRef<Socket | null>(null);
-  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const hasInitialized = useRef(false);
-  const userId = 1; // Replace with actual user ID
-
-  // ======================= Initialize Conversations =======================
-  const initializeConversations = async () => {
-    if (hasInitialized.current) return;
-    try {
-      const res = await fetchConversationsApi();
-      const messages: Record<number, Message[]> = {};
-      res.conversations.forEach((conv) => {
-        messages[conv.id] = conv.messages.map((m) => ({
-          id: m.id,
-          text: m.content,
-          sender: (m.direction === "outgoing" ? "me" : "them") as "me" | "them",
-          time: new Date(m.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          userId: m.senderId,
-          isSent: true,
-        }));
-      });
-      setLocalMessages(messages);
-      if (res.conversations.length > 0)
-        setActiveConversationId(res.conversations[0].id);
-      hasInitialized.current = true;
-    } catch (err) {
-      console.error("Failed to initialize conversations:", err);
-    }
-  };
-
-  // ======================= Handle Sending Message =======================
-  const handleSendMessage = () => {
-    if (!messageText.trim() || !activeConversationId || !socketRef.current)
-      return;
-
-    const tempId = `temp-${Date.now()}`;
-    const tempMessage: Message = {
-      id: 0,
-      text: messageText,
-      sender: "me",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      userId: activeConversationId,
-      isSent: false,
-      tempId,
-    };
-
-    setLocalMessages((prev) => ({
-      ...prev,
-      [activeConversationId]: [
-        ...(prev[activeConversationId] || []),
-        tempMessage,
-      ],
-    }));
-
-    setMessageText("");
-
-    // Emit via socket
-    socketRef.current.emit("sendMessage", {
-      conversationId: activeConversationId,
-      senderId: userId,
-      content: messageText,
-      tempId,
-    });
-
-    // Persist via API
-    sendMessageApi(messageText, activeConversationId)
-      .then((msg: ConversationMessage) => {
-        setLocalMessages((prev) => ({
-          ...prev,
-          [activeConversationId]: prev[activeConversationId].map((m) =>
-            m.tempId === tempId
-              ? { ...m, id: msg.id, isSent: true, tempId: undefined }
-              : m
-          ),
-        }));
-      })
-      .catch(console.error);
-  };
-
-  // ======================= Receive Message =======================
-  const onReceiveMessage = (message: ConversationMessage) => {
-    const newMessage: Message = {
-      id: message.id,
-      text: message.content,
-      sender: (message.direction === "outgoing" ? "me" : "them") as
-        | "me"
-        | "them",
-      time: new Date(message.createdAt).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      userId: message.senderId,
-      isSent: true,
-    };
-
-    setLocalMessages((prev) => ({
-      ...prev,
-      [message.conversationId]: [
-        ...(prev[message.conversationId] || []),
-        newMessage,
-      ],
-    }));
-  };
-
-  // ======================= Socket + Polling =======================
+  // ✅ Setup socket
   useEffect(() => {
-    const token = getToken();
-    if (!token) return;
+    let active = true;
+    const setupSocket = async () => {
+      try {
+        const s = await getSocket();
+        if (!active) return;
+        socketRef.current = s;
 
-    const socket = io(BASE_URL, { auth: { token }, transports: ["websocket"] });
-    socketRef.current = socket;
+        console.log("[Socket] Connected & listeners setup");
 
-    socket.on("connect", () => {
-      console.log("✅ Socket connected:", socket.id);
-      socket.emit("joinUserRoom", userId);
-    });
+        s.removeAllListeners();
 
-    socket.on("newMessage", onReceiveMessage);
+        s.on("newMessage", (msg: any) => {
+          console.log("[Socket:newMessage] Received:", msg);
 
-    // Polling fallback if socket fails
-    pollingRef.current = setInterval(() => {
-      initializeConversations();
-    }, 5000);
+          const safeMsg: Message = {
+            ...msg,
+            messageType: safeMessageType(msg.messageType || "text"),
+            isSent: true,
+            isProcessing: false,
+            failed: false,
+          };
 
-    return () => {
-      socket.disconnect();
-      if (pollingRef.current) clearInterval(pollingRef.current);
+          setConversations((prev) =>
+            prev.map((conv) => {
+              if (conv.id !== safeMsg.conversationId) return conv;
+
+              // 1️⃣ If tempId matches → replace optimistic
+              const hasTemp = conv.messages?.some(
+                (m) => m.tempId && safeMsg.tempId && m.tempId === safeMsg.tempId
+              );
+
+              if (hasTemp) {
+                console.log("[Socket:newMessage] Replacing by tempId");
+                return {
+                  ...conv,
+                  messages: conv.messages.map((m) =>
+                    m.tempId === safeMsg.tempId ? safeMsg : m
+                  ),
+                  lastMessageAt: new Date().toISOString(),
+                };
+              }
+
+              // 2️⃣ If server didn’t send tempId → match by (senderId + content + createdAt)
+              const optimisticMatch = conv.messages?.find(
+                (m) =>
+                  m.tempId && // must be optimistic
+                  m.senderId === safeMsg.senderId &&
+                  m.content === safeMsg.content &&
+                  Math.abs(
+                    new Date(m.createdAt).getTime() -
+                      new Date(safeMsg.createdAt).getTime()
+                  ) < 5000 // within 5s
+              );
+
+              if (optimisticMatch) {
+                console.log(
+                  "[Socket:newMessage] Replacing by optimistic fallback"
+                );
+                return {
+                  ...conv,
+                  messages: conv.messages.map((m) =>
+                    m.tempId === optimisticMatch.tempId ? safeMsg : m
+                  ),
+                  lastMessageAt: new Date().toISOString(),
+                };
+              }
+
+              // 3️⃣ Skip if already exists by real ID
+              const alreadyExists = conv.messages?.some(
+                (m) => m.id === safeMsg.id
+              );
+              if (alreadyExists) {
+                console.log(
+                  "[Socket:newMessage] Skipped duplicate:",
+                  safeMsg.id
+                );
+                return conv;
+              }
+
+              // 4️⃣ Otherwise → append new incoming
+              console.log(
+                "[Socket:newMessage] Appending new incoming",
+                safeMsg
+              );
+              return {
+                ...conv,
+                messages: [...(conv.messages || []), safeMsg],
+                lastMessageAt: new Date().toISOString(),
+              };
+            })
+          );
+        });
+
+        // 🔹 Confirmation for sent messages
+        s.on(
+          "messageSent",
+          (data: {
+            messageId: number;
+            tempId?: string;
+            conversationId: number;
+          }) => {
+            console.log("[Socket:messageSent] Confirmation:", data);
+
+            setIsSending(false);
+            sendingRef.current = false;
+
+            setConversations((prev) =>
+              prev.map((conv) =>
+                conv.id === data.conversationId
+                  ? {
+                      ...conv,
+                      messages: (conv.messages || []).map((m) =>
+                        m.tempId === data.tempId
+                          ? {
+                              ...m,
+                              id: data.messageId,
+                              isSent: true,
+                              isProcessing: false,
+                              failed: false,
+                            }
+                          : m
+                      ),
+                    }
+                  : conv
+              )
+            );
+          }
+        );
+
+        // 🔹 Error while sending
+        s.on("messageError", (data: { error: string; tempId?: string }) => {
+          console.error("[Socket:messageError] Error:", data);
+
+          setIsSending(false);
+          sendingRef.current = false;
+
+          if (data.tempId) {
+            setConversations((prev) =>
+              prev.map((conv) => ({
+                ...conv,
+                messages: (conv.messages || []).map((m) =>
+                  m.tempId === data.tempId
+                    ? { ...m, isSent: false, failed: true, isProcessing: false }
+                    : m
+                ),
+              }))
+            );
+          }
+        });
+
+        if (conversationId) {
+          console.log("[Socket] Joining conversation", conversationId);
+          s.emit("joinConversation", conversationId);
+        }
+        if (currentUser) {
+          console.log("[Socket] Joining user room", currentUser.id);
+          s.emit("joinUserRoom", currentUser.id);
+        }
+      } catch (err) {
+        console.error("[Socket] Setup error:", err);
+      }
     };
+
+    setupSocket();
+    return () => {
+      active = false;
+      console.log("[Socket] Cleanup listeners");
+      socketRef.current?.removeAllListeners();
+    };
+  }, [conversationId, currentUser]);
+
+  // ✅ Send message
+  const handleSendMessage = useCallback(
+    async (
+      content: string,
+      messageType: string = "text",
+      files: File[] = []
+    ) => {
+      if (!conversationId || !currentUser || sendingRef.current) {
+        console.warn("[SendMessage] Blocked: missing data or already sending");
+        return;
+      }
+
+      setIsSending(true);
+      sendingRef.current = true;
+
+      const tempId = `temp-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2)}`;
+
+      // const newMsg: Message = {
+      //   id: 0,
+      //   tempId,
+      //   conversationId,
+      //   senderId: currentUser.id,
+      //   receiverId: null,
+      //   content,
+      //   // docs: files.filter((f) => f.type.includes("application")),
+      //   // images: files.filter((f) => f.type.includes("image")),
+      //   // videos: files.filter((f) => f.type.includes("video")),
+      //   direction: "outgoing",
+      //   read: false,
+      //   messageType: safeMessageType(messageType),
+      //   createdAt: new Date().toISOString(),
+      //   updatedAt: new Date().toISOString(),
+      //   isSent: false,
+      //   isProcessing: true,
+      //   failed: false,
+      //   sender: currentUser,
+      //   receiver: null,
+      // };
+
+      // console.log("[SendMessage] Optimistic message:", newMsg);
+
+      // setConversations((prev) =>
+      //   prev.map((conv) =>
+      //     conv.id === conversationId
+      //       ? { ...conv, messages: [...(conv.messages || []), newMsg] }
+      //       : conv
+      //   )
+      // );
+
+      try {
+        console.log("[SendMessage] Emitting to server:", {
+          conversationId,
+          senderId: currentUser.id,
+          content,
+          messageType,
+          tempId,
+        });
+        socketRef.current?.emit("sendMessage", {
+          conversationId,
+          senderId: currentUser.id,
+          content,
+          messageType,
+          tempId,
+        });
+      } catch (error) {
+        setIsSending(false);
+        sendingRef.current = false;
+        console.error("[SendMessage] Failed:", error);
+      }
+    },
+    [conversationId, currentUser]
+  );
+
+  // ✅ Retry failed
+  const retryFailedMessage = useCallback(
+    (tempId: string) => {
+      console.log("[Retry] Attempting retry for tempId:", tempId);
+
+      if (sendingRef.current) {
+        console.warn("[Retry] Blocked, already sending");
+        return;
+      }
+
+      const conv = conversations.find((c) =>
+        c.messages?.some((m) => m.tempId === tempId && m.failed)
+      );
+      if (!conv) {
+        console.warn("[Retry] No conversation found for tempId", tempId);
+        return;
+      }
+
+      const failedMsg = conv.messages?.find((m) => m.tempId === tempId);
+      if (!failedMsg) {
+        console.warn("[Retry] No failed message found for tempId", tempId);
+        return;
+      }
+
+      setIsSending(true);
+      sendingRef.current = true;
+
+      console.log("[Retry] Re-emitting failed message:", failedMsg);
+
+      socketRef.current?.emit("sendMessage", {
+        conversationId: failedMsg.conversationId,
+        senderId: failedMsg.senderId,
+        content: failedMsg.content,
+        messageType: failedMsg.messageType,
+        tempId: failedMsg.tempId,
+      });
+    },
+    [conversations]
+  );
+
+  // ✅ Fetch initial conversations
+  const fetchConversations = useCallback(async () => {
+    setIsLoading(true);
+    console.log("[FetchConversations] Fetching...");
+    try {
+      const response = await getConversations();
+      console.log("[FetchConversations] Response:", response);
+      setConversations(response.conversations);
+
+      if (response.conversations[0]?.user) {
+        console.log(
+          "[FetchConversations] Setting current user:",
+          response.conversations[0].user
+        );
+        setCurrentUser(response.conversations[0].user);
+      }
+    } catch (err) {
+      console.error("[FetchConversations] Failed:", err);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchConversations();
+  }, [fetchConversations]);
 
   return (
     <MessageContext.Provider
       value={{
-        activeConversationId,
-        setActiveConversationId,
-        messageText,
-        setMessageText,
-        localMessages,
+        conversations,
+        conversationId,
+        setConversationId,
         handleSendMessage,
-        initializeConversations,
+        fetchConversations,
+        currentUser,
+        isLoading,
+        retryFailedMessage,
+        isSending,
       }}
     >
       {children}
@@ -253,10 +384,8 @@ export const MessageProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// ======================= Hook =======================
 export const useMessage = () => {
-  const context = useContext(MessageContext);
-  if (!context)
-    throw new Error("useMessage must be used within a MessageProvider");
-  return context;
+  const ctx = useContext(MessageContext);
+  if (!ctx) throw new Error("useMessage must be used inside MessageProvider");
+  return ctx;
 };

@@ -1,387 +1,498 @@
-// "use client";
-
-// import React, { useEffect, useRef } from "react";
-// import { useMessage, Message } from "@/context/MessageContext"; // import Message from context
-// import styles from "../Booking/styles/message.module.css";
-
-// const ChatApp: React.FC = () => {
-//   const {
-//     activeConversationId,
-//     setActiveConversationId,
-//     messageText,
-//     setMessageText,
-//     localMessages,
-//     handleSendMessage,
-//     initializeConversations,
-//   } = useMessage();
-
-//   const messagesEndRef = useRef<HTMLDivElement>(null);
-//   const POLLING_INTERVAL = 5000;
-//   const pollingRef = useRef<number | null>(null);
-
-//   const ADMIN_CONVERSATION_ID = 0;
-
-//   useEffect(() => {
-//     initializeConversations();
-//     if (!localMessages[ADMIN_CONVERSATION_ID]) {
-//       setActiveConversationId(ADMIN_CONVERSATION_ID);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [localMessages, activeConversationId]);
-
-//   useEffect(() => {
-//     let socketActive = false;
-
-//     const pollMessages = async () => {
-//       try {
-//         const res = await fetch(
-//           `${process.env.NEXT_PUBLIC_API_URL}/chat/conversations`
-//         );
-//         const data = await res.json();
-//         if (data.conversations) {
-//           data.conversations.forEach((conv: any) => {
-//             const existingIds =
-//               localMessages[conv.id]?.map((m: Message) => m.id) || [];
-//             const newMessages = conv.messages.filter(
-//               (m: any) => !existingIds.includes(m.id)
-//             );
-
-//             newMessages.forEach((m: any) => {
-//               const formatted: Message = {
-//                 id: m.id ?? Date.now(), // always a number
-//                 text: m.content,
-//                 sender: m.direction === "outgoing" ? "me" : "them",
-//                 time: new Date(m.createdAt).toLocaleTimeString([], {
-//                   hour: "2-digit",
-//                   minute: "2-digit",
-//                 }),
-//                 userId: m.senderId,
-//                 isSent: true,
-//               };
-//               localMessages[conv.id]
-//                 ? localMessages[conv.id].push(formatted)
-//                 : (localMessages[conv.id] = [formatted]);
-//             });
-//           });
-//         }
-//       } catch (err) {
-//         console.error("Polling failed:", err);
-//       }
-//     };
-
-//     try {
-//       const socket = (window as any).socket;
-//       if (socket) {
-//         socketActive = true;
-//         socket.on("newMessage", (msg: any) => {
-//           const formatted: Message = {
-//             id: msg.id ?? Date.now(),
-//             text: msg.content,
-//             sender: msg.direction === "outgoing" ? "me" : "them",
-//             time: new Date(msg.createdAt).toLocaleTimeString([], {
-//               hour: "2-digit",
-//               minute: "2-digit",
-//             }),
-//             userId: msg.senderId,
-//             isSent: true,
-//           };
-//           localMessages[msg.conversationId]
-//             ? localMessages[msg.conversationId].push(formatted)
-//             : (localMessages[msg.conversationId] = [formatted]);
-//         });
-//       }
-//     } catch {
-//       socketActive = false;
-//     }
-
-//     if (!socketActive) {
-//       pollingRef.current = window.setInterval(pollMessages, POLLING_INTERVAL);
-//     }
-
-//     return () => {
-//       if (pollingRef.current) clearInterval(pollingRef.current);
-//     };
-//   }, [localMessages]);
-
-//   const conversations = [
-//     { id: ADMIN_CONVERSATION_ID, name: "Support Admin" },
-//     ...Object.keys(localMessages)
-//       .filter((id) => parseInt(id) !== ADMIN_CONVERSATION_ID)
-//       .map((id) => ({ id: parseInt(id), name: `Conversation ${id}` })),
-//   ];
-
-//   const activeMessages = activeConversationId
-//     ? localMessages[activeConversationId] || []
-//     : [];
-
-//   return (
-//     <div className={styles.chatContainer}>
-//       <div className={styles.sidebar}>
-//         <h2 className={styles.sidebarTitle}>Conversations</h2>
-//         {conversations.map((conv) => {
-//           const lastMsg =
-//             conv.id === ADMIN_CONVERSATION_ID
-//               ? activeMessages[activeMessages.length - 1]
-//               : localMessages[conv.id]?.[localMessages[conv.id].length - 1];
-//           return (
-//             <div
-//               key={conv.id}
-//               className={`${styles.conversationItem} ${
-//                 activeConversationId === conv.id
-//                   ? styles.activeConversation
-//                   : ""
-//               }`}
-//               onClick={() => setActiveConversationId(conv.id)}
-//             >
-//               <p className={styles.conversationTitle}>{conv.name}</p>
-//               {lastMsg && (
-//                 <p className={styles.conversationLastMsg}>{lastMsg.text}</p>
-//               )}
-//             </div>
-//           );
-//         })}
-//       </div>
-
-//       <div className={styles.chatBox}>
-//         <div className={styles.messagesContainer}>
-//           {!activeConversationId && (
-//             <p className={styles.noConversationSelected}>
-//               Select a conversation to start chatting
-//             </p>
-//           )}
-
-//           {activeMessages.map((msg, index) => (
-//             <div
-//               key={msg.id ?? `${msg.userId}-${index}`}
-//               className={`${styles.messageWrapper} ${
-//                 msg.sender === "me" ? styles.messageRight : styles.messageLeft
-//               }`}
-//             >
-//               <div
-//                 className={`${styles.messageBubble} ${
-//                   msg.sender === "me" ? styles.bubbleMe : styles.bubbleThem
-//                 }`}
-//               >
-//                 {msg.text}
-//                 <div className={styles.messageTime}>{msg.time}</div>
-//               </div>
-//             </div>
-//           ))}
-//           <div ref={messagesEndRef} />
-//         </div>
-
-//         {activeConversationId !== null && (
-//           <div className={styles.inputContainer}>
-//             <input
-//               type="text"
-//               value={messageText}
-//               onChange={(e) => setMessageText(e.target.value)}
-//               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-//               placeholder="Type a message..."
-//               className={styles.messageInput}
-//             />
-//             <button onClick={handleSendMessage} className={styles.sendButton}>
-//               Send
-//             </button>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ChatApp;
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { getSocket } from "./../../lib/socket";
-
-// export default function Chat() {
-//   const [messages, setMessages] = useState<string[]>([]);
-//   const [socketConnected, setSocketConnected] = useState(false);
-
-//   useEffect(() => {
-//     const socket = getSocket();
-
-//     socket.on("connect", () => {
-//       console.log("Socket connected");
-//       setSocketConnected(true);
-//     });
-
-//     socket.on("message", (msg: string) => {
-//       setMessages((prev) => [...prev, msg]);
-//     });
-
-//     return () => {
-//       socket.disconnect();
-//     };
-//   }, []);
-
-//   const sendMessage = () => {
-//     const socket = getSocket();
-//     socket.emit("message", "Hello from client (TS)!");
-//   };
-
-//   return (
-//     <div>
-//       <h2>Chat (TypeScript)</h2>
-//       <button onClick={sendMessage} disabled={!socketConnected}>
-//         Send Message
-//       </button>
-//       <ul>
-//         {messages.map((msg, idx) => (
-//           <li key={idx}>{msg}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { getSocket } from "../../lib/socket";
-
-// export default function Chat() {
-//   const [messages, setMessages] = useState<string[]>([]);
-//   const [socketConnected, setSocketConnected] = useState(false);
-//   const [input, setInput] = useState(""); // state to track input field
-
-//   useEffect(() => {
-//     const socket = getSocket();
-
-//     socket.on("connect", () => {
-//       console.log("Socket connected");
-//       setSocketConnected(true);
-//     });
-
-//     socket.on("message", (msg: string) => {
-//       setMessages((prev) => [...prev, msg]);
-//     });
-
-//     return () => {
-//       socket.disconnect();
-//     };
-//   }, []);
-
-//   const sendMessage = () => {
-//     const trimmed = input.trim();
-//     if (!trimmed) return;
-
-//     const socket = getSocket();
-//     socket.emit("message", trimmed);
-
-//     setInput(""); // clear input after sending
-//   };
-
-//   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (e.key === "Enter") {
-//       sendMessage();
-//     }
-//   };
-
-//   return (
-//     <div style={{ padding: "1rem", maxWidth: "600px", margin: "0 auto" }}>
-//       <h2>Chat </h2>
-
-//       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-//         <input
-//           type="text"
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           onKeyDown={handleKeyPress}
-//           placeholder="Type your message..."
-//           disabled={!socketConnected}
-//           style={{ flex: 1, padding: "0.5rem" }}
-//         />
-//         <button
-//           onClick={sendMessage}
-//           disabled={!socketConnected || !input.trim()}
-//         >
-//           Send
-//         </button>
-//       </div>
-
-//       <ul>
-//         {messages.map((msg, idx) => (
-//           <li key={idx} style={{ marginBottom: "0.5rem" }}>
-//             {msg}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
 "use client";
+import React, { useState, useRef, useEffect } from "react";
+import { useMessage } from "@/context/MessageContext";
+import styles from "../Booking/styles/message.module.css";
+import { OptimisticMessage } from "@/context/service/messageapi";
 
-import { useEffect, useState } from "react";
-import { getSocket } from "@/lib/socket"; // adjust path if needed
+// ✅ Deduplication cache
+const receivedMessageIds = new Set<string | number>();
 
-export default function Chat() {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [input, setInput] = useState("");
-  const [isConnected, setIsConnected] = useState(false);
+const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
+  message,
+}) => {
+  const isOutgoing = message.direction === "outgoing";
+  const isFailed = !message.isSent;
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
-    const socket = getSocket();
+  const images = Array.isArray(message.images) ? message.images : [];
+  const videos = Array.isArray(message.videos) ? message.videos : [];
+  const docs = Array.isArray(message.docs) ? message.docs : [];
 
-    socket.on("connect", () => {
-      setIsConnected(true);
-    });
+  const renderMessageContent = () => {
+    const content = message.content || "";
+    const trimmedContent = content.trim();
 
-    socket.on("message", (msg: string) => {
-      console.log("📨 Message received:", msg);
-      setMessages((prev) => [...prev, msg]);
-    });
+    switch (message.messageType) {
+      case "image":
+        if (images.length === 0) {
+          return (
+            <div className={styles.imageMessage}>🖼️ Image not available</div>
+          );
+        }
+        return (
+          <div className={styles.imageMessage}>
+            {images.map((image: any, index: number) => {
+              const imageUrl =
+                typeof image === "string"
+                  ? `${BASE_URL}${image}`
+                  : image?.url || URL.createObjectURL(image);
 
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
+              return (
+                <div key={index} className={styles.imageWrapper}>
+                  <img
+                    src={imageUrl}
+                    alt="Sent image"
+                    className={styles.messageImage}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = "none";
+                      const placeholder = target.nextSibling as HTMLElement;
+                      if (placeholder) placeholder.style.display = "block";
+                    }}
+                  />
+                  <div
+                    className={styles.messageImagePlaceholder}
+                    style={{ display: "none" }}
+                  >
+                    🖼️ Image not available
+                  </div>
+                </div>
+              );
+            })}
+            {trimmedContent && <p className={styles.imageCaption}>{content}</p>}
+          </div>
+        );
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      case "video":
+        if (videos.length === 0) {
+          return (
+            <div className={styles.videoMessage}>🎥 Video not available</div>
+          );
+        }
+        return (
+          <div className={styles.videoMessage}>
+            {videos.map((video: any, index: number) => {
+              const videoUrl =
+                typeof video === "string"
+                  ? `${BASE_URL}${video}`
+                  : video?.url || URL.createObjectURL(video);
 
-  const sendMessage = () => {
-    const trimmed = input.trim();
-    if (!trimmed) return;
+              return (
+                <video key={index} controls className={styles.messageVideo}>
+                  <source src={videoUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              );
+            })}
+            {trimmedContent && <p className={styles.videoCaption}>{content}</p>}
+          </div>
+        );
 
-    const socket = getSocket();
-    socket.emit("message", trimmed);
-    setInput("");
+      case "file":
+        if (docs.length === 0) {
+          return (
+            <div className={styles.fileMessage}>
+              <div className={styles.fileIcon}>📄</div>
+              <span className={styles.fileName}>File not available</span>
+            </div>
+          );
+        }
+        return (
+          <div className={styles.fileMessage}>
+            {docs.map((doc: any, index: number) => {
+              const docUrl =
+                typeof doc === "string"
+                  ? `${BASE_URL}${doc}`
+                  : doc?.url || URL.createObjectURL(doc);
+              const fileName =
+                typeof doc === "string"
+                  ? doc.split("/").pop() || "Document"
+                  : doc?.name || doc?.filename || "Document";
+
+              return (
+                <div key={index} className={styles.fileItem}>
+                  <div className={styles.fileIcon}>📄</div>
+                  <div className={styles.fileInfo}>
+                    <span className={styles.fileName}>{fileName}</span>
+                    <a
+                      href={docUrl}
+                      download={fileName}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.fileDownloadLink}
+                    >
+                      Download
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+            {trimmedContent && <p className={styles.fileCaption}>{content}</p>}
+          </div>
+        );
+
+      default:
+        return (
+          <div className={styles.messageContent}>
+            {trimmedContent || "Empty message"}
+          </div>
+        );
+    }
   };
 
   return (
-    <div style={{ padding: "1rem", maxWidth: "600px", margin: "0 auto" }}>
-      <h2>Chat</h2>
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Type a message..."
-          disabled={!isConnected}
-          style={{ flex: 1, padding: "0.5rem" }}
-        />
-        <button onClick={sendMessage} disabled={!isConnected || !input.trim()}>
-          Send
-        </button>
+    <div
+      className={`${styles.messageWrapper} ${
+        isOutgoing ? styles.messageRight : styles.messageLeft
+      } ${isFailed ? styles.messageFailed : ""}`}
+    >
+      <div
+        className={`${styles.messageBubble} ${
+          isOutgoing ? styles.bubbleMe : styles.bubbleThem
+        }`}
+      >
+        {renderMessageContent()}
+        <div className={styles.messageMeta}>
+          <span className={styles.messageTime}>
+            {message.createdAt
+              ? new Date(message.createdAt).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "Sending..."}
+          </span>
+          {isOutgoing && (
+            <span className={styles.messageStatus}>
+              {isFailed ? (
+                <span className={styles.error}>X</span>
+              ) : message.read ? (
+                <span className={styles.readIcon}>✓✓</span>
+              ) : (
+                <span className={styles.sentIcon}>✓</span>
+              )}
+            </span>
+          )}
+        </div>
       </div>
-
-      <ul>
-        {messages.map((msg, idx) => (
-          <li key={idx} style={{ marginBottom: "0.5rem" }}>
-            {msg}
-          </li>
-        ))}
-      </ul>
     </div>
   );
-}
+};
+
+// ----------------------------------------------------------------
+
+const MessageBox: React.FC = () => {
+  const {
+    conversations,
+    conversationId,
+    setConversationId,
+    handleSendMessage,
+    isLoading,
+  } = useMessage();
+  const [messageText, setMessageText] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isSending, setIsSending] = useState(false);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const activeConversation = conversations.find((c) => c.id === conversationId);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [activeConversation?.messages]);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setSelectedFiles(Array.from(e.target.files));
+  };
+
+  const removeFile = (index: number) =>
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+
+  const handleSend = async () => {
+    if (isSending || isLoading || !conversationId) return;
+    if (!messageText.trim() && selectedFiles.length === 0) return;
+
+    setIsSending(true);
+
+    let messageType: "text" | "image" | "video" | "file" = "text";
+    if (selectedFiles.length > 0) {
+      if (selectedFiles.some((f) => f.type.includes("image")))
+        messageType = "image";
+      else if (selectedFiles.some((f) => f.type.includes("video")))
+        messageType = "video";
+      else messageType = "file";
+    }
+
+    try {
+      await handleSendMessage(messageText.trim(), messageType, selectedFiles);
+      setMessageText("");
+      setSelectedFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (err) {
+      console.error("Failed to send message:", err);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const isSendDisabled =
+    (!messageText.trim() && selectedFiles.length === 0) ||
+    isLoading ||
+    isSending ||
+    !conversationId;
+
+  const getMessageKey = (message: OptimisticMessage, index: number) => {
+    if (message.id) return `msg-${message.id}-${index}`;
+    if (message.tempId) return `temp-${message.tempId}-${index}`;
+    if (message.createdAt) return `time-${message.createdAt}-${index}`;
+    return `fallback-${Date.now()}-${Math.random()
+      .toString(36)
+      .substr(2, 9)}-${index}`;
+  };
+
+  return (
+    <div className={styles.chatContainer}>
+      {/* Mobile sidebar toggle */}
+      <button
+        className={styles.sidebarToggle}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? "✕" : "☰"}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`${styles.sidebar} ${
+          isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
+        }`}
+      >
+        <div className={styles.sidebarHeader}>
+          <h2 className={styles.sidebarTitle}>Conversations</h2>
+          <button className={styles.newChatButton}>+ New Chat</button>
+        </div>
+        <div className={styles.conversationList}>
+          {isLoading ? (
+            <div className={styles.loading}>
+              <div className={styles.spinner}></div>
+              Loading conversations...
+            </div>
+          ) : conversations.length === 0 ? (
+            <div className={styles.noConversations}>
+              <div className={styles.noConversationsIcon}>💬</div>
+              <p>No conversations yet</p>
+              <p>Start a new conversation to get started</p>
+            </div>
+          ) : (
+            conversations.map((conversation) => (
+              <div
+                key={conversation.id}
+                className={`${styles.conversationItem} ${
+                  conversationId === conversation.id
+                    ? styles.activeConversation
+                    : ""
+                }`}
+                onClick={() => {
+                  setConversationId(conversation.id);
+                  if (window.innerWidth < 768) setIsSidebarOpen(false);
+                }}
+              >
+                <div className={styles.conversationAvatar}>
+                  {conversation.user
+                    ? `${conversation.user.firstName?.charAt(
+                        0
+                      )}${conversation.user.lastName?.charAt(0)}`
+                    : "A"}
+                </div>
+                <div className={styles.conversationContent}>
+                  <div className={styles.conversationHeader}>
+                    <span className={styles.conversationName}>
+                      {conversation.user
+                        ? `${conversation.user.firstName} ${conversation.user.lastName}`
+                        : "Admin Support"}
+                    </span>
+                    <span className={styles.lastMessageTime}>
+                      {conversation.lastMessageAt
+                        ? new Date(
+                            conversation.lastMessageAt
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : ""}
+                    </span>
+                  </div>
+                  {conversation.messages?.[0] && (
+                    <p className={styles.lastMessagePreview}>
+                      {conversation.messages[0].content ||
+                        (conversation.messages[0].images?.length
+                          ? "🖼️ Image"
+                          : conversation.messages[0].videos?.length
+                          ? "🎥 Video"
+                          : conversation.messages[0].docs?.length
+                          ? "📄 File"
+                          : "Empty message")}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Chat Window */}
+      <div className={styles.chatMain}>
+        {conversationId ? (
+          <>
+            {/* Header */}
+            <div className={styles.chatHeader}>
+              <div className={styles.chatHeaderInfo}>
+                <div className={styles.chatAvatar}>
+                  {activeConversation?.user
+                    ? `${activeConversation.user.firstName?.charAt(
+                        0
+                      )}${activeConversation.user.lastName?.charAt(0)}`
+                    : "A"}
+                </div>
+                <div>
+                  <h3>
+                    {activeConversation?.user
+                      ? `${activeConversation.user.firstName} ${activeConversation.user.lastName}`
+                      : "Admin Support"}
+                  </h3>
+                  <span className={styles.chatStatus}>
+                    {activeConversation?.status || "Online"}
+                  </span>
+                </div>
+              </div>
+              <div className={styles.chatActions}>
+                <button className={styles.headerButton}>
+                  <span className={styles.icon}>📞</span>
+                </button>
+                <button className={styles.headerButton}>
+                  <span className={styles.icon}>🎥</span>
+                </button>
+                <button className={styles.headerButton}>
+                  <span className={styles.icon}>⋮</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div
+              className={styles.messagesContainer}
+              ref={messagesContainerRef}
+            >
+              {activeConversation?.messages?.length ? (
+                activeConversation.messages.map((message, index) => (
+                  <MessageBubble
+                    key={getMessageKey(message, index)}
+                    message={message}
+                  />
+                ))
+              ) : (
+                <div className={styles.noMessages}>
+                  <div className={styles.noMessagesIcon}>💬</div>
+                  <p>No messages yet</p>
+                  <p>Start the conversation by sending a message</p>
+                </div>
+              )}
+              
+            </div>
+
+            {/* Selected files preview */}
+            {selectedFiles.length > 0 && (
+              <div className={styles.filePreview}>
+                {selectedFiles.map((file, index) => (
+                  <div key={index} className={styles.fileItem}>
+                    <div className={styles.fileIcon}>
+                      {file.type.includes("image")
+                        ? "🖼️"
+                        : file.type.includes("video")
+                        ? "🎥"
+                        : "📄"}
+                    </div>
+                    <span className={styles.fileName}>{file.name}</span>
+                    <button
+                      className={styles.removeFileButton}
+                      onClick={() => removeFile(index)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Input */}
+            <div className={styles.inputContainer}>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className={styles.fileButton}
+                aria-label="Attach files"
+                disabled={isSending || isLoading}
+              >
+                <span className={styles.icon}>📎</span>
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileSelect}
+                multiple
+                className={styles.fileInput}
+                accept="image/*,video/*,application/*"
+                disabled={isSending || isLoading}
+              />
+
+              <div className={styles.messageInputWrapper}>
+                <input
+                  type="text"
+                  value={messageText}
+                  onChange={(e) => setMessageText(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Type a message..."
+                  className={styles.messageInput}
+                  disabled={isLoading || isSending}
+                />
+              </div>
+
+              <button
+                onClick={handleSend}
+                className={styles.sendButton}
+                disabled={isSendDisabled}
+                aria-label="Send message"
+              >
+                {isSending ? (
+                  <span className={styles.sendSpinner}></span>
+                ) : (
+                  <span className={styles.sendIcon}>➤</span>
+                )}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className={styles.noConversationSelected}>
+            <div className={styles.welcomeIllustration}>💬</div>
+            <h2>Welcome to Messages</h2>
+            <p>Select a conversation or start a new one to begin chatting</p>
+            <button className={styles.startChatButton}>
+              Start a conversation
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MessageBox;
