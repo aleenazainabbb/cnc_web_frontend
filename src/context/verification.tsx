@@ -25,7 +25,7 @@ export const VerificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Invalid verification code.');
+        throw new Error(data.error || data.message || 'Verification failed');
       }
 
       console.log('Verification successful:', data);

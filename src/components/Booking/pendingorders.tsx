@@ -9,11 +9,19 @@ import wallet from './styles/mywallet.module.css';
 import PaymentDetails from '@/components/Booking/PaymentDetails';
 import BillingSummary from '@/components/Booking/billing';
 import { useBooking } from "@/context/BookingContext";
+import BookingConfirmation from '@/components/Booking/bookingConfirmation';
 
 interface PendingProps {
   range: Range[];
   data: string[][];
 }
+
+export type UploadedMediaItem = {
+  name: string;
+  url: string;
+  type: string;
+};
+
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const headers = [
@@ -27,7 +35,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
     "PAY NOW",
   ];
   const allRows = data;
-
+  const [showConfirm, setShowConfirm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [showModal, setShowModal] = useState(false);
@@ -39,59 +47,76 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[5]); // DATE is at index 5
-        const start = range[0].startDate!;
-        const end = range[0].endDate!;
-        return date >= start && date <= end;
-      })
+      const date = new Date(row[5]);
+      const start = range[0].startDate!;
+      const end = range[0].endDate!;
+      return date >= start && date <= end;
+    })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
-  const { updateBookingData, updateBillingData } = useBooking(); 
- const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
-
+  const { updateBookingData, updateBillingData, allOrdersObject, submitBookingQuote, addSelection, updateLatestLocation } = useBooking();
+  const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);
   };
   const handlePayNow = (row: string[]) => {
-  const [
-    // orderId,
-    service,
-    subService,
-    price,
-    time,
-    date,
-    status,
-    paymentStatus
-  ] = row;
+    const [orderId, service, subService, price, time, date] = row;
 
-  updateBookingData({
-    service,
-    subService,
-    totalAmount: Number(price) || 0,
-    // status,
-    // payment: paymentStatus,
-    appointmentLocation: "", // supply real location if available
-  });
+    // find the complete backend record for this booking
+    const fullOrder = allOrdersObject.find(
+      (o: any) => o.bookingId === orderId
+    );
 
-  updateBillingData({
-    appointmentFrequency: "One time",
-    appointmentTime: `${date} ${time}`,
-    appointmentLocation: "",
-    appointmentValue: Number(price) || 0,
-    discountCode: "",
-    discountAmount: 0,
-    subTotal: Number(price) || 0,
-    taxAmount: 0,
-    totalAmount: Number(price) || 0,
-  });
+    // parse the displayed price string to a number"
+    const parsedPrice = Number(String(price).replace(/[^0-9.-]+/g, "")) || 0;
+    updateBookingData({
+      service,
+      subService,
+      totalAmount: parsedPrice,
+      make: fullOrder?.make || "",
+      model: fullOrder?.model || "",
+      variant: fullOrder?.variant || "",
+      cleaningCategory: fullOrder?.cleaningCategory || "",
+      cleaningType: fullOrder?.cleaningType || "",
+      numberOfWindows: fullOrder?.numberOfWindows || "",
+      squareFootage: fullOrder?.squareFeet || "",
+      numberOfItems: fullOrder?.numberOfItems || "",
+      // uploadedMedia: fullOrder?.uploadedMedia as UploadedMediaItem[] || [],
+    });
+    addSelection({
+      time: fullOrder?.time || "",
+      date: fullOrder?.date || "",
+    })
+    updateLatestLocation({
+      type: "Home",                  // or whatever default makes sense
+      street: "",
+      apt: "",
+      city: "",
+      country: "",
+      fullAddress: fullOrder?.location || "",
+      access: "",
+      pets: "",
+      petDetails: "",
+      additionalNotes: "",
+    });
 
-  setShowModal(true);
-};
-
+    updateBillingData({
+      appointmentFrequency: fullOrder?.cleaningFrequency || "Weekly",
+      appointmentTime: `${date} ${time}`,
+      appointmentLocation: fullOrder?.location || "",
+      appointmentValue: Number(fullOrder?.cncChargesExclVat) || parsedPrice,
+      discountCode: fullOrder?.promoCode || "",
+      discountAmount: Number(fullOrder?.discountPrice) || 0,
+      subTotal: Number(fullOrder?.cncChargesExclVat) || parsedPrice,
+      taxAmount: Number(fullOrder?.vatCharges) || 0,
+      totalAmount: Number(fullOrder?.cncChargesInclVat) || parsedPrice,
+    });
+    setShowModal(true);
+  };
 
   return (
     <div className={styles.main}>
@@ -104,10 +129,9 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => {
-            const status = row[6]; // STATUS column
-            const paymentStatus = row[7]; // bookingPaymentStatus column
+            const status = row[6];
+            const paymentStatus = row[7];
             const color = getStatusColor(status);
-
             return (
               <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
                 {row.map((cell, ci) =>
@@ -132,11 +156,10 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                   )
                 )}
                 {paymentStatus === "added" ? (
-                  <button className={styles.payNowButton} 
-                  onClick={() => 
-                  // setShowModal(true) 
-                  handlePayNow(row)
-                  }>
+                  <button className={styles.payNowButton}
+                    onClick={() =>
+                      handlePayNow(row)
+                    }>
                     Pay Now
                   </button>
                 ) : paymentStatus === "none" ? (
@@ -169,30 +192,35 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
               ×
             </button>
             <div className={styles.componentRow}>
-            <PaymentDetails /> {/* Your payment form goes here */}
-              
-            {/* <div className={wallet.modalFooter}>
-              <button
-                className={wallet.redeemBtn}
-                onClick={() => {
-                  // handle final payment submission here
-                  console.log('Pay Now clicked');
-                }}
-              >
-                Pay Now
-              </button>
-
-            </div> */}
+              <PaymentDetails />
               <div className={styles.billingCenter}>
-            <BillingSummary/>
+                <BillingSummary
+                  buttonLabel="Pay Now"
+                  onNext={async () => {
+                    try {
+                      // call the same API that handleNextClick uses
+                      const result = await submitBookingQuote();
+                      setShowModal(false);
+                      setShowConfirm(true);
+                    } catch (err) {
+                      console.error("Pay Now failed:", err);
+                    }
+                  }}
+                />
+
+              </div>
             </div>
-            </div>
-           
           </div>
-          
         </div>
-        
       )}
+      {showConfirm && (
+        <div className={wallet.modalOverlay}>
+          <div className={wallet.modal}>
+            <BookingConfirmation onClose={() => setShowConfirm(false)} />
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
