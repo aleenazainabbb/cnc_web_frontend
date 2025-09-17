@@ -219,6 +219,7 @@ const ComplaintForm = () => {
                     selectedOrder?.service ||
                     "-";
                   setSelectedService(serviceLabel);
+                  
                 }}
                 className={styles.formInput}
                 disabled={ordersLoading}

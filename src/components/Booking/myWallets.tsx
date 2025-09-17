@@ -37,7 +37,9 @@ const MyWallet: React.FC = () => {
                             className={wallet.modalInput}
                             placeholder="Enter your 16 digit gift card code here"
                         />
+                        <div className={wallet.modalFooter}>
                         <button className={wallet.redeemBtn}>REDEEM</button>
+                    </div>
                     </div>
                 </div>
             )}

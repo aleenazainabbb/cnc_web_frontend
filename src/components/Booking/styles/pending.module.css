@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   margin: 80px auto 0 auto; /* centers container */
-  width: 100%;              
-  max-width: 1100px;        /* ✅ keeps it from growing too wide */
+  width: 100%;
+  max-width: 1100px; /* ✅ keeps it from growing too wide */
   position: relative;
   box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
   height: auto;
@@ -64,21 +64,36 @@
   display: grid;
   border-radius: 16px;
   gap: 1.5rem;
-  overflow-x: auto;   /* ✅ enable horizontal scroll on small screens */
+  overflow-x: auto; /* ✅ enable horizontal scroll on small screens */
   -webkit-overflow-scrolling: touch;
 }
 
 .gridContainer {
-  grid-template-columns:
-    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(150px, 1.5fr)
-    minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
+  grid-template-columns: minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(
+      100px,
+      1.5fr
+    ) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
+  gap: 1.5rem;
+  overflow-x: auto;
 }
 
 .gridContainerHistory {
-  grid-template-columns:
-    minmax(80px, 0.5fr) minmax(100px, 0.6fr) minmax(150px, 1fr)
-    minmax(80px, 0.5fr) minmax(80px, 0.4fr) minmax(100px, 0.4fr)
-    minmax(100px, 0.4fr);
+  grid-template-columns: minmax(60px, 0.3fr) minmax(90px, 0.4fr) minmax(
+      100px,
+      0.5fr
+    ) minmax(80px, 0.4fr) minmax(80px, 0.3fr) minmax(80px, 0.3fr) minmax(
+      90px,
+      0.4fr
+    ) minmax(80px, 0.4fr);
+}
+.gridContainer {
+  grid-template-columns: minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(
+      100px,
+      0.5fr
+    ) minmax(80px, 0.5fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(
+      90px,
+      0.4fr
+    ) minmax(80px, 0.4fr);
 }
 
 .gridContainerQuotes {
@@ -88,15 +103,12 @@
     minmax(100px, 0.5fr) minmax(100px, 0.5fr);
 }
 
-/* ============================= */
-/* ✅ Row Styling                */
-/* ============================= */
 .rowHeader {
   color: #8b909a;
   padding: 6px 0;
   font-size: 13px;
   font-weight: 500;
-  font-family: 'Public Sans', sans-serif;
+  font-family: "Public Sans", sans-serif;
   border-bottom: 1px solid #e9e7fd;
 }
 
@@ -105,7 +117,7 @@
   padding: 10px 0;
   font-size: 15px;
   font-weight: 400;
-  font-family: 'Roboto Flex', sans-serif;
+  font-family: "Roboto Flex", sans-serif;
   border-bottom: 1px solid #cfcfcf;
 }
 
@@ -127,48 +139,85 @@
   font-weight: 500;
 }
 
-.row div:nth-child(3),
-.row div:nth-child(4),
+.row div:nth-child(3) {
+  font-weight: 400;
+  /* font-size: 14px; */
+  color: #8b909a;
+}
+
+.row div:nth-child(4) {
+  font-weight: 400;
+  color: #8b909a;
+}
 .row div:nth-child(5) {
   color: #8b909a;
   font-weight: 400;
+  /* font-size: 15px; */
+  color: #8b909a;
 }
 
-/* ============================= */
-/* ✅ Buttons                    */
-/* ============================= */
-.statusButton,
-.completedButton {
-  width: 103px;
+.statusButton {
+  max-width: 103px;
+  width: 100%;
   border-radius: 30px;
-  height: 30px;
+  height: 32px;
   border: 1px solid;
   background-color: transparent;
   font-weight: 500;
   font-size: 14px;
+  /* padding: 6px; */
   cursor: default;
   transition: border-color 0.3s ease, color 0.3s ease;
 }
-
-.completedButton {
-  border-color: #0f9918;
-  color: #0f9918;
+.payNowButton {
+  max-width: 103px;
+  width: 100%;
+  border-radius: 30px;
+  height: 32px;
+  border: 1px solid;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: default;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  background-color: #36b864;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
+.payNowButton:hover:not(:disabled) {
+  background-color: #2e9e54;
+  border-color: #2e9e54;
+  cursor: pointer;
+}
+.payNowButton:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #ccc;
+}
 .rescheduleButton {
-  width: 81px;
-  height: 30px;
+  /* width: 81px; */
+  height: 32px;
   border-radius: 30px;
   background-color: #1a78f2;
   color: white;
+  padding: 5px;
   border: none;
   font-size: 14px;
   cursor: pointer;
 }
+.payNowButton:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+.billingCenter {
+  display: flex;
+  justify-content: center;
+}
 
-/* ============================= */
-/* ✅ Responsive Adjustments     */
-/* ============================= */
+/* Responsive adjustments */
 
 /* Tablet */
 @media (max-width: 1025px) {
@@ -176,7 +225,8 @@
     padding: 15px;
   }
 
-  .statusButton {
+  .statusButton,
+  .payNowButton {
     width: 80px;
   }
 
@@ -208,7 +258,8 @@
     font-size: 13px;
   }
 
-  .statusButton {
+  .statusButton,
+  .payNowButton {
     width: 70px;
     font-size: 12px;
     height: 28px;
@@ -235,7 +286,8 @@
     font-size: 12px;
   }
 
-  .statusButton {
+  .statusButton,
+  .payNowButton {
     width: 65px;
     font-size: 11px;
     height: 25px;
@@ -244,6 +296,9 @@
   .gridContainerQuotes {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 0.6rem;
+  }
+  .billingCenter {
+    padding: 10px;
   }
 }
 
@@ -254,15 +309,15 @@
     gap: 2px;
   }
 
-  .rowHeader,
   .row {
-    font-size: 11px;
+    font-size: 9px;
   }
 
-  .statusButton {
-    width: 55px;
-    font-size: 10px;
-    height: 24px;
+  .statusButton,
+  .payNowButton {
+    width: 50px;
+    font-size: 8px;
+    height: 22px;
   }
 
   .completedButton,
@@ -276,11 +331,11 @@
   .gridContainer,
   .gridContainerHistory,
   .gridContainerQuotes {
-    display: flex;               /* switch to flexbox */
-    flex-direction: row;         /* row layout */
-    flex-wrap: nowrap;           /* no wrapping */
+    display: flex; /* switch to flexbox */
+    flex-direction: row; /* row layout */
+    flex-wrap: nowrap; /* no wrapping */
     gap: 0.2rem;
-    overflow-x: auto;            /* allow horizontal scroll */
+    overflow-x: auto; /* allow horizontal scroll */
     -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
   }
 

@@ -13,23 +13,21 @@ import ServiceStepsSection from "@/components/home_page_components/ServiceList";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
 import NeedHelp from "@/components/request_page_component/NeedHelp";
 import ServicesList from "@/components/services_page_content/servicesList";
-import AllServicesSection from "@/components/services_page_content/AllServicesSection"
+import AllServicesSection from "@/components/services_page_content/AllServicesSection";
 export default function Home() {
-
-
   const Services = [
-
     {
       title: "Cleaning Services",
       img: "/images/cleaning2.png",
-      description: "Home, office, windows, duct, vehicle, Grease Trap cleaning services.",
+      description:
+        "Home, office, windows, duct, vehicle, Grease Trap cleaning services.",
       link: "/AllServices/CleaningServices",
-
     },
     {
       title: "Maintenance Services",
       img: "/images/Maintenance/whatis.png",
-      description: "Plumbing, electrical, AC, Handyman, carpentry maintenance services.",
+      description:
+        "Plumbing, electrical, AC, Handyman, carpentry maintenance services.",
       link: "/AllServices/MaintenanceServices",
     },
     {
@@ -41,9 +39,11 @@ export default function Home() {
     {
       title: "Pest Control Services",
       img: "/images/Pest Control/1.jpg",
-      description: "Removal of insects, rodents, termites, with long-term prevention solutions.",
+      description:
+        "Removal of insects, rodents, termites, with long-term prevention solutions.",
       link: "/AllServices/PestControl",
-    }, {
+    },
+    {
       title: "Deep Cleaning",
       img: "/images/deepclean/3.jpg",
       description: "Detailed cleaning of hidden dirt and hard-to-reach areas.",
@@ -90,7 +90,7 @@ export default function Home() {
       img: "/images/Cockroach.png",
       description: "Targets breeding spots for complete roach removal.",
       link: "/AllServices/PestControl/Cockroach",
-    }
+    },
   ];
 
   return (

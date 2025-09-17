@@ -1,3 +1,9 @@
+/* ✅ Tailwind directives first */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ✅ Custom CSS next */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -14,14 +20,6 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-.bill {
-  font-weight: bold;
-  font-size: 32px;
-}
-
-body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -46,11 +44,10 @@ a {
   }
 }
 
-/* layout.css */
+/* layout.css styles */
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr;
-  /* Default: stack columns */
+  grid-template-columns: 1fr; /* Default: stack columns */
   background-color: #ffffff;
 }
 
@@ -59,29 +56,22 @@ a {
   .grid-container {
     grid-template-columns: 2fr 1fr;
     padding: 0;
-  
   }
 }
 
-
-
 .emptyState {
   text-align: center;
-  margin-top: 10px;
-  color: #666;
   margin-top: 15%;
+  color: #666;
 }
 
-/* Responsive adjustments for tablet and below */
 @media (max-width: 768px) {
   .emptyState img {
     width: 130px;
   }
-
   .emptyState h2 {
     font-size: 16px;
   }
-
   .emptyState p {
     font-size: 12px;
   }
@@ -91,20 +81,18 @@ a {
   .emptyState img {
     width: 80px;
   }
-
   .emptyState h2 {
     font-size: 12px;
   }
-
   .emptyState p {
     font-size: 8px;
   }
 }
 
+/* nprogress styles */
 #nprogress {
   pointer-events: none;
 }
-
 #nprogress .bar {
   background: #007bff;
   position: fixed;
@@ -114,7 +102,6 @@ a {
   width: 100%;
   height: 3px;
 }
-
 #nprogress .peg {
   display: block;
   position: absolute;

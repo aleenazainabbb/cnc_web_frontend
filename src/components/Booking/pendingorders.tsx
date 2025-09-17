@@ -1,23 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles/pending.module.css';
 import Pagination from '@/components/Booking/pagination';
 import { Range } from 'react-date-range';
-
-type Status = 'Pending' | 'Confirmed' | 'Accepted' | 'Assigned';
-
-const statusColors: Record<Status, string> = {
-  Pending: '#FF8800',
-  Confirmed: '#0F9918',
-  Accepted: '#F16BC9',
-  Assigned: '#3C88EE',
-};
-
-const getStatusStyle = (status: string) => {
-  const statusKey = status as Status;
-  return { color: statusColors[statusKey] ?? '#000' };
-};
+import { getStatusColor } from '@/utils/statusColors';
+import wallet from './styles/mywallet.module.css';
+import PaymentDetails from '@/components/Booking/PaymentDetails';
+import BillingSummary from '@/components/Booking/billing';
+import { useBooking } from "@/context/BookingContext";
 
 interface PendingProps {
   range: Range[];
@@ -25,12 +16,21 @@ interface PendingProps {
 }
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
-  const headers = ['ORDER ID', 'SERVICE', 'DETAILS', 'TIME', 'DATE', 'STATUS'];
+  const headers = [
+    "ORDER ID",
+    "SERVICE",
+    "DETAILS",
+    "PRICE",
+    "TIME",
+    "DATE",
+    "STATUS",
+    "PAY NOW",
+  ];
   const allRows = data;
 
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [perPage, setPerPage] = React.useState(5);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [showModal, setShowModal] = useState(false);
   const isRangeSelected =
     !!range[0].startDate &&
     !!range[0].endDate &&
@@ -39,7 +39,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[4]);
+        const date = new Date(row[5]); // DATE is at index 5
         const start = range[0].startDate!;
         const end = range[0].endDate!;
         return date >= start && date <= end;
@@ -49,11 +49,49 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
+  const { updateBookingData, updateBillingData } = useBooking(); 
+ const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
 
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);
   };
+  const handlePayNow = (row: string[]) => {
+  const [
+    // orderId,
+    service,
+    subService,
+    price,
+    time,
+    date,
+    status,
+    paymentStatus
+  ] = row;
+
+  updateBookingData({
+    service,
+    subService,
+    totalAmount: Number(price) || 0,
+    // status,
+    // payment: paymentStatus,
+    appointmentLocation: "", // supply real location if available
+  });
+
+  updateBillingData({
+    appointmentFrequency: "One time",
+    appointmentTime: `${date} ${time}`,
+    appointmentLocation: "",
+    appointmentValue: Number(price) || 0,
+    discountCode: "",
+    discountAmount: 0,
+    subTotal: Number(price) || 0,
+    taxAmount: 0,
+    totalAmount: Number(price) || 0,
+  });
+
+  setShowModal(true);
+};
+
 
   return (
     <div className={styles.main}>
@@ -66,17 +104,22 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => {
-            const status = row[5];
-            const { color } = getStatusStyle(status);
+            const status = row[6]; // STATUS column
+            const paymentStatus = row[7]; // bookingPaymentStatus column
+            const color = getStatusColor(status);
+
             return (
               <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
                 {row.map((cell, ci) =>
-                  ci === 3 ? (
+                  ci === 4 ? (
                     <div key={ci}>
-                      <i className="fa-regular fa-clock" style={{ marginRight: 6, color: '#8B909A' }} />
+                      <i
+                        className="fa-regular fa-clock"
+                        style={{ marginRight: 6 }}
+                      />
                       {cell}
                     </div>
-                  ) : ci === 5 ? (
+                  ) : ci === 6 ? (
                     <button
                       key={ci}
                       className={styles.statusButton}
@@ -84,21 +127,72 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     >
                       {cell}
                     </button>
-                  ) : (
+                  ) : ci === 7 ? null : ( // hide raw bookingPaymentStatus
                     <div key={ci}>{cell}</div>
                   )
+                )}
+                {paymentStatus === "added" ? (
+                  <button className={styles.payNowButton} 
+                  onClick={() => 
+                  // setShowModal(true) 
+                  handlePayNow(row)
+                  }>
+                    Pay Now
+                  </button>
+                ) : paymentStatus === "none" ? (
+                  <button className={styles.payNowButton} disabled>
+                    Pay Now
+                  </button>
+                ) : (
+                  <button className={styles.payNowButton} disabled>
+                    Paid
+                  </button>
                 )}
               </div>
             );
           })}
         </div>
-
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}
           onChange={handlePaginationChange}
         />
       </div>
+      {/* Payment Modal */}
+      {showModal && (
+        <div className={wallet.modalOverlay}>
+          <div className={wallet.modal}>
+            <button
+              className={wallet.close}
+              onClick={() => setShowModal(false)}
+            >
+              ×
+            </button>
+            <div className={styles.componentRow}>
+            <PaymentDetails /> {/* Your payment form goes here */}
+              
+            {/* <div className={wallet.modalFooter}>
+              <button
+                className={wallet.redeemBtn}
+                onClick={() => {
+                  // handle final payment submission here
+                  console.log('Pay Now clicked');
+                }}
+              >
+                Pay Now
+              </button>
+
+            </div> */}
+              <div className={styles.billingCenter}>
+            <BillingSummary/>
+            </div>
+            </div>
+           
+          </div>
+          
+        </div>
+        
+      )}
     </div>
   );
 };
