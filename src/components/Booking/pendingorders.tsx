@@ -60,9 +60,9 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
     updateBookingData,
     updateBillingData,
     allOrdersObject,
-    submitBookingQuote,
     addSelection,
     updateLatestLocation,
+    updateBookingOrder,
   } = useBooking();
   const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
   const handlePaginationChange = (page: number, limit: number) => {
@@ -119,6 +119,8 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
       taxAmount: Number(fullOrder?.vatCharges) || 0,
       totalAmount: Number(fullOrder?.cncChargesInclVat) || parsedPrice,
     });
+
+    setSelectedRow(row);
     setShowModal(true);
   };
 
@@ -202,8 +204,9 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                   buttonLabel="Pay Now"
                   onNext={async () => {
                     try {
-                      // call the same API that handleNextClick uses
-                      const result = await submitBookingQuote();
+                      const id = selectedRow?.[0]; // ORDER ID is at index 0
+                      if (!id) throw new Error("No booking selected");
+                      await updateBookingOrder(id);
                       setShowModal(false);
                       setShowConfirm(true);
                     } catch (err) {

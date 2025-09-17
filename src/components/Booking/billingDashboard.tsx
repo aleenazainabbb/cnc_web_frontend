@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from "./styles/AddBooking/billing.module.css";
 import { useBooking } from "@/context/BookingContext";
-import BillingPricesBox from "../BillingPricesBox";
 
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;
@@ -12,23 +11,16 @@ type BillingSummaryProps = {
   setServiceError?: (val: boolean) => void;
   selectedService?: string;
   buttonLabel?: string;
-  bookingId?: string;
 };
 
 const BillingSummary: React.FC<BillingSummaryProps> = ({
   onApplyDiscount,
   onNext,
   setServiceError,
-  buttonLabel = "Next",
+  buttonLabel = "Pay Now",
 }) => {
-  // const { billingData, updateBookingData, validateBooking,submitBookingQuote, updateBookingOrder,formErrors } = useBooking();
-  const {
-    billingData,
-    updateBookingData,
-    submitBookingQuote,
-    updateBookingOrder,
-    formErrors,
-  } = useBooking();
+  const { billingData, updateBookingData,submitBookingQuote,createBookingOrder, formErrors } = useBooking();
+//   const { billingData, updateBookingData, validateBooking,submitBookingQuote,createBookingOrder, formErrors } = useBooking();
   const locationListRef = useRef<HTMLDivElement>(null);
   const {
     appointmentFrequency = "Once",
@@ -53,11 +45,11 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     try {
       //  call API only when the button label is "Pay Now"
       if (buttonLabel === "Pay Now") {
-        // await updateBookingOrder(bookingId!);
+        await createBookingOrder();
         console.log("Booking quote submitted successfully");
       }
 
-      onNext?.(); // let parent handle the next popup or step
+      onNext?.();  // let parent handle the next popup or step
     } catch (err: any) {
       console.error("Booking submission failed:", err.message);
     }
@@ -148,7 +140,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
         <div className={styles.divider}></div>
       </div>
-      {/* 
+
       <div className={styles.pricingbox}>
         <div className={styles.pricingrow}>
           <span>
@@ -183,8 +175,8 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
           <span>Total</span>
           <span>AED {totalAmount.toFixed(2)}</span>
         </div>
-      </div> */}
-      <BillingPricesBox />
+      </div>
+
       <div className={styles.buttoncontainer}>
         <button onClick={handleNextClick} className={styles.nextbutton}>
           {buttonLabel}
