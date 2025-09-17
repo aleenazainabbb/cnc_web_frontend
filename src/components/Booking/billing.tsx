@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import styles from "./styles/AddBooking/billing.module.css";
 import { useBooking } from "@/context/BookingContext";
+import BillingPricesBox from "../BillingPricesBox";
 
 type BillingSummaryProps = {
   onApplyDiscount?: (code: string) => void;

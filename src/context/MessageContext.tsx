@@ -24,6 +24,7 @@ interface MessageContextType {
   handleSendMessage: (
     content: string,
     messageType?: string,
+
     files?: File[]
   ) => Promise<void>;
   fetchConversations: () => Promise<void>;
@@ -242,37 +243,40 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         .toString(36)
         .slice(2)}`;
 
-      // const newMsg: Message = {
-      //   id: 0,
-      //   tempId,
-      //   conversationId,
-      //   senderId: currentUser.id,
-      //   receiverId: null,
-      //   content,
-      //   // docs: files.filter((f) => f.type.includes("application")),
-      //   // images: files.filter((f) => f.type.includes("image")),
-      //   // videos: files.filter((f) => f.type.includes("video")),
-      //   direction: "outgoing",
-      //   read: false,
-      //   messageType: safeMessageType(messageType),
-      //   createdAt: new Date().toISOString(),
-      //   updatedAt: new Date().toISOString(),
-      //   isSent: false,
-      //   isProcessing: true,
-      //   failed: false,
-      //   sender: currentUser,
-      //   receiver: null,
-      // };
+      const newMsg: Message = {
+        id: 0,
+        tempId,
+        conversationId,
+        senderId: currentUser.id,
+        receiverId: null,
+        content,
+        // docs: files.filter((f) => f.type.includes("application")),
+        // images: files.filter((f) => f.type.includes("image")),
+        // videos: files.filter((f) => f.type.includes("video")),
+        direction: "outgoing",
+        read: false,
+        messageType: safeMessageType(messageType),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isSent: false,
+        isProcessing: true,
+        failed: false,
+        sender: currentUser,
+        receiver: null,
+        docs: [],
+        images: [],
+        videos: [],
+      };
 
-      // console.log("[SendMessage] Optimistic message:", newMsg);
+      console.log("[SendMessage] Optimistic message:", newMsg);
 
-      // setConversations((prev) =>
-      //   prev.map((conv) =>
-      //     conv.id === conversationId
-      //       ? { ...conv, messages: [...(conv.messages || []), newMsg] }
-      //       : conv
-      //   )
-      // );
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === conversationId
+            ? { ...conv, messages: [...(conv.messages || []), newMsg] }
+            : conv
+        )
+      );
 
       try {
         console.log("[SendMessage] Emitting to server:", {

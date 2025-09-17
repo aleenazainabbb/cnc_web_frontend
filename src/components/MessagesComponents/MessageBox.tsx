@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMessage } from "@/context/MessageContext";
 import styles from "../Booking/styles/message.module.css";
-import { OptimisticMessage } from "@/context/service/messageapi";
+import { OptimisticMessage, User } from "@/context/service/messageapi";
 
 // ✅ Deduplication cache
 const receivedMessageIds = new Set<string | number>();
@@ -24,11 +24,10 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
 
     switch (message.messageType) {
       case "image":
-        if (images.length === 0) {
+        if (images.length === 0)
           return (
             <div className={styles.imageMessage}>🖼️ Image not available</div>
           );
-        }
         return (
           <div className={styles.imageMessage}>
             {images.map((image: any, index: number) => {
@@ -36,39 +35,27 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
                 typeof image === "string"
                   ? `${BASE_URL}${image}`
                   : image?.url || URL.createObjectURL(image);
-
               return (
                 <div key={index} className={styles.imageWrapper}>
                   <img
                     src={imageUrl}
                     alt="Sent image"
                     className={styles.messageImage}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      const placeholder = target.nextSibling as HTMLElement;
-                      if (placeholder) placeholder.style.display = "block";
-                    }}
                   />
-                  <div
-                    className={styles.messageImagePlaceholder}
-                    style={{ display: "none" }}
-                  >
-                    🖼️ Image not available
-                  </div>
+                  {trimmedContent && (
+                    <p className={styles.imageCaption}>{content}</p>
+                  )}
                 </div>
               );
             })}
-            {trimmedContent && <p className={styles.imageCaption}>{content}</p>}
           </div>
         );
 
       case "video":
-        if (videos.length === 0) {
+        if (videos.length === 0)
           return (
             <div className={styles.videoMessage}>🎥 Video not available</div>
           );
-        }
         return (
           <div className={styles.videoMessage}>
             {videos.map((video: any, index: number) => {
@@ -76,11 +63,9 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
                 typeof video === "string"
                   ? `${BASE_URL}${video}`
                   : video?.url || URL.createObjectURL(video);
-
               return (
                 <video key={index} controls className={styles.messageVideo}>
                   <source src={videoUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
                 </video>
               );
             })}
@@ -89,14 +74,13 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
         );
 
       case "file":
-        if (docs.length === 0) {
+        if (docs.length === 0)
           return (
             <div className={styles.fileMessage}>
               <div className={styles.fileIcon}>📄</div>
-              <span className={styles.fileName}>File not available</span>
+              <span>File not available</span>
             </div>
           );
-        }
         return (
           <div className={styles.fileMessage}>
             {docs.map((doc: any, index: number) => {
@@ -108,7 +92,6 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
                 typeof doc === "string"
                   ? doc.split("/").pop() || "Document"
                   : doc?.name || doc?.filename || "Document";
-
               return (
                 <div key={index} className={styles.fileItem}>
                   <div className={styles.fileIcon}>📄</div>
@@ -195,7 +178,9 @@ const MessageBox: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const activeConversation = conversations.find((c) => c.id === conversationId);
+  // Active conversation: pick by conversationId, fallback to first
+  const activeConversation =
+    conversations.find((c) => c.id === conversationId) || conversations[0];
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -260,6 +245,23 @@ const MessageBox: React.FC = () => {
       .substr(2, 9)}-${index}`;
   };
 
+  // Function to get the contact for a conversation (admin or agent)
+  const getConversationContact = (conversation: any): User | null => {
+    return conversation.admin || conversation.agent || null;
+  };
+
+  // Function to get the contact name for display
+  const getContactName = (contact: User | null): string => {
+    if (!contact) return "Support";
+    return `${contact.firstName} ${contact.lastName}`;
+  };
+
+  // Function to get the contact role for display
+  const getContactRole = (contact: User | null): string => {
+    if (!contact) return "Admin";
+    return contact.role === "123" ? "123" : "Agent";
+  };
+
   return (
     <div className={styles.chatContainer}>
       {/* Mobile sidebar toggle */}
@@ -269,7 +271,6 @@ const MessageBox: React.FC = () => {
       >
         {isSidebarOpen ? "✕" : "☰"}
       </button>
-
       {/* Sidebar */}
       <div
         className={`${styles.sidebar} ${
@@ -278,8 +279,22 @@ const MessageBox: React.FC = () => {
       >
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>Conversations</h2>
-          <button className={styles.newChatButton}>+ New Chat</button>
+          <button
+            className={styles.newChatButton}
+            onClick={() => {
+              // ✅ Always connect to Admin
+              if (conversations.length > 0) {
+                const adminConversation = conversations.find((c) => c.admin);
+                if (adminConversation) {
+                  setConversationId(adminConversation.id);
+                }
+              }
+            }}
+          >
+            + New Chat
+          </button>
         </div>
+
         <div className={styles.conversationList}>
           {isLoading ? (
             <div className={styles.loading}>
@@ -293,59 +308,66 @@ const MessageBox: React.FC = () => {
               <p>Start a new conversation to get started</p>
             </div>
           ) : (
-            conversations.map((conversation) => (
-              <div
-                key={conversation.id}
-                className={`${styles.conversationItem} ${
-                  conversationId === conversation.id
-                    ? styles.activeConversation
-                    : ""
-                }`}
-                onClick={() => {
-                  setConversationId(conversation.id);
-                  if (window.innerWidth < 768) setIsSidebarOpen(false);
-                }}
-              >
-                <div className={styles.conversationAvatar}>
-                  {conversation.user
-                    ? `${conversation.user.firstName?.charAt(
-                        0
-                      )}${conversation.user.lastName?.charAt(0)}`
-                    : "A"}
-                </div>
-                <div className={styles.conversationContent}>
-                  <div className={styles.conversationHeader}>
-                    <span className={styles.conversationName}>
-                      {conversation.user
-                        ? `${conversation.user.firstName} ${conversation.user.lastName}`
-                        : "Admin Support"}
-                    </span>
-                    <span className={styles.lastMessageTime}>
-                      {conversation.lastMessageAt
-                        ? new Date(
-                            conversation.lastMessageAt
-                          ).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
-                        : ""}
-                    </span>
+            conversations.map((conversation) => {
+              const contact = getConversationContact(conversation);
+              const contactName = getContactName(contact);
+              const contactRole = getContactRole(contact);
+
+              return (
+                <div
+                  key={conversation.id}
+                  className={`${styles.conversationItem} ${
+                    conversationId === conversation.id
+                      ? styles.activeConversation
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setConversationId(conversation.id);
+                    if (window.innerWidth < 768) setIsSidebarOpen(false);
+                  }}
+                >
+                  <div className={styles.conversationAvatar}>
+                    {contact
+                      ? `${contact.firstName?.charAt(
+                          0
+                        )}${contact.lastName?.charAt(0)}`
+                      : "A"}
                   </div>
-                  {conversation.messages?.[0] && (
-                    <p className={styles.lastMessagePreview}>
-                      {conversation.messages[0].content ||
-                        (conversation.messages[0].images?.length
-                          ? "🖼️ Image"
-                          : conversation.messages[0].videos?.length
-                          ? "🎥 Video"
-                          : conversation.messages[0].docs?.length
-                          ? "📄 File"
-                          : "Empty message")}
-                    </p>
-                  )}
+                  <div className={styles.conversationContent}>
+                    <div className={styles.conversationHeader}>
+                      <span className={styles.conversationName}>
+                        {contactName}
+                        <span className={styles.contactRole}>
+                          ({contactRole})
+                        </span>
+                      </span>
+                      <span className={styles.lastMessageTime}>
+                        {conversation.lastMessageAt
+                          ? new Date(
+                              conversation.lastMessageAt
+                            ).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : ""}
+                      </span>
+                    </div>
+                    {conversation.messages?.[0] && (
+                      <p className={styles.lastMessagePreview}>
+                        {conversation.messages[0].content ||
+                          (conversation.messages[0].images?.length
+                            ? "🖼️ Image"
+                            : conversation.messages[0].videos?.length
+                            ? "🎥 Video"
+                            : conversation.messages[0].docs?.length
+                            ? "📄 File"
+                            : "Empty message")}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>
@@ -358,17 +380,32 @@ const MessageBox: React.FC = () => {
             <div className={styles.chatHeader}>
               <div className={styles.chatHeaderInfo}>
                 <div className={styles.chatAvatar}>
-                  {activeConversation?.user
-                    ? `${activeConversation.user.firstName?.charAt(
+                  {activeConversation?.admin
+                    ? `${activeConversation.admin.firstName.charAt(
                         0
-                      )}${activeConversation.user.lastName?.charAt(0)}`
+                      )}${activeConversation.admin.lastName.charAt(0)}`
+                    : activeConversation?.agent
+                    ? `${activeConversation.agent.firstName.charAt(
+                        0
+                      )}${activeConversation.agent.lastName.charAt(0)}`
                     : "A"}
                 </div>
                 <div>
                   <h3>
-                    {activeConversation?.user
-                      ? `${activeConversation.user.firstName} ${activeConversation.user.lastName}`
-                      : "Admin Support"}
+                    {activeConversation?.admin
+                      ? `${activeConversation.admin.firstName} ${activeConversation.admin.lastName}`
+                      : activeConversation?.agent
+                      ? `${activeConversation.agent.firstName} ${activeConversation.agent.lastName}`
+                      : "Admin"}
+                    <span className={styles.contactRole}>
+                      (
+                      {activeConversation?.admin
+                        ? "Admin"
+                        : activeConversation?.agent
+                        ? "Agent"
+                        : "Admin"}
+                      )
+                    </span>
                   </h3>
                   <span className={styles.chatStatus}>
                     {activeConversation?.status || "Online"}
@@ -452,7 +489,6 @@ const MessageBox: React.FC = () => {
                 accept="image/*,video/*,application/*"
                 disabled={isSending || isLoading}
               />
-
               <div className={styles.messageInputWrapper}>
                 <input
                   type="text"
@@ -464,7 +500,6 @@ const MessageBox: React.FC = () => {
                   disabled={isLoading || isSending}
                 />
               </div>
-
               <button
                 onClick={handleSend}
                 className={styles.sendButton}
