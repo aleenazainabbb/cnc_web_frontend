@@ -29,9 +29,15 @@ export default function RequestPage() {
     }
   }, [loading, user]);
 
-  useEffect(() => {
+  const fetched = React.useRef(false);
+
+useEffect(() => {
+  if (!fetched.current) {
     fetchAllOrders();
-  }, []);
+    fetched.current = true;
+  }
+}, []);
+
 
   if (loading || ordersLoading) return null;
 
