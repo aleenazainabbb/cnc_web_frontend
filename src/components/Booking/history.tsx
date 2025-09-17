@@ -59,6 +59,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
           ))}
         </div>
 
+        {/* Scrollable Order Rows */}
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => (
             <div
@@ -71,7 +72,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                     <div key={ci}>
                       <i
                         className="fa-regular fa-clock"
-                        style={{ marginRight: 106, color: "#8B909A" }}
+                        style={{ marginRight: 6, color: "#8B909A" }}
                       />
                       {cell}
                     </div>

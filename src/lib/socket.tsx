@@ -1,4 +1,135 @@
-"use client";
+import { io, Socket } from "socket.io-client";
+
+interface ServerToClientEvents {
+  messageSent: (data: {
+    messageId: number;
+    tempId?: string;
+    conversationId: number;
+  }) => void;
+  newMessage: (msg: any) => void;
+  messageError: (data: { error: string; tempId?: string }) => void;
+  newMessageNotification: (data: any) => void;
+}
+
+interface ClientToServerEvents {
+  sendMessage: (data: {
+    conversationId: number;
+    senderId: number;
+    content: string;
+    messageType: string;
+    tempId?: string;
+    files?: File[];
+  }) => void;
+  joinConversation: (conversationId: number) => void;
+  leaveConversation: (conversationId: number) => void;
+  joinUserRoom: (userId: number) => void;
+  joinAdminRoom: () => void;
+}
+
+let socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
+let connectionPromise: Promise<
+  Socket<ServerToClientEvents, ClientToServerEvents>
+> | null = null;
+
+const getToken = (): string | null => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
+};
+
+export const getSocket = async (): Promise<
+  Socket<ServerToClientEvents, ClientToServerEvents>
+> => {
+  // Return existing connected socket
+  if (socket && socket.connected) return socket;
+
+  // Return existing connection promise to prevent multiple connection attempts
+  if (connectionPromise) return connectionPromise;
+
+  connectionPromise = new Promise((resolve, reject) => {
+    const token = getToken();
+    console.log("Initializing new socket connection...");
+
+    const s = io("https://whatsapp.marifahsol.com", {
+      transports: ["websocket"],
+      auth: { token },
+      timeout: 10000,
+    });
+
+    const connectionTimeout = setTimeout(() => {
+      if (!s.connected) {
+        reject(new Error("Socket connection timeout"));
+        connectionPromise = null;
+      }
+    }, 10000);
+
+    s.on("connect", () => {
+      console.log("✅ Socket connected, ID:", s.id);
+      clearTimeout(connectionTimeout);
+      socket = s;
+      connectionPromise = null;
+      resolve(s);
+    });
+
+    s.on("connect_error", (err) => {
+      console.error("❌ Connection error:", err.message);
+      clearTimeout(connectionTimeout);
+      connectionPromise = null;
+      reject(err);
+    });
+
+    s.on("disconnect", (reason) => {
+      console.warn("⚠️ Socket disconnected:", reason);
+      if (reason === "io server disconnect") {
+        // Server intentionally disconnected, need to manually reconnect
+        socket = null;
+      }
+    });
+
+    s.on("reconnect", (attemptNumber) => {
+      console.log("🔌 Socket reconnected after", attemptNumber, "attempts");
+    });
+
+    s.on("reconnect_error", (error) => {
+      console.error("❌ Reconnection error:", error);
+    });
+
+    s.on("reconnect_failed", () => {
+      console.error("❌ Reconnection failed");
+      connectionPromise = null;
+    });
+  });
+
+  return connectionPromise;
+};
+
+export const isSocketConnected = (): boolean => {
+  return socket?.connected || false;
+};
+
+// Clean up socket when needed
+export const disconnectSocket = (): void => {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+  connectionPromise = null;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*"use client";
 
 import {
   createContext,
@@ -242,37 +373,37 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         .toString(36)
         .slice(2)}`;
 
-      // const newMsg: Message = {
-      //   id: 0,
-      //   tempId,
-      //   conversationId,
-      //   senderId: currentUser.id,
-      //   receiverId: null,
-      //   content,
-      //   // docs: files.filter((f) => f.type.includes("application")),
-      //   // images: files.filter((f) => f.type.includes("image")),
-      //   // videos: files.filter((f) => f.type.includes("video")),
-      //   direction: "outgoing",
-      //   read: false,
-      //   messageType: safeMessageType(messageType),
-      //   createdAt: new Date().toISOString(),
-      //   updatedAt: new Date().toISOString(),
-      //   isSent: false,
-      //   isProcessing: true,
-      //   failed: false,
-      //   sender: currentUser,
-      //   receiver: null,
-      // };
+      const newMsg: Message = {
+        id: 0,
+        tempId,
+        conversationId,
+        senderId: currentUser.id,
+        receiverId: null,
+        content,
+        docs: files.filter((f) => f.type.includes("application")),
+        images: files.filter((f) => f.type.includes("image")),
+        videos: files.filter((f) => f.type.includes("video")),
+        direction: "outgoing",
+        read: false,
+        messageType: safeMessageType(messageType),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isSent: false,
+        isProcessing: true,
+        failed: false,
+        sender: currentUser,
+        receiver: null,
+      };
 
-      // console.log("[SendMessage] Optimistic message:", newMsg);
+      console.log("[SendMessage] Optimistic message:", newMsg);
 
-      // setConversations((prev) =>
-      //   prev.map((conv) =>
-      //     conv.id === conversationId
-      //       ? { ...conv, messages: [...(conv.messages || []), newMsg] }
-      //       : conv
-      //   )
-      // );
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === conversationId
+            ? { ...conv, messages: [...(conv.messages || []), newMsg] }
+            : conv
+        )
+      );
 
       try {
         console.log("[SendMessage] Emitting to server:", {
@@ -389,3 +520,4 @@ export const useMessage = () => {
   if (!ctx) throw new Error("useMessage must be used inside MessageProvider");
   return ctx;
 };
+*/

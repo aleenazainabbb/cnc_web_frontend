@@ -1,13 +1,13 @@
+// app/Bookings/Message/page.tsx
 "use client";
+
+import { MessageProvider } from "@/context/MessageContext";
 import MessageBox from "@/components/MessagesComponents/MessageBox";
-import React from "react";
 
-const page = () => {
+export default function MessagePage() {
   return (
-    <div>
+    <MessageProvider>
       <MessageBox />
-    </div>
+    </MessageProvider>
   );
-};
-
-export default page;
+}

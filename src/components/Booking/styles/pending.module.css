@@ -63,12 +63,6 @@
 .gridContainerQuotes {
   display: grid;
   border-radius: 16px;
-  gap: 1.5rem;
-  overflow-x: auto; /* ✅ enable horizontal scroll on small screens */
-  -webkit-overflow-scrolling: touch;
-}
-
-.gridContainer {
   grid-template-columns: minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(
       100px,
       1.5fr
