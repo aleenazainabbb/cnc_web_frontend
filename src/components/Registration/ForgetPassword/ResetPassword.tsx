@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import verify from '../styles/verification.module.css';
 import Snackbar from '../../popups/Snackbar';
 import { useResetPassword } from '@/context/ResetPassword';
-import { isValidEmail, isValidPassword } from '../../../../utils/validators';
+import { isValidEmail, isValidPassword } from '../../../utils/validators';
 import wallet from '../../Booking/styles/mywallet.module.css';
 
 

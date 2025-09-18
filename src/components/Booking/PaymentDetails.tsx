@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState,useEffect } from "react";
@@ -29,7 +30,7 @@ const PaymentDetails: React.FC = () => {
     return (
         <div className={payment.main}>
             <div className={payment.paragraph}>
-                <p>How would you like to pay for your service?</p>
+                <p className={payment.paragraph}>How would you like to pay for your service?</p>
                 <p className={payment.desription}>You pay only after the service is completed.</p>
             </div>
 

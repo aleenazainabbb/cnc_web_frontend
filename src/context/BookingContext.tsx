@@ -52,15 +52,12 @@ type BookingData = {
   variant?: string;
   cleaningCategory?: string;
   cleaningType?: string;
-
   appointedPrice?: number;
   discountAmount?: number;
   subTotal?: number;
   taxAmount?: number;
   totalAmount?: number;
-  // subtotal?: number;
   price?: number;
-
   status?: "pending" | "confirmed" | "cancelled";
   payment?: "card" | "cash";
   appointmentLocation?: string;
@@ -125,28 +122,33 @@ type BookingContextType = {
   ordersLoading: boolean;
 
   createBookingOrder: () => Promise<any>;
+  updateBookingOrder: (id: string) => Promise<any>;
 
   formErrors: { [key: string]: string };
   setFormErrors: React.Dispatch<
     React.SetStateAction<{ [key: string]: string }>
   >;
 
-  validateBooking: () => boolean;
-
-  deepCleanings: (type?: string, category?: string, specification?: string) => Promise<any>;
+  // validateBooking: () => boolean;
+  deepCleanings: (
+    type?: string,
+    category?: string,
+    specification?: string
+  ) => Promise<any>;
   getMaidPrices: () => Promise<any>;
   getUpholsteryPrices: (type?: string, specification?: string) => Promise<any>;
-  getDeepCleaningPrices: (type?: string, specification?: string) => Promise<any>;
+  getDeepCleaningPrices: (
+    type?: string,
+    specification?: string
+  ) => Promise<any>;
   getDuctPrices: () => Promise<any>;
-  allOrdersObject: any[];                    
+  allOrdersObject: any[];
   setAllOrdersObject: React.Dispatch<React.SetStateAction<any[]>>;
   deepCleaningData: DeepCleaningItem[] | null;
   deepCleaningLoading: boolean;
 };
-
 const BookingContext = createContext<BookingContextType | null>(null);
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-// const apiUrl = 'http://192.168.18.18:3000';
 
 export const BookingProvider = ({
   children,
@@ -155,7 +157,7 @@ export const BookingProvider = ({
 }) => {
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [billingData, setBillingData] = useState<BillingData>({
-    appointmentFrequency: "Every 3 weeks",
+    appointmentFrequency: "Once",
     appointmentTime: new Date().toLocaleString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -185,9 +187,13 @@ export const BookingProvider = ({
   const [allOrders, setAllOrders] = useState<string[][]>([]);
   const [allOrdersObject, setAllOrdersObject] = useState<any[]>([]);
   const [ordersLoading, setOrdersLoading] = useState<boolean>(false);
-  const [deepCleaningData, setDeepCleaningData] = useState<DeepCleaningItem[] | null>(null);
-  const [deepCleaningLoading, setDeepCleaningLoading] = useState<boolean>(false);
-  const [hasFetchedDeepCleaning, setHasFetchedDeepCleaning] = useState<boolean>(false);
+  const [deepCleaningData, setDeepCleaningData] = useState<
+    DeepCleaningItem[] | null
+  >(null);
+  const [deepCleaningLoading, setDeepCleaningLoading] =
+    useState<boolean>(false);
+  const [hasFetchedDeepCleaning, setHasFetchedDeepCleaning] =
+    useState<boolean>(false);
 
   const latestListRef = useRef(runtimeBookingList);
   useEffect(() => {
@@ -206,142 +212,140 @@ export const BookingProvider = ({
     setBillingData((prev) => ({ ...prev, ...data }));
   };
 
-  const validateBooking = (): boolean => {
-    const errors: { [key: string]: string } = {};
-    const serviceName = bookingData.service?.trim().toLowerCase() || "";
-    const subServiceName = bookingData.subService?.trim().toLowerCase() || "";
-    if (!bookingData.service) {
-      errors.service = "Please select a service";
-    }
-    if (!bookingData.subService) {
-      errors.subServices = "Please select a sub service";
-    }
-    const isDeepCleaning =
-      bookingData.service?.trim().toLowerCase() === "cleaning services" &&
-      subServiceName === "deep cleaning";
+  // const validateBooking = (): boolean => {
+  //   const errors: { [key: string]: string } = {};
+  //   const serviceName = bookingData.service?.trim().toLowerCase() || "";
+  //   const subServiceName = bookingData.subService?.trim().toLowerCase() || "";
+  //   if (!bookingData.service) {
+  //   errors.service = "Please select a service";
+  // }
+  // if (!bookingData.subService) {
+  //   errors.subServices = "Please select a sub service";
+  // }
+  // const isDeepCleaning =
+  //   bookingData.service?.trim().toLowerCase() === "cleaning services" &&
+  //   subServiceName === "deep cleaning";
 
-    const isSpecialCleaning = [
-      "windows cleaning",
-      "swimming pool cleaning",
-      "chandelier cleaning services",
-      "grease trap cleaning services",
-      "vehicle cleaning",
-    ].includes(subServiceName);
+  // // const isVehicleCleaning = subServiceName.includes("vehicle cleaning");
+  // const isVehicleCleaning = subServiceName === "vehicle cleaning";
 
-    const isVehicleCleaning = subServiceName.includes("vehicle cleaning");
+  // const isSpecialCleaning = [
+  //   "windows cleaning",
+  //   "swimming pool cleaning",
+  //   "chandelier cleaning services",
+  //   "grease trap cleaning services",
+  //   "vehicle cleaning",
+  // ].includes(subServiceName);
 
-    const isUpholsteryCleaning =
-      serviceName === "cleaning services" &&
-      subServiceName === "upholstery cleaning";
+  // const isUpholsteryCleaning = serviceName === "cleaning services" && subServiceName === "upholstery cleaning";
 
-    // Deep Cleaning - Commercial
-    if (isDeepCleaning && bookingData.cleaningCategory === "Commercial") {
-      if (!bookingData.cleaningCategory) {
-        errors.cleaningCategory = "Please select a category";
-      }
-    }
+  // // Deep Cleaning - Commercial
+  // if (isDeepCleaning && bookingData.cleaningCategory === "Commercial") {
+  //   if (!bookingData.cleaningCategory) {
+  //     errors.cleaningCategory = "Please select a category";
+  //   }
+  // }
 
-    // TYPE
-    if (
-      (isDeepCleaning && bookingData.cleaningCategory === "Residential") ||
-      (!isSpecialCleaning && !isDeepCleaning)
-    ) {
-      if (!bookingData.type) {
-        errors.type = "Please select a type";
-      }
-    }
+  // TYPE
+  // if (
+  //   (isDeepCleaning && bookingData.cleaningCategory === "Residential") ||
+  //   (!isSpecialCleaning && !isDeepCleaning)
+  // ) {
+  //   if (!bookingData.type) {
+  //     errors.type = "Please select a type";
+  //   }
+  // }
 
-    // Special Cleaning - Swimming Pool
-    if (isSpecialCleaning && subServiceName === "swimming pool cleaning") {
-      if (!bookingData.squareFootage) {
-        errors.squareFootage = "Please enter area in square feet";
-      }
-    }
-    // Special Cleaning - Windows
-    if (isSpecialCleaning && subServiceName === "windows cleaning") {
-      if (!bookingData.numberOfWindows) {
-        errors.numberOfWindows = "Please enter number of windows";
-      }
-    }
-    // Special Cleaning - Chandelier
-    if (
-      isSpecialCleaning &&
-      subServiceName === "chandelier cleaning services"
-    ) {
-      if (!bookingData.numberOfItems) {
-        errors.numberOfItems = "Please enter number of items";
-      }
-    }
+  // // Special Cleaning - Swimming Pool
+  // if (isSpecialCleaning && subServiceName === "swimming pool cleaning") {
+  //   if (!bookingData.squareFootage) {
+  //     errors.squareFootage = "Please enter area in square feet";
+  //   }
+  // }
+  // // Special Cleaning - Windows
+  // if (isSpecialCleaning && subServiceName === "windows cleaning") {
+  //   if (!bookingData.numberOfWindows) {
+  //     errors.numberOfWindows = "Please enter number of windows";
+  //   }
+  // }
+  // // Special Cleaning - Chandelier
+  // if (
+  //   isSpecialCleaning &&
+  //   subServiceName === "chandelier cleaning services"
+  // ) {
+  //   if (!bookingData.numberOfItems) {
+  //     errors.numberOfItems = "Please enter number of items";
+  //   }
+  // }
 
-    // vehicleCleaning
-    if (isVehicleCleaning) {
-      if (!bookingData.make?.trim()) {
-        errors.make = "Please enter the make";
-      }
-      if (!bookingData.model?.trim()) {
-        errors.model = "Please enter the model";
-      }
-      if (!bookingData.variant?.trim()) {
-        errors.variant = "Please enter the variant";
-      }
-    }
-    // Special Cleaning - Upload Media
-    if (
-      isSpecialCleaning &&
-      (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)
-    ) {
-      errors.uploadedMedia = "Please upload at least one image or video";
-    }
+  // // vehicleCleaning
+  // if (isVehicleCleaning) {
+  //   if (!bookingData.make?.trim()) {
+  //     errors.make = "Please enter the make";
+  //   }
+  //   if (!bookingData.model?.trim()) {
+  //     errors.model = "Please enter the model";
+  //   }
+  //   if (!bookingData.variant?.trim()) {
+  //     errors.variant = "Please enter the variant";
+  //   }
+  // }
+  // Special Cleaning - Upload Media
+  // if (
+  //   isSpecialCleaning &&
+  //   (!bookingData.uploadedMedia || bookingData.uploadedMedia.length === 0)
+  // ) {
+  //   errors.uploadedMedia = "Please upload at least one image or video";
+  // }
 
-    if (
-      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
-      !bookingData.specific?.trim()
-    ) {
-      errors.specific = "Please select a specific";
-    }
+  // if (
+  //   bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+  //   !bookingData.specific?.trim()
+  // ) {
+  //   errors.specific = "Please select a specific";
+  // }
 
-    if (
-      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
-      bookingData.selectedType &&
-      bookingData.selectedType !== "Carpet" &&
-      bookingData.selectedType !== "Dining Chair / Sofa"
-    ) {
-      if (
-        !bookingData.upholsteryItemCount ||
-        bookingData.upholsteryItemCount < 1
-      ) {
-        errors.upholsteryItemCount = "Please enter the number of items";
-      }
-    }
+  // if (
+  //   bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+  //   bookingData.selectedType &&
+  //   bookingData.selectedType !== "Carpet" &&
+  //   bookingData.selectedType !== "Dining Chair / Sofa"
+  // ) {
+  //   if (
+  //     !bookingData.upholsteryItemCount ||
+  //     bookingData.upholsteryItemCount < 1
+  //   ) {
+  //     errors.upholsteryItemCount = "Please enter the number of items";
+  //   }
+  // }
 
-    // ✅ Upholstery Cleaning -> Carpet: require carpet area fields
-    if (
-      bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
-      bookingData.selectedType === "Carpet"
-    ) {
-      if (!bookingData.carpetAreas || bookingData.carpetAreas.length === 0) {
-        errors.carpetAreas = "Please enter carpet area";
-      } else {
-        const hasEmptyArea = bookingData.carpetAreas.some(
-          (area) => !area.trim()
-        );
-        if (hasEmptyArea) {
-          errors.carpetAreas = "Please enter carpet area";
-        }
-      }
-    }
-    setFormErrors(errors);
+  // ✅ Upholstery Cleaning -> Carpet: require carpet area fields
+  // if (
+  //   bookingData.subService?.trim().toLowerCase() === "upholstery cleaning" &&
+  //   bookingData.selectedType === "Carpet"
+  // ) {
+  //   if (!bookingData.carpetAreas || bookingData.carpetAreas.length === 0) {
+  //     errors.carpetAreas = "Please enter carpet area";
+  //   } else {
+  //     const hasEmptyArea = bookingData.carpetAreas.some(
+  //       (area) => !area.trim()
+  //     );
+  //     if (hasEmptyArea) {
+  //       errors.carpetAreas = "Please enter carpet area";
+  //     }
+  //   }
+  // }
+  // setFormErrors(errors);
 
-    // Log errors for debugging
+  // Log errors for debugging
   // In validateBooking function
-if (Object.keys(errors).length > 0) {
-  console.error("Validation errors:", errors);
-} else {
-  console.log("No validation errors found"); // Optional: for debugging
-}
-
-    return Object.keys(errors).length === 0;
-  };
+  //   if (Object.keys(errors).length > 0) {
+  //     console.error("Validation errors:", errors);
+  //   } else {
+  //     console.log("No validation errors found"); // Optional: for debugging
+  //   }
+  //   return Object.keys(errors).length === 0;
+  // };
 
   // Update latest location
   const updateLatestLocation = (data: LatestLocation) => {
@@ -349,7 +353,6 @@ if (Object.keys(errors).length > 0) {
     console.log("Context updated:", data);
   };
   console.log("🧾 Selection List:", selectionList);
-
   const addSelection = (data: BookingSelection) => {
     setSelectionList((prev) => [...prev, data]);
   };
@@ -364,7 +367,7 @@ if (Object.keys(errors).length > 0) {
       const formData = new FormData();
 
       // formData.append("addressDetails", latestLocation?.fullAddress || "");
-       formData.append("location", latestLocation?.fullAddress || "");
+      formData.append("location", latestLocation?.fullAddress || "");
       formData.append("accessInstructions", latestLocation?.access || "");
       formData.append(
         "anyPets",
@@ -401,6 +404,14 @@ if (Object.keys(errors).length > 0) {
       formData.append("cleaningCategory", bookingData.cleaningCategory || "");
       formData.append("cleaningType", bookingData.cleaningType || "");
 
+      // formData.append("totalPrice", billingData.appointmentValue.toString());
+      // formData.append("discountPrice", billingData.discountAmount.toString());
+      // formData.append("cncChargesExclVat", billingData.subTotal.toString());
+      // formData.append("VAT", billingData.taxAmount.toString());
+      // formData.append("promoCode", billingData.discountCode || "");
+      // formData.append("cncChargesInclVat", billingData.totalAmount.toString());
+      formData.append("payment", bookingData.payment || "");
+
       bookingData.uploadedMedia?.forEach((fileObj) => {
         if (fileObj.file instanceof File) {
           const isImage = fileObj.file.type.startsWith("image/");
@@ -409,7 +420,7 @@ if (Object.keys(errors).length > 0) {
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-      // custom api integration
+
       const response = await fetch(`${apiUrl}/booking/quotes/submit`, {
         method: "POST",
         headers: {
@@ -429,42 +440,52 @@ if (Object.keys(errors).length > 0) {
     }
   };
 
-// non custom api Integration
+  // non custom api Integration
   const createBookingOrder = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found. Please log in.");
       const selected = selectionList[selectionList.length - 1];
       const formData = new FormData();
+
       formData.append("date", selected?.date || "");
       formData.append("time", selected?.time || "");
-      formData.append("cleaningMaterial", bookingData.cleaningMaterials === "yes" ? "true" : "false");
-
+      formData.append(
+        "cleaningMaterial",
+        bookingData.cleaningMaterials === "yes" ? "true" : "false"
+      );
       const isMaidOrGeneral =
-        bookingData.subService?.trim().toLowerCase() === "maid services / general services";
-      formData.append("workers", isMaidOrGeneral ? String(bookingData.staffCount ?? 0) : "0");
-      formData.append("noHours", isMaidOrGeneral ? String(bookingData.hoursCount ?? 0) : "0");
-
-      formData.append("BookingStatus", bookingData.status || "");
+        bookingData.subService?.trim().toLowerCase() ===
+        "maid services / general services";
+      formData.append(
+        "workers",
+        isMaidOrGeneral ? String(bookingData.staffCount ?? 0) : "0"
+      );
+      formData.append(
+        "noHours",
+        isMaidOrGeneral ? String(bookingData.hoursCount ?? 0) : "0"
+      );
+      // formData.append("BookingStatus", bookingData.status || "");
       formData.append("units", (bookingData.units ?? 0).toString());
-
       formData.append("service", bookingData.service || "");
       formData.append("subSubService", bookingData.subService || "");
       formData.append("category", bookingData.cleaningCategory || "");
       formData.append("location", latestLocation?.fullAddress || "");
       // formData.append("accessInstructions", latestLocation?.access || "");
-
-      formData.append("additionalServices", bookingData.residentialCleanType || "");
-      // formData.append("needCleaning", bookingData.cleaningMaterials  || "");
-      formData.append("specialInstructions", bookingData.specialInstructions || "");
-
-      formData.append("totalPrice", billingData.appointmentValue.toString());  // Billing Data mapping
+      formData.append(
+        "additionalServices",
+        bookingData.residentialCleanType || ""
+      );
+      formData.append(
+        "specialInstructions",
+        bookingData.specialInstructions || ""
+      );
+      formData.append("totalPrice", billingData.appointmentValue.toString());
       formData.append("discountPrice", billingData.discountAmount.toString());
-      formData.append("subTotalPrice", billingData.subTotal.toString());
+      formData.append("cncChargesExclVat", billingData.subTotal.toString());
       formData.append("VAT", billingData.taxAmount.toString());
       formData.append("promoCode", billingData.discountCode || "");
-      formData.append("price", billingData.totalAmount.toString());
-
+      formData.append("cncChargesInclVat", billingData.totalAmount.toString());
       formData.append("payment", bookingData.payment || "");
 
       bookingData.uploadedMedia?.forEach((fileObj) => {
@@ -475,23 +496,44 @@ if (Object.keys(errors).length > 0) {
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
+
+      // formData.append("anyPets",latestLocation?.pets === "yes" ? "true" : "false" );
+      // formData.append("petsInfo", latestLocation?.petDetails || "");
+      // formData.append("petsAdditionalNotes",latestLocation?.additionalNotes || "");
+      // formData.append("preferredCleaner", selected?.preferredCleaner || "");
+      // formData.append("cleaningFrequency", bookingData.frequency || "");
+      // formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
+      // formData.append("additionalNotes", bookingData.specialInstructions || "");
+      // formData.append("numberOfWindows", bookingData.numberOfWindows || "");
+      // formData.append("squareFeet", bookingData.squareFootage || "");
+      // formData.append("numberOfItems", bookingData.numberOfItems || "");
+      // formData.append("make", bookingData.make || "");
+      // formData.append("model", bookingData.model || "");
+      // formData.append("variant", bookingData.variant || "");
+      // formData.append("cleaningCategory", bookingData.cleaningCategory || "");
+
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
         headers: {
-          // "Content-Type": "application/json",
-          // "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        // body: JSON.stringify(payload),
         body: formData,
       });
+
       const result = await response.json();
       if (!response.ok)
         throw new Error(result.message || "Order creation failed");
-      console.log(":white_check_mark: Booking order created:", result);
+      console.log("Booking order created:", result);
+
+      //  Only update tax from backend response
+      if (result.billing) {
+        updateBillingData({
+          taxAmount: result.billing.taxAmount ?? 0,
+        });
+      }
       return result;
     } catch (error: any) {
-      console.error(":x: Booking order error:", error.message);
+      console.error("Booking order error:", error.message);
       throw error;
     }
   };
@@ -533,7 +575,8 @@ if (Object.keys(errors).length > 0) {
       }
 
       const subTotal = Math.max(price - discount, 0);
-      const taxAmount = subTotal * 0.05;
+      // Only tax comes from backend
+      const taxAmount = result.taxAmount ?? 0;
       const totalAmount = subTotal + taxAmount;
 
       updateBillingData({
@@ -584,14 +627,18 @@ if (Object.keys(errors).length > 0) {
           new Date(b.date).getTime() - new Date(a.date).getTime()
       );
 
-    // Map for table/grid if needed
+      // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
-        order.bookingId || "-",
+        order.id || "-",
         order.service || "-",
         order.subSubService || order.subService || "-",
+        order.cncChargesInclVat !== null && order.cncChargesInclVat !== ""
+          ? `${Number(order.cncChargesInclVat).toFixed(2)} AED`
+          : "Prices will be listed soon",
         order.time || "-",
         order.date || "-",
-        order.status || "Completed",
+        order.BookingStatus || "Completed",
+        order.bookingPaymentStatus || "none",
       ]);
 
       // Save both in state
@@ -604,25 +651,62 @@ if (Object.keys(errors).length > 0) {
     }
   };
 
+  // Update custom booking order
+  const updateBookingOrder = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
+
+      const formData = new FormData();
+      formData.append("totalPrice", billingData.appointmentValue.toString());
+      formData.append("discountPrice", billingData.discountAmount.toString());
+      formData.append("cncChargesExclVat", billingData.subTotal.toString());
+      formData.append("VAT", billingData.taxAmount.toString());
+      formData.append("promoCode", billingData.discountCode || "");
+      formData.append("cncChargesInclVat", billingData.totalAmount.toString());
+      formData.append("payment", bookingData.payment || "");
+      // formData.append("bookingPaymentStatus", "paid");
+
+      const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Update failed");
+      return result;
+    } catch (e) {
+      console.error("Update booking error:", e);
+      throw e;
+    }
+  };
+
   // --- Enhanced Deep Cleaning API call ---
-  const deepCleanings = async (type?: string, category?: string, specification?: string) => {
-    // If we've already fetched the data, return filtered data from state
+  const deepCleanings = async (
+    type?: string,
+    category?: string,
+    specification?: string
+  ) => {
     if (hasFetchedDeepCleaning && deepCleaningData) {
-      // Filter the data based on provided parameters
       let filteredData = deepCleaningData;
-      
+
       if (type) {
         filteredData = filteredData.filter((item) => item.type === type);
       }
-      
+
       if (category) {
-        filteredData = filteredData.filter((item) => item.category === category);
+        filteredData = filteredData.filter(
+          (item) => item.category === category
+        );
       }
-      
+
       if (specification) {
-        filteredData = filteredData.filter((item) => item.specification === specification);
+        filteredData = filteredData.filter(
+          (item) => item.specification === specification
+        );
       }
-      
+
       return { success: true, data: filteredData };
     }
 
@@ -648,33 +732,37 @@ if (Object.keys(errors).length > 0) {
       }
 
       console.log(`✅ Deep cleaning data fetched:`, result);
-      
+
       // Store the complete data and mark as fetched
       setDeepCleaningData(result.data || []);
       setHasFetchedDeepCleaning(true);
-      
+
       // Return filtered data based on parameters
       let filteredData = result.data || [];
-      
+
       if (type) {
         filteredData = filteredData.filter((item: any) => item.type === type);
       }
-      
+
       if (category) {
-        filteredData = filteredData.filter((item: any) => item.category === category);
+        filteredData = filteredData.filter(
+          (item: any) => item.category === category
+        );
       }
-      
+
       if (specification) {
-        filteredData = filteredData.filter((item: any) => item.specification === specification);
+        filteredData = filteredData.filter(
+          (item: any) => item.specification === specification
+        );
       }
-      
+
       return { success: true, data: filteredData };
     } catch (error: any) {
-      console.error("❌ Deep cleaning services error:", error.message);
-      return { 
-        success: false, 
+      console.error(" Deep cleaning services error:", error.message);
+      return {
+        success: false,
         message: error.message,
-        data: [] 
+        data: [],
       };
     } finally {
       setDeepCleaningLoading(false);
@@ -690,7 +778,10 @@ if (Object.keys(errors).length > 0) {
     return await deepCleanings(type, "upholstery", specification);
   };
 
-  const getDeepCleaningPrices = async (type?: string, specification?: string) => {
+  const getDeepCleaningPrices = async (
+    type?: string,
+    specification?: string
+  ) => {
     return await deepCleanings(type, "deep", specification);
   };
 
@@ -701,6 +792,7 @@ if (Object.keys(errors).length > 0) {
   return (
     <BookingContext.Provider
       value={{
+        updateBookingOrder,
         bookingData,
         updateBookingData,
         billingData,
@@ -726,7 +818,7 @@ if (Object.keys(errors).length > 0) {
         createBookingOrder,
         formErrors,
         setFormErrors,
-        validateBooking,
+        // validateBooking,
         deepCleaningData,
         deepCleaningLoading,
       }}

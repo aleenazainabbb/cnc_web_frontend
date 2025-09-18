@@ -9,19 +9,20 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 import { RegisterProvider } from "@/context/registerContext";
 import { VerificationProvider } from "@/context/verification";
 import { ForgotPasswordProvider } from "@/context/ForgotPassword";
-import { VerifyForgotPasswordProvider } from '@/context/VerifyForgotPassword';
-import { ResetPasswordProvider } from '@/context/ResetPassword';
+import { VerifyForgotPasswordProvider } from "@/context/VerifyForgotPassword";
+import { ResetPasswordProvider } from "@/context/ResetPassword";
 import { ProfileProvider } from "@/context/profileContext";
-import RouteProgressDone from '@/components/Loader/RouteProgressDone';
-import { LeadProvider } from '@/context/MyQuote';
-import { ResendCodeProvider } from '@/context/signupVerify';
-import { QuoteFormProvider } from '@/context/QuoteForm';
-import { QuoteListProvider } from '@/context/QuoteList';
-import { ServiceProvider } from '@/context/allservices';
-import { ProfileImageProvider } from '@/context/imageUpload';
+import RouteProgressDone from "@/components/Loader/RouteProgressDone";
+import { LeadProvider } from "@/context/MyQuote";
+import { ResendCodeProvider } from "@/context/signupVerify";
+import { QuoteFormProvider } from "@/context/QuoteForm";
+import { QuoteListProvider } from "@/context/QuoteList";
+import { ServiceProvider } from "@/context/allservices";
+import { ProfileImageProvider } from "@/context/imageUpload";
 import { BookingProvider } from "@/context/BookingContext";
-import { LocationProvider } from '@/context/Location';
+import { LocationProvider } from "@/context/Location";
 import { ContactProvider } from "@/context/Contactus";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -71,7 +72,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
         suppressHydrationWarning
       >
-
         <QuoteListProvider>
           <QuoteFormProvider>
             <VerifyForgotPasswordProvider>
@@ -84,17 +84,21 @@ export default function RootLayout({
                           <RegisterProvider>
                             <LeadProvider>
                               <ProfileProvider>
-                                <LocationProvider> 
-                                <ServiceProvider>
-                                  <BookingProvider>
-                                     <ContactProvider>
-                                    <Suspense fallback={<div>Loading...</div>}>
-                                      <RouteProgressDone />
-                                      <ConditionalLayout>{children}</ConditionalLayout>
-                                    </Suspense>
-                                    </ContactProvider>
-                                  </BookingProvider>
-                                </ServiceProvider>
+                                <LocationProvider>
+                                  <ServiceProvider>
+                                    <BookingProvider>
+                                      <ContactProvider>
+                                        <Suspense
+                                          fallback={<div>Loading...</div>}
+                                        >
+                                          <RouteProgressDone />
+                                          <ConditionalLayout>
+                                            {children}
+                                          </ConditionalLayout>
+                                        </Suspense>
+                                      </ContactProvider>
+                                    </BookingProvider>
+                                  </ServiceProvider>
                                 </LocationProvider>
                               </ProfileProvider>
                             </LeadProvider>
@@ -108,9 +112,7 @@ export default function RootLayout({
             </VerifyForgotPasswordProvider>
           </QuoteFormProvider>
         </QuoteListProvider>
-
-
       </body>
-    </html >
+    </html>
   );
 }

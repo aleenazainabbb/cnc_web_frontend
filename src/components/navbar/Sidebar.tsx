@@ -115,8 +115,20 @@ export default function Sidebar() {
           >
             <span className={side.iconText}>
               <i className="fa-solid fa-triangle-exclamation"></i>
-         
               Complaint
+            </span>
+          </LinkWithLoader>
+        </li>
+        <li>
+          <LinkWithLoader
+            href="/Bookings/Message"
+            className={`${side.navLink} ${
+              pathname.includes("/Bookings/Message") ? side.active : ""
+            }`}
+          >
+            <span className={side.iconText}>
+              <i className="fa-regular fa-comment"></i>
+              Message
             </span>
           </LinkWithLoader>
         </li>

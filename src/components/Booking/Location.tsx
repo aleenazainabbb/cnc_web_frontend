@@ -145,6 +145,8 @@ const Location: React.FC = () => {
       });
     }
   }, [selectedCountry]);
+const place = autocompleteRef.current?.getPlace();
+          
 
   useEffect(() => {
     console.log("Live Booking Data:", bookingData);
@@ -182,24 +184,39 @@ const Location: React.FC = () => {
     }
   };
 
-  const onPlaceChanged = () => {
-    if (autocompleteRef.current) {
-      const place = autocompleteRef.current.getPlace();
-      if (place.geometry?.location) {
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        const address = place.formatted_address || place.name || "";
+const onPlaceChanged = () => {
+  const autocomplete = autocompleteRef.current;
+  if (!autocomplete || typeof autocomplete.getPlace !== "function") {
+    console.warn("Autocomplete is not ready yet");
+    return;
+  }
 
-        setSelectedMarker({ lat, lng });
-        setMapCenter({ lat, lng });
-        setSearchInput(address);
+  const place = autocomplete.getPlace();
 
-        if (place.address_components) {
-          fillAddressFields(place.address_components);
-        }
-      }
-    }
-  };
+  if (!place) {
+    console.warn("No place selected");
+    return;
+  }
+
+  if (!place.geometry || !place.geometry.location) {
+    console.warn("Selected place has no geometry", place);
+    return;
+  }
+
+  const lat = place.geometry.location.lat();
+  const lng = place.geometry.location.lng();
+  const address = place.formatted_address || place.name || "";
+
+  setSelectedMarker({ lat, lng });
+  setMapCenter({ lat, lng });
+  setSearchInput(address);
+
+  if (place.address_components) {
+    fillAddressFields(place.address_components);
+  }
+};
+
+
 
   const clearSearch = () => setSearchInput("");
   const labelOccurrences: Record<string, number> = {};
@@ -353,8 +370,8 @@ const Location: React.FC = () => {
             options={{ disableDefaultUI: true, zoomControl: true }}
           >
             <div style={{ 
-              position: 'absolute', 
-              top: '10px', 
+          position:'relative',
+              top: '20px', 
               left: '10px', 
               right: '10px', 
               zIndex: 1000,
@@ -363,7 +380,7 @@ const Location: React.FC = () => {
                 onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
                 onPlaceChanged={onPlaceChanged}
               >
-                <div style={{ position: 'relative', width: '100%' }}>
+                <div style={{ position: 'relative', width: '95%' }}>
                   <FaSearch style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9CA3AF', fontSize: '14px' }} />
                   <input
                     type="text"
