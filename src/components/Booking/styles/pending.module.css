@@ -1,19 +1,14 @@
-/* ============================= */
-/* ✅ Main Container             */
-/* ============================= */
 .main {
+  /* min-height: 420px; */
+  font-family: "Inter", sans-serif;
   background-color: white;
+  box-shadow: 0px 4px 4px 0px #00000040;
   display: flex;
   flex-direction: column;
-  margin: 80px auto 0 auto; /* centers container */
-  width: 100%;
-  max-width: 1100px; /* ✅ keeps it from growing too wide */
-  position: relative;
-  box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
-  height: auto;
-  padding: 2rem;
-  box-sizing: border-box;
-  border-radius: 12px;
+  margin: 20px;
+  margin-top: 80px;
+  padding: 20px;
+  
 }
 
 /* ✅ For tablets */
@@ -36,25 +31,112 @@
 /* ============================= */
 /* ✅ Containers & Scroll        */
 /* ============================= */
-.container {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 
+/* Scroll Container Styles */
 .scrollContainer,
 .scrollContainerQuotes {
   max-height: 250px;
-  max-height: calc(4 * 50px);
   overflow-y: auto;
   padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f5f5f5;
 }
 
 .scrollContainerQuotes {
   max-height: calc(6 * 50px);
 }
 
+/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.scrollContainer::-webkit-scrollbar,
+.scrollContainerQuotes::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-track,
+.scrollContainerQuotes::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb,
+.scrollContainerQuotes::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover,
+.scrollContainerQuotes::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Smooth scrolling */
+.scrollContainer,
+.scrollContainerQuotes {
+  scroll-behavior: smooth;
+}
+
+/* Scroll container states */
+.scrollContainer:focus,
+.scrollContainerQuotes:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* Animation for scroll appearance */
+@keyframes fadeInScroll {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scrollContainer > *,
+.scrollContainerQuotes > * {
+  animation: fadeInScroll 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scrollContainer,
+  .scrollContainerQuotes {
+    max-height: 200px;
+    padding-right: 2px;
+  }
+
+  .scrollContainerQuotes {
+    max-height: calc(4 * 50px);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .scrollContainer::-webkit-scrollbar-thumb,
+  .scrollContainerQuotes::-webkit-scrollbar-thumb {
+    background: #000000;
+  }
+
+  .scrollContainer::-webkit-scrollbar-track,
+  .scrollContainerQuotes::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .scrollContainer,
+  .scrollContainerQuotes {
+    scroll-behavior: auto;
+  }
+
+  .scrollContainer > *,
+  .scrollContainerQuotes > * {
+    animation: none;
+  }
+}
 /* ============================= */
 /* ✅ Grid Layouts               */
 /* ============================= */
@@ -62,32 +144,31 @@
 .gridContainerHistory,
 .gridContainerQuotes {
   display: grid;
-  border-radius: 16px;
-  grid-template-columns: minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(
-      100px,
-      1.5fr
-    ) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
+  border-radius: 2px;
+  grid-template-columns:
+    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(100px, 1.5fr)
+    minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
   gap: 1.5rem;
   overflow-x: auto;
 }
 
 .gridContainerHistory {
-  grid-template-columns: minmax(60px, 0.3fr) minmax(90px, 0.4fr) minmax(
-      100px,
-      0.5fr
-    ) minmax(80px, 0.4fr) minmax(80px, 0.3fr) minmax(80px, 0.3fr) minmax(
+  grid-template-columns:
+    minmax(60px, 0.3fr) minmax(90px, 0.4fr) minmax(100px, 0.5fr)
+    minmax(80px, 0.4fr) minmax(80px, 0.3fr) minmax(80px, 0.3fr) minmax(
       90px,
       0.4fr
-    ) minmax(80px, 0.4fr);
+    )
+    minmax(80px, 0.4fr);
 }
 .gridContainer {
-  grid-template-columns: minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(
-      100px,
-      0.5fr
-    ) minmax(80px, 0.5fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(
+  grid-template-columns:
+    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
+    minmax(80px, 0.5fr) minmax(80px, 0.6fr) minmax(80px, 0.6fr) minmax(
       90px,
       0.4fr
-    ) minmax(80px, 0.4fr);
+    )
+    minmax(80px, 0.4fr);
 }
 
 .gridContainerQuotes {
