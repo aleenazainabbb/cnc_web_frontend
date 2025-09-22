@@ -22,6 +22,13 @@ export type UploadedMediaItem = {
   type: string;
 };
 
+// Utility: Capitalize only the first word (UI only)
+const capitalizeFirstWord = (text: any) => {
+  if (text === null || text === undefined) return "";
+  const str = String(text); // force to string
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const headers = [
     "ORDER ID",
@@ -38,6 +45,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [showModal, setShowModal] = useState(false);
+
   const isRangeSelected =
     !!range[0].startDate &&
     !!range[0].endDate &&
@@ -56,6 +64,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
+
   const {
     updateBookingData,
     updateBillingData,
@@ -64,19 +73,21 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
     updateLatestLocation,
     updateBookingOrder,
   } = useBooking();
-  const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
+
+  const [selectedRow, setSelectedRow] = useState<string[] | null>(null);
+
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);
   };
+
   const handlePayNow = (row: string[]) => {
     const [orderId, service, subService, price, time, date] = row;
 
-    // find the complete backend record for this booking
     const fullOrder = allOrdersObject.find((o: any) => o.bookingId === orderId);
 
-    // parse the displayed price string to a number"
     const parsedPrice = Number(String(price).replace(/[^0-9.-]+/g, "")) || 0;
+
     updateBookingData({
       service,
       subService,
@@ -89,14 +100,15 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
       numberOfWindows: fullOrder?.numberOfWindows || "",
       squareFootage: fullOrder?.squareFeet || "",
       numberOfItems: fullOrder?.numberOfItems || "",
-      // uploadedMedia: fullOrder?.uploadedMedia as UploadedMediaItem[] || [],
     });
+
     addSelection({
       time: fullOrder?.time || "",
       date: fullOrder?.date || "",
     });
+
     updateLatestLocation({
-      type: "Home", // or whatever default makes sense
+      type: "Home",
       street: "",
       apt: "",
       city: "",
@@ -127,12 +139,14 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   return (
     <div className={styles.main}>
       <div className={styles.container}>
+        {/* Header Row */}
         <div className={`${styles.gridContainer} ${styles.rowHeader}`}>
           {headers.map((h, i) => (
             <div key={i}>{h}</div>
           ))}
         </div>
 
+        {/* Data Rows */}
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => {
             const status = row[6];
@@ -147,7 +161,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                         className="fa-regular fa-clock"
                         style={{ marginRight: 6 }}
                       />
-                      {cell}
+                      {capitalizeFirstWord(cell)}
                     </div>
                   ) : ci === 6 ? (
                     <button
@@ -155,10 +169,10 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                       className={styles.statusButton}
                       style={{ borderColor: color, color }}
                     >
-                      {cell}
+                      {capitalizeFirstWord(cell)}
                     </button>
-                  ) : ci === 7 ? null : ( // hide raw bookingPaymentStatus
-                    <div key={ci}>{cell}</div>
+                  ) : ci === 7 ? null : (
+                    <div key={ci}>{capitalizeFirstWord(cell)}</div>
                   )
                 )}
                 {paymentStatus === "added" ? (
@@ -181,12 +195,15 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
             );
           })}
         </div>
+
+        {/* Pagination */}
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}
           onChange={handlePaginationChange}
         />
       </div>
+
       {/* Payment Modal */}
       {showModal && (
         <div className={wallet.modalOverlay}>
@@ -204,7 +221,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                   buttonLabel="Pay Now"
                   onNext={async () => {
                     try {
-                      const id = selectedRow?.[0]; // ORDER ID is at index 0
+                      const id = selectedRow?.[0];
                       if (!id) throw new Error("No booking selected");
                       await updateBookingOrder(id);
                       setShowModal(false);
@@ -219,6 +236,8 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
           </div>
         </div>
       )}
+
+      {/* Confirmation Modal */}
       {showConfirm && (
         <div className={wallet.modalOverlay}>
           <div className={wallet.modal}>

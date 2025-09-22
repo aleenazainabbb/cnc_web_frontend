@@ -2,16 +2,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMessage } from "@/context/MessageContext";
 import styles from "../Booking/styles/message.module.css";
-import { OptimisticMessage, User } from "@/context/service/messageapi";
 
 // ✅ Deduplication cache
 const receivedMessageIds = new Set<string | number>();
 
-const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
-  message,
-}) => {
+// ---------------- MessageBubble ----------------
+const MessageBubble: React.FC<{ message: any }> = ({ message }) => {
   const isOutgoing = message.direction === "outgoing";
-  const isFailed = !message.isSent;
+  const isSending = message.isSent === false && !message.failed;
+  const isFailed = message.failed === true;
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const images = Array.isArray(message.images) ? message.images : [];
@@ -19,32 +18,36 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
   const docs = Array.isArray(message.docs) ? message.docs : [];
 
   const renderMessageContent = () => {
-    const content = message.content || "";
-    const trimmedContent = content.trim();
+    const content = (
+      typeof message.content === "string" ? message.content : ""
+    ).trim();
 
     switch (message.messageType) {
       case "image":
-        if (images.length === 0)
+        if (!images.length)
           return (
             <div className={styles.imageMessage}>🖼️ Image not available</div>
           );
         return (
           <div className={styles.imageMessage}>
-            {images.map((image: any, index: number) => {
-              const imageUrl =
-                typeof image === "string"
-                  ? `${BASE_URL}${image}`
-                  : image?.url || URL.createObjectURL(image);
+            {images.map((img: any, i: number) => {
+              const url =
+                typeof img === "string" && !img.startsWith("blob")
+                  ? `${BASE_URL}${img}`
+                  : img instanceof File
+                  ? URL.createObjectURL(img)
+                  : img.url || null;
               return (
-                <div key={index} className={styles.imageWrapper}>
+                <div key={i} className={styles.imageWrapper}>
                   <img
-                    src={imageUrl}
-                    alt="Sent image"
+                    src={url}
+                    alt="image"
                     className={styles.messageImage}
+                    onLoad={() =>
+                      img instanceof File && URL.revokeObjectURL(url)
+                    }
                   />
-                  {trimmedContent && (
-                    <p className={styles.imageCaption}>{content}</p>
-                  )}
+                  {content && <p className={styles.imageCaption}>{content}</p>}
                 </div>
               );
             })}
@@ -52,57 +55,80 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
         );
 
       case "video":
-        if (videos.length === 0)
+        if (!videos.length)
           return (
             <div className={styles.videoMessage}>🎥 Video not available</div>
           );
         return (
           <div className={styles.videoMessage}>
-            {videos.map((video: any, index: number) => {
-              const videoUrl =
-                typeof video === "string"
+            {videos.map((video: any, i: number) => {
+              const url =
+                typeof video === "string" && !video.startsWith("blob")
                   ? `${BASE_URL}${video}`
-                  : video?.url || URL.createObjectURL(video);
+                  : video instanceof File
+                  ? URL.createObjectURL(video)
+                  : video.url || null;
               return (
-                <video key={index} controls className={styles.messageVideo}>
-                  <source src={videoUrl} type="video/mp4" />
-                </video>
+                <div key={i} className={styles.videoWrapper}>
+                  <video controls className={styles.messageVideo}>
+                    <source src={url} type="video/mp4" />
+                    Your browser does not support video.
+                  </video>
+                  {content && <p className={styles.videoCaption}>{content}</p>}
+                </div>
               );
             })}
-            {trimmedContent && <p className={styles.videoCaption}>{content}</p>}
           </div>
         );
 
       case "file":
-        if (docs.length === 0)
+        if (!docs.length) {
           return (
             <div className={styles.fileMessage}>
               <div className={styles.fileIcon}>📄</div>
               <span>File not available</span>
             </div>
           );
+        }
+
         return (
           <div className={styles.fileMessage}>
-            {docs.map((doc: any, index: number) => {
-              const docUrl =
-                typeof doc === "string"
-                  ? `${BASE_URL}${doc}`
-                  : doc?.url || URL.createObjectURL(doc);
+            {docs.map((doc: any, i: number) => {
+              // Generate a valid URL
+              const url =
+                doc instanceof File
+                  ? URL.createObjectURL(doc)
+                  : typeof doc === "string" && doc.trim() !== ""
+                  ? doc.startsWith("http")
+                    ? doc
+                    : `${BASE_URL}${doc}`
+                  : doc?.url || null;
+
               const fileName =
                 typeof doc === "string"
                   ? doc.split("/").pop() || "Document"
-                  : doc?.name || doc?.filename || "Document";
+                  : doc.name || doc.filename || "Document";
+
+              if (!url) {
+                // If URL is invalid, show placeholder
+                return (
+                  <div key={i} className={styles.fileItem}>
+                    <div className={styles.fileIcon}>📄</div>
+                    <span>{fileName || "File not available"}</span>
+                  </div>
+                );
+              }
+
               return (
-                <div key={index} className={styles.fileItem}>
+                <div key={i} className={styles.fileItem}>
                   <div className={styles.fileIcon}>📄</div>
                   <div className={styles.fileInfo}>
                     <span className={styles.fileName}>{fileName}</span>
                     <a
-                      href={docUrl}
+                      href={url}
                       download={fileName}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.fileDownloadLink}
                     >
                       Download
                     </a>
@@ -110,14 +136,14 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
                 </div>
               );
             })}
-            {trimmedContent && <p className={styles.fileCaption}>{content}</p>}
+            {content && <p className={styles.fileCaption}>{content}</p>}
           </div>
         );
 
       default:
         return (
           <div className={styles.messageContent}>
-            {trimmedContent || "Empty message"}
+            {content || "Empty message"}
           </div>
         );
     }
@@ -127,7 +153,7 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
     <div
       className={`${styles.messageWrapper} ${
         isOutgoing ? styles.messageRight : styles.messageLeft
-      } ${isFailed ? styles.messageFailed : ""}`}
+      }`}
     >
       <div
         className={`${styles.messageBubble} ${
@@ -146,8 +172,10 @@ const MessageBubble: React.FC<{ message: OptimisticMessage }> = ({
           </span>
           {isOutgoing && (
             <span className={styles.messageStatus}>
-              {isFailed ? (
-                <span className={styles.error}>X</span>
+              {isSending ? (
+                <span className={styles.sending}>⏳</span>
+              ) : isFailed ? (
+                <span className={styles.error}>❌</span>
               ) : message.read ? (
                 <span className={styles.readIcon}>✓✓</span>
               ) : (
@@ -170,18 +198,30 @@ const MessageBox: React.FC = () => {
     setConversationId,
     handleSendMessage,
     isLoading,
+    isSending: contextIsSending,
+    currentUser,
   } = useMessage();
   const [messageText, setMessageText] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [isSending, setIsSending] = useState(false);
+  const [localIsSending, setLocalIsSending] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [processedMessageIds, setProcessedMessageIds] = useState<
+    Set<string | number>
+  >(new Set());
 
-  // Active conversation: pick by conversationId, fallback to first
+  const isSending = contextIsSending || localIsSending;
+
   const activeConversation =
     conversations.find((c) => c.id === conversationId) || conversations[0];
 
+  // Check if all conversations are closed
+  const allConversationsClosed = conversations.every(
+    (conversation) => conversation.status === "closed"
+  );
+
+  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
@@ -189,8 +229,13 @@ const MessageBox: React.FC = () => {
     }
   }, [activeConversation?.messages]);
 
+  // Deduplicate messages - prevent showing the same message twice
+
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setSelectedFiles(Array.from(e.target.files));
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      setSelectedFiles((prev) => [...prev, ...files]);
+    }
   };
 
   const removeFile = (index: number) =>
@@ -200,15 +245,26 @@ const MessageBox: React.FC = () => {
     if (isSending || isLoading || !conversationId) return;
     if (!messageText.trim() && selectedFiles.length === 0) return;
 
-    setIsSending(true);
+    setLocalIsSending(true);
 
-    let messageType: "text" | "image" | "video" | "file" = "text";
+    let messageType: string = "text";
+
     if (selectedFiles.length > 0) {
-      if (selectedFiles.some((f) => f.type.includes("image")))
+      const hasImages = selectedFiles.some((f) => f.type.startsWith("image/"));
+      const hasVideos = selectedFiles.some((f) => f.type.startsWith("video/"));
+      const hasDocs = selectedFiles.some(
+        (f) => !f.type.startsWith("image/") && !f.type.startsWith("video/")
+      );
+
+      if ([hasImages, hasVideos, hasDocs].filter(Boolean).length > 1) {
+        messageType = "file"; // or "mixed" if you want a new type
+      } else if (hasImages) {
         messageType = "image";
-      else if (selectedFiles.some((f) => f.type.includes("video")))
+      } else if (hasVideos) {
         messageType = "video";
-      else messageType = "file";
+      } else if (hasDocs) {
+        messageType = "file";
+      }
     }
 
     try {
@@ -219,7 +275,7 @@ const MessageBox: React.FC = () => {
     } catch (err) {
       console.error("Failed to send message:", err);
     } finally {
-      setIsSending(false);
+      setLocalIsSending(false);
     }
   };
 
@@ -236,7 +292,7 @@ const MessageBox: React.FC = () => {
     isSending ||
     !conversationId;
 
-  const getMessageKey = (message: OptimisticMessage, index: number) => {
+  const getMessageKey = (message: any, index: number) => {
     if (message.id) return `msg-${message.id}-${index}`;
     if (message.tempId) return `temp-${message.tempId}-${index}`;
     if (message.createdAt) return `time-${message.createdAt}-${index}`;
@@ -245,21 +301,33 @@ const MessageBox: React.FC = () => {
       .substr(2, 9)}-${index}`;
   };
 
-  // Function to get the contact for a conversation (admin or agent)
-  const getConversationContact = (conversation: any): User | null => {
+  const getConversationContact = (conversation: any) => {
     return conversation.admin || conversation.agent || null;
   };
 
-  // Function to get the contact name for display
-  const getContactName = (contact: User | null): string => {
+  const getContactName = (contact: any): string => {
     if (!contact) return "Support";
     return `${contact.firstName} ${contact.lastName}`;
   };
 
-  // Function to get the contact role for display
-  const getContactRole = (contact: User | null): string => {
+  const getContactRole = (contact: any): string => {
     if (!contact) return "Admin";
-    return contact.role === "123" ? "123" : "Agent";
+    return contact.role === "admin" ? "Admin" : "Agent";
+  };
+
+  // Filter out duplicate messages
+  const getUniqueMessages = (messages: any[]) => {
+    if (!messages) return [];
+
+    const seenIds = new Set();
+    return messages.filter((msg) => {
+      const id = msg.id || msg.tempId;
+      if (id && seenIds.has(id)) {
+        return false;
+      }
+      if (id) seenIds.add(id);
+      return true;
+    });
   };
 
   return (
@@ -271,6 +339,7 @@ const MessageBox: React.FC = () => {
       >
         {isSidebarOpen ? "✕" : "☰"}
       </button>
+
       {/* Sidebar */}
       <div
         className={`${styles.sidebar} ${
@@ -279,18 +348,7 @@ const MessageBox: React.FC = () => {
       >
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>Conversations</h2>
-          <button
-            className={styles.newChatButton}
-            onClick={() => {
-              // ✅ Always connect to Admin
-              if (conversations.length > 0) {
-                const adminConversation = conversations.find((c) => c.admin);
-                if (adminConversation) {
-                  setConversationId(adminConversation.id);
-                }
-              }
-            }}
-          >
+          <button className={styles.newChatButton} onClick={undefined}>
             + New Chat
           </button>
         </div>
@@ -320,6 +378,10 @@ const MessageBox: React.FC = () => {
                     conversationId === conversation.id
                       ? styles.activeConversation
                       : ""
+                  } ${
+                    conversation.status === "closed"
+                      ? styles.closedConversation
+                      : ""
                   }`}
                   onClick={() => {
                     setConversationId(conversation.id);
@@ -328,9 +390,9 @@ const MessageBox: React.FC = () => {
                 >
                   <div className={styles.conversationAvatar}>
                     {contact
-                      ? `${contact.firstName?.charAt(
-                          0
-                        )}${contact.lastName?.charAt(0)}`
+                      ? `${contact.firstName?.charAt(0) || ""}${
+                          contact.lastName?.charAt(0) || ""
+                        }`
                       : "A"}
                   </div>
                   <div className={styles.conversationContent}>
@@ -340,6 +402,9 @@ const MessageBox: React.FC = () => {
                         <span className={styles.contactRole}>
                           ({contactRole})
                         </span>
+                        {conversation.status === "closed" && (
+                          <span className={styles.closedBadge}>Closed</span>
+                        )}
                       </span>
                       <span className={styles.lastMessageTime}>
                         {conversation.lastMessageAt
@@ -354,14 +419,18 @@ const MessageBox: React.FC = () => {
                     </div>
                     {conversation.messages?.[0] && (
                       <p className={styles.lastMessagePreview}>
-                        {conversation.messages[0].content ||
-                          (conversation.messages[0].images?.length
-                            ? "🖼️ Image"
-                            : conversation.messages[0].videos?.length
-                            ? "🎥 Video"
-                            : conversation.messages[0].docs?.length
-                            ? "📄 File"
-                            : "Empty message")}
+                        {(() => {
+                          const msg = conversation.messages[0];
+                          if (typeof msg.content === "string") {
+                            return msg.content.length > 50
+                              ? msg.content.substring(0, 50) + "..."
+                              : msg.content;
+                          }
+                          if (msg.images?.length) return "🖼️ Image";
+                          if (msg.videos?.length) return "🎥 Video";
+                          if (msg.docs?.length) return "📄 File";
+                          return "No content";
+                        })()}
                       </p>
                     )}
                   </div>
@@ -374,41 +443,43 @@ const MessageBox: React.FC = () => {
 
       {/* Chat Window */}
       <div className={styles.chatMain}>
-        {conversationId ? (
+        {conversationId && activeConversation ? (
           <>
             {/* Header */}
             <div className={styles.chatHeader}>
               <div className={styles.chatHeaderInfo}>
                 <div className={styles.chatAvatar}>
-                  {activeConversation?.admin
-                    ? `${activeConversation.admin.firstName.charAt(
-                        0
-                      )}${activeConversation.admin.lastName.charAt(0)}`
-                    : activeConversation?.agent
-                    ? `${activeConversation.agent.firstName.charAt(
-                        0
-                      )}${activeConversation.agent.lastName.charAt(0)}`
+                  {activeConversation.admin
+                    ? `${activeConversation.admin.firstName?.charAt(0) || ""}${
+                        activeConversation.admin.lastName?.charAt(0) || ""
+                      }`
+                    : activeConversation.agent
+                    ? `${activeConversation.agent.firstName?.charAt(0) || ""}${
+                        activeConversation.agent.lastName?.charAt(0) || ""
+                      }`
                     : "A"}
                 </div>
                 <div>
                   <h3>
-                    {activeConversation?.admin
+                    {activeConversation.admin
                       ? `${activeConversation.admin.firstName} ${activeConversation.admin.lastName}`
-                      : activeConversation?.agent
+                      : activeConversation.agent
                       ? `${activeConversation.agent.firstName} ${activeConversation.agent.lastName}`
                       : "Admin"}
                     <span className={styles.contactRole}>
                       (
-                      {activeConversation?.admin
+                      {activeConversation.admin
                         ? "Admin"
-                        : activeConversation?.agent
+                        : activeConversation.agent
                         ? "Agent"
                         : "Admin"}
                       )
                     </span>
                   </h3>
                   <span className={styles.chatStatus}>
-                    {activeConversation?.status || "Online"}
+                    {activeConversation.status === "closed"
+                      ? "Closed"
+                      : "Online"}
                   </span>
                 </div>
               </div>
@@ -430,13 +501,15 @@ const MessageBox: React.FC = () => {
               className={styles.messagesContainer}
               ref={messagesContainerRef}
             >
-              {activeConversation?.messages?.length ? (
-                activeConversation.messages.map((message, index) => (
-                  <MessageBubble
-                    key={getMessageKey(message, index)}
-                    message={message}
-                  />
-                ))
+              {activeConversation.messages?.length ? (
+                getUniqueMessages(activeConversation.messages).map(
+                  (message: any, index: number) => (
+                    <MessageBubble
+                      key={getMessageKey(message, index)}
+                      message={message}
+                    />
+                  )
+                )
               ) : (
                 <div className={styles.noMessages}>
                   <div className={styles.noMessagesIcon}>💬</div>
@@ -452,9 +525,9 @@ const MessageBox: React.FC = () => {
                 {selectedFiles.map((file, index) => (
                   <div key={index} className={styles.fileItem}>
                     <div className={styles.fileIcon}>
-                      {file.type.includes("image")
+                      {file.type.startsWith("image/")
                         ? "🖼️"
-                        : file.type.includes("video")
+                        : file.type.startsWith("video/")
                         ? "🎥"
                         : "📄"}
                     </div>
@@ -470,13 +543,17 @@ const MessageBox: React.FC = () => {
               </div>
             )}
 
-            {/* Input */}
+            {/* Input - Disabled if conversation is closed */}
             <div className={styles.inputContainer}>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className={styles.fileButton}
                 aria-label="Attach files"
-                disabled={isSending || isLoading}
+                disabled={
+                  isSending ||
+                  isLoading ||
+                  activeConversation.status === "closed"
+                }
               >
                 <span className={styles.icon}>📎</span>
               </button>
@@ -486,8 +563,12 @@ const MessageBox: React.FC = () => {
                 onChange={handleFileSelect}
                 multiple
                 className={styles.fileInput}
-                accept="image/*,video/*,application/*"
-                disabled={isSending || isLoading}
+                accept="image/*,video/*,.pdf,.doc,.docx,.txt"
+                disabled={
+                  isSending ||
+                  isLoading ||
+                  activeConversation.status === "closed"
+                }
               />
               <div className={styles.messageInputWrapper}>
                 <input
@@ -495,15 +576,25 @@ const MessageBox: React.FC = () => {
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Type a message..."
+                  placeholder={
+                    activeConversation.status === "closed"
+                      ? "This conversation is closed. Start a new chat to continue."
+                      : "Type a message..."
+                  }
                   className={styles.messageInput}
-                  disabled={isLoading || isSending}
+                  disabled={
+                    isLoading ||
+                    isSending ||
+                    activeConversation.status === "closed"
+                  }
                 />
               </div>
               <button
                 onClick={handleSend}
                 className={styles.sendButton}
-                disabled={isSendDisabled}
+                disabled={
+                  isSendDisabled || activeConversation.status === "closed"
+                }
                 aria-label="Send message"
               >
                 {isSending ? (
@@ -513,13 +604,26 @@ const MessageBox: React.FC = () => {
                 )}
               </button>
             </div>
+
+            {/* Show new chat prompt if current conversation is closed */}
+            {activeConversation.status === "closed" && (
+              <div className={styles.newChatPrompt}>
+                <p>This conversation is closed.</p>
+                <button
+                  className={styles.startNewChatButton}
+                  onClick={undefined}
+                >
+                  Start a New Chat
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <div className={styles.noConversationSelected}>
             <div className={styles.welcomeIllustration}>💬</div>
             <h2>Welcome to Messages</h2>
             <p>Select a conversation or start a new one to begin chatting</p>
-            <button className={styles.startChatButton}>
+            <button className={styles.startChatButton} onClick={undefined}>
               Start a conversation
             </button>
           </div>

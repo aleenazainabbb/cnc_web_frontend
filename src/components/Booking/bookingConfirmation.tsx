@@ -90,10 +90,10 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.logo}>
-        <i className="fa-solid fa-check"></i>
-      </div>
       <div className={styles.container} ref={modalRef}>
+        <div className={styles.logo}>
+          <i className="fa-solid fa-check"></i>
+        </div>
         <div className={styles.main} ref={pdfRef}>
           <div className={`${styles.home} no-print`} onClick={goToHome}>
             <FaTimes size={22} className="text-red-600" />

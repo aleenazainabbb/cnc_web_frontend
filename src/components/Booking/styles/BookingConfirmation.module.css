@@ -14,7 +14,7 @@
 }
 
 .container {
-margin-top: 20px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,17 +22,16 @@ margin-top: 20px;
   max-height: 95vh;
   overflow: hidden;
   border-radius: 5px;
- 
 }
 
 .main {
   width: 105%;
   max-width: 500.56px;
-  height: 650px; 
-border-top-left-radius: 30px;
+  height: 650px;
+  border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   background-color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -40,8 +39,11 @@ border-top-left-radius: 30px;
   align-items: center;
   padding: 25px 25px 30px;
   overflow: hidden;
-  -webkit-mask-image: 
-    radial-gradient(circle at 30px 100%, transparent 14px, white 12px),
+  -webkit-mask-image: radial-gradient(
+      circle at 30px 100%,
+      transparent 14px,
+      white 12px
+    ),
     radial-gradient(circle at 60px 100%, transparent 14px, white 12px),
     radial-gradient(circle at 90px 100%, transparent 14px, white 12px),
     radial-gradient(circle at 120px 100%, transparent 14px, white 12px),
@@ -62,12 +64,12 @@ border-top-left-radius: 30px;
 }
 .logo {
   position: absolute;
-  width: 80px ; /* Fixed size instead of percentage */
+  width: 80px; /* Fixed size instead of percentage */
   height: 80px; /* Fixed size instead of percentage */
   background: #fffcfc;
   z-index: 20;
   border-radius: 50%;
-  top: 2px; /* Positioned half above container */
+  top: -10px; /* Positioned half above container */
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0px 9.99px 26.65px 0px #00000029;
@@ -83,7 +85,7 @@ border-top-left-radius: 30px;
   height: 40px;
   width: 40px;
   border-radius: 50%; /* Changed to 50% for perfect circle */
-  background: #36B864;
+  background: #36b864;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,8 +97,16 @@ border-top-left-radius: 30px;
     display: none; /* hide logo completely */
   }
 }
-
-
+@media (max-width: 1440px) {
+  .logo {
+    display: none; /* hide logo completely */
+  }
+}
+@media (max-width: 1787px) {
+  .logo {
+    display: none; /* hide logo completely */
+  }
+}
 @media (max-width: 768px) {
   .logo {
     width: 50px;
@@ -123,7 +133,7 @@ border-top-left-radius: 30px;
   right: 20px;
   font-size: 15px;
   cursor: pointer;
-  color: #36B864;
+  color: #36b864;
   text-decoration: underline;
   font-weight: 600;
   z-index: 10;
@@ -142,7 +152,7 @@ border-top-left-radius: 30px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
-  color: #2E2E2EB8;
+  color: #2e2e2eb8;
   text-align: center;
   margin: 3px 0 8px;
   max-width: 90%;
@@ -156,13 +166,19 @@ border-top-left-radius: 30px;
   width: 100%;
   margin: 0px 0;
   text-shadow: #1a1a1a;
-text-align: center;
+  text-align: center;
 }
 
 .lineShort {
   width: 65%;
   height: 1px;
-  background: linear-gradient(to right, transparent 0%, #18181829 20%, #18181829 80%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #18181829 20%,
+    #18181829 80%,
+    transparent 100%
+  );
   margin: 8px auto;
 }
 
@@ -185,8 +201,8 @@ text-align: center;
   border-radius: 9.99px;
   width: 316.23px;
   height: 66.65px;
-  background-color: #36B864;
-  color: #FFFFFF;
+  background-color: #36b864;
+  color: #ffffff;
   font-size: 23.32px;
   font-weight: 400;
   margin-top: 30px;
@@ -195,8 +211,6 @@ text-align: center;
   align-items: center;
   gap: 10px;
 }
-
-
 
 .freqTimeRow {
   display: flex;
@@ -208,12 +222,12 @@ text-align: center;
 .freqBox {
   width: 25px;
   text-align: center;
-font:bold
+  font: bold;
 }
 .directions {
   display: flex;
   flex-direction: row;
-  gap:10px
+  gap: 10px;
 }
 
 .paymentInfo {
@@ -237,7 +251,7 @@ font:bold
 }
 
 .grayText {
-  color: #88939D;
+  color: #88939d;
   font-size: 14px;
 }
 
@@ -251,11 +265,11 @@ font:bold
 }
 
 .greenText {
-  color: #36B864;
+  color: #36b864;
 }
 
 .refNumber {
-  color: #36B864;
+  color: #36b864;
   font-weight: 600;
 }
 
@@ -264,7 +278,7 @@ font:bold
   .container {
     padding: 20px;
   }
-  
+
   .main {
     width: 90%;
     padding: 20px 15px 15px;
@@ -291,12 +305,12 @@ font:bold
   .overlay {
     padding: 15px;
   }
-  
+
   .container {
     padding: 15px;
     max-height: 90vh;
   }
-  
+
   .main {
     width: 85% !important;
     padding: 25px 20px 18px;
@@ -317,7 +331,7 @@ font:bold
     font-size: 18px !important;
     margin-top: 20px;
   }
-  
+
   .home {
     top: 10px;
     right: 12px;
@@ -329,7 +343,7 @@ font:bold
   .overlay {
     padding: 10px;
   }
-  
+
   .container {
     padding: 10px !important;
   }
@@ -351,37 +365,33 @@ font:bold
     gap: 4px;
   }
 
- .button {
-  width: 260px;
-  height: 50px;
-  font-size: 16px !important;
-  margin-top: 15px;
-  border: none;
-  background: #4f46e5; /* example color */
-  color: white;
-  border-bottom-left-radius: 130px;  /* half of width */
-  border-bottom-right-radius: 130px; /* half of width */
-}
-
-
-
-
+  .button {
+    width: 260px;
+    height: 50px;
+    font-size: 16px !important;
+    margin-top: 15px;
+    border: none;
+    background: #4f46e5; /* example color */
+    color: white;
+    border-bottom-left-radius: 130px; /* half of width */
+    border-bottom-right-radius: 130px; /* half of width */
+  }
 
   .home {
     top: 8px !important;
     right: 10px !important;
     font-size: 13px !important;
   }
-  
+
   .freqTimeRow {
     gap: 5px;
   }
-  
+
   .freqBox {
     width: 95px;
     font-size: 12px;
   }
-  
+
   .row {
     margin: 4px 0;
   }
@@ -391,7 +401,7 @@ font:bold
   .no-print {
     display: none !important;
   }
-  
+
   .container {
     box-shadow: none;
   }
@@ -402,14 +412,13 @@ font:bold
   display: inline-block; /* keeps wrapper tight to button */
 }
 
-
 .button {
   border: none;
   border-radius: 9.99px;
   width: 316.23px;
   height: 66.65px;
-  background-color: #36B864;
-  color: #FFFFFF;
+  background-color: #36b864;
+  color: #ffffff;
   font-size: 23.32px;
   font-weight: 400;
   margin-top: 10px;
@@ -417,4 +426,4 @@ font:bold
   justify-content: center;
   align-items: center;
   gap: 10px;
-} 
+}

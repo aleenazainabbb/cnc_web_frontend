@@ -10,12 +10,65 @@ import {
   useCallback,
 } from "react";
 import { getSocket } from "@/lib/socket";
-import {
-  getConversations,
-  Conversation,
-  User,
-  Message, // ✅ using updated Message type that includes tempId, isSent, isProcessing, failed
-} from "@/context/service/messageapi";
+
+// --------- Types ----------
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  role: string;
+}
+
+export interface Message {
+  id?: number;
+  tempId?: string;
+  conversationId: number;
+  senderId: number;
+  receiverId: number | null;
+  content: string;
+  docs: string[];
+  images: string[];
+  videos: string[];
+  direction: "incoming" | "outgoing";
+  read: boolean;
+  messageType: string;
+  createdAt?: string;
+  updatedAt?: string;
+  sender: User;
+  receiver: User | null;
+  failed?: boolean;
+  isSent?: boolean;
+}
+
+export interface Conversation {
+  id: number;
+  userId: number;
+  adminId: number | null;
+  assignedAgentId: number | null;
+  isAssigned: boolean;
+  status: string;
+  lastMessageAt: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+  admin: User | null;
+  agent: User | null;
+  messages: Message[];
+}
+
+export interface ConversationsResponse {
+  success: boolean;
+  conversations: Conversation[];
+  totalCount: number;
+}
+
+export interface SendMessageResponse {
+  success: boolean;
+  message: Message;
+  conversationId: number;
+}
 
 interface MessageContextType {
   conversations: Conversation[];
@@ -24,23 +77,31 @@ interface MessageContextType {
   handleSendMessage: (
     content: string,
     messageType?: string,
-
     files?: File[]
   ) => Promise<void>;
   fetchConversations: () => Promise<void>;
   currentUser: User | null;
   isLoading: boolean;
-  retryFailedMessage: (tempId: string) => void;
   isSending: boolean;
 }
 
 const MessageContext = createContext<MessageContextType | null>(null);
 
-const receivedMessageIds = new Set<string>();
-
+// ---------------- Helpers ----------------
 const safeMessageType = (type: string): string =>
   ["text", "image", "video", "file"].includes(type) ? type : "text";
 
+const getToken = () => {
+  if (typeof window !== "undefined") return localStorage.getItem("token");
+  return null;
+};
+
+const generateTempId = () =>
+  typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID()
+    : "temp-" + Math.random().toString(36).substring(2, 9);
+
+// ---------- Provider ----------
 export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [conversationId, setConversationId] = useState<number | null>(null);
@@ -49,9 +110,76 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [isSending, setIsSending] = useState(false);
 
   const socketRef = useRef<any>(null);
-  const sendingRef = useRef(false);
+  const isSocketSetupRef = useRef(false);
+  const receivedMessageIdsRef = useRef<Set<number>>(new Set());
+  const processedTempIdsRef = useRef<Set<string>>(new Set());
 
-  // ✅ Setup socket
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  // ---------------- API ----------------
+  const getConversationsApi =
+    useCallback(async (): Promise<ConversationsResponse> => {
+      const token = getToken();
+      const res = await fetch(`${BASE_URL}/chat/conversations`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch conversations");
+      return res.json();
+    }, [BASE_URL]);
+
+  const sendMessageApi = useCallback(
+    async (
+      conversationId: number,
+      content: string,
+      files: File[] = []
+    ): Promise<SendMessageResponse> => {
+      const token = getToken();
+      const formData = new FormData();
+      formData.append("conversationId", conversationId.toString());
+      formData.append("content", content);
+
+      files.forEach((file) => {
+        if (file.type.startsWith("image/")) formData.append("images", file);
+        else if (file.type.startsWith("video/"))
+          formData.append("videos", file);
+        else formData.append("docs", file);
+      });
+
+      const res = await fetch(`${BASE_URL}/chat/send-message`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed to send message");
+      return res.json();
+    },
+    [BASE_URL]
+  );
+
+  // ---------------- Conversations ----------------
+  const fetchConversations = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await getConversationsApi();
+      setConversations(response.conversations);
+
+      if (response.conversations.length > 0) {
+        setCurrentUser(response.conversations[0].user);
+        if (!conversationId) {
+          setConversationId(response.conversations[0].id);
+        }
+      }
+      console.log("Conversations updated:", response.conversations);
+    } catch (err) {
+      console.error("Fetch Conversations Error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [getConversationsApi, conversationId]);
+
+  // ---------------- Socket ----------------
   useEffect(() => {
     let active = true;
     const setupSocket = async () => {
@@ -59,312 +187,200 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         const s = await getSocket();
         if (!active) return;
         socketRef.current = s;
-
-        console.log("[Socket] Connected & listeners setup");
+        isSocketSetupRef.current = true;
 
         s.removeAllListeners();
 
-        s.on("newMessage", (msg: any) => {
-          console.log("[Socket:newMessage] Received:", msg);
+        // -------- New Message --------
+        s.on("newMessage", (msg: Message) => {
+          if (!msg || receivedMessageIdsRef.current.has(msg.id!)) return;
+          receivedMessageIdsRef.current.add(msg.id!);
 
           const safeMsg: Message = {
             ...msg,
             messageType: safeMessageType(msg.messageType || "text"),
-            isSent: true,
-            isProcessing: false,
-            failed: false,
+            images:
+              typeof msg.images === "string"
+                ? JSON.parse(msg.images)
+                : msg.images || [],
+            videos:
+              typeof msg.videos === "string"
+                ? JSON.parse(msg.videos)
+                : msg.videos || [],
+            docs:
+              typeof msg.docs === "string"
+                ? JSON.parse(msg.docs)
+                : msg.docs || [],
           };
 
           setConversations((prev) =>
-            prev.map((conv) => {
-              if (conv.id !== safeMsg.conversationId) return conv;
-
-              // 1️⃣ If tempId matches → replace optimistic
-              const hasTemp = conv.messages?.some(
-                (m) => m.tempId && safeMsg.tempId && m.tempId === safeMsg.tempId
-              );
-
-              if (hasTemp) {
-                console.log("[Socket:newMessage] Replacing by tempId");
-                return {
-                  ...conv,
-                  messages: conv.messages.map((m) =>
-                    m.tempId === safeMsg.tempId ? safeMsg : m
-                  ),
-                  lastMessageAt: new Date().toISOString(),
-                };
-              }
-
-              // 2️⃣ If server didn’t send tempId → match by (senderId + content + createdAt)
-              const optimisticMatch = conv.messages?.find(
-                (m) =>
-                  m.tempId && // must be optimistic
-                  m.senderId === safeMsg.senderId &&
-                  m.content === safeMsg.content &&
-                  Math.abs(
-                    new Date(m.createdAt).getTime() -
-                      new Date(safeMsg.createdAt).getTime()
-                  ) < 5000 // within 5s
-              );
-
-              if (optimisticMatch) {
-                console.log(
-                  "[Socket:newMessage] Replacing by optimistic fallback"
-                );
-                return {
-                  ...conv,
-                  messages: conv.messages.map((m) =>
-                    m.tempId === optimisticMatch.tempId ? safeMsg : m
-                  ),
-                  lastMessageAt: new Date().toISOString(),
-                };
-              }
-
-              // 3️⃣ Skip if already exists by real ID
-              const alreadyExists = conv.messages?.some(
-                (m) => m.id === safeMsg.id
-              );
-              if (alreadyExists) {
-                console.log(
-                  "[Socket:newMessage] Skipped duplicate:",
-                  safeMsg.id
-                );
-                return conv;
-              }
-
-              // 4️⃣ Otherwise → append new incoming
-              console.log(
-                "[Socket:newMessage] Appending new incoming",
-                safeMsg
-              );
-              return {
-                ...conv,
-                messages: [...(conv.messages || []), safeMsg],
-                lastMessageAt: new Date().toISOString(),
-              };
-            })
-          );
-        });
-
-        // 🔹 Confirmation for sent messages
-        s.on(
-          "messageSent",
-          (data: {
-            messageId: number;
-            tempId?: string;
-            conversationId: number;
-          }) => {
-            console.log("[Socket:messageSent] Confirmation:", data);
-
-            setIsSending(false);
-            sendingRef.current = false;
-
-            setConversations((prev) =>
-              prev.map((conv) =>
-                conv.id === data.conversationId
-                  ? {
-                      ...conv,
-                      messages: (conv.messages || []).map((m) =>
-                        m.tempId === data.tempId
-                          ? {
-                              ...m,
-                              id: data.messageId,
-                              isSent: true,
-                              isProcessing: false,
-                              failed: false,
-                            }
-                          : m
+            prev.map((conv) =>
+              conv.id === safeMsg.conversationId
+                ? {
+                    ...conv,
+                    messages: [
+                      ...conv.messages.filter(
+                        (m) =>
+                          (m.id && m.id !== safeMsg.id) ||
+                          (m.tempId &&
+                            safeMsg.tempId &&
+                            m.tempId !== safeMsg.tempId)
                       ),
-                    }
-                  : conv
-              )
-            );
-          }
-        );
+                      safeMsg,
+                    ].sort(
+                      (a, b) =>
+                        new Date(a.createdAt || "").getTime() -
+                        new Date(b.createdAt || "").getTime()
+                    ),
+                  }
+                : conv
+            )
+          );
 
-        // 🔹 Error while sending
-        s.on("messageError", (data: { error: string; tempId?: string }) => {
-          console.error("[Socket:messageError] Error:", data);
-
-          setIsSending(false);
-          sendingRef.current = false;
-
-          if (data.tempId) {
-            setConversations((prev) =>
-              prev.map((conv) => ({
-                ...conv,
-                messages: (conv.messages || []).map((m) =>
-                  m.tempId === data.tempId
-                    ? { ...m, isSent: false, failed: true, isProcessing: false }
-                    : m
-                ),
-              }))
-            );
-          }
+          console.log("New message received:", safeMsg);
         });
 
-        if (conversationId) {
-          console.log("[Socket] Joining conversation", conversationId);
-          s.emit("joinConversation", conversationId);
-        }
-        if (currentUser) {
-          console.log("[Socket] Joining user room", currentUser.id);
-          s.emit("joinUserRoom", currentUser.id);
-        }
+        // -------- Message Failed --------
       } catch (err) {
         console.error("[Socket] Setup error:", err);
+        isSocketSetupRef.current = false;
       }
     };
 
     setupSocket();
+
     return () => {
       active = false;
-      console.log("[Socket] Cleanup listeners");
-      socketRef.current?.removeAllListeners();
+      if (socketRef.current) {
+        socketRef.current.removeAllListeners();
+        socketRef.current.disconnect();
+      }
     };
+  }, []);
+
+  useEffect(() => {
+    if (!socketRef.current || !isSocketSetupRef.current) return;
+    if (conversationId)
+      socketRef.current.emit("joinConversation", conversationId);
+    if (currentUser) socketRef.current.emit("joinUserRoom", currentUser.id);
   }, [conversationId, currentUser]);
 
-  // ✅ Send message
+  // ---------------- Send Message ----------------
   const handleSendMessage = useCallback(
     async (
       content: string,
       messageType: string = "text",
       files: File[] = []
     ) => {
-      if (!conversationId || !currentUser || sendingRef.current) {
-        console.warn("[SendMessage] Blocked: missing data or already sending");
-        return;
-      }
+      if (!conversationId || !currentUser) return;
 
-      setIsSending(true);
-      sendingRef.current = true;
+      // 🔑 Find conversation to decide receiver
+      const conv = conversations.find((c) => c.id === conversationId);
+      const receiverId = conv?.agent?.id || conv?.admin?.id || null;
 
-      const tempId = `temp-${Date.now()}-${Math.random()
-        .toString(36)
-        .slice(2)}`;
+      const tempId = generateTempId();
+      processedTempIdsRef.current.add(tempId);
 
-      const newMsg: Message = {
-        id: 0,
+      const imageFiles = files.filter((f) => f.type.startsWith("image/"));
+      const videoFiles = files.filter((f) => f.type.startsWith("video/"));
+      const docFiles = files.filter(
+        (f) => !f.type.startsWith("image/") && !f.type.startsWith("video/")
+      );
+
+      const optimisticMessage: Message = {
         tempId,
         conversationId,
         senderId: currentUser.id,
-        receiverId: null,
-        content,
-        // docs: files.filter((f) => f.type.includes("application")),
-        // images: files.filter((f) => f.type.includes("image")),
-        // videos: files.filter((f) => f.type.includes("video")),
+        receiverId,
+        content: content || "",
+        images: imageFiles.map((f) => URL.createObjectURL(f)),
+        videos: videoFiles.map((f) => URL.createObjectURL(f)),
+        docs: docFiles.map((f) => f.name),
         direction: "outgoing",
         read: false,
         messageType: safeMessageType(messageType),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        isSent: false,
-        isProcessing: true,
-        failed: false,
         sender: currentUser,
         receiver: null,
-        docs: [],
-        images: [],
-        videos: [],
+        isSent: false,
+        failed: false,
       };
-
-      console.log("[SendMessage] Optimistic message:", newMsg);
 
       setConversations((prev) =>
         prev.map((conv) =>
           conv.id === conversationId
-            ? { ...conv, messages: [...(conv.messages || []), newMsg] }
+            ? { ...conv, messages: [...conv.messages, optimisticMessage] }
             : conv
         )
       );
 
-      try {
-        console.log("[SendMessage] Emitting to server:", {
-          conversationId,
-          senderId: currentUser.id,
-          content,
-          messageType,
-          tempId,
-        });
-        socketRef.current?.emit("sendMessage", {
-          conversationId,
-          senderId: currentUser.id,
-          content,
-          messageType,
-          tempId,
-        });
-      } catch (error) {
-        setIsSending(false);
-        sendingRef.current = false;
-        console.error("[SendMessage] Failed:", error);
-      }
-    },
-    [conversationId, currentUser]
-  );
-
-  // ✅ Retry failed
-  const retryFailedMessage = useCallback(
-    (tempId: string) => {
-      console.log("[Retry] Attempting retry for tempId:", tempId);
-
-      if (sendingRef.current) {
-        console.warn("[Retry] Blocked, already sending");
-        return;
-      }
-
-      const conv = conversations.find((c) =>
-        c.messages?.some((m) => m.tempId === tempId && m.failed)
-      );
-      if (!conv) {
-        console.warn("[Retry] No conversation found for tempId", tempId);
-        return;
-      }
-
-      const failedMsg = conv.messages?.find((m) => m.tempId === tempId);
-      if (!failedMsg) {
-        console.warn("[Retry] No failed message found for tempId", tempId);
-        return;
-      }
-
       setIsSending(true);
-      sendingRef.current = true;
+      try {
+        const response = await sendMessageApi(conversationId, content, files);
 
-      console.log("[Retry] Re-emitting failed message:", failedMsg);
+        const messageFromServer = {
+          ...response.message,
+          images:
+            typeof response.message.images === "string"
+              ? JSON.parse(response.message.images)
+              : response.message.images || [],
+          videos:
+            typeof response.message.videos === "string"
+              ? JSON.parse(response.message.videos)
+              : response.message.videos || [],
+          docs:
+            typeof response.message.docs === "string"
+              ? JSON.parse(response.message.docs)
+              : response.message.docs || [],
+          isSent: true,
+          failed: false,
+        };
 
-      socketRef.current?.emit("sendMessage", {
-        conversationId: failedMsg.conversationId,
-        senderId: failedMsg.senderId,
-        content: failedMsg.content,
-        messageType: failedMsg.messageType,
-        tempId: failedMsg.tempId,
-      });
+        setConversations((prev) =>
+          prev.map((conv) =>
+            conv.id === conversationId
+              ? {
+                  ...conv,
+                  messages: conv.messages.map((msg) =>
+                    msg.tempId === tempId ? messageFromServer : msg
+                  ),
+                }
+              : conv
+          )
+        );
+
+        socketRef.current?.emit("messageSent", {
+          tempId,
+          message: messageFromServer,
+        });
+      } catch (err) {
+        console.error("[SendMessage] Failed:", err);
+
+        setConversations((prev) =>
+          prev.map((conv) =>
+            conv.id === conversationId
+              ? {
+                  ...conv,
+                  messages: conv.messages.map((msg) =>
+                    msg.tempId === tempId
+                      ? { ...msg, failed: true, isSent: false }
+                      : msg
+                  ),
+                }
+              : conv
+          )
+        );
+
+        socketRef.current?.emit("messageFailed", { tempId });
+      } finally {
+        setIsSending(false);
+      }
     },
-    [conversations]
+    [conversationId, currentUser, conversations, sendMessageApi]
   );
 
-  // ✅ Fetch initial conversations
-  const fetchConversations = useCallback(async () => {
-    setIsLoading(true);
-    console.log("[FetchConversations] Fetching...");
-    try {
-      const response = await getConversations();
-      console.log("[FetchConversations] Response:", response);
-      setConversations(response.conversations);
-
-      if (response.conversations[0]?.user) {
-        console.log(
-          "[FetchConversations] Setting current user:",
-          response.conversations[0].user
-        );
-        setCurrentUser(response.conversations[0].user);
-      }
-    } catch (err) {
-      console.error("[FetchConversations] Failed:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
+  // ---------------- Init ----------------
   useEffect(() => {
     fetchConversations();
   }, [fetchConversations]);
@@ -379,7 +395,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         fetchConversations,
         currentUser,
         isLoading,
-        retryFailedMessage,
         isSending,
       }}
     >
