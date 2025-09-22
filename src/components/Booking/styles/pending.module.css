@@ -5,9 +5,15 @@
   box-shadow: 0px 4px 4px 0px #00000040;
   display: flex;
   flex-direction: column;
-  margin: 20px;
-  margin-top: 85px;
-  padding: 20px;
+  margin: 80px auto 0 auto; /* centers container */
+  width: 100%;
+  max-width: 1100px; /* ✅ keeps it from growing too wide */
+  position: relative;
+  box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
+  height: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 12px;
 }
 
 /* ✅ For tablets */
@@ -30,12 +36,12 @@
 /* ✅ Containers & Scroll        */
 /* ============================= */
 .container {
-  padding: 4px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-/* Scroll Container Styles */
+
 .scrollContainer,
 .scrollContainerQuotes {
   max-height: 250px;

@@ -224,7 +224,7 @@
 
 @media (max-width: 768px) {
   .modal {
-    width: 10px;
+    width: 100%;
     height: auto;
     /* max-height: 100vh; */
     border-radius: 12px;

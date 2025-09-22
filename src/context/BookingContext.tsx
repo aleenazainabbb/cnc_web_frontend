@@ -26,6 +26,7 @@ type UploadedMediaItem = {
 };
 
 type BookingData = {
+  id?: string;
   service?: string;
   subService?: string;
   type?: string;
@@ -62,6 +63,7 @@ type BookingData = {
   payment?: "card" | "cash";
   appointmentLocation?: string;
   selectedType?: string;
+  bookingPaymentStatus?: "none" ;
 };
 
 export type LatestLocation = {
@@ -629,7 +631,7 @@ export const BookingProvider = ({
 
       // Map for table/grid if needed
       const orderRows: string[][] = sortedOrders.map((order: any) => [
-        order.id || "-",
+        order.bookingId || "-",
         order.service || "-",
         order.subSubService || order.subService || "-",
         order.cncChargesInclVat !== null && order.cncChargesInclVat !== ""
@@ -651,38 +653,76 @@ export const BookingProvider = ({
     }
   };
 
-  // Update custom booking order
-  const updateBookingOrder = async (id: string) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("No token found");
+  // // Update custom booking order
+  // const updateBookingOrder = async (id: string) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) throw new Error("No token found");
 
-      const formData = new FormData();
-      formData.append("totalPrice", billingData.appointmentValue.toString());
-      formData.append("discountPrice", billingData.discountAmount.toString());
-      formData.append("cncChargesExclVat", billingData.subTotal.toString());
-      formData.append("VAT", billingData.taxAmount.toString());
-      formData.append("promoCode", billingData.discountCode || "");
-      formData.append("cncChargesInclVat", billingData.totalAmount.toString());
-      formData.append("payment", bookingData.payment || "");
-      // formData.append("bookingPaymentStatus", "paid");
+  //     const formData = new FormData();
+  //     formData.append("totalPrice", billingData.appointmentValue.toString());
+  //     formData.append("discountPrice", billingData.discountAmount.toString());
+  //     formData.append("cncChargesExclVat", billingData.subTotal.toString());
+  //     formData.append("VAT", billingData.taxAmount.toString());
+  //     formData.append("promoCode", billingData.discountCode || "");
+  //     formData.append("cncChargesInclVat", billingData.totalAmount.toString());
+  //     formData.append("payment", bookingData.payment || "");
+  //     formData.append("bookingPaymentStatus" , bookingData.bookingPaymentStatus || "complete");
 
-      const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+  //     const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
+  //       method: "PUT",
+  //       headers: { Authorization: `Bearer ${token}` },
+  //       body: formData,
+  //     });
 
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.message || "Update failed");
-      return result;
-    } catch (e) {
-      console.error("Update booking error:", e);
-      throw e;
-    }
-  };
+  //     const result = await response.json();
+  //     if (!response.ok) throw new Error(result.message || "Update failed");
+  //     return result;
+  //   } catch (e) {
+  //     console.error("Update booking error:", e);
+  //     throw e;
+  //   }
+  // };
 
   // --- Enhanced Deep Cleaning API call ---
+
+
+// Update custom booking order as JSON
+const updateBookingOrder = async (id: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found");
+
+    const body = {
+      totalPrice: billingData.appointmentValue,
+      discountPrice: billingData.discountAmount,
+      cncChargesExclVat: billingData.subTotal,
+      VAT: billingData.taxAmount,
+      promoCode: billingData.discountCode || "",
+      cncChargesInclVat: billingData.totalAmount,
+      payment: bookingData.payment || "",
+      bookingPaymentStatus: bookingData.bookingPaymentStatus || "complete",
+    };
+
+    const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Update failed");
+    return result;
+  } catch (e) {
+    console.error("Update booking error:", e);
+    throw e;
+  }
+};
+
+
   const deepCleanings = async (
     type?: string,
     category?: string,
