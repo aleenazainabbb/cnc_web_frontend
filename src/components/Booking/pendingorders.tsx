@@ -77,7 +77,15 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
-
+  // const {
+  //   updateBookingData,
+  //   updateBillingData,
+  //   allOrdersObject,
+  //   addSelection,
+  //   updateLatestLocation,
+  //   updateBookingOrder,
+  // } = useBooking();
+  // const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);

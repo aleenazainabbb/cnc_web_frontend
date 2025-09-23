@@ -722,7 +722,6 @@ const updateBookingOrder = async (id: string) => {
   }
 };
 
-
   const deepCleanings = async (
     type?: string,
     category?: string,

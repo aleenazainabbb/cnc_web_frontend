@@ -63,7 +63,10 @@ useEffect(() => {
             pendingOrders={pendingOrders}
             historyOrders={historyOrders}
           />
+          <div>
           <RangeFilter range={range} setRange={setRange} />
+         </div>
+
         </>
       )}
     </>
