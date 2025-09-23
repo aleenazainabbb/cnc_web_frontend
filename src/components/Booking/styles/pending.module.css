@@ -1,14 +1,18 @@
 .main {
   /* min-height: 420px; */
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   background-color: white;
-  box-shadow: 0px 4px 4px 0px #00000040;
+
+  margin: 80px 40% 0 auto; /* centers container */
+  width: 100%;
+  margin-left: 20px;
+
+  box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
+  height: 80%;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 2px;
   display: flex;
-  flex-direction: column;
-  margin: 20px;
-  margin-top: 80px;
-  padding: 20px;
-  
 }
 
 /* ✅ For tablets */
@@ -27,77 +31,27 @@
     border-radius: 8px;
   }
 }
-
 /* ============================= */
 /* ✅ Containers & Scroll        */
 /* ============================= */
+.container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-/* Scroll Container Styles */
 .scrollContainer,
 .scrollContainerQuotes {
-  max-height: 250px;
+  margin-top: 1px;
+  max-height: 40vh;
   overflow-y: auto;
-  padding-right: 4px;
+  overflow-x: auto;
+  padding-right: 20px;
   scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #f5f5f5;
+  scrollbar-color: #9a9696 #d6d6d6;
 }
-
-.scrollContainerQuotes {
-  max-height: calc(6 * 50px);
-}
-
-/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
-.scrollContainer::-webkit-scrollbar,
-.scrollContainerQuotes::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollContainer::-webkit-scrollbar-track,
-.scrollContainerQuotes::-webkit-scrollbar-track {
-  background: #f5f5f5;
-  border-radius: 4px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb,
-.scrollContainerQuotes::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb:hover,
-.scrollContainerQuotes::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
 /* Smooth scrolling */
-.scrollContainer,
-.scrollContainerQuotes {
-  scroll-behavior: smooth;
-}
-
-/* Scroll container states */
-.scrollContainer:focus,
-.scrollContainerQuotes:focus {
-  outline: 2px solid #3498db;
-  outline-offset: 2px;
-}
-
-/* Animation for scroll appearance */
-@keyframes fadeInScroll {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.scrollContainer > *,
-.scrollContainerQuotes > * {
-  animation: fadeInScroll 0.3s ease-out;
-}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -109,19 +63,6 @@
 
   .scrollContainerQuotes {
     max-height: calc(4 * 50px);
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .scrollContainer::-webkit-scrollbar-thumb,
-  .scrollContainerQuotes::-webkit-scrollbar-thumb {
-    background: #000000;
-  }
-
-  .scrollContainer::-webkit-scrollbar-track,
-  .scrollContainerQuotes::-webkit-scrollbar-track {
-    background: #ffffff;
   }
 }
 
@@ -144,7 +85,7 @@
 .gridContainerHistory,
 .gridContainerQuotes {
   display: grid;
-  border-radius: 2px;
+  border-radius: px;
   grid-template-columns:
     minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(100px, 1.5fr)
     minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
@@ -168,7 +109,7 @@
       90px,
       0.4fr
     )
-    minmax(80px, 0.4fr);
+    minmax(8vh, 0.5fr);
 }
 
 .gridContainerQuotes {
@@ -180,11 +121,14 @@
 
 .rowHeader {
   color: #8b909a;
-  padding: 6px 0;
+  padding: 4px 0;
+
+  margin-left: -6px;
+
   font-size: 13px;
-  font-weight: 500;
   font-family: "Public Sans", sans-serif;
-  border-bottom: 1px solid #e9e7fd;
+  border-bottom: 2px solid #e9e7fd;
+  overflow-y: hidden;
 }
 
 .row {
@@ -193,7 +137,7 @@
   font-size: 15px;
   font-weight: 400;
   font-family: "Roboto Flex", sans-serif;
-  border-bottom: 1px solid #cfcfcf;
+  border-bottom: 2px solid #cfcfcf;
 }
 
 /* ✅ Wrap long text properly */
@@ -232,7 +176,6 @@
 }
 
 .statusButton {
-  max-width: 103px;
   width: 100%;
   border-radius: 30px;
   height: 32px;
@@ -260,11 +203,7 @@
   align-items: center;
   justify-content: center;
 }
-.payNowButton:hover:not(:disabled) {
-  background-color: #2e9e54;
-  border-color: #2e9e54;
-  cursor: pointer;
-}
+
 .payNowButton:disabled {
   background-color: #ccc;
   color: #666;
@@ -272,7 +211,6 @@
   border-color: #ccc;
 }
 .rescheduleButton {
-  /* width: 81px; */
   height: 32px;
   border-radius: 30px;
   background-color: #1a78f2;
@@ -295,14 +233,14 @@
 /* Responsive adjustments */
 
 /* Tablet */
-@media (max-width: 1025px) {
+@media (max-width: 1024px) {
   .container {
     padding: 15px;
   }
 
   .statusButton,
   .payNowButton {
-    width: 80px;
+    width: 40%px;
   }
 
   .rescheduleButton {
@@ -341,7 +279,6 @@
   }
 }
 
-/* Tablet / Mobile */
 @media (max-width: 600px) {
   .gridContainer,
   .gridContainerHistory,

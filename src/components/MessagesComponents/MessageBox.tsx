@@ -200,7 +200,7 @@ const MessageBox: React.FC = () => {
     isLoading,
     isSending: contextIsSending,
     currentUser,
-    startSupportChat 
+    startSupportChat,
   } = useMessage();
   const [messageText, setMessageText] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -349,8 +349,9 @@ const MessageBox: React.FC = () => {
       >
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>Conversations</h2>
-          <button className={styles.newChatButton} 
-          // onClick={undefined}
+          <button
+            className={styles.newChatButton}
+            // onClick={undefined}
             onClick={() => startSupportChat("Hello, I need assistance")}
           >
             + New Chat
@@ -610,15 +611,9 @@ const MessageBox: React.FC = () => {
             </div>
 
             {/* Show new chat prompt if current conversation is closed */}
-            {activeConversation.status === "closed" && (
+            {activeConversation?.status === "closed" && (
               <div className={styles.newChatPrompt}>
-                <p>This conversation is closed.</p>
-                <button
-                  className={styles.startNewChatButton}
-                  onClick={undefined}
-                >
-                  Start a New Chat
-                </button>
+                <p>This conversation is {activeConversation.status}.</p>
               </div>
             )}
           </>

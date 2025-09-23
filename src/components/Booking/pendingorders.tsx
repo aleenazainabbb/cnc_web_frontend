@@ -22,11 +22,12 @@ export type UploadedMediaItem = {
   type: string;
 };
 
-// Utility: Capitalize only the first word (UI only)
-const capitalizeFirstWord = (text: any) => {
+// ✅ Utility: Capitalize every word in a string
+const capitalizeWords = (text: any) => {
   if (text === null || text === undefined) return "";
-  const str = String(text); // force to string
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  return String(text)
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
 const Pending: React.FC<PendingProps> = ({ range, data }) => {
@@ -47,7 +48,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   const [perPage, setPerPage] = useState(5);
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<string[] | null>(null);
-  const [selectedOrder, setSelectedOrder] = useState<any | null>(null); // <-- backend order
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
 
   const {
     updateBookingData,
@@ -143,7 +144,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
     });
 
     setSelectedRow(row);
-    setSelectedOrder(fullOrder); // <-- store backend order
+    setSelectedOrder(fullOrder);
     setShowModal(true);
   };
 
@@ -163,6 +164,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
             const status = row[6];
             const paymentStatus = row[7];
             const color = getStatusColor(status);
+
             return (
               <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
                 {row.map((cell, ci) =>
@@ -172,7 +174,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                         className="fa-regular fa-clock"
                         style={{ marginRight: 6 }}
                       />
-                      {capitalizeFirstWord(cell)}
+                      {capitalizeWords(cell)}
                     </div>
                   ) : ci === 6 ? (
                     <button
@@ -180,10 +182,10 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                       className={styles.statusButton}
                       style={{ borderColor: color, color }}
                     >
-                      {capitalizeFirstWord(cell)}
+                      {capitalizeWords(cell)}
                     </button>
-                  ) : ci === 7 ? null : ( // hide raw bookingPaymentStatus
-                    <div key={ci}>{cell}</div>
+                  ) : ci === 7 ? null : (
+                    <div key={ci}>{capitalizeWords(cell)}</div>
                   )
                 )}
                 {paymentStatus === "added" ? (
@@ -243,6 +245,8 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
           </div>
         </div>
       )}
+
+      {/* Confirmation Modal */}
       {showConfirm && (
         <div className={wallet.modalOverlay}>
           <div className={wallet.modal}>

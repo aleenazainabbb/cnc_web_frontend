@@ -16,6 +16,7 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+
   email: string;
   phone?: string;
   role: string;
@@ -25,6 +26,7 @@ export interface Message {
   id?: number;
   tempId?: string;
   conversationId: number;
+
   senderId: number;
   receiverId: number | null;
   content: string;
@@ -48,7 +50,8 @@ export interface Conversation {
   adminId: number | null;
   assignedAgentId: number | null;
   isAssigned: boolean;
-  status: string;
+  status: "open" | "closed";
+
   lastMessageAt: string;
   createdAt: string;
   updatedAt: string;
@@ -83,13 +86,13 @@ interface MessageContextType {
   currentUser: User | null;
   isLoading: boolean;
   isSending: boolean;
-  
+
   sendMessageApi: (
     conversationId: number,
     content: string,
     files?: File[]
   ) => Promise<SendMessageResponse>;
-   startSupportChat: (initialMessage?: string) => Promise<number | null>;
+  startSupportChat: (initialMessage?: string) => Promise<number | null>;
 }
 
 const MessageContext = createContext<MessageContextType | null>(null);
@@ -144,9 +147,9 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
       const token = getToken();
       const formData = new FormData();
 
-        if (conversationId) {
-      formData.append("conversationId", conversationId.toString());
-    } // 🔑 skip for new chat
+      if (conversationId) {
+        formData.append("conversationId", conversationId.toString());
+      } // 🔑 skip for new chat
 
       // formData.append("conversationId", conversationId.toString());
       formData.append("content", content);
@@ -171,27 +174,29 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   );
   // ----------------------------------------------
   // Start a new conversation with Support Team using the same send-message API
-const startSupportChat = useCallback(
-  async (initialMessage: string = "Hi Support Team"): Promise<number | null> => {
-    try {
-      // use your existing sendMessageApi with conversationId = 0 to create a new chat
-      const response = await sendMessageApi(0, initialMessage);
+  const startSupportChat = useCallback(
+    async (
+      initialMessage: string = "Hi Support Team"
+    ): Promise<number | null> => {
+      try {
+        // use your existing sendMessageApi with conversationId = 0 to create a new chat
+        const response = await sendMessageApi(0, initialMessage);
 
-      // ✅ keep only the numeric ID
-      const newConversationId: number = response.conversationId;
+        // ✅ keep only the numeric ID
+        const newConversationId: number = response.conversationId;
 
-      // set it in state so UI can load this conversation
-      setConversationId(newConversationId);
+        // set it in state so UI can load this conversation
+        setConversationId(newConversationId);
 
-      // no need to push to conversations array here
-      return newConversationId;
-    } catch (err) {
-      console.error("startSupportChat error:", err);
-      return null;
-    }
-  },
-  [sendMessageApi]
-);
+        // no need to push to conversations array here
+        return newConversationId;
+      } catch (err) {
+        console.error("startSupportChat error:", err);
+        return null;
+      }
+    },
+    [sendMessageApi]
+  );
 
   // ----------------------------------------------
 
@@ -433,7 +438,7 @@ const startSupportChat = useCallback(
         currentUser,
         isLoading,
         isSending,
-        startSupportChat, 
+        startSupportChat,
         sendMessageApi,
       }}
     >
