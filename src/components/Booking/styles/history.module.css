@@ -7,9 +7,64 @@
   flex-direction: column;
   margin: 20px;
   margin-top: 85px;
-  padding: 10px;
+  padding: 20px;
+  width: 100%;
+}
+.rowHeader {
+  color: #8b909a;
+  padding: 4px 0;
+  display: flex;
+  flex-direction: row;
+  grid-row: 8px;
+  font-size: 13px;
+  font-family: "Public Sans", sans-serif;
+  border-bottom: 2px solid #e9e7fd;
 }
 
+/* .scrollContainer {
+  margin-top: 1px;
+  max-height: 40vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding-right: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #9a9696 #d6d6d6;
+} */
+.gridContainerHistory {
+  display: grid;
+  grid-template-columns:
+    minmax(80px, 0.5fr) /* Order ID */
+    minmax(100px, 0.6fr) /* Service */
+    minmax(150px, 1fr) /* Details */
+    minmax(80px, 0.5fr) /* Price */
+    minmax(80px, 0.4fr) /* Time */
+    minmax(100px, 0.4fr) /* Date */
+    minmax(100px, 0.4fr) /* Status */
+    minmax(110px, 0.6fr); /* Reschedule */
+  gap: 1rem; /* spacing between columns */
+  overflow: hidden;
+}
+
+.row {
+  color: #000000;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: "Roboto Flex", sans-serif;
+  border-bottom: 2px solid #cfcfcf;
+}
+.statusButton {
+  width: 100%;
+  border-radius: 30px;
+  height: 32px;
+  border: 1px solid;
+  background-color: transparent;
+  font-weight: 500;
+  font-size: 14px;
+  /* padding: 6px; */
+  cursor: default;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
 .completedButton {
   width: 103px;
   border-radius: 30px;

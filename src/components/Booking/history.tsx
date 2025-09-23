@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import styles from "./styles/pending.module.css";
+import styles from "./styles/history.module.css";
 import Pagination from "@/components/Booking/pagination";
 import { Range } from "react-date-range";
 import LinkWithLoader from "@/components/Loader/Link";
@@ -21,26 +21,28 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
     "TIME",
     "DATE",
     "STATUS",
-    "",
+    "RESCHEDULE",
   ];
-  const allRows = data;
+
   const [currentPage, setCurrentPage] = React.useState(1);
   const [perPage, setPerPage] = React.useState(5);
 
+  // ✅ filter rows by date
   const filteredRows = React.useMemo(() => {
     const startDate = range?.[0]?.startDate;
     const endDate = range?.[0]?.endDate;
 
     if (!startDate || !endDate || startDate.getTime() === endDate.getTime()) {
-      return allRows;
+      return data;
     }
 
-    return allRows.filter((row) => {
+    return data.filter((row) => {
       const rowDate = new Date(row[5]);
       return rowDate >= startDate && rowDate <= endDate;
     });
-  }, [range]);
+  }, [range, data]);
 
+  // ✅ pagination
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
@@ -53,13 +55,14 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
   return (
     <div className={styles.main}>
       <div className={styles.container}>
+        {/* ✅ Header row */}
         <div className={`${styles.gridContainerHistory} ${styles.rowHeader}`}>
           {headers.map((h, i) => (
             <div key={i}>{h}</div>
           ))}
         </div>
 
-        {/* Scrollable Order Rows */}
+        {/* ✅ Scrollable rows */}
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => (
             <div
@@ -67,19 +70,9 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
               className={`${styles.gridContainerHistory} ${styles.row}`}
             >
               {row.map((cell, ci) => {
-                if (ci === 4) {
-                  return (
-                    <div key={ci}>
-                      <i
-                        className="fa-regular fa-clock"
-                        style={{ marginRight: 6, color: "#8B909A" }}
-                      />
-                      {cell}
-                    </div>
-                  );
-                } else if (ci === 6) {
+                if (ci === 6) {
+                  // STATUS button
                   const status = cell.trim().toLowerCase();
-
                   return (
                     <div key={ci}>
                       <button
@@ -98,16 +91,20 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                 }
               })}
 
-              <LinkWithLoader
-                className={styles.rescheduleButton}
-                href="/BookAservicePage"
-              >
-                Reschedule
-              </LinkWithLoader>
+              {/* ✅ Last column: Reschedule button */}
+              <div>
+                <LinkWithLoader
+                  className={styles.rescheduleButton}
+                  href="/BookAservicePage"
+                >
+                  Reschedule
+                </LinkWithLoader>
+              </div>
             </div>
           ))}
         </div>
 
+        {/* ✅ Pagination */}
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}
