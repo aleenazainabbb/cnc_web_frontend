@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import HeaderBar from '@/components/navbar/HeaderBar';
-import SavedLocation from '@/components/Booking/savedLocation';
+import HeaderBar from "@/components/navbar/HeaderBar";
+import SavedLocation from "@/components/Booking/savedLocation";
 
 export default function RequestPage() {
   return (

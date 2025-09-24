@@ -138,7 +138,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-
 }
 
 .customselectwrapper {
@@ -151,7 +150,7 @@
   position: absolute;
   top: 100%;
   width: 100%;
-  background: #F0F0F0;
+  background: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0px 0px 6px 0px #00000040;
@@ -167,11 +166,11 @@
   color: #464646;
   font-weight: 500;
   cursor: pointer;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #dcdcdc;
 }
 
 .dropdownitem:hover {
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 
 .input {
@@ -179,7 +178,7 @@
   max-width: 599px;
   height: 50px;
   padding: 10px 14px;
-  border: 2px solid #D3D8DD;
+  border: 2px solid #d3d8dd;
   border-radius: 8px;
   box-sizing: border-box;
   background-color: #fff;
@@ -193,7 +192,7 @@
   background-position: right 14px center;
   background-size: 16px;
 
-   overflow: hidden;
+  overflow: hidden;
   white-space: wrap;
   text-overflow: ellipsis;
 }
@@ -207,13 +206,13 @@
   max-width: 469px;
   height: 50px;
   padding: 10px 14px;
-  border: 2px solid #D3D8DD;
+  border: 2px solid #d3d8dd;
   border-radius: 8px;
   box-sizing: border-box;
 }
 
 .couponinput::placeholder {
-  color: #FF8361;
+  color: #ff8361;
   font-weight: 700;
   font-size: 25px;
 }
@@ -221,14 +220,14 @@
 .selectedDropdown {
   font-weight: 600;
   font-size: 13px;
-  color: #1A78F2;
+  color: #1a78f2;
 }
 
 .applybtn {
   width: 100%;
   max-width: 114px;
   height: 50px;
-  background-color: #36B864;
+  background-color: #36b864;
   color: white;
   border: none;
   border-radius: 10px;
@@ -245,11 +244,9 @@
 
 .label {
   font-weight: 600;
-  color: #9FA7B0;
+  color: #9fa7b0;
   font-size: 14px;
 }
-
-
 
 .endlabel {
   font-weight: 600;
@@ -258,7 +255,7 @@
 }
 
 select.input option:disabled {
-  color: #9FA7AF;
+  color: #9fa7af;
   font-weight: 400;
   font-size: 20px;
 }
@@ -284,25 +281,25 @@ select.input option:disabled {
   max-width: 84px;
   height: 55px;
   padding: 10px 16px;
-  border: 2px solid #D3D8DD;
+  border: 2px solid #d3d8dd;
   background-color: #fff;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 19px;
-  color: #4F6071;
+  color: #4f6071;
   transition: background 0.3s, border 0.3s;
 }
 
 .daysoption {
   width: 100%;
   max-width: 299px;
-  color: #4F6071;
+  color: #4f6071;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
-  border: 2px solid #D3D8DD;
+  border: 2px solid #d3d8dd;
   border-radius: 8px;
   background-color: #fff;
   cursor: pointer;
@@ -326,7 +323,7 @@ select.input option:disabled {
 
 .daysoption.selected {
   background-color: white;
-  border-color: #1A78F2;
+  border-color: #1a78f2;
   color: #007bff;
 }
 
@@ -372,23 +369,23 @@ select.input option:disabled {
 }
 
 .badgePopular {
-  background-color: #36B864;
+  background-color: #36b864;
   padding: 2px 6px;
   font-size: 9px;
   border-radius: 30px;
   color: white;
-  border: 1px solid #36B864;
+  border: 1px solid #36b864;
   font-weight: 600;
   width: 89px;
   height: 21px;
 }
 
 .badgeDiscount {
-  background-color: #FF502936;
+  background-color: #ff502936;
   padding: 2px 6px;
-  border: 1px solid #FF502936;
+  border: 1px solid #ff502936;
   font-size: 9px;
-  color: #FE5A15;
+  color: #fe5a15;
   font-weight: 600;
   border-radius: 30px;
 }
@@ -397,7 +394,7 @@ select.input option:disabled {
   margin-top: 4px;
   font-weight: 400;
   font-size: 12px;
-  color: #000000B5;
+  color: #000000b5;
   line-height: 1.4;
 }
 
@@ -436,7 +433,7 @@ select.input option:disabled {
 }
 
 .yesnobuttons.selected {
-  background-color: #36B864;
+  background-color: #36b864;
   color: white;
   border: none;
 }
@@ -451,7 +448,7 @@ select.input option:disabled {
   max-width: 552px;
   min-height: 124px;
   padding: 12px;
-  border: 2px solid #D3D8DD;
+  border: 2px solid #d3d8dd;
   border-radius: 8px;
   resize: none;
   font-size: 14px;
@@ -480,7 +477,6 @@ select.input option:disabled {
     height: none;
     padding: 10px 20px;
     font-size: 16px;
-
   }
 
   .yesnobuttons {

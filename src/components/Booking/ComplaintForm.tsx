@@ -13,6 +13,7 @@ interface TicketFile {
   filePath: string;
 }
 interface Ticket {
+  subService: string;
   id: number;
   bookingId: string;
   message: string;
@@ -219,7 +220,6 @@ const ComplaintForm = () => {
                     selectedOrder?.service ||
                     "-";
                   setSelectedService(serviceLabel);
-                  
                 }}
                 className={styles.formInput}
                 disabled={ordersLoading}
@@ -319,7 +319,10 @@ const ComplaintForm = () => {
                 {tickets.map((ticket) => (
                   <div key={ticket.id} className={styles.complaintItem}>
                     <div className={styles.set}>
-                      <span className={styles.ticket}>Tickets</span>
+                      <span className={styles.ticket}>
+                        {ticket.serviceName}
+                      </span>
+
                       <span className={styles.complaintDate}>
                         Order Submition Date : {""}
                         {new Date(ticket.createdAt).toLocaleDateString()}
@@ -329,8 +332,32 @@ const ComplaintForm = () => {
                       <span className={styles.complaintOrder}>
                         Order: {ticket.bookingId}
                       </span>
-                      <div className={styles.complaintStatus}>
-                        Status: <span>{ticket.status}</span>
+                      <div
+                        className={styles.complaintStatus}
+                        style={{
+                          fontSize: "0.9rem",
+                          color: "#64748b",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                        }}
+                      >
+                        Status:{" "}
+                        <span
+                          style={{
+                            color:
+                              ticket.status?.toLowerCase() === "started"
+                                ? "#f59e0b" // yellow
+                                : ticket.status?.toLowerCase() === "resolved"
+                                ? "#22c55e" // green
+                                : ticket.status?.toLowerCase() === "pending"
+                                ? "#3b82f6" // blue
+                                : "#64748b", // default gray
+                            fontWeight: "600",
+                          }}
+                        >
+                          {ticket.status}
+                        </span>
                       </div>
                     </div>
                     <span>Message :</span>
