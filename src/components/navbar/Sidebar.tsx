@@ -24,6 +24,7 @@ export default function Sidebar() {
           alt="CarenClean"
           width={232}
           height={58.34}
+          priority
           className={side.logoImage}
         />
       </div>

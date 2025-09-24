@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import styles from './styles/profile.module.css';
-import { useLead } from '@/context/MyQuote';
-import { useQuoteList } from '@/context/QuoteList';
+import React, { useEffect, useState } from "react";
+import styles from "./styles/profile.module.css";
+import { useLead } from "@/context/MyQuote";
+import { useQuoteList } from "@/context/QuoteList";
 
 const MyQuotes: React.FC = () => {
   const [formData, setFormData] = useState({
-    customer: '',
-    email: '',
-    phone: '',
-    address: '',
-    area: '',
-    leadType: '',
-    description: '',
+    customer: "",
+    email: "",
+    phone: "",
+    address: "",
+    area: "",
+    leadType: "",
+    description: "",
   });
 
   const { createLead, loading, error, success, clearMessages } = useLead();
   const { fetchQuotes } = useQuoteList();
 
   useEffect(() => {
-    const saved = localStorage.getItem('leadData');
-    const storedUser = localStorage.getItem('user');
+    const saved = localStorage.getItem("leadData");
+    const storedUser = localStorage.getItem("user");
 
-    let parsedEmail = '';
+    let parsedEmail = "";
     if (storedUser) {
       try {
-        parsedEmail = JSON.parse(storedUser)?.email || '';
+        parsedEmail = JSON.parse(storedUser)?.email || "";
       } catch (e) {
-        console.error('Error parsing user email from localStorage:', e);
+        console.error("Error parsing user email from localStorage:", e);
       }
     }
 
@@ -36,16 +36,16 @@ const MyQuotes: React.FC = () => {
       try {
         const parsed = JSON.parse(saved);
         setFormData({
-          customer: parsed.customer || '',
+          customer: parsed.customer || "",
           email: parsedEmail,
-          phone: parsed.phone || '',
-          address: parsed.address || '',
-          area: parsed.area || '',
-          leadType: parsed.leadType || '',
-          description: parsed.description || '',
+          phone: parsed.phone || "",
+          address: parsed.address || "",
+          area: parsed.area || "",
+          leadType: parsed.leadType || "",
+          description: parsed.description || "",
         });
       } catch (e) {
-        console.error('Error parsing saved lead data:', e);
+        console.error("Error parsing saved lead data:", e);
       }
     } else {
       setFormData((prev) => ({ ...prev, email: parsedEmail }));
@@ -63,7 +63,9 @@ const MyQuotes: React.FC = () => {
   }, [success, clearMessages]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,22 +73,22 @@ const MyQuotes: React.FC = () => {
 
   const handleSubmit = async () => {
     await createLead(formData);
-    localStorage.setItem('leadData', JSON.stringify(formData));
+    localStorage.setItem("leadData", JSON.stringify(formData));
     await fetchQuotes();
   };
 
- const handleCancel = () => {
-  setFormData((prev) => ({
-    customer: '',
-    email: prev.email, // ✅ preserve the existing email
-    phone: '',
-    address: '',
-    area: '',
-    leadType: '',
-    description: '',
-  }));
-  clearMessages();
-};
+  const handleCancel = () => {
+    setFormData((prev) => ({
+      customer: "",
+      email: prev.email, // ✅ preserve the existing email
+      phone: "",
+      address: "",
+      area: "",
+      leadType: "",
+      description: "",
+    }));
+    clearMessages();
+  };
   return (
     <div className={styles.main}>
       <div className={styles.profile_container}>
@@ -146,7 +148,9 @@ const MyQuotes: React.FC = () => {
               value={formData.area}
               onChange={handleChange}
             >
-              <option value="" disabled>Select area</option>
+              <option value="" disabled>
+                Select area
+              </option>
               <option value="Dubai">Dubai</option>
               <option value="Abu Dhabi">Abu Dhabi</option>
               <option value="Ajman">Ajman</option>
@@ -165,7 +169,9 @@ const MyQuotes: React.FC = () => {
               value={formData.leadType}
               onChange={handleChange}
             >
-              <option value="" disabled>Select lead Sources</option>
+              <option value="" disabled>
+                Select lead Sources
+              </option>
               <option value="WhatsApp">WhatsApp</option>
               <option value="Email">Email</option>
               <option value="Website">Website</option>
@@ -185,17 +191,21 @@ const MyQuotes: React.FC = () => {
         </div>
 
         {/* Feedback Messages */}
-        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-        {success && <p style={{ color: 'green', marginTop: '10px' }}>{success}</p>}
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+        {success && (
+          <p style={{ color: "green", marginTop: "10px" }}>{success}</p>
+        )}
 
         <div className={styles.quotesbuttonContainer}>
-          <button className={styles.quote_button} onClick={handleCancel}>Clear</button>
+          <button className={styles.quote_button} onClick={handleCancel}>
+            Clear
+          </button>
           <button
             className={styles.quote_button}
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? 'Saving...' : 'Save'}
+            {loading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>

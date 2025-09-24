@@ -1,27 +1,26 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from '@/context/Location';
-import type { SavedLocation } from '@/context/Location';
-import Snackbar from '@/components/popups/Snackbar';
-import { FaSearch, FaTimes, FaTrash, FaEdit } from 'react-icons/fa';
+import React, { useState, useRef } from "react";
+import { useLocation } from "@/context/Location";
+import Snackbar from "@/components/popups/Snackbar";
+import { FaSearch, FaTimes, FaTrash, FaEdit } from "react-icons/fa";
 
 import {
   GoogleMap,
   Marker,
   useLoadScript,
   Autocomplete,
-} from '@react-google-maps/api';
+} from "@react-google-maps/api";
 
-import location from './styles/savedlocation.module.css';
+import location from "./styles/savedlocation.module.css";
 
 const mapContainerStyle = {
-  width: '100%',
-  height: '300px',
-  border: '1px solid #A1A1A1',
-  borderRadius: '9px',
-  position: 'relative' as const,
-  overflow: 'hidden',
+  width: "100%",
+  height: "300px",
+  border: "1px solid #A1A1A1",
+  borderRadius: "9px",
+  position: "relative" as const,
+  overflow: "hidden",
 };
 
 const defaultCenter = {
@@ -39,39 +38,36 @@ type SavedLocationType = {
 };
 
 const SavedLocation: React.FC = () => {
-  const [label, setLabel] = useState('');
-  const [formattedAddress, setFormattedAddress] = useState('');
-  const [placeId, setPlaceId] = useState('');
-  const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(null);
+  const [label, setLabel] = useState("");
+  const [formattedAddress, setFormattedAddress] = useState("");
+  const [placeId, setPlaceId] = useState("");
+  const [selected, setSelected] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const {
-    savedLocation,
-    saveLocation,
-    deleteLocation,
-    updateLocation,
-    savedLocations,
-    setSavedLocations
-  } = useLocation();
+  const { saveLocation, deleteLocation, updateLocation, savedLocations } =
+    useLocation();
 
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  const [snackbarMsg, setSnackbarMsg] = useState('');
-  const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('success');
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">(
+    "success"
+  );
   const [showSnackbar, setShowSnackbar] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editingLocation, setEditingLocation] = useState<SavedLocationType | null>(null);
+  const [editingLocation, setEditingLocation] =
+    useState<SavedLocationType | null>(null);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: ['places'],
+    libraries: ["places"],
   });
 
-  const showToast = (msg: string, type: 'success' | 'error') => {
+  const showToast = (msg: string, type: "success" | "error") => {
     setSnackbarMsg(msg);
     setSnackbarType(type);
     setShowSnackbar(true);
@@ -79,7 +75,7 @@ const SavedLocation: React.FC = () => {
 
   const handleSave = async () => {
     if (!label || !formattedAddress || !placeId || !selected) {
-      showToast('Please complete the form', 'error');
+      showToast("Please complete the form", "error");
       return;
     }
 
@@ -91,12 +87,15 @@ const SavedLocation: React.FC = () => {
       lng: selected.lng,
     });
 
-    if (result.type === 'success' && result.savedLocation !== undefined) {
-      // const newLocation = result.savedLocation as SavedLocation;
-      // setSavedLocations((prev) => [...prev, newLocation]);
-      showToast('Location saved', 'success');
+    if (result.type === "success") {
+      showToast("Location saved", "success");
+      setLabel("");
+      setFormattedAddress("");
+      setPlaceId("");
+      setSelected(null);
+      if (inputRef.current) inputRef.current.value = "";
     } else {
-      showToast(result.message || 'Failed to save location', 'error');
+      showToast(result.message || "Failed to save location", "error");
     }
   };
 
@@ -104,7 +103,8 @@ const SavedLocation: React.FC = () => {
     if (!editingLocation) return;
 
     const updatedLabel = label || editingLocation.label;
-    const updatedFormattedAddress = formattedAddress || editingLocation.formattedAddress;
+    const updatedFormattedAddress =
+      formattedAddress || editingLocation.formattedAddress;
     const updatedPlaceId = placeId || editingLocation.placeId;
     const updatedLat = selected?.lat ?? editingLocation.lat;
     const updatedLng = selected?.lng ?? editingLocation.lng;
@@ -117,10 +117,12 @@ const SavedLocation: React.FC = () => {
       lng: updatedLng,
     });
 
-    if (result.type === 'success') {
-      showToast('Location updated', 'success');
+    if (result.type === "success") {
+      showToast("Location updated", "success");
+      setIsEditing(false);
+      setEditingLocation(null);
     } else {
-      showToast('Something went wrong while updating', 'error');
+      showToast("Something went wrong while updating", "error");
     }
   };
 
@@ -130,7 +132,7 @@ const SavedLocation: React.FC = () => {
   };
 
   const handleEditLocation = (loc: SavedLocationType) => {
-    setActiveLocationId(loc.id); 
+    setActiveLocationId(loc.id);
     setIsEditing(true);
     setEditingLocation(loc);
     setLabel(loc.label);
@@ -153,48 +155,45 @@ const SavedLocation: React.FC = () => {
       reverseGeocode(lat, lng);
     }
   };
+
   const clearSearch = () => {
-  if (inputRef.current) inputRef.current.value = "";
-  setFormattedAddress("");
-  setSelected(null);
-  setMapCenter(defaultCenter);
-  setPlaceId("");
-};
+    if (inputRef.current) inputRef.current.value = "";
+    setFormattedAddress("");
+    setSelected(null);
+    setMapCenter(defaultCenter);
+    setPlaceId("");
+  };
 
   const reverseGeocode = (lat: number, lng: number) => {
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {
+      if (status === "OK" && results && results.length > 0) {
         setFormattedAddress(results[0].formatted_address);
-        setPlaceId(results[0].place_id || '');
+        setPlaceId(results[0].place_id || "");
       }
     });
   };
-const onPlaceChanged = () => {
-  if (!autocompleteRef.current) return;
 
-  const place = autocompleteRef.current.getPlace();
-  if (!place || !place.geometry || !place.geometry.location) {
-    console.warn("Invalid place object or missing geometry:", place);
-    return;
-  }
+  const onPlaceChanged = () => {
+    if (!autocompleteRef.current) return;
 
-  const lat = place.geometry.location.lat();
-  const lng = place.geometry.location.lng();
+    const place = autocompleteRef.current.getPlace();
+    if (!place || !place.geometry || !place.geometry.location) return;
 
-  setSelected({ lat, lng });
-  setMapCenter({ lat, lng });
-  setFormattedAddress(place.formatted_address || place.name || "");
-  setPlaceId(place.place_id || "");
-};
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
 
+    setSelected({ lat, lng });
+    setMapCenter({ lat, lng });
+    setFormattedAddress(place.formatted_address || place.name || "");
+    setPlaceId(place.place_id || "");
+  };
 
   if (loadError) return <div>Map failed to load</div>;
   if (!isLoaded) return <div>Loading map...</div>;
 
   return (
     <div className={location.main}>
-    
       {showSnackbar && (
         <Snackbar
           message={snackbarMsg}
@@ -234,35 +233,39 @@ const onPlaceChanged = () => {
           >
             <div
               style={{
-                position: 'absolute',
-                top: '10px',
-                left: '10px',
-                right: '10px',
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                right: "10px",
                 zIndex: 1000,
               }}
             >
               <Autocomplete
-                onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                onLoad={(autocomplete) =>
+                  (autocompleteRef.current = autocomplete)
+                }
                 onPlaceChanged={onPlaceChanged}
               >
-                <div  style={{ position: 'relative', width: '100%' }}>
+                <div style={{ position: "relative", width: "100%" }}>
                   <FaSearch className={location.searchIcon} />
                   <input
                     ref={inputRef}
                     type="text"
                     placeholder="Search for your building or area"
                     style={{
-                      width: '100%',
-                      
-                      height: '36px',
-                      padding: '0 36px',
-                      borderRadius: '8px',
-                      border: '2px solid #D3D8DD',
-                      fontSize: '14px',
-                      outline: 'none',
+                      width: "100%",
+                      height: "36px",
+                      padding: "0 36px",
+                      borderRadius: "8px",
+                      border: "2px solid #D3D8DD",
+                      fontSize: "14px",
+                      outline: "none",
                     }}
                   />
-                  <FaTimes onClick={clearSearch} className={location.clearIcon} />
+                  <FaTimes
+                    onClick={clearSearch}
+                    className={location.clearIcon}
+                  />
                 </div>
               </Autocomplete>
             </div>
@@ -271,9 +274,11 @@ const onPlaceChanged = () => {
         </div>
 
         <div className={location.buttonContainer}>
-          <button className={location.button}
-            onClick={isEditing ? handleUpdate : handleSave}>
-            {isEditing ? 'Update Location' : 'Save Location'}
+          <button
+            className={location.button}
+            onClick={isEditing ? handleUpdate : handleSave}
+          >
+            {isEditing ? "Update Location" : "Save Location"}
           </button>
         </div>
       </div>
@@ -285,23 +290,27 @@ const onPlaceChanged = () => {
             {savedLocations.map((loc) => (
               <div
                 key={loc.id}
-                className={`${location.savedCard} ${activeLocationId === loc.id ? location.activeCard : ''}`}
+                className={`${location.savedCard} ${
+                  activeLocationId === loc.id ? location.activeCard : ""
+                }`}
                 onClick={() => handleEditLocation(loc)}
               >
                 <div className={location.savedLabel}>{loc.label}</div>
-                <div className={location.savedAddress}>{loc.formattedAddress}</div>
+                <div className={location.savedAddress}>
+                  {loc.formattedAddress}
+                </div>
                 <div className={location.iconRow}>
                   <FaEdit
                     className={location.icon}
                     onClick={(e) => {
-                      e.stopPropagation(); // prevent triggering card click
+                      e.stopPropagation();
                       handleEditLocation(loc);
                     }}
                   />
                   <FaTrash
                     className={location.trashIcon}
                     onClick={(e) => {
-                      e.stopPropagation(); // prevent triggering card click
+                      e.stopPropagation();
                       handleDelete(loc.id);
                     }}
                   />
