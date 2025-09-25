@@ -79,10 +79,10 @@
 /* Tablets & small laptops (<= 768px) */
 @media (max-width: 768px) {
   .wrapper {
-    width: auto;
-    margin-top: -45px;
-    margin-right: -10px;
-    justify-content: flex-end;
+    width: 570px;
+    margin-top: -40px;
+
+    height: 60px;
   }
 
   .rangeBox {

@@ -123,7 +123,8 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const isSocketSetupRef = useRef(false);
   const receivedMessageIdsRef = useRef<Set<number>>(new Set());
   const processedTempIdsRef = useRef<Set<string>>(new Set());
-
+  const [hasSentMessage, setHasSentMessage] = useState(false);
+  const [chatStatus, setChatStatus] = useState<"open" | "closed">("closed");
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   // ---------------- API ----------------
@@ -173,29 +174,38 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     [BASE_URL]
   );
   // ----------------------------------------------
-  // Start a new conversation with Support Team using the same send-message API
   const startSupportChat = useCallback(
     async (
       initialMessage: string = "Hi Support Team"
     ): Promise<number | null> => {
       try {
-        // use your existing sendMessageApi with conversationId = 0 to create a new chat
+        // Only block the *first-time* message
+        if (hasSentMessage && initialMessage === "Hello, I need assistance") {
+          console.log("⚠️ Initial support message already sent. Skipping...");
+          return null;
+        }
+
+        // ✅ Call your existing sendMessageApi with conversationId = 0
         const response = await sendMessageApi(0, initialMessage);
 
-        // ✅ keep only the numeric ID
         const newConversationId: number = response.conversationId;
 
-        // set it in state so UI can load this conversation
+        // Set state so UI knows chat is active
         setConversationId(newConversationId);
 
-        // no need to push to conversations array here
+        // Mark initial message as sent if it's the first one
+        if (initialMessage === "Hello, I need assistance") {
+          setHasSentMessage(true);
+          setChatStatus("open");
+        }
+
         return newConversationId;
       } catch (err) {
         console.error("startSupportChat error:", err);
         return null;
       }
     },
-    [sendMessageApi]
+    [sendMessageApi, hasSentMessage, chatStatus]
   );
 
   // ----------------------------------------------
@@ -349,10 +359,15 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         failed: false,
       };
 
+      // UPDATE: Add lastMessageAt when adding the optimistic message
       setConversations((prev) =>
         prev.map((conv) =>
           conv.id === conversationId
-            ? { ...conv, messages: [...conv.messages, optimisticMessage] }
+            ? {
+                ...conv,
+                messages: [...conv.messages, optimisticMessage],
+                lastMessageAt: new Date().toISOString(), // Add this line
+              }
             : conv
         )
       );
@@ -379,6 +394,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
           failed: false,
         };
 
+        // UPDATE: Also update lastMessageAt with server timestamp
         setConversations((prev) =>
           prev.map((conv) =>
             conv.id === conversationId
@@ -387,6 +403,8 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
                   messages: conv.messages.map((msg) =>
                     msg.tempId === tempId ? messageFromServer : msg
                   ),
+                  lastMessageAt:
+                    response.message.createdAt ?? conv.lastMessageAt, // ✅ safe fallback
                 }
               : conv
           )
@@ -421,7 +439,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     },
     [conversationId, currentUser, conversations, sendMessageApi]
   );
-
   // ---------------- Init ----------------
   useEffect(() => {
     fetchConversations();
