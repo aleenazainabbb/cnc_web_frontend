@@ -352,7 +352,7 @@ const MessageBox: React.FC = () => {
           <button
             className={styles.newChatButton}
             // onClick={undefined}
-            onClick={() => startSupportChat("Hello, I need assistance")}
+            onClick={() => startSupportChat()}
           >
             + New Chat
           </button>

@@ -70,6 +70,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
               className={`${styles.gridContainerHistory} ${styles.row}`}
             >
               {row.map((cell, ci) => {
+                if (ci === 7) return null; // Skip the last column here (bookingPaymentStatus)
                 if (ci === 6) {
                   // STATUS button
                   const status = cell.trim().toLowerCase();
@@ -91,7 +92,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
                 }
               })}
 
-              {/* ✅ Last column: Reschedule button */}
+              {/* Last column: Reschedule button */}
               <div>
                 <LinkWithLoader
                   className={styles.rescheduleButton}

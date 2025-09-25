@@ -22,7 +22,7 @@ export type UploadedMediaItem = {
   type: string;
 };
 
-// ✅ Utility: Capitalize every word in a string
+// Utility: Capitalize every word in a string
 const capitalizeWords = (text: any) => {
   if (text === null || text === undefined) return "";
   return String(text)
@@ -67,11 +67,11 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[5]);
-        const start = range[0].startDate!;
-        const end = range[0].endDate!;
-        return date >= start && date <= end;
-      })
+      const date = new Date(row[5]);
+      const start = range[0].startDate!;
+      const end = range[0].endDate!;
+      return date >= start && date <= end;
+    })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -230,7 +230,8 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                   buttonLabel="Pay Now"
                   onNext={async () => {
                     try {
-                      const id = selectedRow?.[0]; // ORDER ID is at index 0
+                      // ORDER ID is at index 0
+                      const id = selectedOrder?.id || selectedOrder?.bookingId;
                       if (!id) throw new Error("No booking selected");
                       await updateBookingOrder(id);
                       setShowModal(false);
@@ -249,7 +250,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
       {/* Confirmation Modal */}
       {showConfirm && (
         <div className={wallet.modalOverlay}>
-          <div className={wallet.modal}>
+          <div className={wallet.paynowmodal}>
             <BookingConfirmation onClose={() => setShowConfirm(false)} />
           </div>
         </div>

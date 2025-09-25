@@ -354,7 +354,7 @@ export const BookingProvider = ({
     setLatestLocation(data);
     console.log("Context updated:", data);
   };
-  console.log("🧾 Selection List:", selectionList);
+  // console.log("🧾 Selection List:", selectionList);
   const addSelection = (data: BookingSelection) => {
     setSelectionList((prev) => [...prev, data]);
   };

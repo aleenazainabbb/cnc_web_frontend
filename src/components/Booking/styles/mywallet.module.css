@@ -46,7 +46,7 @@
   border-radius: 4px;
 }
 
-.modalOverlay {
+/* .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -56,8 +56,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-}
+  z-index: 1000; */
+/* } */
 
 .modal {
   background-color: white;
@@ -190,6 +190,22 @@
   display: none; /* Chrome, Safari */
 }
 
+.paynowmodal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 640px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 24px 35px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: fadeInUp 0.3s ease; /* subtle entrance animation */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+.modal::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
 .close {
   position: absolute;
   top: 12px;

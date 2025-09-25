@@ -118,12 +118,11 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-
   const socketRef = useRef<any>(null);
   const isSocketSetupRef = useRef(false);
   const receivedMessageIdsRef = useRef<Set<number>>(new Set());
   const processedTempIdsRef = useRef<Set<string>>(new Set());
-
+  
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   // ---------------- API ----------------
@@ -172,23 +171,17 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     },
     [BASE_URL]
   );
-  // ----------------------------------------------
-  // Start a new conversation with Support Team using the same send-message API
+ 
+  // --------------- + new chat-----------------------
   const startSupportChat = useCallback(
     async (
-      initialMessage: string = "Hi Support Team"
+      initialMessage: string = "Hi Support Team. I need an assistance."
     ): Promise<number | null> => {
       try {
         // use your existing sendMessageApi with conversationId = 0 to create a new chat
         const response = await sendMessageApi(0, initialMessage);
-
-        // ✅ keep only the numeric ID
         const newConversationId: number = response.conversationId;
-
-        // set it in state so UI can load this conversation
         setConversationId(newConversationId);
-
-        // no need to push to conversations array here
         return newConversationId;
       } catch (err) {
         console.error("startSupportChat error:", err);
@@ -197,8 +190,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     },
     [sendMessageApi]
   );
-
-  // ----------------------------------------------
 
   // ---------------- Conversations ----------------
   const fetchConversations = useCallback(async () => {
@@ -319,7 +310,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
       // 🔑 Find conversation to decide receiver
       const conv = conversations.find((c) => c.id === conversationId);
       const receiverId = conv?.agent?.id || conv?.admin?.id || null;
-
       const tempId = generateTempId();
       processedTempIdsRef.current.add(tempId);
 

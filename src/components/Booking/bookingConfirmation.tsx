@@ -7,13 +7,13 @@ import { useBooking } from "@/context/BookingContext";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { FaTimes } from "react-icons/fa";
+import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
+
 interface BookingConfirmationProps {
   onClose: () => void;
 }
 
-const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
-  onClose,
-}) => {
+const BookingConfirmation: React.FC<BookingConfirmationProps> = ({ onClose }) => {
   const router = useRouter();
   const { billingData } = useBooking();
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -32,13 +32,11 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   const refNumber = "1256646566544111200";
   const subtotal = Math.max(0, appointmentValue - discountAmount);
 
-  // Prevent closing on outside click
+  // Prevent closing on outside click (currently no action, kept for future use)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        // Intentionally left blank to disable outside click close
       }
     };
 
@@ -48,14 +46,11 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
     };
   }, []);
 
-  const goToHome = () => {
-    router.push("/Bookings/Dashboard");
-  };
-
   const downloadPDF = async () => {
     const input = pdfRef.current;
     if (!input) return;
 
+    // hide elements marked with no-print while generating pdf
     const elementsToHide = input.querySelectorAll(".no-print");
     elementsToHide.forEach((el) => {
       (el as HTMLElement).style.visibility = "hidden";
@@ -64,6 +59,7 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
     const canvas = await html2canvas(input);
     const imgData = canvas.toDataURL("image/png");
 
+    // restore elements visibility
     elementsToHide.forEach((el) => {
       (el as HTMLElement).style.display = "";
     });
@@ -89,14 +85,23 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   };
 
   return (
-    <div className={styles.overlay}>
+    <div className={styles.overlay} >
       <div className={styles.container} ref={modalRef}>
         <div className={styles.logo}>
           <i className="fa-solid fa-check"></i>
         </div>
-        <div className={styles.main} ref={pdfRef}>
-          <div className={`${styles.home} no-print`} onClick={goToHome}>
-            <FaTimes size={22} className="text-red-600" />
+        <div className={styles.main}ref={pdfRef} >
+          
+          {/* Close button now calls both onClose and router.push */}
+          <div
+          
+            className={`${styles.home} no-print`}
+            onClick={() => {
+              onClose();
+              router.push("/Bookings/Dashboard");
+            }}
+          >
+            <FaTimes size={22} className="text-red-600 " />
           </div>
 
           <h2 className={styles.titletext}>Order Booked</h2>
@@ -111,12 +116,13 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
           <hr className={styles.lineShort} />
 
           <div className={styles.content}>
-            <div className={styles.freqTimeRow}>
-              <div className={styles.freqBox}>
+            {/* <div className={styles.freqTimeRow}> */}
+              <div className={styles.freqBox} >
                 <p>{appointmentFrequency}</p>
               </div>
-              <p className={styles.greenText}>{appointmentTime}</p>
-            </div>
+            <div className={`${styles.greenText} ${styles.largeText}`}>{appointmentTime}</div>
+
+            {/* </div> */}
             <div className={styles.directions}>
               <span>Address: </span>
               <p>{appointmentLocation}</p>
@@ -177,11 +183,11 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
               </div>
             </>
           ) : (
-            <p className="-mt-10 p-0 w-full text-justify ">
+            < div className="mt-10 p-0 w-full text-justify paragraph ">
               Thank you for choosing CNC Services. Our team will be reaching out
               to you shortly to confirm your booking and discuss the service
               details.
-            </p>
+            </div>
           )}
 
           {totalAmount >= 0 && (

@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true); // ✅ NEW
-  console.log("API URL:", apiUrl);
+  // console.log("API URL:", apiUrl);
 
   // Restore session from localStorage
   useEffect(() => {
