@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./styles/profile.module.css";
+import style from "./styles/pending.module.css";
 import { useLead } from "@/context/MyQuote";
 import { useQuoteList } from "@/context/QuoteList";
 
@@ -90,8 +91,8 @@ const MyQuotes: React.FC = () => {
     clearMessages();
   };
   return (
-    <div className={styles.main}>
-      <div className={styles.profile_container}>
+    <div className={style.main}>
+      <div className={style.profile_container}>
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Full Name</label>
