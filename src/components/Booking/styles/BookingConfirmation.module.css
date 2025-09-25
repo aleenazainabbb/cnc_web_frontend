@@ -14,20 +14,18 @@
 }
 
 .container {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: px;
+  /* margin-top: 20px; */
+  padding: 10px;
   max-height: 95vh;
   overflow: hidden;
   border-radius: 5px;
+  padding: auto;
 }
 
 .main {
-  width: 105%;
+  width: 100%;
   max-width: 500.56px;
-  height: 650px;
+  max-height: 650px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   background-color: white;
@@ -39,11 +37,9 @@
   align-items: center;
   padding: 25px 25px 30px;
   overflow: hidden;
-  -webkit-mask-image: radial-gradient(
-      circle at 30px 100%,
+  -webkit-mask-image: radial-gradient(circle at 30px 100%,
       transparent 14px,
-      white 12px
-    ),
+      white 12px),
     radial-gradient(circle at 60px 100%, transparent 14px, white 12px),
     radial-gradient(circle at 90px 100%, transparent 14px, white 12px),
     radial-gradient(circle at 120px 100%, transparent 14px, white 12px),
@@ -62,14 +58,18 @@
   -webkit-mask-composite: destination-in;
   mask-composite: intersect;
 }
+
 .logo {
   position: absolute;
-  width: 80px; /* Fixed size instead of percentage */
-  height: 80px; /* Fixed size instead of percentage */
+  width: 80px;
+  /* Fixed size instead of percentage */
+  height: 80px;
+  /* Fixed size instead of percentage */
   background: #fffcfc;
   z-index: 20;
   border-radius: 50%;
-  top: -10px; /* Positioned half above container */
+  top: -10px;
+  /* Positioned half above container */
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0px 9.99px 26.65px 0px #00000029;
@@ -84,7 +84,8 @@
   font-weight: bold;
   height: 40px;
   width: 40px;
-  border-radius: 50%; /* Changed to 50% for perfect circle */
+  border-radius: 50%;
+  /* Changed to 50% for perfect circle */
   background: #36b864;
   display: flex;
   align-items: center;
@@ -94,24 +95,31 @@
 /* Responsive adjustments */
 @media (max-width: 1281px) {
   .logo {
-    display: none; /* hide logo completely */
+    display: none;
+    /* hide logo completely */
   }
 }
+
 @media (max-width: 1440px) {
   .logo {
-    display: none; /* hide logo completely */
+    display: none;
+    /* hide logo completely */
   }
 }
+
 @media (max-width: 1787px) {
   .logo {
-    display: none; /* hide logo completely */
+    display: none;
+    /* hide logo completely */
   }
 }
+
 @media (max-width: 768px) {
   .logo {
     width: 50px;
     height: 50px;
-    top: -25px; /* Fixed positioning */
+    top: -25px;
+    /* Fixed positioning */
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.14);
   }
 
@@ -121,9 +129,11 @@
     width: 32px;
   }
 }
+
 @media (max-width: 300px) {
   .logo {
-    display: none; /* completely hide the logo */
+    display: none;
+    /* completely hide the logo */
   }
 }
 
@@ -137,6 +147,7 @@
   text-decoration: underline;
   font-weight: 600;
   z-index: 10;
+  padding: 20px;
 }
 
 .titletext {
@@ -164,7 +175,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0px 0;
+  /* margin: 0px 0; */
   text-shadow: #1a1a1a;
   text-align: center;
 }
@@ -172,13 +183,11 @@
 .lineShort {
   width: 65%;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #18181829 20%,
-    #18181829 80%,
-    transparent 100%
-  );
+  background: linear-gradient(to right,
+      transparent 0%,
+      #18181829 20%,
+      #18181829 80%,
+      transparent 100%);
   margin: 8px auto;
 }
 
@@ -196,21 +205,6 @@
   margin: 8px 0;
 }
 
-.button {
-  border: none;
-  border-radius: 9.99px;
-  width: 316.23px;
-  height: 66.65px;
-  background-color: #36b864;
-  color: #ffffff;
-  font-size: 23.32px;
-  font-weight: 400;
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
 
 .freqTimeRow {
   display: flex;
@@ -224,6 +218,7 @@
   text-align: center;
   font: bold;
 }
+
 .directions {
   display: flex;
   flex-direction: row;
@@ -231,7 +226,7 @@
 }
 
 .paymentInfo {
-  margin-top: 15px;
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -276,12 +271,13 @@
 /* Responsive design */
 @media (max-width: 1281px) {
   .container {
-    padding: 20px;
+    padding: 10px;
   }
 
   .main {
-    width: 90%;
-    padding: 20px 15px 15px;
+    width: 100%;
+    padding: 30px 42px 30px 42px;
+    /* max-width: 500px ; */
   }
 
   .titletext {
@@ -294,10 +290,9 @@
   }
 
   .button {
-    width: 300px;
-    height: 60px;
-    font-size: 20px;
-    margin-top: 25px;
+    width: 49% !important;
+    height: 47.65px !important;
+    font-size: 12px !important;
   }
 }
 
@@ -312,25 +307,27 @@
   }
 
   .main {
-    width: 85% !important;
+    /* width: 85% !important; */
     padding: 25px 20px 18px;
+    max-width: 300px;
   }
 
   .titletext {
-    font-size: 20px !important;
+    font-size: 16px !important;
   }
 
   .paragraph,
   .content {
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
 
+  /* 
   .button {
     width: 280px;
     height: 55px;
     font-size: 18px !important;
     margin-top: 20px;
-  }
+  } */
 
   .home {
     top: 10px;
@@ -345,7 +342,7 @@
   }
 
   .container {
-    padding: 10px !important;
+    padding: 20px !important;
   }
 
   .main {
@@ -360,21 +357,15 @@
 
   .paragraph,
   .content {
-    font-size: 12px !important;
+    font-size: 9px !important;
     line-height: 1.3 !important;
     gap: 4px;
   }
 
   .button {
-    width: 260px;
-    height: 50px;
-    font-size: 16px !important;
-    margin-top: 15px;
-    border: none;
-    background: #4f46e5; /* example color */
-    color: white;
-    border-bottom-left-radius: 130px; /* half of width */
-    border-bottom-right-radius: 130px; /* half of width */
+    width: 49% !important;
+    height: 28.65px !important;
+    font-size: 9px !important;
   }
 
   .home {
@@ -409,21 +400,43 @@
 
 .buttonWrapper {
   position: relative;
-  display: inline-block; /* keeps wrapper tight to button */
+  display: inline-block;
+  /* keeps wrapper tight to button */
 }
 
 .button {
   border: none;
   border-radius: 9.99px;
-  width: 316.23px;
+  width: 100%;
+  max-width: 316.23px;
   height: 66.65px;
   background-color: #36b864;
   color: #ffffff;
   font-size: 23.32px;
   font-weight: 400;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding: 10px;
 }
+
+/* .scrollBox {
+  max-height: 90vh;   
+  overflow-y: auto;     
+  overflow-x: hidden;    
+  padding-right: 8px;    
+  scrollbar-width: thin; 
+}
+
+.scrollBox::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollBox::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+.scrollBox::-webkit-scrollbar-track {
+  background: transparent;
+} */

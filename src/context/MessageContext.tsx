@@ -118,7 +118,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-
   const socketRef = useRef<any>(null);
   const isSocketSetupRef = useRef(false);
   const receivedMessageIdsRef = useRef<Set<number>>(new Set());
@@ -176,7 +175,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   // ----------------------------------------------
   const startSupportChat = useCallback(
     async (
-      initialMessage: string = "Hi Support Team"
+      initialMessage: string = "Hi Support Team. I need an assistance."
     ): Promise<number | null> => {
       try {
         // Only block the *first-time* message
@@ -207,8 +206,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     },
     [sendMessageApi, hasSentMessage, chatStatus]
   );
-
-  // ----------------------------------------------
 
   // ---------------- Conversations ----------------
   const fetchConversations = useCallback(async () => {
@@ -329,7 +326,6 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
       // 🔑 Find conversation to decide receiver
       const conv = conversations.find((c) => c.id === conversationId);
       const receiverId = conv?.agent?.id || conv?.admin?.id || null;
-
       const tempId = generateTempId();
       processedTempIdsRef.current.add(tempId);
 
