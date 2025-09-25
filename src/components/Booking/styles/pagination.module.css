@@ -1,127 +1,184 @@
+/* ✅ Default (all screens) */
 .paginationContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Public Sans', sans-serif;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-family: "Public Sans", sans-serif;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%; /* full responsive width */
+  max-width: 1200px; /* optional cap for large screens */
+  box-sizing: border-box;
+}
+
+/* ✅ Mobile / Tablet adjustments */
+@media (max-width: 768px) {
+  .paginationContainer {
+    justify-content: center; /* center items on small screens */
+    margin-top: 160px; /* keep spacing */
+    width: 100%; /* still full width */
+    height: auto; /* let height adjust naturally */
+  }
+}
+
+@media (max-width: 480px) {
+  .paginationContainer {
+    margin-top: 120px; /* adjust smaller spacing */
+    padding: 0 10px; /* add small padding */
+  }
 }
 
 .inlineText {
-    font-size: 15px;
-    font-weight: 500;
-    color: #8B909A;
-    flex-shrink: 1;
-    min-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 500;
+  color: #8b909a;
+  flex-shrink: 1;
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .selectBox {
-    width: 78px;
-    height: 38px;
-    border: 1px solid #E9E7FD;
-    border-radius: 6px;
-    background-color: white;
-    font-size: 14px;
-    color: #374151;
-    padding: 0 10px;
-    line-height: 38px;
-    text-align: center;
-    text-align-last: center;
-    appearance: none;
-    margin: 10px 0;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' width='16' height='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5' fill='none' stroke='%23374151' stroke-width='2'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    margin: 10px !important;
-    flex-shrink: 0;
+  width: 78px;
+  height: 38px;
+  border: 1px solid #e9e7fd;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  color: #374151;
+  padding: 0 10px;
+  line-height: 38px;
+  text-align: center;
+  text-align-last: center;
+  appearance: none;
+  margin: 10px 0;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 24 24' width='16' height='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5' fill='none' stroke='%23374151' stroke-width='2'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  margin: 10px !important;
+  flex-shrink: 0;
 }
 
 .paginationNav {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    /* wrap if buttons overflow */
-    flex-grow: 1;
-    /* take remaining space */
-    min-width: 200px;
-    /* minimum width so buttons don’t get too squeezed */
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  /* wrap if buttons overflow */
+  flex-grow: 1;
+  /* take remaining space */
+  min-width: 200px;
+  /* minimum width so buttons don’t get too squeezed */
 }
 
 .page,
 .arrow {
-    width: 36px;
-    /* a bit bigger for easier tap targets */
-    height: 36px;
-    border-radius: 6px;
-    border: none;
-    background-color: #F1F2F6;
-    color: #8B909A;
-    font-weight: 400;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
+  width: 36px;
+  /* a bit bigger for easier tap targets */
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background-color: #f1f2f6;
+  color: #8b909a;
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
 }
 
 .page:hover,
 .arrow:hover {
-    background-color: #0066ff;
-    color: white;
+  background-color: #0066ff;
+  color: white;
 }
 
 .active {
-    background-color: #0066ff;
-    color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #0066ff;
+  color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 700px) {
+  .paginationContainer {
+    justify-content: center;
+  }
+  @media (max-width: 1024px) {
     .paginationContainer {
-        justify-content: center;
+      justify-content: space-between;
+      margin-top: 150px;
     }
+  }
 
-    .inlineText {
-        font-size: 10px;
-        /* min-width: 100px; */
-    }
+  @media (max-width: 768px) {
+    .paginationContainer {
+      justify-content: space-between;
+      margin-top: 160px;
 
-    .selectBox {
-        width: 63px;
-        height: 32px;
-        font-size: 12px;
-        line-height: 32px;
-        margin: 6px 0;
+      height: 10px;
+      width: 100px;
     }
+  }
 
-    .paginationNav {
-        gap: 6px;
-        min-width: 150px;
+  @media (max-width: 600px) {
+    .paginationContainer {
+      justify-content: space-between;
+      margin-top: 150px;
     }
+  }
 
-    .page,
-    .arrow {
-        width: 21px;
-        height: auto;
-        font-size: 8px;
-        padding: 4px;
+  @media (max-width: 500px) {
+    .paginationContainer {
+      justify-content: space-between;
+      margin-top: 150px;
     }
+  }
+
+  @media (max-width: 400px) {
+    .paginationContainer {
+      justify-content: space-between;
+      margin-top: 150px;
+    }
+  }
+
+  .inlineText {
+    font-size: 10px;
+    /* min-width: 100px; */
+  }
+
+  .selectBox {
+    width: 63px;
+    height: 32px;
+    font-size: 12px;
+    line-height: 32px;
+    margin: 6px 0;
+  }
+
+  .paginationNav {
+    gap: 6px;
+    min-width: 150px;
+  }
+
+  .page,
+  .arrow {
+    width: 21px;
+    height: auto;
+    font-size: 8px;
+    padding: 4px;
+  }
 }
 
 @media (max-width: 500px) {
-
-    .selectBox {
-        width: 60px;
-        margin: 5px 0;
-    }
+  .selectBox {
+    width: 60px;
+    margin: 5px 0;
+  }
 }
