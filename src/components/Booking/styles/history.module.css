@@ -30,20 +30,6 @@
   scrollbar-width: thin;
   scrollbar-color: #9a9696 #d6d6d6;
 } */
-.gridContainerHistory {
-  display: grid;
-  grid-template-columns:
-    minmax(80px, 0.5fr) /* Order ID */
-    minmax(100px, 0.6fr) /* Service */
-    minmax(150px, 1fr) /* Details */
-    minmax(80px, 0.5fr) /* Price */
-    minmax(80px, 0.4fr) /* Time */
-    minmax(100px, 0.4fr) /* Date */
-    minmax(100px, 0.4fr) /* Status */
-    minmax(110px, 0.6fr); /* Reschedule */
-  gap: 1rem; /* spacing between columns */
-  overflow: hidden;
-}
 
 .row {
   color: #000000;
@@ -79,7 +65,7 @@
 }
 .rescheduleButton {
   width: 81px;
-  height: 30px;
+  height: 80px;
   border-radius: 30px;
   background-color: #1a78f2;
   color: white;
@@ -90,20 +76,14 @@
 .gridContainerHistory {
   display: grid;
   grid-template-columns:
-    minmax(80px, 0.5fr)
-    /* Order ID */
-    minmax(100px, 0.6fr)
-    /* Service */
-    minmax(150px, 1fr)
-    /* Detail */
-    minmax(80px, 0.5fr)
-    /* Time */
-    minmax(80px, 0.4fr)
-    /* Date */
-    minmax(100px, 0.4fr)
-    /* Status */
-    minmax(100px, 0.4fr);
-  /* Reschedule */
+    minmax(80px, 0.5fr) /* Order ID */
+    minmax(100px, 0.6fr) /* Service */
+    minmax(150px, 1fr) /* Detail */
+    minmax(80px, 0.5fr) /* Time */
+    minmax(80px, 0.4fr) /* Date */
+    minmax(100px, 0.4fr) /* Status */
+    minmax(100px, 0.4fr) /* Reschedule */
+    minmax(100px, 0.4fr); /* Actions (New column) */
   gap: 1.5rem;
   overflow: hidden;
 }

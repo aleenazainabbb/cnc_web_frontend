@@ -1,19 +1,21 @@
 .header {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 0 12px;
   height: 70px;
   flex-wrap: nowrap;
   overflow: hidden;
+  position: relative;
 }
 
 .title {
-  font-family: 'Public Sans', sans-serif;
+  font-family: "Public Sans", sans-serif;
   font-weight: 700;
   font-size: 24px;
   line-height: 22px;
-  color: #23272E;
+  color: #23272e;
   margin: 0;
   white-space: nowrap;
 }
@@ -52,9 +54,9 @@
 }
 
 .addBookingBtn {
-  background-color: #1A78F2;
+  background-color: #1a78f2;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
   border: none;
@@ -72,9 +74,9 @@
 }
 
 .getaQuoteBtn {
-  background-color: #1A78F2;
+  background-color: #1a78f2;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
   border: none;
@@ -89,17 +91,26 @@
   white-space: nowrap;
 }
 
+/* Tablet breakpoint */
 @media screen and (max-width: 900px) {
   .title {
     font-size: 15px !important;
   }
+  .addBookingBtn,
+  .getaQuoteBtn {
+    font-size: 12px;
+    width: 100px;
+    height: 34px;
+  }
 }
 
+/* Mobile breakpoint */
 @media screen and (max-width: 470px) {
   .title {
     font-size: 13px !important;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 120px; /* prevents overlap */
   }
 
   .addBookingBtn,
@@ -107,6 +118,12 @@
     font-size: 10px;
     width: 70px;
     height: 30px;
-    margin-right: none !important;
+    margin-right: 0 !important; /* fixed invalid 'none' */
+    padding: 0 8px;
+  }
+
+  .avatarImg {
+    width: 28px;
+    height: 28px;
   }
 }

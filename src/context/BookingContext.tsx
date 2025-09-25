@@ -63,7 +63,7 @@ type BookingData = {
   payment?: "card" | "cash";
   appointmentLocation?: string;
   selectedType?: string;
-  bookingPaymentStatus?: "none" ;
+  bookingPaymentStatus?: "none";
 };
 
 export type LatestLocation = {
@@ -686,41 +686,40 @@ export const BookingProvider = ({
 
   // --- Enhanced Deep Cleaning API call ---
 
+  // Update custom booking order as JSON
+  const updateBookingOrder = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
 
-// Update custom booking order as JSON
-const updateBookingOrder = async (id: string) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("No token found");
+      const body = {
+        totalPrice: billingData.appointmentValue,
+        discountPrice: billingData.discountAmount,
+        cncChargesExclVat: billingData.subTotal,
+        VAT: billingData.taxAmount,
+        promoCode: billingData.discountCode || "",
+        cncChargesInclVat: billingData.totalAmount,
+        payment: bookingData.payment || "",
+        bookingPaymentStatus: bookingData.bookingPaymentStatus || "complete",
+      };
 
-    const body = {
-      totalPrice: billingData.appointmentValue,
-      discountPrice: billingData.discountAmount,
-      cncChargesExclVat: billingData.subTotal,
-      VAT: billingData.taxAmount,
-      promoCode: billingData.discountCode || "",
-      cncChargesInclVat: billingData.totalAmount,
-      payment: bookingData.payment || "",
-      bookingPaymentStatus: bookingData.bookingPaymentStatus || "complete",
-    };
+      const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
 
-    const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
-
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Update failed");
-    return result;
-  } catch (e) {
-    console.error("Update booking error:", e);
-    throw e;
-  }
-};
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Update failed");
+      return result;
+    } catch (e) {
+      console.error("Update booking error:", e);
+      throw e;
+    }
+  };
 
   const deepCleanings = async (
     type?: string,

@@ -3,11 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { useMessage } from "@/context/MessageContext";
 import styles from "../Booking/styles/message.module.css";
 
-// ✅ Deduplication cache
-const receivedMessageIds = new Set<string | number>();
-
 // ---------------- MessageBubble ----------------
-const MessageBubble: React.FC<{ message: any }> = ({ message }) => {
+const MessageBubble: React.FC<{
+  message: any;
+  onImageClick: (url: string) => void;
+}> = ({ message, onImageClick }) => {
   const isOutgoing = message.direction === "outgoing";
   const isSending = message.isSent === false && !message.failed;
   const isFailed = message.failed === true;
@@ -43,6 +43,7 @@ const MessageBubble: React.FC<{ message: any }> = ({ message }) => {
                     src={url}
                     alt="image"
                     className={styles.messageImage}
+                    onClick={() => onImageClick(url)}
                     onLoad={() =>
                       img instanceof File && URL.revokeObjectURL(url)
                     }
@@ -208,9 +209,7 @@ const MessageBox: React.FC = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [processedMessageIds, setProcessedMessageIds] = useState<
-    Set<string | number>
-  >(new Set());
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const isSending = contextIsSending || localIsSending;
 
@@ -221,6 +220,17 @@ const MessageBox: React.FC = () => {
   const allConversationsClosed = conversations.every(
     (conversation) => conversation.status === "closed"
   );
+  const [hasSentMessage, setHasSentMessage] = useState(false);
+  const [chatStatus, setChatStatus] = useState<"open" | "closed">("closed");
+
+  const sendMessageIfClosed = (message: string) => {
+    if (chatStatus === "closed") {
+      // call your existing logic
+      startSupportChat(message);
+    } else {
+      console.log("⚠️ Chat is already open, message not sent.");
+    }
+  };
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -350,9 +360,9 @@ const MessageBox: React.FC = () => {
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>Conversations</h2>
           <button
-            className={styles.newChatButton}
-            // onClick={undefined}
-            onClick={() => startSupportChat()}
+            className={styles.newChatButton} // ✅ your original class name preserved
+            disabled={hasSentMessage && chatStatus !== "closed"}
+            onClick={() => startSupportChat("Hello, I need assistance")}
           >
             + New Chat
           </button>
@@ -422,18 +432,24 @@ const MessageBox: React.FC = () => {
                           : ""}
                       </span>
                     </div>
-                    {conversation.messages?.[0] && (
+                    {conversation.messages?.length > 0 && (
                       <p className={styles.lastMessagePreview}>
                         {(() => {
-                          const msg = conversation.messages[0];
-                          if (typeof msg.content === "string") {
-                            return msg.content.length > 50
-                              ? msg.content.substring(0, 50) + "..."
-                              : msg.content;
+                          const lastMsg =
+                            conversation.messages[
+                              conversation.messages.length - 1
+                            ];
+                          if (
+                            typeof lastMsg.content === "string" &&
+                            lastMsg.content.trim() !== ""
+                          ) {
+                            return lastMsg.content.length > 50
+                              ? lastMsg.content.substring(0, 50) + "..."
+                              : lastMsg.content;
                           }
-                          if (msg.images?.length) return "🖼️ Image";
-                          if (msg.videos?.length) return "🎥 Video";
-                          if (msg.docs?.length) return "📄 File";
+                          if (lastMsg.images?.length) return "🖼️ Image";
+                          if (lastMsg.videos?.length) return "🎥 Video";
+                          if (lastMsg.docs?.length) return "📄 File";
                           return "No content";
                         })()}
                       </p>
@@ -490,12 +506,6 @@ const MessageBox: React.FC = () => {
               </div>
               <div className={styles.chatActions}>
                 <button className={styles.headerButton}>
-                  <span className={styles.icon}>📞</span>
-                </button>
-                <button className={styles.headerButton}>
-                  <span className={styles.icon}>🎥</span>
-                </button>
-                <button className={styles.headerButton}>
                   <span className={styles.icon}>⋮</span>
                 </button>
               </div>
@@ -512,6 +522,7 @@ const MessageBox: React.FC = () => {
                     <MessageBubble
                       key={getMessageKey(message, index)}
                       message={message}
+                      onImageClick={setZoomedImage}
                     />
                   )
                 )
@@ -628,6 +639,33 @@ const MessageBox: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Zoom Modal - ROOT LEVEL */}
+      {zoomedImage && (
+        <div
+          className={styles.imageModalOverlay}
+          onClick={() => setZoomedImage(null)}
+        >
+          <div
+            className={styles.imageModalContent}
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+          >
+            {/* Close Icon */}
+            <button
+              className={styles.closeButton}
+              onClick={() => setZoomedImage(null)}
+            >
+              ✕
+            </button>
+
+            <img
+              src={zoomedImage}
+              alt="zoomed"
+              className={styles.zoomedImage}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
