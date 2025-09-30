@@ -1,12 +1,12 @@
 .main {
   font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: white;
   margin: 80px 20px 0 auto;
   box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
-  padding: 10px;
+  padding: 20px;
   box-sizing: border-box;
   border-radius: 2px;
-  width: calc(100% - 40px);
 }
 
 /* Tablet Styles */
@@ -73,9 +73,12 @@
 .gridContainerHistory,
 .gridContainerQuotes {
   display: grid;
-  gap: 1rem;
+  border-radius: px;
+  grid-template-columns:
+    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(100px, 1.5fr)
+    minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
+  gap: 1.5rem;
   overflow-x: auto;
-  align-items: center;
 }
 
 /* Default Grid Templates */
@@ -88,24 +91,24 @@
     )
     minmax(80px, 0.5fr);
 }
-
-.gridContainerHistory {
+.gridContainer {
   grid-template-columns:
-    minmax(60px, 0.3fr) minmax(90px, 0.4fr) minmax(100px, 0.5fr)
-    minmax(80px, 0.4fr) minmax(80px, 0.3fr) minmax(80px, 0.3fr) minmax(
+    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
+    minmax(80px, 0.5fr) minmax(80px, 0.8fr) minmax(80px, 0.6fr) minmax(
       90px,
       0.4fr
     )
-    minmax(80px, 0.4fr);
+    minmax(8vh, 0.5fr);
 }
 
 .gridContainerQuotes {
   grid-template-columns:
     minmax(50px, 0.4fr) minmax(60px, 0.8fr) minmax(120px, 0.5fr)
-    minmax(70px, 0.4fr) minmax(70px, 0.4fr) minmax(65px, 0.4fr) minmax(100px, 0.5fr);
+    minmax(70px, 0.4fr) minmax(70px, 0.4fr) minmax(65px, 0.4fr)
+    minmax(100px, 0.5fr);
+  /* minmax(100px, 0.5fr); */
 }
 
-/* Row Styles */
 .rowHeader {
   color: #8b909a;
   padding: 8px 4px;
@@ -145,6 +148,7 @@
   font-weight: 500;
   font-size: 14px;
   cursor: default;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .payNowButton {
@@ -175,7 +179,7 @@
 
   background-color: #1a78f2;
   color: white;
-
+  padding: 5px;
   border: none;
   font-size: 14px;
   cursor: pointer;
@@ -192,30 +196,26 @@
 
 /* Tablet Grid Adjustments */
 @media (max-width: 1024px) {
-  .gridContainer {
-    grid-template-columns:
-      minmax(50px, 0.3fr) minmax(80px, 0.6fr) minmax(90px, 0.4fr)
-      minmax(70px, 0.3fr) minmax(70px, 0.6fr) minmax(70px, 0.4fr) minmax(
-        80px,
-        0.3fr
-      )
-      minmax(70px, 0.3fr);
+  .container {
+    padding: 15px;
   }
 
-  .gridContainerHistory {
-    grid-template-columns:
-      minmax(50px, 0.2fr) minmax(80px, 0.3fr) minmax(90px, 0.4fr)
-      minmax(70px, 0.3fr) minmax(70px, 0.2fr) minmax(70px, 0.2fr) minmax(
-        80px,
-        0.3fr
-      )
-      minmax(70px, 0.3fr);
+  .statusButton,
+  .payNowButton {
+    width: 40%px;
+  }
+
+  .rescheduleButton {
+    font-size: 13px;
   }
 
   .gridContainerQuotes {
-    grid-template-columns:
-      minmax(40px, 0.3fr) minmax(50px, 0.6fr) minmax(100px, 0.4fr)
-      minmax(60px, 0.3fr) minmax(60px, 0.3fr) minmax(55px, 0.3fr) minmax(90px, 0.4fr);
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 0.8rem;
+  }
+
+  .row {
+    font-size: 13px;
   }
 }
 
@@ -281,9 +281,17 @@
 
   .statusButton,
   .payNowButton {
+    width: 65px;
     font-size: 11px;
-    height: 36px;
-    min-width: 70px;
+    height: 25px;
+  }
+
+  .gridContainerQuotes {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 0.6rem;
+  }
+  .billingCenter {
+    padding: 10px;
   }
 }
 
@@ -304,6 +312,14 @@
 
   .statusButton,
   .payNowButton {
+    width: 50px;
+    font-size: 8px;
+    height: 22px;
+  }
+
+  .completedButton,
+  .rescheduleButton {
+    width: 65px;
     font-size: 10px;
     height: 24px;
     min-width: 60px;

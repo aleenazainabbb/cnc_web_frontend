@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
+// import styles from "./styles/history.module.css";
 import styles from "./styles/pending.module.css";
+
 import Pagination from "@/components/Booking/pagination";
 import { Range } from "react-date-range";
 import LinkWithLoader from "@/components/Loader/Link";
