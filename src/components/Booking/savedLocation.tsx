@@ -14,6 +14,7 @@ const mapContainerStyle = {
   borderRadius: "9px",
 };
 
+// Default fallback (Karachi, PK)
 const defaultCenter = { lat: 24.8607, lng: 67.0011 };
 
 type SavedLocationType = {
@@ -21,8 +22,8 @@ type SavedLocationType = {
   label: string;
   formattedAddress: string;
   placeId: string;
-  lat: number;
-  lng: number;
+  lat: number | string;
+  lng: number | string;
 };
 
 const SavedLocation: React.FC = () => {
@@ -51,9 +52,8 @@ const SavedLocation: React.FC = () => {
   const [editingLocation, setEditingLocation] =
     useState<SavedLocationType | null>(null);
 
-  // ✅ Only one loader (production-safe)
   const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script", // ensures unique loader
+    id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ["places"],
   });
@@ -64,7 +64,7 @@ const SavedLocation: React.FC = () => {
     setShowSnackbar(true);
   };
 
-  // ✅ Attach Autocomplete once
+  // Setup Autocomplete
   useEffect(() => {
     if (!isLoaded || !inputRef.current || autocompleteRef.current) return;
 
@@ -80,8 +80,11 @@ const SavedLocation: React.FC = () => {
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
 
-      setSelected({ lat, lng });
-      setMapCenter({ lat, lng });
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        setSelected({ lat, lng });
+        setMapCenter({ lat, lng });
+      }
+
       setFormattedAddress(place.formatted_address || place.name || "");
       setPlaceId(place.place_id || "");
     });
@@ -89,7 +92,7 @@ const SavedLocation: React.FC = () => {
     autocompleteRef.current = autocomplete;
   }, [isLoaded]);
 
-  // ✅ Fix dropdown styling and remove duplicates
+  // Fix dropdown styling
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -110,7 +113,7 @@ const SavedLocation: React.FC = () => {
       const pacs = document.querySelectorAll(".pac-container");
       if (pacs.length > 1) {
         pacs.forEach((p, i) => {
-          if (i > 0) p.remove(); // ✅ remove duplicates
+          if (i > 0) p.remove();
         });
       }
       updatePacPosition();
@@ -127,7 +130,6 @@ const SavedLocation: React.FC = () => {
     };
   }, [isLoaded]);
 
-  // ✅ Save location
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = async () => {
@@ -136,7 +138,7 @@ const SavedLocation: React.FC = () => {
       return;
     }
 
-    setIsLoading(true); // ✅ Start loader
+    setIsLoading(true);
     try {
       const result = await saveLocation({
         label,
@@ -157,11 +159,10 @@ const SavedLocation: React.FC = () => {
         showToast(result.message || "Failed to save location", "error");
       }
     } finally {
-      setIsLoading(false); // ✅ Stop loader
+      setIsLoading(false);
     }
   };
 
-  // Update location
   const handleUpdate = async () => {
     if (!editingLocation) return;
 
@@ -171,8 +172,12 @@ const SavedLocation: React.FC = () => {
       const updatedFormattedAddress =
         formattedAddress || editingLocation.formattedAddress;
       const updatedPlaceId = placeId || editingLocation.placeId;
-      const updatedLat = selected?.lat ?? editingLocation.lat;
-      const updatedLng = selected?.lng ?? editingLocation.lng;
+      const updatedLat = Number.isFinite(Number(selected?.lat))
+        ? Number(selected?.lat)
+        : Number(editingLocation.lat);
+      const updatedLng = Number.isFinite(Number(selected?.lng))
+        ? Number(selected?.lng)
+        : Number(editingLocation.lng);
 
       const result = await updateLocation(editingLocation.id, {
         label: updatedLabel,
@@ -194,13 +199,36 @@ const SavedLocation: React.FC = () => {
     }
   };
 
-  // ✅ Delete location
   const handleDelete = async (id: number) => {
     const res = await deleteLocation(id);
     showToast(res.message, res.type);
+
+    if (res.type === "success") {
+      // ✅ Reset editing state if the deleted location was active
+      if (activeLocationId === id) {
+        setActiveLocationId(null);
+        setIsEditing(false);
+        setEditingLocation(null);
+        setLabel("");
+        setFormattedAddress("");
+        setPlaceId("");
+        setSelected(null);
+        setMapCenter(defaultCenter);
+        if (inputRef.current) inputRef.current.value = "";
+      }
+    }
   };
 
-  // ✅ Edit location
+  // ✅ Ensure center always has finite values
+  const safeCenter = {
+    lat: Number.isFinite(Number(mapCenter?.lat))
+      ? Number(mapCenter.lat)
+      : defaultCenter.lat,
+    lng: Number.isFinite(Number(mapCenter?.lng))
+      ? Number(mapCenter.lng)
+      : defaultCenter.lng,
+  };
+
   const handleEditLocation = (loc: SavedLocationType) => {
     setActiveLocationId(loc.id);
     setIsEditing(true);
@@ -208,22 +236,28 @@ const SavedLocation: React.FC = () => {
     setLabel(loc.label);
     setFormattedAddress(loc.formattedAddress);
     setPlaceId(loc.placeId);
-    setSelected({ lat: loc.lat, lng: loc.lng });
-    setMapCenter({ lat: loc.lat, lng: loc.lng });
+
+    const lat = Number(loc.lat);
+    const lng = Number(loc.lng);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      setSelected({ lat, lng });
+      setMapCenter({ lat, lng });
+    }
 
     if (inputRef.current) {
       inputRef.current.value = loc.formattedAddress;
     }
   };
 
-  // ✅ Map click → reverse geocode
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
-      setSelected({ lat, lng });
-      setMapCenter({ lat, lng });
-      reverseGeocode(lat, lng);
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        setSelected({ lat, lng });
+        setMapCenter({ lat, lng });
+        reverseGeocode(lat, lng);
+      }
     }
   };
 
@@ -268,7 +302,6 @@ const SavedLocation: React.FC = () => {
           className={location.input}
         />
 
-        {/* ✅ Single Search Input (Autocomplete) */}
         <label className={location.label}>Search Address</label>
         <div className={location.searchInputWrapper}>
           <FaSearch className={location.searchIcon} />
@@ -289,11 +322,20 @@ const SavedLocation: React.FC = () => {
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             zoom={13}
-            center={mapCenter}
+            center={safeCenter} // ✅ always finite
             onClick={handleMapClick}
             options={{ disableDefaultUI: true, zoomControl: true }}
           >
-            {selected && <Marker position={selected} />}
+            {selected &&
+              Number.isFinite(Number(selected.lat)) &&
+              Number.isFinite(Number(selected.lng)) && (
+                <Marker
+                  position={{
+                    lat: Number(selected.lat),
+                    lng: Number(selected.lng),
+                  }}
+                />
+              )}
           </GoogleMap>
         </div>
 
@@ -333,11 +375,11 @@ const SavedLocation: React.FC = () => {
 
           <style>
             {`
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `}
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}
           </style>
         </div>
       </div>
