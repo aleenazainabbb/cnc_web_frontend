@@ -2,6 +2,7 @@
   height: 4%;
   margin-bottom: 10px;
   display: flex;
+  justify-content: flex-end; 
 }
 
 .rangeBox {
