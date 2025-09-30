@@ -5,17 +5,18 @@ import Image from "next/image";
 import LinkWithLoader from "@/components/Loader/Link";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/context/AuthContext"; // ✅ Import your auth context
+import { useAuth } from "@/context/AuthContext";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { logoutUser } = useAuth(); // ✅ Access logoutUser from context
+  const { logoutUser } = useAuth();
 
   const handleLogout = () => {
     logoutUser();
     router.push("/");
   };
+
   return (
     <div className={side.sidebar}>
       <div className={side.logoContainer}>
@@ -38,7 +39,10 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-solid fa-table-list"></i>
+              <i
+                className="fa-solid fa-table-list"
+                style={{ color: "#3B82F6", marginRight: "8px" }}
+              ></i>
               My Booking
             </span>
           </LinkWithLoader>
@@ -52,11 +56,15 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-regular fa-rectangle-list"></i>
+              <i
+                className="fa-regular fa-rectangle-list"
+                style={{ color: "#10B981", marginRight: "8px" }}
+              ></i>
               My Quotes
             </span>
           </LinkWithLoader>
         </li>
+
         <li>
           <LinkWithLoader
             href="/Bookings/Profile"
@@ -65,20 +73,14 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-regular fa-user"></i>
+              <i
+                className="fa-regular fa-user"
+                style={{ color: "#8B5CF6", marginRight: "8px" }}
+              ></i>
               Profile
             </span>
           </LinkWithLoader>
         </li>
-
-        {/* <li>
-          <LinkWithLoader href="/Bookings/Location" className={`${side.navLink} ${pathname.includes('/Bookings/Location') ? side.active : ''}`}>
-            <span className={side.iconText}>
-              <i className="fa-solid fa-location-dot"></i>
-              Saved Locations
-            </span>
-          </LinkWithLoader>
-        </li> */}
 
         <li>
           <LinkWithLoader
@@ -88,7 +90,10 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-solid fa-money-check"></i>
+              <i
+                className="fa-solid fa-money-check"
+                style={{ color: "#F59E0B", marginRight: "8px" }}
+              ></i>
               Payment Methods
             </span>
           </LinkWithLoader>
@@ -102,11 +107,15 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-solid fa-wallet"></i>
+              <i
+                className="fa-solid fa-wallet"
+                style={{ color: "#EF4444", marginRight: "8px" }}
+              ></i>
               My Wallet
             </span>
           </LinkWithLoader>
         </li>
+
         <li>
           <LinkWithLoader
             href="/Bookings/Complaint"
@@ -115,11 +124,15 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-solid fa-triangle-exclamation"></i>
+              <i
+                className="fa-solid fa-triangle-exclamation"
+                style={{ color: "#F97316", marginRight: "8px" }}
+              ></i>
               Complaint
             </span>
           </LinkWithLoader>
         </li>
+
         <li>
           <LinkWithLoader
             href="/Bookings/Message"
@@ -128,13 +141,22 @@ export default function Sidebar() {
             }`}
           >
             <span className={side.iconText}>
-              <i className="fa-regular fa-comment"></i>
+              {/* Option 1: Message bubbles */}
+              <i
+                className="fa-regular fa-envelope"
+                style={{ color: "#06B6D4", marginRight: "8px" }}
+              ></i>
               Message
             </span>
           </LinkWithLoader>
         </li>
       </ul>
+
       <button className={side.logoutBtnn} onClick={handleLogout}>
+        <i
+          className="fa-solid fa-arrow-right-from-bracket"
+          style={{ color: "#6B7280", marginRight: "8px" }}
+        ></i>
         Logout
       </button>
     </div>

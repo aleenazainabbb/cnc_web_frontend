@@ -1,17 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "@/context/Location";
 import Snackbar from "@/components/popups/Snackbar";
 import { FaSearch, FaTimes, FaTrash, FaEdit } from "react-icons/fa";
-
-import {
-  GoogleMap,
-  Marker,
-  useLoadScript,
-  Autocomplete,
-} from "@react-google-maps/api";
-
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import location from "./styles/savedlocation.module.css";
 
 const mapContainerStyle = {
@@ -19,14 +12,9 @@ const mapContainerStyle = {
   height: "300px",
   border: "1px solid #A1A1A1",
   borderRadius: "9px",
-  position: "relative" as const,
-  overflow: "hidden",
 };
 
-const defaultCenter = {
-  lat: 24.8607,
-  lng: 67.0011,
-};
+const defaultCenter = { lat: 24.8607, lng: 67.0011 };
 
 type SavedLocationType = {
   id: number;
@@ -46,6 +34,7 @@ const SavedLocation: React.FC = () => {
   );
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [activeLocationId, setActiveLocationId] = useState<number | null>(null);
+
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -62,7 +51,9 @@ const SavedLocation: React.FC = () => {
   const [editingLocation, setEditingLocation] =
     useState<SavedLocationType | null>(null);
 
-  const { isLoaded, loadError } = useLoadScript({
+  // ✅ Only one loader (production-safe)
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script", // ensures unique loader
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ["places"],
   });
@@ -73,64 +64,143 @@ const SavedLocation: React.FC = () => {
     setShowSnackbar(true);
   };
 
+  // ✅ Attach Autocomplete once
+  useEffect(() => {
+    if (!isLoaded || !inputRef.current || autocompleteRef.current) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
+      fields: ["geometry", "formatted_address", "place_id", "name"],
+      types: ["address"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry?.location) return;
+
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+
+      setSelected({ lat, lng });
+      setMapCenter({ lat, lng });
+      setFormattedAddress(place.formatted_address || place.name || "");
+      setPlaceId(place.place_id || "");
+    });
+
+    autocompleteRef.current = autocomplete;
+  }, [isLoaded]);
+
+  // ✅ Fix dropdown styling and remove duplicates
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const updatePacPosition = () => {
+      const pac = document.querySelector<HTMLElement>(".pac-container");
+      const input = inputRef.current;
+      if (!pac || !input) return;
+
+      const rect = input.getBoundingClientRect();
+      pac.style.position = "fixed";
+      pac.style.top = `${rect.bottom}px`;
+      pac.style.left = `${rect.left}px`;
+      pac.style.width = `${rect.width}px`;
+      pac.style.zIndex = "2147483647";
+    };
+
+    const observer = new MutationObserver(() => {
+      const pacs = document.querySelectorAll(".pac-container");
+      if (pacs.length > 1) {
+        pacs.forEach((p, i) => {
+          if (i > 0) p.remove(); // ✅ remove duplicates
+        });
+      }
+      updatePacPosition();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("scroll", updatePacPosition, true);
+    window.addEventListener("resize", updatePacPosition);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updatePacPosition, true);
+      window.removeEventListener("resize", updatePacPosition);
+    };
+  }, [isLoaded]);
+
+  // ✅ Save location
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSave = async () => {
     if (!label || !formattedAddress || !placeId || !selected) {
       showToast("Please complete the form", "error");
       return;
     }
 
-    const result = await saveLocation({
-      label,
-      formattedAddress,
-      placeId,
-      lat: selected.lat,
-      lng: selected.lng,
-    });
+    setIsLoading(true); // ✅ Start loader
+    try {
+      const result = await saveLocation({
+        label,
+        formattedAddress,
+        placeId,
+        lat: selected.lat,
+        lng: selected.lng,
+      });
 
-    if (result.type === "success") {
-      showToast("Location saved", "success");
-      setLabel("");
-      setFormattedAddress("");
-      setPlaceId("");
-      setSelected(null);
-      if (inputRef.current) inputRef.current.value = "";
-    } else {
-      showToast(result.message || "Failed to save location", "error");
+      if (result.type === "success") {
+        showToast("Location saved", "success");
+        setLabel("");
+        setFormattedAddress("");
+        setPlaceId("");
+        setSelected(null);
+        if (inputRef.current) inputRef.current.value = "";
+      } else {
+        showToast(result.message || "Failed to save location", "error");
+      }
+    } finally {
+      setIsLoading(false); // ✅ Stop loader
     }
   };
 
+  // Update location
   const handleUpdate = async () => {
     if (!editingLocation) return;
 
-    const updatedLabel = label || editingLocation.label;
-    const updatedFormattedAddress =
-      formattedAddress || editingLocation.formattedAddress;
-    const updatedPlaceId = placeId || editingLocation.placeId;
-    const updatedLat = selected?.lat ?? editingLocation.lat;
-    const updatedLng = selected?.lng ?? editingLocation.lng;
+    setIsLoading(true);
+    try {
+      const updatedLabel = label || editingLocation.label;
+      const updatedFormattedAddress =
+        formattedAddress || editingLocation.formattedAddress;
+      const updatedPlaceId = placeId || editingLocation.placeId;
+      const updatedLat = selected?.lat ?? editingLocation.lat;
+      const updatedLng = selected?.lng ?? editingLocation.lng;
 
-    const result = await updateLocation(editingLocation.id, {
-      label: updatedLabel,
-      formattedAddress: updatedFormattedAddress,
-      placeId: updatedPlaceId,
-      lat: updatedLat,
-      lng: updatedLng,
-    });
+      const result = await updateLocation(editingLocation.id, {
+        label: updatedLabel,
+        formattedAddress: updatedFormattedAddress,
+        placeId: updatedPlaceId,
+        lat: updatedLat,
+        lng: updatedLng,
+      });
 
-    if (result.type === "success") {
-      showToast("Location updated", "success");
-      setIsEditing(false);
-      setEditingLocation(null);
-    } else {
-      showToast("Something went wrong while updating", "error");
+      if (result.type === "success") {
+        showToast("Location updated", "success");
+        setIsEditing(false);
+        setEditingLocation(null);
+      } else {
+        showToast("Something went wrong while updating", "error");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // ✅ Delete location
   const handleDelete = async (id: number) => {
     const res = await deleteLocation(id);
     showToast(res.message, res.type);
   };
 
+  // ✅ Edit location
   const handleEditLocation = (loc: SavedLocationType) => {
     setActiveLocationId(loc.id);
     setIsEditing(true);
@@ -146,6 +216,7 @@ const SavedLocation: React.FC = () => {
     }
   };
 
+  // ✅ Map click → reverse geocode
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
       const lat = e.latLng.lat();
@@ -174,21 +245,6 @@ const SavedLocation: React.FC = () => {
     });
   };
 
-  const onPlaceChanged = () => {
-    if (!autocompleteRef.current) return;
-
-    const place = autocompleteRef.current.getPlace();
-    if (!place || !place.geometry || !place.geometry.location) return;
-
-    const lat = place.geometry.location.lat();
-    const lng = place.geometry.location.lng();
-
-    setSelected({ lat, lng });
-    setMapCenter({ lat, lng });
-    setFormattedAddress(place.formatted_address || place.name || "");
-    setPlaceId(place.place_id || "");
-  };
-
   if (loadError) return <div>Map failed to load</div>;
   if (!isLoaded) return <div>Loading map...</div>;
 
@@ -212,13 +268,22 @@ const SavedLocation: React.FC = () => {
           className={location.input}
         />
 
-        <label className={location.label}>Selected Address</label>
-        <input
-          type="text"
-          value={formattedAddress}
-          className={location.input}
-          disabled
-        />
+        {/* ✅ Single Search Input (Autocomplete) */}
+        <label className={location.label}>Search Address</label>
+        <div className={location.searchInputWrapper}>
+          <FaSearch className={location.searchIcon} />
+          <input
+            ref={inputRef}
+            type="text"
+            value={formattedAddress}
+            onChange={(e) => setFormattedAddress(e.target.value)}
+            placeholder="Search for your building or area"
+            className={location.searchInput}
+          />
+          {formattedAddress && (
+            <FaTimes onClick={clearSearch} className={location.clearIcon} />
+          )}
+        </div>
 
         <div className={location.mapWrapper}>
           <GoogleMap
@@ -226,60 +291,54 @@ const SavedLocation: React.FC = () => {
             zoom={13}
             center={mapCenter}
             onClick={handleMapClick}
-            options={{
-              disableDefaultUI: true,
-              zoomControl: true,
-            }}
+            options={{ disableDefaultUI: true, zoomControl: true }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                left: "10px",
-                right: "10px",
-                zIndex: 1000,
-              }}
-            >
-              <Autocomplete
-                onLoad={(autocomplete) =>
-                  (autocompleteRef.current = autocomplete)
-                }
-                onPlaceChanged={onPlaceChanged}
-              >
-                <div style={{ position: "relative", width: "100%" }}>
-                  <FaSearch className={location.searchIcon} />
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    placeholder="Search for your building or area"
-                    style={{
-                      width: "100%",
-                      height: "36px",
-                      padding: "0 36px",
-                      borderRadius: "8px",
-                      border: "2px solid #D3D8DD",
-                      fontSize: "14px",
-                      outline: "none",
-                    }}
-                  />
-                  <FaTimes
-                    onClick={clearSearch}
-                    className={location.clearIcon}
-                  />
-                </div>
-              </Autocomplete>
-            </div>
             {selected && <Marker position={selected} />}
           </GoogleMap>
         </div>
 
         <div className={location.buttonContainer}>
           <button
-            className={location.button}
             onClick={isEditing ? handleUpdate : handleSave}
+            disabled={isLoading}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#3498db",
+              color: "#fff",
+              fontWeight: 500,
+              borderRadius: "6px",
+              border: "none",
+              cursor: isLoading ? "not-allowed" : "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+            }}
           >
+            {isLoading && (
+              <span
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  border: "2px solid #f3f3f3",
+                  borderTop: "2px solid #fff",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  animation: "spin 1s linear infinite",
+                }}
+              />
+            )}
             {isEditing ? "Update Location" : "Save Location"}
           </button>
+
+          <style>
+            {`
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `}
+          </style>
         </div>
       </div>
 

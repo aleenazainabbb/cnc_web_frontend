@@ -4,8 +4,8 @@
   height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #000000 100%);
   position: relative;
-  font-family: "-apple-system, BlinkMacSystemFont", "Segoe UI", "Roboto",
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: "Mulish", sans-serif;
+
   overflow: hidden;
 }
 
@@ -179,7 +179,7 @@
 
 /* Chat Header */
 .chatHeader {
-  padding: 20px 30px;
+  padding: 10px 20px;
   background: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
@@ -228,7 +228,6 @@
 }
 
 .chatStatus::before {
-  content: "";
   width: 10px;
   height: 10px;
   background: #38a169;
@@ -506,7 +505,9 @@
 
 .sendIcon {
   font-size: 20px;
-  transform: rotate(90deg);
+  transform: rotate(330deg);
+  margin-bottom: 5px;
+  margin-left: 7px;
 }
 
 /* File Preview */
@@ -529,6 +530,7 @@
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .fileItem:hover {
@@ -550,8 +552,18 @@
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; /* default for larger screens */
   font-weight: 500;
+  width: 100%;
+}
+
+/* On small screens, allow line break */
+@media (max-width: 640px) {
+  .fileName {
+    white-space: normal;
+    word-break: break-word;
+    overflow: visible;
+  }
 }
 
 .removeFileButton {
@@ -787,7 +799,7 @@
 }
 
 .bubbleThem .sentIcon {
-  color: #f3f3f3;
+  color: #a0aec0;
 }
 
 .sending {

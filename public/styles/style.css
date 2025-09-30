@@ -1163,22 +1163,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* savedlocationcss */
 
-.pac-container {
-  position: relative !important;
-flex-direction: column;
-  /* Position relative to the input */
-
-   /* Move dropdown above/below input (adjust as needed) */
-  left: 360px !important;   /* Push it 40px from the left */
-  right: 500px !important; /* Push it 200px from the right */
- 
-  /* Visuals */
-/* z-index: 1000%; */
- 
-  
-    margin-top: -107.5%;
-}
-
 
 
 

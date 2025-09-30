@@ -1,164 +1,92 @@
 .main {
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   background-color: white;
-  margin: 80px 40% 0 auto;
-  width: 100%;
-  margin-left: 20px;
+  margin: 80px 20px 0 auto;
   box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
-  height: 80%;
-  padding: 2rem;
+  padding: 10px;
   box-sizing: border-box;
   border-radius: 2px;
+  width: calc(100% - 40px);
 }
 
-/* ✅ Tablets */
+/* Tablet Styles */
 @media (max-width: 1024px) {
   .main {
-    width: 90%; /* shrink a bit */
-    margin: 70px auto; /* center horizontally */
-  }
-}
-
-/* ✅ Mobiles */
-@media (max-width: 1024px) {
-  .main {
-    margin-top: 70px;
+    width: 90%;
+    margin: 70px auto;
     padding: 1rem;
-    border-radius: 8px;
-    width: 100%;
   }
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
   .main {
-    margin-top: 60px;
-    padding: 0.5rem;
+    margin: 60px auto;
+    padding: 0.75rem;
     border-radius: 8px;
-    width: 100%;
-    height: 500px;
+    width: 95%;
   }
 }
 
 @media (max-width: 600px) {
   .main {
-    margin-top: 50px;
+    margin: 50px auto;
     padding: 0.5rem;
-    border-radius: 8px;
     width: 100%;
   }
 }
 
-@media (max-width: 500px) {
-  .main {
-    margin-top: 40px;
-    padding: 0.5rem;
-    border-radius: 8px;
-    width: 100%;
-  }
-}
-
-@media (max-width: 400px) {
-  .main {
-    margin-top: 30px;
-    padding: 0.4rem;
-    border-radius: 6px;
-    width: 100%;
-  }
-}
-
-/* ✅ Very small screens */
 @media (max-width: 480px) {
   .main {
-    width: 100%; /* take full width */
-    margin: 40px 0;
-    height: 800px;
-    padding: 0.75rem;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-/* ✅ For tablets */
-@media (max-width: 1024px) {
-  .main {
-    margin-top: 70px;
-    padding: 0.75rem;
-  }
-}
-
-/* ✅ For mobile */
-@media (max-width: 768px) {
-  .main {
-    margin-top: 60px;
+    margin: 40px auto;
     padding: 0.5rem;
-    border-radius: 8px;
-    width: 100%;
+    border-radius: 6px;
   }
 }
-/* ============================= */
-/* ✅ Containers & Scroll        */
-/* ============================= */
+
+@media (max-width: 360px) {
+  .main {
+    margin: 30px auto;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+}
+
+/* Container & Scroll Styles */
 .container {
   padding: 10px;
-
   gap: 8px;
 }
 
+.scrollContainer,
 .scrollContainerQuotes {
   margin-top: 1px;
   max-height: 40vh;
   overflow-y: auto;
-  overflow-x: auto;
-  padding-right: 20px;
+  padding-right: 10px;
   scrollbar-width: thin;
   scrollbar-color: #9a9696 #d6d6d6;
 }
 
-.scrollContainer {
-  margin-top: 1px;
-  max-height: 40vh;
-  min-height: 200px; /* ✅ keeps UI balanced even with 1 row */
-
-  padding-right: 20px;
-  scrollbar-width: thin;
-  scrollbar-color: #9a9696 #d6d6d6;
-}
-/* Smooth scrolling */
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .scrollContainer,
-  .scrollContainerQuotes {
-    max-height: 200px;
-    padding-right: 2px;
-  }
-
-  .scrollContainerQuotes {
-    max-height: calc(4 * 50px);
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .scrollContainer,
-  .scrollContainerQuotes {
-    scroll-behavior: auto;
-  }
-}
-/* ============================= */
-/* ✅ Grid Layouts               */
-/* ============================= */
+/* Grid Layouts */
 .gridContainer,
 .gridContainerHistory,
 .gridContainerQuotes {
   display: grid;
-  border-radius: px;
-  grid-template-columns:
-    minmax(80px, 1fr) minmax(100px, 1.2fr) minmax(100px, 1.5fr)
-    minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
   overflow-x: auto;
+  align-items: center;
+}
+
+/* Default Grid Templates */
+.gridContainer {
+  grid-template-columns:
+    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
+    minmax(80px, 0.5fr) minmax(80px, 0.8fr) minmax(80px, 0.6fr) minmax(
+      90px,
+      0.4fr
+    )
+    minmax(80px, 0.5fr);
 }
 
 .gridContainerHistory {
@@ -170,92 +98,55 @@
     )
     minmax(80px, 0.4fr);
 }
-.gridContainer {
-  grid-template-columns:
-    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
-    minmax(80px, 0.5fr) minmax(80px, 0.8fr) minmax(80px, 0.6fr) minmax(
-      90px,
-      0.4fr
-    )
-    minmax(8vh, 0.5fr);
-}
 
 .gridContainerQuotes {
   grid-template-columns:
     minmax(50px, 0.4fr) minmax(60px, 0.8fr) minmax(120px, 0.5fr)
-    minmax(70px, 0.4fr) minmax(70px, 0.4fr) minmax(65px, 0.4fr)
-    minmax(100px, 0.5fr);
-  /* minmax(100px, 0.5fr); */
+    minmax(70px, 0.4fr) minmax(70px, 0.4fr) minmax(65px, 0.4fr) minmax(100px, 0.5fr);
 }
 
+/* Row Styles */
 .rowHeader {
   color: #8b909a;
-  padding: 4px 0;
-
-  margin-left: -6px;
-
+  padding: 8px 4px;
   font-size: 13px;
   font-family: "Public Sans", sans-serif;
   border-bottom: 2px solid #e9e7fd;
-  overflow-y: hidden;
+  font-weight: 500;
 }
 
 .row {
   color: #000000;
-  padding: 10px 0;
-  font-size: 15px;
-  font-weight: 400;
+  padding: 10px 4px;
+  font-size: 14px;
   font-family: "Roboto Flex", sans-serif;
-  border-bottom: 2px solid #cfcfcf;
+  border-bottom: 1px solid #cfcfcf;
 }
 
-/* ✅ Wrap long text properly */
+/* Text Wrapping */
 .gridContainerHistory div:nth-child(3),
 .gridContainerHistory div:nth-child(4),
 .gridContainerQuotes div:nth-child(3),
 .gridContainerQuotes div:nth-child(4),
-.gridContainerQuotes div:nth-child(7),
-.gridContainerQuotes div:nth-child(8) {
+.gridContainerQuotes div:nth-child(7) {
   word-wrap: break-word;
   overflow-wrap: break-word;
-  white-space: normal;
   line-height: 1.4;
 }
 
-/* ✅ Row highlight styles */
-.row div:nth-child(2) {
-  font-weight: 500;
-}
-
-.row div:nth-child(3) {
-  font-weight: 400;
-  /* font-size: 14px; */
-  color: #8b909a;
-}
-
-.row div:nth-child(4) {
-  font-weight: 400;
-  color: #8b909a;
-}
-.row div:nth-child(5) {
-  color: #8b909a;
-  font-weight: 400;
-  /* font-size: 15px; */
-  color: #8b909a;
-}
-
+/* Button Styles */
 .statusButton {
   width: 100%;
+  max-width: 120px;
   border-radius: 30px;
   height: 32px;
   border: 1px solid;
   background-color: transparent;
   font-weight: 500;
   font-size: 14px;
-  /* padding: 6px; */
   cursor: default;
-  transition: border-color 0.3s ease, color 0.3s ease;
 }
+
 .payNowButton {
   max-width: 103px;
   width: 100%;
@@ -264,168 +155,199 @@
   border: 1px solid;
   font-weight: 500;
   font-size: 14px;
-  cursor: default;
-  transition: border-color 0.3s ease, color 0.3s ease;
   background-color: #36b864;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .payNowButton:disabled {
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
-  border-color: #ccc;
 }
+
 .rescheduleButton {
-  height: 32px;
-  border-radius: 30px;
+  height: 42px;
+  width: 32;
+
   background-color: #1a78f2;
   color: white;
-  padding: 5px;
+
   border: none;
   font-size: 14px;
   cursor: pointer;
+  min-width: 100px;
 }
-.payNowButton:disabled {
-  background: #ccc;
-  border-color: #ccc;
-  cursor: not-allowed;
-}
+
 .billingCenter {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-/* Responsive adjustments */
+/* Responsive Grid Adjustments */
 
-/* Tablet */
+/* Tablet Grid Adjustments */
 @media (max-width: 1024px) {
-  .container {
-    padding: 15px;
+  .gridContainer {
+    grid-template-columns:
+      minmax(50px, 0.3fr) minmax(80px, 0.6fr) minmax(90px, 0.4fr)
+      minmax(70px, 0.3fr) minmax(70px, 0.6fr) minmax(70px, 0.4fr) minmax(
+        80px,
+        0.3fr
+      )
+      minmax(70px, 0.3fr);
   }
 
-  .statusButton,
-  .payNowButton {
-    width: 40%px;
-  }
-
-  .rescheduleButton {
-    font-size: 13px;
+  .gridContainerHistory {
+    grid-template-columns:
+      minmax(50px, 0.2fr) minmax(80px, 0.3fr) minmax(90px, 0.4fr)
+      minmax(70px, 0.3fr) minmax(70px, 0.2fr) minmax(70px, 0.2fr) minmax(
+        80px,
+        0.3fr
+      )
+      minmax(70px, 0.3fr);
   }
 
   .gridContainerQuotes {
-    grid-template-columns: repeat(4, 1fr);
-    row-gap: 0.8rem;
-  }
-
-  .row {
-    font-size: 13px;
+    grid-template-columns:
+      minmax(40px, 0.3fr) minmax(50px, 0.6fr) minmax(100px, 0.4fr)
+      minmax(60px, 0.3fr) minmax(60px, 0.3fr) minmax(55px, 0.3fr) minmax(90px, 0.4fr);
   }
 }
 
-/* Small Laptop / Large Tablet */
+/* Small Tablet Grid Adjustments */
 @media (max-width: 900px) {
   .gridContainer,
-  .gridContainerHistory,
+  .gridContainerHistory {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+
   .gridContainerQuotes {
-    grid-template-columns: repeat(8, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .rowHeader,
   .row {
-    font-size: 13px;
-  }
-
-  .statusButton,
-  .payNowButton {
-    width: 70px;
     font-size: 12px;
-    height: 28px;
+    padding: 6px 3px;
   }
 }
 
+/* Mobile Grid Adjustments */
+@media (max-width: 768px) {
+  .scrollContainer,
+  .scrollContainerQuotes {
+    max-height: 35vh;
+    padding-right: 5px;
+  }
+
+  .gridContainer,
+  .gridContainerHistory {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gridContainerQuotes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statusButton,
+  .payNowButton,
+  .rescheduleButton {
+    font-size: 12px;
+    height: 28px;
+    min-width: 80px;
+  }
+}
+
+/* Small Mobile Grid Adjustments */
 @media (max-width: 600px) {
   .gridContainer,
   .gridContainerHistory,
   .gridContainerQuotes {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    overflow-x: auto;
-  }
-
-  .scrollContainer,
-  .scrollContainerQuotes {
-    max-height: calc(2 * 50px);
+    gap: 0.5rem;
   }
 
   .rowHeader,
   .row {
-    font-size: 12px;
+    font-size: 11px;
+    padding: 4px 2px;
   }
 
   .statusButton,
   .payNowButton {
-    width: 65px;
     font-size: 11px;
-    height: 25px;
-  }
-
-  .gridContainerQuotes {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 0.6rem;
-  }
-  .billingCenter {
-    padding: 10px;
+    height: 36px;
+    min-width: 70px;
   }
 }
 
-/* Small Mobile */
-@media (max-width: 420px) {
-  .container {
-    padding: 6px;
-    gap: 2px;
+/* Extra Small Mobile Grid Adjustments */
+@media (max-width: 480px) {
+  .gridContainer,
+  .gridContainerHistory,
+  .gridContainerQuotes {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
   }
 
+  .rowHeader,
   .row {
-    font-size: 9px;
+    font-size: 10px;
+    padding: 3px 1px;
   }
 
   .statusButton,
   .payNowButton {
-    width: 50px;
-    font-size: 8px;
-    height: 22px;
-  }
-
-  .completedButton,
-  .rescheduleButton {
-    width: 65px;
     font-size: 10px;
-    height: 26px;
+    height: 24px;
+    min-width: 60px;
+    max-width: 100px;
   }
 
-  /* ✅ Make grids horizontally scrollable instead of stacking */
+  .scrollContainer,
+  .scrollContainerQuotes {
+    max-height: 30vh;
+  }
+}
+
+/* Horizontal Scroll for Very Small Screens */
+@media (max-width: 360px) {
   .gridContainer,
   .gridContainerHistory,
   .gridContainerQuotes {
-    display: flex; /* switch to flexbox */
-    flex-direction: row; /* row layout */
-    flex-wrap: nowrap; /* no wrapping */
-    gap: 0.2rem;
-    overflow-x: auto; /* allow horizontal scroll */
-    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 10px;
   }
 
-  /* ✅ Prevent items from shrinking too small */
   .gridContainer > div,
   .gridContainerHistory > div,
   .gridContainerQuotes > div {
-    min-width: 10px; /* adjust as needed for your content */
-    padding: 2px;
+    min-width: 120px;
     flex-shrink: 0;
+  }
+
+  .rowHeader,
+  .row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .scrollContainer,
+  .scrollContainerQuotes {
+    scroll-behavior: auto;
   }
 }
