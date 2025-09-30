@@ -339,7 +339,7 @@ const ComplaintForm = () => {
                           color: "#64748b",
                           display: "flex",
                           alignItems: "center",
-                          gap: "0.5rem",
+                          gap: "0.2rem",
                         }}
                       >
                         Status:{" "}
@@ -360,8 +360,10 @@ const ComplaintForm = () => {
                         </span>
                       </div>
                     </div>
-                    <span>Message :</span>
-                    <p className={styles.complaintMessage}>{ticket.message}</p>
+
+                    <p className={styles.complaintMessage}>
+                      Message: {ticket.message}
+                    </p>
                   </div>
                 ))}
               </div>
