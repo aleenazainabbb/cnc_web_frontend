@@ -29,6 +29,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     updateBookingOrder,
     formErrors,
   } = useBooking();
+
   const locationListRef = useRef<HTMLDivElement>(null);
   const {
     appointmentFrequency = "Once",
@@ -38,6 +39,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     discountAmount = 0,
     taxAmount = 0,
     totalAmount = 0,
+    
   } = billingData;
 
   const [discountInput, setDiscountInput] = useState(discountAmount);
@@ -93,6 +95,9 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
       billingData.totalAmount > 0
     ) {
       updateBookingData({
+        // appointmentTime: billingData.appointmentTime,     
+      // appointmentFrequency: billingData.appointmentFrequency, 
+      // appointmentLocation: billingData.appointmentLocation, 
         discountAmount: billingData.discountAmount,
         taxAmount: billingData.taxAmount,
         totalAmount: billingData.totalAmount,
@@ -115,6 +120,9 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     billingData.totalAmount,
     billingData.appointmentValue,
     billingData.discountCode,
+     billingData.appointmentTime,        // ✅ add
+  billingData.appointmentFrequency,   // ✅ add
+  billingData.appointmentLocation,    // ✅ add
   ]);
 
   const formattedNow = useMemo(() => {

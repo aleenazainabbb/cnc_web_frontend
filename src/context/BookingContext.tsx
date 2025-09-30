@@ -64,6 +64,7 @@ type BookingData = {
   appointmentLocation?: string;
   selectedType?: string;
   bookingPaymentStatus?: "none";
+  
 };
 
 export type LatestLocation = {
