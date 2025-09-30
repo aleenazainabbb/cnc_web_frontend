@@ -37,7 +37,7 @@ export default function BookingLayout({ children }: BookingLayoutProps) {
         <div
           style={{
             display: "flex",
-            height: autoHeight ? "auto" : "100vh",
+            height: autoHeight ? "auto" : "110vh",
             backgroundColor: "#fafafa",
           }}
         >

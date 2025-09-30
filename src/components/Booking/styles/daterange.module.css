@@ -1,19 +1,12 @@
 .wrapper {
-  width: 30%;
   height: 4%;
-
-  padding: 10px 4px;
+  padding: 20px;
   margin-top: -30px;
-  margin-left: 74%;
   display: flex;
   justify-content: end;
-  position: relative;
 }
 
 .rangeBox {
-  margin-top: 10px;
-  margin-right: 76px;
-  width: 209px;
   height: 40px;
   border-radius: 6px;
   background: #ffffff;
@@ -23,6 +16,7 @@
   padding: 0 20px;
   cursor: pointer;
   transition: all 0.2s ease;
+  background-color: aqua;
 }
 
 .input {
@@ -42,104 +36,23 @@
   color: #8b909a;
 }
 
-.chevron {
-  margin-left: 8px;
-}
-
 .calendarWrapper {
   position: absolute;
-  top: 50px;
-  right: 76px; /* Match rangeBox margin-right */
   background: white;
-  z-index: 1001;
   border-radius: 6px;
   box-shadow: 0px 4px 16px 0px #0000000a;
   max-width: 100%;
   overflow-x: auto;
 }
-
-/* Laptop & tablets (<= 1024px) */
-@media (max-width: 1024px) {
-  .wrapper {
-    margin: 0 15px;
-    width: auto;
-    justify-content: flex-end;
-  }
-
+@media (max-width: 600px) {
   .rangeBox {
-    margin-right: 60px;
-    width: 190px;
-  }
-
-  .calendarWrapper {
-    right: 60px;
-  }
+  height: 20px;
 }
 
-/* Tablets & small laptops (<= 768px) */
-@media (max-width: 768px) {
-  .wrapper {
-    width: 570px;
-    margin-top: -40px;
-
-    height: 60px;
-  }
-
-  .rangeBox {
-    margin-right: 0;
-    width: 180px;
-    height: 38px;
-  }
-
-  .calendarWrapper {
-    right: 0;
-    top: 42px;
-    width: 300px;
-  }
+.input {
+  font-size: 11px;
 }
-
-/* Phones (<= 420px) */
-@media (max-width: 420px) {
-  .wrapper {
-    margin: 0 10px;
-    top: -8px;
-    left: -5px;
-    width: 100%; /* span full width */
-    justify-content: flex-start;
-  }
-
-  .rangeBox {
-    width: 160px;
-    height: 36px;
-    padding: 0 12px;
-  }
-
-  .input {
-    font-size: 14px;
-  }
-
-  .calendarWrapper {
-    width: 280px;
-    right: 0;
-    left: auto;
-  }
+.rangeBox {
+  padding: 0 10px;
 }
-
-/* Extra small devices (<= 350px) */
-@media (max-width: 350px) {
-  .wrapper {
-    margin: 0 5px;
-  }
-
-  .rangeBox {
-    width: 140px;
-    height: 34px;
-    padding: 0 10px;
-  }
-
-  .calendarWrapper {
-    width: 260px;
-    right: 0;
-    left: auto;
-  }
 }
