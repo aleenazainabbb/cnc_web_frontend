@@ -160,6 +160,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
           </div>
 
           {/* Data Rows */}
+          <div className={styles.verticalScroll}>
           {rows.map((row, ri) => {
             const status = row[6];
             const paymentStatus = row[7];
@@ -188,6 +189,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
                     <div key={ci}>{capitalizeWords(cell)}</div>
                   )
                 )}
+                
                 {paymentStatus === "added" ? (
                   <button
                     className={styles.payNowButton}
@@ -203,6 +205,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* Pagination */}
