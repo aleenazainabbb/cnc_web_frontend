@@ -26,31 +26,19 @@ type SaveLocationResponse = {
 type LocationContextType = {
   savedLocation: SavedLocation | null;
   savedLocations: SavedLocation[];
-  setSavedLocations: React.Dispatch<React.SetStateAction<SavedLocation[]>>;
-
-  saveLocation: (data: {
-    label: string;
-    placeId: string;
-    formattedAddress: string;
-    lat: number;
-    lng: number;
-  }) => Promise<SaveLocationResponse>;
-
+  saveLocation: (
+    data: Omit<SavedLocation, "id">
+  ) => Promise<SaveLocationResponse>;
   updateLocation: (
     id: number,
-    data: {
-      label: string;
-      placeId: string;
-      formattedAddress: string;
-      lat: number;
-      lng: number;
-    }
+    data: Omit<SavedLocation, "id">
   ) => Promise<SaveLocationResponse>;
   fetchSavedLocations: () => void;
   deleteLocation: (id: number) => Promise<SaveLocationResponse>;
 };
 
 const LocationContext = createContext<LocationContextType | null>(null);
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
@@ -59,13 +47,9 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
     null
   );
 
-  const saveLocation = async (data: {
-    label: string;
-    placeId: string;
-    formattedAddress: string;
-    lat: number;
-    lng: number;
-  }): Promise<SaveLocationResponse> => {
+  const saveLocation = async (
+    data: Omit<SavedLocation, "id">
+  ): Promise<SaveLocationResponse> => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found");
@@ -82,32 +66,25 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       const result = await res.json();
       if (!res.ok) throw new Error(result.message || "Failed to save location");
 
-      setSavedLocations((prev) => [...prev, result.location]);
-      setSavedLocation(result.location);
+      const newLoc = result.location ?? result.savedLocation;
+
+      setSavedLocations((prev) => [...prev, newLoc]);
+      setSavedLocation(newLoc);
 
       return {
         message: result.message || "Location saved!",
         type: "success",
-        savedLocation: result.location,
+        savedLocation: newLoc,
       };
     } catch (err: any) {
       console.error("Save location failed:", err.message);
-      return {
-        message: err.message || "Something went wrong.",
-        type: "error",
-      };
+      return { message: err.message || "Something went wrong.", type: "error" };
     }
   };
 
   const updateLocation = async (
     id: number,
-    data: {
-      label: string;
-      placeId: string;
-      formattedAddress: string;
-      lat: number;
-      lng: number;
-    }
+    data: Omit<SavedLocation, "id">
   ): Promise<SaveLocationResponse> => {
     try {
       const token = localStorage.getItem("token");
@@ -126,11 +103,12 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok)
         throw new Error(result.message || "Failed to update location");
 
-      setSavedLocations((prev) =>
-        prev.map((loc) => (loc.id === id ? result.location : loc))
-      );
+      const updatedLoc = result.location ?? result.savedLocation;
 
-      setSavedLocation(result.location);
+      setSavedLocations((prev) =>
+        prev.map((loc) => (loc.id === id ? updatedLoc : loc))
+      );
+      setSavedLocation(updatedLoc);
 
       return {
         message: result.message || "Location updated successfully",
@@ -138,10 +116,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       };
     } catch (err: any) {
       console.error("Update location failed:", err.message);
-      return {
-        message: err.message || "Something went wrong.",
-        type: "error",
-      };
+      return { message: err.message || "Something went wrong.", type: "error" };
     }
   };
 
@@ -152,17 +127,13 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
 
       const res = await fetch(`${apiUrl}/location/get`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const result = await res.json();
       if (res.ok && Array.isArray(result.locations)) {
         setSavedLocations(result.locations);
-        if (result.locations.length > 0) {
-          setSavedLocation(result.locations[0]);
-        }
+        setSavedLocation(result.locations[0] ?? null);
       }
     } catch (err: any) {
       console.error("Fetch saved locations failed:", err.message);
@@ -176,9 +147,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
 
       const res = await fetch(`${apiUrl}/location/${id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const result = await res.json();
@@ -188,7 +157,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       setSavedLocations((prev) => prev.filter((loc) => loc.id !== id));
 
       if (savedLocation?.id === id) {
-        setSavedLocation(null);
+        setSavedLocation(savedLocations.length > 1 ? savedLocations[0] : null);
       }
 
       return {
@@ -197,10 +166,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       };
     } catch (err: any) {
       console.error("Delete location failed:", err.message);
-      return {
-        message: err.message || "Something went wrong.",
-        type: "error",
-      };
+      return { message: err.message || "Something went wrong.", type: "error" };
     }
   };
 
@@ -217,7 +183,6 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
         updateLocation,
         fetchSavedLocations,
         deleteLocation,
-        setSavedLocations,
       }}
     >
       {children}

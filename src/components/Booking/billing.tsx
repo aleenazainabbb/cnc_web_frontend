@@ -139,7 +139,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
       <div className={styles.appointmentcard}>
         <div className={styles.appointmentrow}>
           <p className={styles.appointmentfrequency}>{appointmentFrequency}</p>
-          <p className={styles.appointmenttime}>{displayAppointmentTime}</p>
         </div>
         <div className={styles.divider}></div>
         <div className={styles.locationRow}>

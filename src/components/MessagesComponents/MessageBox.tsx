@@ -176,7 +176,7 @@ const MessageBubble: React.FC<{
               {isSending ? (
                 <span className={styles.sending}>⏳</span>
               ) : isFailed ? (
-                <span className={styles.error}>❌</span>
+                <span className={styles.error}>X</span>
               ) : message.read ? (
                 <span className={styles.readIcon}>✓✓</span>
               ) : (
@@ -417,9 +417,6 @@ const MessageBox: React.FC = () => {
                         <span className={styles.contactRole}>
                           ({contactRole})
                         </span>
-                        {conversation.status === "closed" && (
-                          <span className={styles.closedBadge}>Closed</span>
-                        )}
                       </span>
                       <span className={styles.lastMessageTime}>
                         {conversation.lastMessageAt
@@ -455,6 +452,9 @@ const MessageBox: React.FC = () => {
                       </p>
                     )}
                   </div>
+                  {conversation.status === "closed" && (
+                    <span className={styles.closedBadge}>Closed</span>
+                  )}
                 </div>
               );
             })
@@ -488,16 +488,22 @@ const MessageBox: React.FC = () => {
                       ? `${activeConversation.agent.firstName} ${activeConversation.agent.lastName}`
                       : "Admin"}
                     <span className={styles.contactRole}>
-                      (
                       {activeConversation.admin
                         ? "Admin"
                         : activeConversation.agent
                         ? "Agent"
                         : "Admin"}
-                      )
                     </span>
                   </h3>
-                  <span className={styles.chatStatus}>
+                  <span
+                    className={styles.chatStatus}
+                    style={{
+                      color:
+                        activeConversation.status === "closed"
+                          ? "#e53e3e"
+                          : "#38a169",
+                    }}
+                  >
                     {activeConversation.status === "closed"
                       ? "Closed"
                       : "Online"}
@@ -559,7 +565,6 @@ const MessageBox: React.FC = () => {
               </div>
             )}
 
-            {/* Input - Disabled if conversation is closed */}
             <div className={styles.inputContainer}>
               <button
                 onClick={() => fileInputRef.current?.click()}
@@ -598,13 +603,10 @@ const MessageBox: React.FC = () => {
                       : "Type a message..."
                   }
                   className={styles.messageInput}
-                  disabled={
-                    isLoading ||
-                    isSending ||
-                    activeConversation.status === "closed"
-                  }
+                  disabled={isLoading || activeConversation.status === "closed"}
                 />
               </div>
+
               <button
                 onClick={handleSend}
                 className={styles.sendButton}
