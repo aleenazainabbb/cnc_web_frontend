@@ -2,9 +2,9 @@
   font-family: "Inter", sans-serif;
   font-family: "Inter", sans-serif;
   background-color: white;
-  margin: 80px 20px 0 auto;
+  margin: 100px 0px 0 auto;
   box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   border-radius: 2px;
   max-width: calc(100% - 40px);
@@ -12,53 +12,16 @@
   height: 100%;
 }
 
-/* Tablet Styles */
-@media (max-width: 1024px) {
-  .main {
-    width: 90%;
-    margin: 70px auto;
-    padding: 1rem;
-  }
-}
-
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .main {
-    margin: 60px auto;
-    padding: 0.75rem;
-    border-radius: 8px;
-    width: 95%;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    margin: 50px auto;
-    padding: 0.5rem;
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .main {
-    margin: 40px auto;
-    padding: 0.5rem;
-    border-radius: 6px;
-  }
-}
-
-@media (max-width: 360px) {
-  .main {
-    margin: 30px auto;
-    padding: 0.4rem;
-    border-radius: 4px;
-  }
-}
-
-/* Container & Scroll Styles */
 .container {
-  padding: 10px;
   gap: 8px;
+}
+
+/* pending.module.css */
+.tableScroll {
+  width: 100%;
+  overflow-x: auto; /* ✅ horizontal scroll */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
 
 .scrollContainer,
@@ -77,19 +40,8 @@
 .gridContainerQuotes {
   display: grid;
   gap: 1rem;
-  overflow-x: auto;
   align-items: center;
-}
-
-/* Default Grid Templates */
-.gridContainer {
-  grid-template-columns:
-    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
-    minmax(80px, 0.5fr) minmax(80px, 0.8fr) minmax(80px, 0.6fr) minmax(
-      90px,
-      0.4fr
-    )
-    minmax(80px, 0.5fr);
+  grid-template-columns: repeat(8, minmax(120px, 1fr));
 }
 
 /* Default Grid Templates */
@@ -160,9 +112,9 @@
   font-size: 14px;
   cursor: default;
 }
+
 .rescheduleButton {
   max-width: 81px;
-  max-height: 80px;
   border-radius: 30px;
   background-color: #1a78f2;
   color: white;
@@ -196,9 +148,8 @@
 }
 
 .rescheduleButton {
-  height: 42px;
-  width: 32;
-
+  height: 32px;
+  border-radius: 30px;
   background-color: #1a78f2;
   color: white;
   padding: 0 15px;
@@ -214,10 +165,8 @@
   align-items: center;
 }
 
-/* Responsive Grid Adjustments */
-
 /* Tablet Grid Adjustments */
-@media (max-width: 1024px) {
+@media (max-width: 1025px) {
   .gridContainer {
     grid-template-columns:
       minmax(50px, 0.3fr) minmax(80px, 0.6fr) minmax(90px, 0.4fr)
@@ -247,16 +196,6 @@
 
 /* Small Tablet Grid Adjustments */
 @media (max-width: 900px) {
-  .gridContainer,
-  .gridContainerHistory {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.8rem;
-  }
-
-  .gridContainerQuotes {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .rowHeader,
   .row {
     font-size: 12px;
@@ -266,21 +205,6 @@
 
 /* Mobile Grid Adjustments */
 @media (max-width: 768px) {
-  .scrollContainer,
-  .scrollContainerQuotes {
-    max-height: 35vh;
-    padding-right: 5px;
-  }
-
-  .gridContainer,
-  .gridContainerHistory {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .gridContainerQuotes {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .statusButton,
   .payNowButton,
   .rescheduleButton {
@@ -292,13 +216,6 @@
 
 /* Small Mobile Grid Adjustments */
 @media (max-width: 600px) {
-  .gridContainer,
-  .gridContainerHistory,
-  .gridContainerQuotes {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-  }
-
   .rowHeader,
   .row {
     font-size: 11px;
@@ -316,13 +233,6 @@
 
 /* Extra Small Mobile Grid Adjustments */
 @media (max-width: 480px) {
-  .gridContainer,
-  .gridContainerHistory,
-  .gridContainerQuotes {
-    grid-template-columns: 1fr;
-    gap: 0.3rem;
-  }
-
   .rowHeader,
   .row {
     font-size: 10px;

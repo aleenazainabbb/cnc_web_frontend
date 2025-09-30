@@ -151,15 +151,15 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
   return (
     <div className={styles.main}>
       <div className={styles.container}>
-        {/* Header Row */}
-        <div className={`${styles.gridContainer} ${styles.rowHeader}`}>
-          {headers.map((h, i) => (
-            <div key={i}>{h}</div>
-          ))}
-        </div>
+        <div className={styles.tableScroll}>
+          {/* Header Row */}
+          <div className={`${styles.gridContainer} ${styles.rowHeader}`}>
+            {headers.map((h, i) => (
+              <div key={i}>{h}</div>
+            ))}
+          </div>
 
-        {/* Data Rows */}
-        <div className={styles.scrollContainer}>
+          {/* Data Rows */}
           {rows.map((row, ri) => {
             const status = row[6];
             const paymentStatus = row[7];
@@ -260,3 +260,4 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 };
 
 export default Pending;
+

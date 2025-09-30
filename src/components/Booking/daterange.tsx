@@ -72,7 +72,6 @@ const RangeFilter: React.FC<RangeFilterProps> = ({ range, setRange }) => {
           />
         </div>
         <svg
-          className={styles.chevron}
           width="16"
           height="16"
           viewBox="0 0 24 24"

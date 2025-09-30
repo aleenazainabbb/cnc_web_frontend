@@ -3,7 +3,6 @@
 import React from "react";
 // import styles from "./styles/history.module.css";
 import styles from "./styles/pending.module.css";
-
 import Pagination from "@/components/Booking/pagination";
 import { Range } from "react-date-range";
 import LinkWithLoader from "@/components/Loader/Link";
@@ -29,7 +28,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [perPage, setPerPage] = React.useState(5);
 
-  // ✅ filter rows by date
+  // filter rows by date
   const filteredRows = React.useMemo(() => {
     const startDate = range?.[0]?.startDate;
     const endDate = range?.[0]?.endDate;
@@ -44,7 +43,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
     });
   }, [range, data]);
 
-  // ✅ pagination
+  // pagination
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
@@ -57,14 +56,15 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
   return (
     <div className={styles.main}>
       <div className={styles.container}>
-        {/* ✅ Header row */}
+        <div className={styles.tableScroll}>
+        {/* Header row */}
         <div className={`${styles.gridContainerHistory} ${styles.rowHeader}`}>
           {headers.map((h, i) => (
             <div key={i}>{h}</div>
           ))}
         </div>
 
-        {/* ✅ Scrollable rows */}
+        {/*  Scrollable rows */}
         <div className={styles.scrollContainer}>
           {rows.map((row, ri) => (
             <div
@@ -106,8 +106,8 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
             </div>
           ))}
         </div>
-
-        {/* ✅ Pagination */}
+         </div>
+        {/* Pagination */}
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}
