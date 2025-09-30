@@ -23,4 +23,4 @@ const ProfileLayout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export default ProfileLayout;
+export default ProfileLayout; 

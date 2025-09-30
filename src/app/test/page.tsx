@@ -1,17 +1,10 @@
 "use client";
-
-import { useState } from "react";
-import BookingConfirmation from "@/components/Booking/bookingConfirmation";
-
+import React from "react";
+import ResponsiveTable from "@/components/Booking/test";
 export default function RequestPage() {
-  // Add state to control the confirmation modal
-  const [showConfirm, setShowConfirm] = useState(true);
-
   return (
     <div>
-      {showConfirm && (
-        <BookingConfirmation onClose={() => setShowConfirm(true)} />
-      )}
+     <ResponsiveTable />
     </div>
   );
 }

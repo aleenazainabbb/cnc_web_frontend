@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import styles from './styles/profile.module.css';
-import { useProfile } from '@/context/profileContext';
-import { useProfileImage } from '@/context/imageUpload';
-import { FaCamera } from 'react-icons/fa';
+import React from "react";
+import Image from "next/image";
+import styles from "./styles/profile.module.css";
+import { useProfile } from "@/context/profileContext";
+import { useProfileImage } from "@/context/imageUpload";
+import { FaCamera } from "react-icons/fa";
 
-// import SavedLocation from './savedLocation'; 
+// import SavedLocation from './savedLocation';
 const Profile: React.FC = () => {
   const {
     firstName,
@@ -17,13 +17,17 @@ const Profile: React.FC = () => {
     phone,
     setFirstName,
     setLastName,
-    setAddress,   
+    setAddress,
     setPhoneNumber,
     updateProfile,
     loading,
   } = useProfile();
 
-  const { uploadedImage, uploadImage, loading: imageUploading } = useProfileImage();
+  const {
+    uploadedImage,
+    uploadImage,
+    loading: imageUploading,
+  } = useProfileImage();
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -32,20 +36,19 @@ const Profile: React.FC = () => {
   };
   let storedImage = null;
 
-if (typeof window !== 'undefined') {
-  const storedUser = localStorage.getItem('user');
-  if (storedUser) {
-    try {
-      const parsedUser = JSON.parse(storedUser);
-      storedImage = parsedUser?.profileImage || null;
-    } catch (err) {
-      console.error('Failed to parse user from localStorage:', err);
+  if (typeof window !== "undefined") {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        storedImage = parsedUser?.profileImage || null;
+      } catch (err) {
+        console.error("Failed to parse user from localStorage:", err);
+      }
     }
   }
-}
 
-const imageSrc = storedImage || uploadedImage || '/images/profile.png';
-
+  const imageSrc = storedImage || uploadedImage || "/images/profile.png";
 
   return (
     <div className={styles.main}>
@@ -84,7 +87,9 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
         {/* Form Starts */}
         <div className={styles.profileFormRow}>
           <div>
-            <label htmlFor="firstName" className={styles.label}>First Name</label>
+            <label htmlFor="firstName" className={styles.label}>
+              First Name
+            </label>
             <input
               id="firstName"
               type="text"
@@ -96,7 +101,9 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
           </div>
           {/* last name  */}
           <div>
-            <label htmlFor="lastName" className={styles.label}>Last Name</label>
+            <label htmlFor="lastName" className={styles.label}>
+              Last Name
+            </label>
             <input
               id="lastName"
               type="text"
@@ -109,7 +116,9 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
         </div>
         <div className={styles.profileFormRow}>
           <div>
-            <label htmlFor="email" className={styles.label}>Email Address</label>
+            <label htmlFor="email" className={styles.label}>
+              Email Address
+            </label>
             <input
               id="email"
               type="email"
@@ -121,7 +130,9 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
           </div>
 
           <div>
-            <label htmlFor="addressLine" className={styles.label}>Address</label>
+            <label htmlFor="addressLine" className={styles.label}>
+              Address
+            </label>
             <input
               id="addressLine"
               type="text"
@@ -134,7 +145,9 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
         </div>
         <div className={styles.profileFormRow}>
           <div>
-            <label htmlFor="phone" className={styles.label}>Phone Number</label>
+            <label htmlFor="phone" className={styles.label}>
+              Phone Number
+            </label>
             <input
               id="phone"
               type="tel"
@@ -150,12 +163,11 @@ const imageSrc = storedImage || uploadedImage || '/images/profile.png';
               onClick={updateProfile}
               disabled={loading}
             >
-              {loading ? 'Updating...' : 'Update'}
+              {loading ? "Updating..." : "Update"}
             </button>
           </div>
         </div>
       </div>
-      {/* <SavedLocation /> */}
     </div>
   );
 };

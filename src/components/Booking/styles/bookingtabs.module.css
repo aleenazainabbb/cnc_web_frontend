@@ -1,20 +1,16 @@
 .main {
   max-height: 38px;
   font-family: "Inter", sans-serif;
-  max-width: 1208px;
   margin: 20px;
 }
 
 .tabWrapper {
-  width: 110%;
   border-bottom: 1px solid #ccc;
-  max-width: 1208px;
-  margin-left: 20px;
 }
 
 .tabs {
   font-family: "Public Sans", sans-serif;
-  width: 110%;
+  /* width: 110%; */
   font-size: 15px;
   margin-left: -13px;
   color: #8b909a;
