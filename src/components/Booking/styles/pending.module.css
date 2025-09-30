@@ -2,12 +2,13 @@
   font-family: "Inter", sans-serif;
   font-family: "Inter", sans-serif;
   background-color: white;
-  margin: 100px 0px 0 auto;
+  /* margin: 100px 0px 0 auto; */
+  margin: 90px 0px 0 0;
   box-shadow: 3px 3px 5px rgba(122, 127, 135, 0.3);
-  padding: 10px;
+  padding: 25px;
   box-sizing: border-box;
   border-radius: 2px;
-  max-width: calc(100% - 40px);
+  /* max-width: calc(100% - 40px); */
   max-height: 65vh;
   height: 100%;
 }
@@ -204,7 +205,7 @@
 }
 
 /* Mobile Grid Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .statusButton,
   .payNowButton,
   .rescheduleButton {
@@ -289,3 +290,51 @@
     scroll-behavior: auto;
   }
 }
+.verticalScroll {
+  max-height: 250px; /* ~5 rows (adjust if row height changes) */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #9a9696 #d6d6d6;
+}
+
+/* Optional: Make scrollbars pretty on Chrome/Edge */
+.verticalScroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.verticalScroll::-webkit-scrollbar-thumb {
+  background: #9a9696;
+  border-radius: 4px;
+}
+.verticalScroll::-webkit-scrollbar-track {
+  background: #d6d6d6;
+}
+.verticalScroll {
+  max-height: calc(4 * 60px); /* ~60px per row → 5 rows */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #9a9696 #d6d6d6;
+}
+
+/* Small screens: show only 4 rows */
+@media (max-width: 768px) {
+  .verticalScroll {
+    max-height: calc(3 * 60px); /* 4 rows */
+  }
+}
+
+/* Optional: scrollbar styling for Chrome/Edge */
+.verticalScroll::-webkit-scrollbar {
+  width: 6px;
+}
+.verticalScroll::-webkit-scrollbar-thumb {
+  background: #9a9696;
+  border-radius: 4px;
+}
+.verticalScroll::-webkit-scrollbar-track {
+  background: #d6d6d6;
+}
+
+
