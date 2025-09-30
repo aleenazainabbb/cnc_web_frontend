@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import HeaderBar from '@/components/navbar/HeaderBar';
 import BookingTabs from '@/components/Booking/bookingtabs';
-import RangeFilter from '@/components/Booking/daterange';
+// import RangeFilter from '@/components/Booking/daterange';
 import NoOrders from '@/components/Booking/noOrders';
 import { Range } from 'react-date-range';
 import { useBooking } from '@/context/BookingContext';
@@ -64,7 +64,7 @@ useEffect(() => {
             historyOrders={historyOrders}
           />
           <div>
-          <RangeFilter range={range} setRange={setRange} />
+          {/* <RangeFilter range={range} setRange={setRange} /> */}
          </div>
 
         </>

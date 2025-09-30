@@ -1,19 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 // import styles from "./styles/history.module.css";
 import styles from "./styles/pending.module.css";
 import Pagination from "@/components/Booking/pagination";
 import { Range } from "react-date-range";
 import LinkWithLoader from "@/components/Loader/Link";
 import { getStatusColor } from "@/utils/statusColors";
+import RangeFilter from "@/components/Booking/daterange";
 
 interface HistoryProps {
   range: Range[]; // expected to be passed from parent
   data: string[][];
 }
 
-const History: React.FC<HistoryProps> = ({ range, data }) => {
+const History: React.FC<HistoryProps> = ({ range:initialRange, data }) => {
+  const [range, setRange] = useState<Range[]>(initialRange);
+
   const headers = [
     "ORDER ID",
     "SERVICE",
@@ -30,18 +33,29 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
 
   // filter rows by date
   const filteredRows = React.useMemo(() => {
-    const startDate = range?.[0]?.startDate;
-    const endDate = range?.[0]?.endDate;
+  const startDate = range?.[0]?.startDate;
+  const endDate = range?.[0]?.endDate;
 
-    if (!startDate || !endDate || startDate.getTime() === endDate.getTime()) {
-      return data;
-    }
+  if (!startDate || !endDate) {
+    return data;
+  }
 
-    return data.filter((row) => {
-      const rowDate = new Date(row[5]);
-      return rowDate >= startDate && rowDate <= endDate;
-    });
-  }, [range, data]);
+  return data.filter((row) => {
+    // Try parsing row[5] safely
+    const rowDate = new Date(row[5]);
+
+    // If invalid, skip
+    if (isNaN(rowDate.getTime())) return false;
+
+    // Normalize all dates to YYYY-MM-DD (ignore time)
+    const rowDay = rowDate.setHours(0, 0, 0, 0);
+    const startDay = startDate.setHours(0, 0, 0, 0);
+    const endDay = endDate.setHours(0, 0, 0, 0);
+
+    return rowDay >= startDay && rowDay <= endDay;
+  });
+}, [range, data]);
+
 
   // pagination
   const start = (currentPage - 1) * perPage;
@@ -55,6 +69,7 @@ const History: React.FC<HistoryProps> = ({ range, data }) => {
 
   return (
     <div className={styles.main}>
+     <RangeFilter range={range} setRange={setRange} />  
       <div className={styles.container}>
         <div className={styles.tableScroll}>
         {/* Header row */}
