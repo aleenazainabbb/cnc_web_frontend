@@ -28,7 +28,7 @@ const QuoteList: React.FC = () => {
     "Email",
     "Phone",
     "Service",
-    "Sub Service",
+    // "Sub Service",
     "Image",
     "File",
   ];
@@ -90,9 +90,9 @@ const QuoteList: React.FC = () => {
                   <div className="break-words whitespace-pre-wrap text-sm">
                     {q.service || "-"}
                   </div>
-                  <div className="break-words whitespace-pre-wrap text-sm">
+                  {/* <div className="break-words whitespace-pre-wrap text-sm">
                     {q.subService || "-"}
-                  </div>
+                  </div> */}
 
                   {/* Image View More */}
                   <div className="break-words whitespace-pre-wrap text-sm">

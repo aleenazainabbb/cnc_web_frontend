@@ -10,6 +10,7 @@ import PaymentDetails from "@/components/Booking/PaymentDetails";
 import BillingSummary from "@/components/Booking/billing";
 import { useBooking } from "@/context/BookingContext";
 import BookingConfirmation from "@/components/Booking/bookingConfirmation";
+import RangeFilter from "@/components/Booking/daterange";
 
 interface PendingProps {
   range: Range[];
@@ -30,7 +31,8 @@ const capitalizeWords = (text: any) => {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
-const Pending: React.FC<PendingProps> = ({ range, data }) => {
+const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
+  const [range, setRange] = useState<Range[]>(initialRange);
   const headers = [
     "ORDER ID",
     "SERVICE",
@@ -150,6 +152,7 @@ const Pending: React.FC<PendingProps> = ({ range, data }) => {
 
   return (
     <div className={styles.main}>
+      <RangeFilter range={range} setRange={setRange} />   
       <div className={styles.container}>
         <div className={styles.tableScroll}>
           {/* Header Row */}

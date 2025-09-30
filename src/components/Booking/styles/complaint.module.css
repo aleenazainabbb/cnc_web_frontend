@@ -16,18 +16,15 @@
   flex-direction: column;
   box-sizing: border-box;
   height: 100%;
-
   overflow-y: auto;
 }
 
 /* ----------------- Select Box ----------------- */
 .selectBox {
   font-size: 14px;
-
   background: #000;
   transition: all 0.3s ease;
   cursor: pointer;
-
   background-position: right 16px center;
   background-size: 12px;
 }
@@ -44,7 +41,6 @@
   border-bottom: 1px solid #e2e8f0;
   margin-bottom: 1rem;
   flex-wrap: nowrap;
-
   -ms-overflow-style: none;
 }
 
