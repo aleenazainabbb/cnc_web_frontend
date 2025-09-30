@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import LinkWithLoader from '@/components/Loader/Link';
+import LinkWithLoader from "@/components/Loader/Link";
 
-const TopBar: React.FC = () => { 
+const TopBar: React.FC = () => {
   const scrollToSection = () => {
     const section = document.getElementById("contact_us_main");
     if (section) {
@@ -28,12 +28,14 @@ const TopBar: React.FC = () => {
             EMERGENCY SERVICE |
           </span>
           <a href="tel:+971525280307" className="mx-lg-2 mx-md-2 text-white">
-              <i className="fa-solid fa-phone me-1"></i> 052 528 0307 |
+            <i className="fa-solid fa-phone me-1"></i> 052 528 0307 |
           </a>
-          <LinkWithLoader href="/Login" className="mx-lg-2 mx-md-2 text-white">
-             Login
+          <LinkWithLoader
+            href="/Login"
+            className="mx-lg-2 text mx-md-2 text-white "
+          >
+            Login
           </LinkWithLoader>
-    
         </div>
       </div>
     </div>
