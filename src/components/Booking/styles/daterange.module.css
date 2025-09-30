@@ -2,7 +2,6 @@
   height: 4%;
   margin-bottom: 10px;
   display: flex;
-  justify-content: end;
 }
 
 .rangeBox {
@@ -44,13 +43,13 @@
 }
 @media (max-width: 600px) {
   .rangeBox {
-  height: 20px;
-}
+    height: 20px;
+  }
 
-.input {
-  font-size: 11px;
-}
-.rangeBox {
-  padding: 0 10px;
-}
+  .input {
+    font-size: 11px;
+  }
+  .rangeBox {
+    padding: 0 10px;
+  }
 }

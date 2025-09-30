@@ -69,11 +69,11 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-      const date = new Date(row[5]);
-      const start = range[0].startDate!;
-      const end = range[0].endDate!;
-      return date >= start && date <= end;
-    })
+        const date = new Date(row[5]);
+        const start = range[0].startDate!;
+        const end = range[0].endDate!;
+        return date >= start && date <= end;
+      })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -164,50 +164,53 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
           {/* Data Rows */}
           <div className={styles.verticalScroll}>
-          {rows.map((row, ri) => {
-            const status = row[6];
-            const paymentStatus = row[7];
-            const color = getStatusColor(status);
+            {rows.map((row, ri) => {
+              const status = row[6];
+              const paymentStatus = row[7];
+              const color = getStatusColor(status);
 
-            return (
-              <div key={ri} className={`${styles.gridContainer} ${styles.row}`}>
-                {row.map((cell, ci) =>
-                  ci === 4 ? (
-                    <div key={ci}>
-                      <i
-                        className="fa-regular fa-clock"
-                        style={{ marginRight: 6 }}
-                      />
-                      {capitalizeWords(cell)}
-                    </div>
-                  ) : ci === 6 ? (
+              return (
+                <div
+                  key={ri}
+                  className={`${styles.gridContainer} ${styles.row}`}
+                >
+                  {row.map((cell, ci) =>
+                    ci === 4 ? (
+                      <div key={ci}>
+                        <i
+                          className="fa-regular fa-clock"
+                          style={{ marginRight: 6 }}
+                        />
+                        {capitalizeWords(cell)}
+                      </div>
+                    ) : ci === 6 ? (
+                      <button
+                        key={ci}
+                        className={styles.statusButton}
+                        style={{ borderColor: color, color }}
+                      >
+                        {capitalizeWords(cell)}
+                      </button>
+                    ) : ci === 7 ? null : (
+                      <div key={ci}>{capitalizeWords(cell)}</div>
+                    )
+                  )}
+
+                  {paymentStatus === "added" ? (
                     <button
-                      key={ci}
-                      className={styles.statusButton}
-                      style={{ borderColor: color, color }}
+                      className={styles.payNowButton}
+                      onClick={() => handlePayNow(row)}
                     >
-                      {capitalizeWords(cell)}
+                      Pay Now
                     </button>
-                  ) : ci === 7 ? null : (
-                    <div key={ci}>{capitalizeWords(cell)}</div>
-                  )
-                )}
-                
-                {paymentStatus === "added" ? (
-                  <button
-                    className={styles.payNowButton}
-                    onClick={() => handlePayNow(row)}
-                  >
-                    Pay Now
-                  </button>
-                ) : (
-                  <button className={styles.payNowButton} disabled>
-                    {paymentStatus === "none" ? "Pay Now" : "Paid"}
-                  </button>
-                )}
-              </div>
-            );
-          })}
+                  ) : (
+                    <button className={styles.payNowButton} disabled>
+                      {paymentStatus === "none" ? "Pay Now" : "Paid"}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -266,4 +269,3 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 };
 
 export default Pending;
-
