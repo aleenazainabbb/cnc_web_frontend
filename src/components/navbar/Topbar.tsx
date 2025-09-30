@@ -32,7 +32,7 @@ const TopBar: React.FC = () => {
           </a>
           <LinkWithLoader
             href="/Login"
-            className="mx-lg-2 text mx-md-2 text-white "
+            className="mx-lg-2 text mx-md-2 text-white"
           >
             Login
           </LinkWithLoader>

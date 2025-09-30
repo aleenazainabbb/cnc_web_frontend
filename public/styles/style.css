@@ -331,10 +331,10 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Main Header */
 
 .emergency_contact{
-    font-size: 20px;
+    font-size: 13px;
 }
 .emergency_contact span {
-    font-size: 20px;
+    font-size: 13px;
     
 }
 

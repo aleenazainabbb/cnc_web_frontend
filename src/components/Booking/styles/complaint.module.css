@@ -7,7 +7,7 @@
   margin: 12px;
   height: 88.5vh;
   margin-top: -10px;
-  border-radius: 1px;
+  border-radius: 10px;
 }
 
 .container {
@@ -18,6 +18,7 @@
   height: 100%;
   overflow-y: auto;
   padding: 2% 80px 50px 80px;
+  margin-top: 30px;
 }
 
 /* ----------------- Select Box ----------------- */
@@ -293,31 +294,31 @@
 .complaintsContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.3rem;
   height: auto;
 }
 
 .complaintItem {
   background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-  border-radius: 10px;
-  padding: 0.8rem;
-  border-left: 4px solid #10b981;
+  border-radius: 20px;
+  padding: 1rem;
+  border-left: 2px solid #10b981;
   position: relative;
   overflow: hidden;
-  height: 160px;
+  height: 110px;
 }
 
 .complaintHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .complaintOrder {
   font-weight: 700;
   color: #1e293b;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .complaintDate {
@@ -398,9 +399,27 @@
 
 /* ----------------- Utilities ----------------- */
 .ticket {
-  font-weight: bold;
-  font-size: 18px;
-  color: #4f46e5;
+  font-size: 14px;
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #7c3aed 25%,
+    #2563eb 50%,
+    #1d4ed8 75%,
+    #0d00ff 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(79, 70, 229, 0.3),
+    0 4px 12px rgba(13, 0, 255, 0.2);
+  letter-spacing: 0.5px;
+  position: relative;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .set {
