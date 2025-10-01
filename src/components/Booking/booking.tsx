@@ -2348,7 +2348,7 @@ const Bookings: React.FC<BookingsProps> = ({
           </label>{" "}
         </div>
         <textarea
-          placeholder="Example:..........."
+          placeholder="Example:......."
           className={booking.box}
           value={specialInstructions}
           onChange={(e) => setSpecialInstructions(e.target.value)}
@@ -2358,17 +2358,7 @@ const Bookings: React.FC<BookingsProps> = ({
   );
 };
 export default Bookings;
-function setSofaUnitPrice(unitPrice: any) {
-  throw new Error("Function not implemented.");
-}
-
-function setSofaUnit(unit: any) {
-  throw new Error("Function not implemented.");
-}
-function setWithSuppliesPrice(price: any) {
-  throw new Error("Function not implemented.");
-}
-
-function setDuct(price: any) {
-  throw new Error("Function not implemented.");
-}
+function setSofaUnitPrice(unitPrice: any) {}
+function setSofaUnit(unit: any) {}
+function setWithSuppliesPrice(price: any) {}
+function setDuct(price: any) {}

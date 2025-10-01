@@ -17,51 +17,61 @@ const MyQuotes: React.FC = () => {
     description: "",
   });
 
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { createLead, loading, error, success, clearMessages } = useLead();
   const { fetchQuotes } = useQuoteList();
 
   useEffect(() => {
-    const saved = localStorage.getItem("leadData");
-    const storedUser = localStorage.getItem("user");
-
-    let parsedEmail = "";
-    if (storedUser) {
-      try {
-        parsedEmail = JSON.parse(storedUser)?.email || "";
-      } catch (e) {
-        console.error("Error parsing user email from localStorage:", e);
-      }
-    }
-
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setFormData({
-          customer: parsed.customer || "",
-          email: parsedEmail,
-          phone: parsed.phone || "",
-          address: parsed.address || "",
-          area: parsed.area || "",
-          leadType: parsed.leadType || "",
-          description: parsed.description || "",
-        });
-      } catch (e) {
-        console.error("Error parsing saved lead data:", e);
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, email: parsedEmail }));
-    }
+    // Clear all form data on page refresh
+    setFormData({
+      customer: "",
+      email: "",
+      phone: "",
+      address: "",
+      area: "",
+      leadType: "",
+      description: "",
+    });
+    localStorage.removeItem("leadData");
+    clearMessages();
   }, []);
 
-  // Auto-hide success message after 4 seconds
+  // Reset form after successful save
   useEffect(() => {
     if (success) {
+      // Reset form data
+      setFormData({
+        customer: "",
+        email: "",
+        phone: "",
+        address: "",
+        area: "",
+        leadType: "",
+        description: "",
+      });
+
+      // Clear localStorage
+      localStorage.removeItem("leadData");
+
+      // Clear errors
+      setFormErrors({});
+
+      // Hide success message after 2 seconds
       const timer = setTimeout(() => {
         clearMessages();
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [success, clearMessages]);
+
+  const validateForm = () => {
+    const errors: { [key: string]: string } = {};
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -70,81 +80,118 @@ const MyQuotes: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async () => {
-    await createLead(formData);
-    localStorage.setItem("leadData", JSON.stringify(formData));
-    await fetchQuotes();
+    if (!validateForm()) {
+      return; // Stop if validation fails
+    }
+
+    setIsSubmitting(true);
+    try {
+      await createLead(formData);
+      await fetchQuotes();
+    } catch (err) {
+      console.error("Failed to create lead:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
-    setFormData((prev) => ({
+    setFormData({
       customer: "",
-      email: prev.email, // ✅ preserve the existing email
+      email: "",
       phone: "",
       address: "",
       area: "",
       leadType: "",
       description: "",
-    }));
+    });
+    setFormErrors({});
     clearMessages();
   };
+
   return (
     <div className={style.main}>
       <div className={style.profile_container}>
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Full Name</label>
+            <label className={styles.label}>Full Name *</label>
             <input
               type="text"
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.customer ? styles.errorInput : ""
+              }`}
               name="customer"
               value={formData.customer}
               onChange={handleChange}
             />
+            {formErrors.customer && (
+              <span className={styles.errorText}>{formErrors.customer}</span>
+            )}
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Email Address</label>
+            <label className={styles.label}>Email Address *</label>
             <input
               type="email"
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.email ? styles.errorInput : ""
+              }`}
               name="email"
               value={formData.email}
-              readOnly
-              disabled
+              onChange={handleChange}
             />
+            {formErrors.email && (
+              <span className={styles.errorText}>{formErrors.email}</span>
+            )}
           </div>
         </div>
 
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Phone</label>
+            <label className={styles.label}>Phone *</label>
             <input
               type="text"
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.phone ? styles.errorInput : ""
+              }`}
               name="phone"
               value={formData.phone}
               onChange={handleChange}
             />
+            {formErrors.phone && (
+              <span className={styles.errorText}>{formErrors.phone}</span>
+            )}
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Address</label>
+            <label className={styles.label}>Address *</label>
             <input
               type="text"
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.address ? styles.errorInput : ""
+              }`}
               name="address"
               value={formData.address}
               onChange={handleChange}
             />
+            {formErrors.address && (
+              <span className={styles.errorText}>{formErrors.address}</span>
+            )}
           </div>
         </div>
 
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Area</label>
+            <label className={styles.label}>Area *</label>
             <select
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.area ? styles.errorInput : ""
+              }`}
               name="area"
               value={formData.area}
               onChange={handleChange}
@@ -160,12 +207,17 @@ const MyQuotes: React.FC = () => {
               <option value="Sharjah">Sharjah</option>
               <option value="Umm Al Quwain">Umm Al Quwain</option>
             </select>
+            {formErrors.area && (
+              <span className={styles.errorText}>{formErrors.area}</span>
+            )}
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Lead Sources</label>
+            <label className={styles.label}>Lead Sources *</label>
             <select
-              className={styles.input}
+              className={`${styles.input} ${
+                formErrors.leadType ? styles.errorInput : ""
+              }`}
               name="leadType"
               value={formData.leadType}
               onChange={handleChange}
@@ -178,35 +230,56 @@ const MyQuotes: React.FC = () => {
               <option value="Website">Website</option>
               <option value="Called">Called</option>
             </select>
+            {formErrors.leadType && (
+              <span className={styles.errorText}>{formErrors.leadType}</span>
+            )}
           </div>
         </div>
 
         <div className={styles.fullWidthInputGroup}>
-          <label className={styles.label}>Instructions</label>
+          <label className={styles.label}>Instructions *</label>
           <textarea
-            className={styles.input}
+            className={`${styles.input} ${
+              formErrors.description ? styles.errorInput : ""
+            }`}
             name="description"
             value={formData.description}
             onChange={handleChange}
           />
+          {formErrors.description && (
+            <span className={styles.errorText}>{formErrors.description}</span>
+          )}
         </div>
 
         {/* Feedback Messages */}
         {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
         {success && (
-          <p style={{ color: "green", marginTop: "10px" }}>{success}</p>
+          <p style={{ color: "green", marginTop: "10px" }}>
+            Quote saved successfully!
+          </p>
         )}
 
         <div className={styles.quotesbuttonContainer}>
-          <button className={styles.quote_button} onClick={handleCancel}>
+          <button
+            className={styles.quote_button}
+            onClick={handleCancel}
+            type="button"
+          >
             Clear
           </button>
           <button
             className={styles.quote_button}
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={loading || isSubmitting}
           >
-            {loading ? "Saving..." : "Save"}
+            {loading || isSubmitting ? (
+              <>
+                <span className={styles.loader}></span>
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

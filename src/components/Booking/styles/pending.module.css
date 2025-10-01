@@ -20,7 +20,7 @@
 /* pending.module.css */
 .tableScroll {
   width: 100%;
-  overflow-x: auto; /* ✅ horizontal scroll */
+  overflow-x: hi; /* ✅ horizontal scroll */
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
@@ -67,9 +67,18 @@
 }
 
 .gridContainerQuotes {
+  /* grid-template-columns:
+    minmax(50px, 0.4fr) minmax(60px, 0.8fr) minmax(100px, 0.4fr)
+    minmax(90px, 0.6fr) minmax(60px, 0.4fr) minmax(40px, 0.4fr); */
+  /* minmax(100px, 0.5fr); */
+
   grid-template-columns:
-   minmax(50px, 0.4fr) minmax(60px, 0.8fr) minmax(100px, 0.4fr) minmax(90px, 0.6fr) minmax(60px, 0.4fr) minmax(40px, 0.4fr);
-    /* minmax(100px, 0.5fr); */
+    minmax(60px, 0.4fr) minmax(90px, 0.8fr) minmax(100px, 0.5fr)
+    minmax(80px, 0.5fr) minmax(80px, 0.8fr) minmax(80px, 0.6fr) minmax(
+      90px,
+      0.4fr
+    )
+    minmax(80px, 0.5fr);
 }
 
 /* Row Styles */
@@ -173,176 +182,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Tablet Grid Adjustments */
-@media (max-width: 1025px) {
-  .gridContainer {
-    grid-template-columns:
-      minmax(50px, 0.3fr) minmax(80px, 0.6fr) minmax(90px, 0.4fr)
-      minmax(70px, 0.3fr) minmax(70px, 0.6fr) minmax(70px, 0.4fr) minmax(
-        80px,
-        0.3fr
-      )
-      minmax(70px, 0.3fr);
-  }
-
-  .gridContainerHistory {
-    grid-template-columns:
-      minmax(50px, 0.2fr) minmax(80px, 0.3fr) minmax(90px, 0.4fr)
-      minmax(70px, 0.3fr) minmax(70px, 0.2fr) minmax(70px, 0.2fr) minmax(
-        80px,
-        0.3fr
-      )
-      minmax(70px, 0.3fr);
-  }
-
-  /* .gridContainerQuotes {
-    grid-template-columns:
-      minmax(40px, 0.3fr) minmax(80px, 0.6fr) minmax(80px, 0.9fr)
-      minmax(60px, 0.3fr) minmax(60px, 0.3fr) minmax(55px, 0.3fr) minmax(90px, 0.4fr);
-  }
-*/
-}
-
-/* Small Tablet Grid Adjustments */
-@media (max-width: 900px) {
-  .rowHeader,
-  .row {
-    font-size: 12px;
-    padding: 6px 3px;
-  }
-}
-
-/* Mobile Grid Adjustments */
-@media (max-width: 769px) {
-  .statusButton,
-  .payNowButton,
-  .rescheduleButton {
-    font-size: 12px;
-    height: 28px;
-    min-width: 80px;
-  }
-}
-
-/* Small Mobile Grid Adjustments */
-@media (max-width: 600px) {
-  .rowHeader,
-  .row {
-    font-size: 11px;
-    padding: 4px 2px;
-  }
-
-  .statusButton,
-  .payNowButton,
-  .rescheduleButton {
-    font-size: 11px;
-    height: 26px;
-    min-width: 70px;
-  }
-}
-
-/* Extra Small Mobile Grid Adjustments */
-@media (max-width: 480px) {
-  .rowHeader,
-  .row {
-    font-size: 10px;
-    padding: 3px 1px;
-  }
-
-  .statusButton,
-  .payNowButton,
-  .rescheduleButton {
-    font-size: 10px;
-    height: 24px;
-    min-width: 60px;
-    max-width: 100px;
-  }
-
-  .scrollContainer,
-  .scrollContainerQuotes {
-    max-height: 30vh;
-  }
-}
-
-/* Horizontal Scroll for Very Small Screens */
-@media (max-width: 360px) {
-  .gridContainer,
-  .gridContainerHistory,
-  .gridContainerQuotes {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 0.5rem;
-    padding-bottom: 10px;
-  }
-
-  .gridContainer > div,
-  .gridContainerHistory > div,
-  .gridContainerQuotes > div {
-    min-width: 120px;
-    flex-shrink: 0;
-  }
-
-  .rowHeader,
-  .row {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .scrollContainer,
-  .scrollContainerQuotes {
-    scroll-behavior: auto;
-  }
-}
-.verticalScroll {
-  max-height: 250px; /* ~5 rows (adjust if row height changes) */
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: #9a9696 #d6d6d6;
-}
-
-/* Optional: Make scrollbars pretty on Chrome/Edge */
-.verticalScroll::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-.verticalScroll::-webkit-scrollbar-thumb {
-  background: #9a9696;
-  border-radius: 4px;
-}
-.verticalScroll::-webkit-scrollbar-track {
-  background: #d6d6d6;
-}
-.verticalScroll {
-  max-height: calc(4 * 60px); /* ~60px per row → 5 rows */
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: #9a9696 #d6d6d6;
-}
-
-/* Small screens: show only 4 rows */
-@media (max-width: 768px) {
-  .verticalScroll {
-    max-height: calc(3 * 60px); /* 4 rows */
-  }
-}
-
-/* Optional: scrollbar styling for Chrome/Edge */
-.verticalScroll::-webkit-scrollbar {
-  width: 6px;
-}
-.verticalScroll::-webkit-scrollbar-thumb {
-  background: #9a9696;
-  border-radius: 4px;
-}
-.verticalScroll::-webkit-scrollbar-track {
-  background: #d6d6d6;
 }

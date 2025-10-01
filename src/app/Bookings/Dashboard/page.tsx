@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import HeaderBar from '@/components/navbar/HeaderBar';
-import BookingTabs from '@/components/Booking/bookingtabs';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import HeaderBar from "@/components/navbar/HeaderBar";
+import BookingTabs from "@/components/Booking/bookingtabs";
 // import RangeFilter from '@/components/Booking/daterange';
-import NoOrders from '@/components/Booking/noOrders';
-import { Range } from 'react-date-range';
-import { useBooking } from '@/context/BookingContext';
+import NoOrders from "@/components/Booking/noOrders";
+import { Range } from "react-date-range";
+import { useBooking } from "@/context/BookingContext";
 
 export default function RequestPage() {
   const { user, loading } = useAuth();
@@ -19,36 +19,40 @@ export default function RequestPage() {
     {
       startDate: new Date(),
       endDate: new Date(),
-      key: 'selection',
+      key: "selection",
     },
   ]);
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/');
+      router.push("/");
     }
   }, [loading, user]);
 
   const fetched = React.useRef(false);
 
-useEffect(() => {
-  if (!fetched.current) {
-    fetchAllOrders();
-    fetched.current = true;
-  }
-}, []);
-
+  useEffect(() => {
+    if (!fetched.current) {
+      fetchAllOrders();
+      fetched.current = true;
+    }
+  }, []);
 
   if (loading || ordersLoading) return null;
 
-  const pendingStatus = ['pending', 'confirmed', 'postponed'];
-  const historyStatus = ['completed', 'cancelled'];
+  const pendingStatus = ["pending", "confirmed", "postponed"];
+  const historyStatus = ["completed", "cancelled"];
 
-  const pendingOrders = allOrders.filter(order => pendingStatus.includes(order[6]?.toLowerCase()));
+  const pendingOrders = allOrders.filter((order) =>
+    pendingStatus.includes(order[6]?.toLowerCase())
+  );
 
-  const historyOrders = allOrders.filter(order => historyStatus.includes(order[6]?.toLowerCase()));
+  const historyOrders = allOrders.filter((order) =>
+    historyStatus.includes(order[6]?.toLowerCase())
+  );
 
-  const noOrdersAvailable = pendingOrders.length === 0 && historyOrders.length === 0;
+  const noOrdersAvailable =
+    pendingOrders.length === 0 && historyOrders.length === 0;
 
   return (
     <>
@@ -63,10 +67,7 @@ useEffect(() => {
             pendingOrders={pendingOrders}
             historyOrders={historyOrders}
           />
-          <div>
-          {/* <RangeFilter range={range} setRange={setRange} /> */}
-         </div>
-
+          <div>{/* <RangeFilter range={range} setRange={setRange} /> */}</div>
         </>
       )}
     </>

@@ -62,16 +62,18 @@ const QuoteList: React.FC = () => {
         {/* Grid Header */}
         {!loading && !error && quotes.length > 0 && (
           <>
-            <div
-              className={`${styles.gridContainerQuotes} ${styles.rowHeader}`}
-            >
-              {headers.map((h, i) => (
-                <div key={i}>{h}</div>
-              ))}
-            </div>
-
-            {/* Scrollable Quote List */}
+            {" "}
             <div className={styles.scrollContainerQuotes}>
+              <div
+                className={`${styles.gridContainerQuotes} ${styles.rowHeader}`}
+              >
+                {headers.map((h, i) => (
+                  <div key={i}>{h}</div>
+                ))}
+              </div>
+
+              {/* Scrollable Quote List */}
+
               {visibleQuotes.map((q, index) => (
                 <div
                   key={q.id || index}
@@ -134,7 +136,6 @@ const QuoteList: React.FC = () => {
                 </div>
               ))}
             </div>
-
             {/* Pagination */}
             <Pagination
               totalItems={quotes.length}

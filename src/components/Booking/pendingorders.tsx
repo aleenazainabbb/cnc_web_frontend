@@ -152,7 +152,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   return (
     <div className={styles.main}>
-      <RangeFilter range={range} setRange={setRange} />   
+      <RangeFilter range={range} setRange={setRange} />
       <div className={styles.container}>
         <div className={styles.tableScroll}>
           {/* Header Row */}
@@ -163,6 +163,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
           </div>
 
           {/* Data Rows */}
+
           <div className={styles.verticalScroll}>
             {rows.map((row, ri) => {
               const status = row[6];
@@ -196,6 +197,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
                     )
                   )}
 
+                  {/* Pay Now Button - This should be the 8th column */}
                   {paymentStatus === "added" ? (
                     <button
                       className={styles.payNowButton}
