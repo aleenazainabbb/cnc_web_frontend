@@ -331,8 +331,7 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Main Header */
 
 .emergency_contact{
-    font-size: 16px;
-    /* font-weight: 900; */
+    font-size: 13px;
 }
 .emergency_contact span {
     font-size: 13px;

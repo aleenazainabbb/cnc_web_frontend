@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { ReactElement, isValidElement, useState } from 'react';
-import { redirect, usePathname, useRouter } from 'next/navigation';
-import BookingConfirmation from '@/components/Booking/bookingConfirmation';
-import BillingSummary from '@/components/Booking/billing';
-import { useBooking } from '@/context/BookingContext';
+import React, { ReactElement, isValidElement, useState } from "react";
+import { redirect, usePathname, useRouter } from "next/navigation";
+import BookingConfirmation from "@/components/Booking/bookingConfirmation";
+import BillingSummary from "@/components/Booking/billing";
+import { useBooking } from "@/context/BookingContext";
 
 export default function BookingLayout({
   children,
@@ -14,13 +14,20 @@ export default function BookingLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
-  const { submitBookingQuote, bookingData, createBookingOrder, formErrors, setFormErrors,latestLocation } = useBooking();
+  const {
+    submitBookingQuote,
+    bookingData,
+    createBookingOrder,
+    formErrors,
+    setFormErrors,
+    latestLocation,
+  } = useBooking();
   const [serviceError, setServiceError] = useState(false);
 
   const steps = [
-    '/BookAservicePage/Location',
-    '/BookAservicePage/BookDate&Time',
-    '/BookAservicePage/PaymentDetails',
+    "/BookAservicePage/Location",
+    "/BookAservicePage/BookDate&Time",
+    "/BookAservicePage/PaymentDetails",
   ];
 
   const currentIndex = steps.findIndex((step) => pathname.startsWith(step));
@@ -29,13 +36,16 @@ export default function BookingLayout({
 
   const handleNext = async () => {
     const newErrors: { [key: string]: string } = {};
-    
-    if (pathname === '/BookAservicePage' && !bookingData?.service) {
-      newErrors.service = 'Please select a service.';
+
+    if (pathname === "/BookAservicePage" && !bookingData?.service) {
+      newErrors.service = "Please select a service.";
     }
 
-    if (pathname === '/BookAservicePage/Location' && !latestLocation?.fullAddress) { 
-      newErrors.fullAddress = 'Please select a location.';
+    if (
+      pathname === "/BookAservicePage/Location" &&
+      !latestLocation?.fullAddress
+    ) {
+      newErrors.fullAddress = "Please select a location.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -45,26 +55,26 @@ export default function BookingLayout({
 
     setFormErrors({}); // Clear errors if all good
 
-    const hasPricing = !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
+    const hasPricing =
+      !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
 
-    if (pathname === '/BookAservicePage/BookDate&Time') {
+    if (pathname === "/BookAservicePage/BookDate&Time") {
       if (hasPricing) {
-        router.push('/BookAservicePage/PaymentDetails');
+        router.push("/BookAservicePage/PaymentDetails");
       } else {
         try {
           await submitBookingQuote();
           setShowConfirmationPopup(true);
         } catch (error) {
-          console.error('Quote submission failed:', error);
+          console.error("Quote submission failed:", error);
         }
       }
-    } else if (pathname === '/BookAservicePage/PaymentDetails') {
+    } else if (pathname === "/BookAservicePage/PaymentDetails") {
       try {
-
         await createBookingOrder();
         setShowConfirmationPopup(true);
       } catch (error) {
-        console.error(' Booking order failed:', error);
+        console.error(" Booking order failed:", error);
       }
     } else if (nextStep) {
       router.push(nextStep);
@@ -79,17 +89,19 @@ export default function BookingLayout({
       <div className="left-column">
         {isValidElement(children)
           ? React.cloneElement(children as ReactElement<any>, {
-            serviceError,
-            setServiceError, //  pass the setter function to children
-          })
+              serviceError,
+              setServiceError, //  pass the setter function to children
+            })
           : children}
       </div>
 
       <div className="right-column">
-        <BillingSummary onNext={handleNext}
+        <BillingSummary
+          onNext={handleNext}
           serviceError={serviceError}
           setServiceError={setServiceError}
-          selectedService={bookingData.service} />
+          selectedService={bookingData.service}
+        />
       </div>
 
       {showConfirmationPopup && (
@@ -101,7 +113,9 @@ export default function BookingLayout({
             className="confirmation-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <BookingConfirmation onClose={() => setShowConfirmationPopup(false)} />
+            <BookingConfirmation
+              onClose={() => setShowConfirmationPopup(false)}
+            />
           </div>
         </div>
       )}
