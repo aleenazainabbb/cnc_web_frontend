@@ -22,16 +22,7 @@ const QuoteList: React.FC = () => {
 
   const server = process.env.NEXT_PUBLIC_API_IMAGE;
 
-  const headers = [
-    "Name",
-
-    "Email",
-    "Phone",
-    "Service",
-    // "Sub Service",
-    "Image",
-    "File",
-  ];
+  const headers = ["Name", "Email", "Phone", "Service", "Image", "File"];
 
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
@@ -92,11 +83,7 @@ const QuoteList: React.FC = () => {
                   <div className="break-words whitespace-pre-wrap text-sm">
                     {q.service || "-"}
                   </div>
-                  {/* <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.subService || "-"}
-                  </div> */}
 
-                  {/* Image View More */}
                   <div className="break-words whitespace-pre-wrap text-sm">
                     {q.uploadImage ? (
                       <>
