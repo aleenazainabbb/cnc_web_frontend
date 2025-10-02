@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./styles/profile.module.css";
+import location from "./styles/savedlocation.module.css";
 import { useProfile } from "@/context/profileContext";
 import { useProfileImage } from "@/context/imageUpload";
 import { FaCamera } from "react-icons/fa";
@@ -52,7 +53,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.container}>
+      <div className={location.container}>
         {/* Profile Image Upload */}
         <div className={styles.imageWrapper}>
           <label htmlFor="imageUpload" className={styles.imageLabel}>

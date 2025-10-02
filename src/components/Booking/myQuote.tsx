@@ -136,7 +136,7 @@ const MyQuotes: React.FC = () => {
             )}
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Email Address *</label>
+            <label className={styles.label}>Email Address </label>
             <input
               type="email"
               className={`${styles.input} ${
@@ -154,7 +154,7 @@ const MyQuotes: React.FC = () => {
 
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Phone *</label>
+            <label className={styles.label}>Phone </label>
             <input
               type="text"
               className={`${styles.input} ${
@@ -169,7 +169,7 @@ const MyQuotes: React.FC = () => {
             )}
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Address *</label>
+            <label className={styles.label}>Address </label>
             <input
               type="text"
               className={`${styles.input} ${
@@ -179,15 +179,15 @@ const MyQuotes: React.FC = () => {
               value={formData.address}
               onChange={handleChange}
             />
-            {formErrors.address && (
+            {/* {formErrors.address && (
               <span className={styles.errorText}>{formErrors.address}</span>
-            )}
+            )} */}
           </div>
         </div>
 
         <div className={styles.profileFormRow}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Area *</label>
+            <label className={styles.label}>Area </label>
             <select
               className={`${styles.input} ${
                 formErrors.area ? styles.errorInput : ""
@@ -207,13 +207,13 @@ const MyQuotes: React.FC = () => {
               <option value="Sharjah">Sharjah</option>
               <option value="Umm Al Quwain">Umm Al Quwain</option>
             </select>
-            {formErrors.area && (
+            {/* {formErrors.area && (
               <span className={styles.errorText}>{formErrors.area}</span>
-            )}
+            )} */}
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Lead Sources *</label>
+            <label className={styles.label}>Lead Sources </label>
             <select
               className={`${styles.input} ${
                 formErrors.leadType ? styles.errorInput : ""
@@ -230,14 +230,14 @@ const MyQuotes: React.FC = () => {
               <option value="Website">Website</option>
               <option value="Called">Called</option>
             </select>
-            {formErrors.leadType && (
+            {/* {formErrors.leadType && (
               <span className={styles.errorText}>{formErrors.leadType}</span>
-            )}
+            )} */}
           </div>
         </div>
 
         <div className={styles.fullWidthInputGroup}>
-          <label className={styles.label}>Instructions *</label>
+          <label className={styles.label}>Instructions </label>
           <textarea
             className={`${styles.input} ${
               formErrors.description ? styles.errorInput : ""
@@ -246,9 +246,9 @@ const MyQuotes: React.FC = () => {
             value={formData.description}
             onChange={handleChange}
           />
-          {formErrors.description && (
+          {/* {formErrors.description && (
             <span className={styles.errorText}>{formErrors.description}</span>
-          )}
+          )} */}
         </div>
 
         {/* Feedback Messages */}
