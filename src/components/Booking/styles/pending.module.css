@@ -1,6 +1,6 @@
 .main {
-  font-family: "Inter", sans-serif;
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto Flex", sans-serif;
+
   background-color: white;
   /* margin: 100px 0px 0 auto; */
   margin-top: 20px;
@@ -42,7 +42,7 @@
   display: grid;
   gap: 1rem;
   align-items: center;
-  grid-template-columns: repeat(8, minmax(120px, 1fr));
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
 }
 
 /* Default Grid Templates */

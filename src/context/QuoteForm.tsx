@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface QuoteFormData {
   name: string;
-  // company?: string;
+
   email: string;
   phone: string;
   service: string;

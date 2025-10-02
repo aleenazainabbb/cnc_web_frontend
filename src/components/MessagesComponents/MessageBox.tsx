@@ -343,7 +343,6 @@ const MessageBox: React.FC = () => {
 
   return (
     <div className={styles.chatContainer}>
-      {/* Mobile sidebar toggle */}
       <button
         className={styles.sidebarToggle}
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -358,7 +357,6 @@ const MessageBox: React.FC = () => {
         }`}
       >
         <div className={styles.sidebarHeader}>
-          <h2 className={styles.sidebarTitle}>Conversations</h2>
           <button
             className={styles.newChatButton} // ✅ your original class name preserved
             disabled={hasSentMessage && chatStatus !== "closed"}
