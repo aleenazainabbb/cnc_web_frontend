@@ -1,10 +1,60 @@
 .sidebar {
-  /* width: 260px; */
   background-color: white;
   border-right: 1px solid #b2b2b2;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  transition: all 0.3s ease;
+  width: 260px;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebarClosed {
+  width: 70px !important;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+}
+
+/* Toggle Button - Fixed position that stays in place */
+.toggleBtn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: #0f60ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.toggleBtn:hover {
+  background: #0a4ecd;
+  transform: scale(1.05);
+}
+
+/* Overlay for clicking outside */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: block;
 }
 
 .logoContainer {
@@ -12,6 +62,12 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+}
+
+.logoImage {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .divider {
@@ -43,7 +99,9 @@
   align-items: center;
   color: #8b909a;
   transition: background-color 0.3s, color 0.3s;
+  justify-content: flex-start;
 }
+
 .active {
   background-color: #0f60ff;
   color: white !important;
@@ -76,19 +134,80 @@
   font-size: 16px;
   cursor: pointer;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 800px) {
-  /* All images responsive */
-  .logoImage {
-    width: 100%;
-    height: auto;
+.logoutBtnIcon {
+  width: 40px;
+  height: 40px;
+  background-color: #ef450f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  align-self: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 260px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    z-index: 999;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar:not(.sidebarClosed) {
+    transform: translateX(0);
+  }
+
+  .sidebarClosed {
+    width: 70px !important;
+    transform: translateX(-100%);
+  }
+
+  /* Push the main content when sidebar is open */
+  .sidebar:not(.sidebarClosed) ~ * {
+    transform: translateX(260px);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebarClosed .navList {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .sidebarClosed .navLink {
+    padding: 8px;
+    justify-content: center;
+  }
+
+  .sidebarClosed .iconText {
+    justify-content: center;
+  }
+
+  .sidebarClosed .logoContainer {
+    padding: 10px;
   }
 }
 
 @media screen and (max-width: 770px) {
   .sidebar {
     width: 200px;
+  }
+
+  .sidebar:not(.sidebarClosed) ~ * {
+    transform: translateX(200px);
   }
 
   .navList {
@@ -103,38 +222,35 @@
 
 @media screen and (max-width: 600px) {
   .sidebar {
-    width: 100px;
+    width: 180px;
   }
 
-  .navlist {
-    padding: 0px;
-    gap: 12px;
+  .sidebar:not(.sidebarClosed) ~ * {
+    transform: translateX(180px);
   }
 
-  .navLink {
-    padding: 2px;
-  }
-
-  .navList li a {
-    font-size: 8px;
-  }
-
-  .logoutBtnn {
-    height: 30px;
-    font-size: 11px;
-  }
-  .logoContainer {
-    padding: 10px;
+  .logoImage {
+    max-width: 90%;
   }
 }
 
-/* Optional: stack vertically on very small screens */
-@media (max-width: 480px) {
-  .headerWrapper {
-    flex-direction: column;
+/* Large screens - hide toggle button and overlay */
+@media screen and (min-width: 769px) {
+  .toggleBtn {
+    display: none;
   }
 
-  .textLogos {
-    align-items: center;
+  .overlay {
+    display: none;
+  }
+
+  .sidebar {
+    position: relative !important;
+    transform: translateX(0) !important;
+  }
+
+  /* Reset transform on large screens */
+  .sidebar ~ * {
+    transform: translateX(0) !important;
   }
 }
