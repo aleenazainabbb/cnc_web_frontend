@@ -345,7 +345,7 @@ const SavedLocation: React.FC = () => {
             disabled={isLoading}
             style={{
               padding: "10px 20px",
-              backgroundColor: "#3498db",
+              backgroundColor: "#1565d8",
               color: "#fff",
               fontWeight: 500,
               borderRadius: "6px",
