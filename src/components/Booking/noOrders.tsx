@@ -8,11 +8,11 @@ import Link from 'next/link';
 export default function NoOrders() {
     return (
         <div className={orders.wrapper}>
-            <div className={orders.topRightbutton}>
+            {/* <div className={orders.topRightbutton}>
                 <Link href="/GetAquote">
                     <div className={styles.getaQuoteBtn}>Get a quote</div>
                 </Link>
-            </div>
+            </div> */}
 
             <div className={orders.container}>
                 <Image

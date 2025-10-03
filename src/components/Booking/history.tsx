@@ -40,6 +40,10 @@ const History: React.FC<HistoryProps> = ({ range:initialRange, data }) => {
     return data;
   }
 
+// ✅ also: if start == end (only one day), widen it
+if (startDate.getTime() === endDate.getTime()) {
+  return data;
+}
   return data.filter((row) => {
     // Try parsing row[5] safely
     const rowDate = new Date(row[5]);

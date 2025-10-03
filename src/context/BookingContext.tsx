@@ -642,14 +642,23 @@ export const BookingProvider = ({
         order.BookingStatus || "Completed",
         order.bookingPaymentStatus || "none",
       ]);
+// console.log("All statuses:", allOrders.map(o => o[6]));
+console.log("API raw response:", result);        // full response
+console.log("Orders from API:", result.data);    // check data array
+console.log("Mapped order rows:", orderRows);
+console.log("All statuses:", orderRows.map(o => o[6]));
+
 
       // Save both in state
       setAllOrders(orderRows); // for UI table
       setAllOrdersObject(sortedOrders); // original objects for detail view or API logic
+      
     } catch (error: any) {
       console.error("Order fetch failed:", error.message);
     } finally {
       setOrdersLoading(false);
+      
+
     }
   };
 

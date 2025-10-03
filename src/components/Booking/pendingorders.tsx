@@ -69,25 +69,16 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[5]);
-        const start = range[0].startDate!;
-        const end = range[0].endDate!;
-        return date >= start && date <= end;
-      })
+      const date = new Date(row[5]);
+      const start = range[0].startDate!;
+      const end = range[0].endDate!;
+      return date >= start && date <= end;
+    })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const rows = filteredRows.slice(start, end);
-  // const {
-  //   updateBookingData,
-  //   updateBillingData,
-  //   allOrdersObject,
-  //   addSelection,
-  //   updateLatestLocation,
-  //   updateBookingOrder,
-  // } = useBooking();
-  // const [selectedRow, setSelectedRow] = useState<string[] | null>(null); // track which booking is clicked
   const handlePaginationChange = (page: number, limit: number) => {
     setCurrentPage(page);
     setPerPage(limit);
@@ -215,13 +206,13 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
             })}
           </div>
         </div>
-
-        {/* Pagination */}
         <Pagination
           totalItems={filteredRows.length}
           defaultPerPage={perPage}
           onChange={handlePaginationChange}
         />
+
+
       </div>
 
       {/* Payment Modal */}
@@ -266,7 +257,10 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
           </div>
         </div>
       )}
+
     </div>
+
+
   );
 };
 
