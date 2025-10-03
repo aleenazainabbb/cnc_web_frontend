@@ -1,20 +1,20 @@
 .chatContainer {
   display: flex;
-  flex-direction: row; /* side-by-side layout for large screens */
+  flex-direction: row;
   width: 100%;
-  height: 85vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #000000 100%);
+  height: 91%;
+  margin-top: -10px;
   position: relative;
   font-family: "Mulish", sans-serif;
-
-  overflow: hidden; /* container stays clean */
+  border-radius: 10px;
 }
 
 /* 📱 Small screens (stacked vertically) */
 @media (max-width: 768px) {
   .chatContainer {
-    flex-direction: column; /* stack items (header → messages → input) */
-    height: 100vh; /* full height on mobile */
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
   }
 }
 
@@ -25,13 +25,449 @@
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   overflow-y: auto;
-  transition: "transform 0.3s ease";
-  z-index: 10;
+  transition: transform 0.3s ease;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
+/* Mobile Sidebar Styles */
+@media (max-width: 768px) {
+  .chatContainer {
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    font-family: "Mulish", sans-serif;
+  }
+
+  /* Messages container with proper scrolling */
+  .messagesContainer {
+    padding: 20px 16px;
+    overflow-y: auto;
+
+    min-height: 0;
+    height: 0;
+  }
+
+  .messageBubble {
+    max-width: 90%;
+    padding: 12px 16px;
+    min-height: auto;
+    height: auto;
+    border-radius: 18px;
+  }
+
+  .bubbleMe {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+  }
+
+  .bubbleThem {
+    background: rgba(255, 255, 255, 0.95);
+    color: #2d3748;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom-left-radius: 6px;
+  }
+
+  .messageContent {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 14px;
+    color: inherit;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 0;
+  }
+
+  .messageMeta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    gap: 8px;
+  }
+
+  .bubbleThem .messageMeta {
+    color: #a0aec0;
+  }
+
+  .messageTime {
+    font-weight: 500;
+  }
+
+  /* For very short messages */
+  .messageBubble:has(.messageContent:empty) {
+    display: none;
+  }
+
+  /* For single line messages */
+  .messageBubble:has(.messageContent:only-child) {
+    padding: 10px 14px;
+  }
+
+  /* For media messages (images/videos) */
+  .imageMessage .messageBubble,
+  .videoMessage .messageBubble {
+    padding: 8px;
+    background: transparent;
+    border: none;
+    max-width: 85%;
+  }
+
+  .imageMessage .messageBubble:hover,
+  .videoMessage .messageBubble:hover {
+    transform: none;
+  }
+
+  /* For file messages */
+  .fileMessage .messageBubble {
+    padding: 12px;
+  }
+
+  .chatAvatar,
+  .conversationAvatar {
+    width: 46px;
+    height: 46px;
+    font-size: 16px;
+    border-radius: 100%;
+  }
+
+  .fileItem {
+    max-width: 100%;
+  }
+
+  .fileName {
+    max-width: 140px;
+  }
+
+  .inputContainer {
+    padding: 16px;
+    background: white;
+    margin-top: -10px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .messageContent {
+    padding: -3px 15px;
+  }
+
+  .filePreview {
+    padding: 16px;
+    flex-shrink: 0;
+  }
+
+  .fileButton,
+  .sendButton {
+    width: 48px;
+    height: 48px;
+  }
+
+  .sidebar {
+    width: 280px !important;
+  }
+
+  /* Ensure chat main has proper flex layout */
+  .chatMain {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Ensure header stays fixed */
+  .chatHeader {
+    width: 100%;
+    background: rgb(237, 233, 233);
+    border-radius: 20px;
+    padding: 14px 20px;
+    padding-left: 60px;
+    flex-shrink: 0;
+  }
+
+  /* Message wrapper adjustments for better scrolling */
+  .messageWrapper {
+    margin-bottom: 4px;
+  }
+
+  /* Scrollbar styling for mobile */
+  .messagesContainer::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Keep all the other mobile styles from your 768px media query */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 320px !important;
+    max-width: 85vw;
+    transform: translateX(-100%);
+    z-index: 1002;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  /* Overlay for sidebar */
+  .sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
+    cursor: pointer;
+  }
+
+  .sidebarOpen ~ .sidebarOverlay {
+    display: block;
+  }
+
+  /* Smaller font sizes for all UI elements */
+  .sidebarTitle {
+    font-size: 20px;
+    margin: 0 0 15px 0;
+  }
+
+  .newChatButton {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .conversationItem {
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .conversationAvatar {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+    margin-right: 12px;
+    border-radius: 10px;
+  }
+
+  .conversationName {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .contactRole {
+    font-size: 10px;
+  }
+
+  .closedBadge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+
+  .lastMessageTime {
+    font-size: 10px;
+  }
+
+  .lastMessagePreview {
+    font-size: 12px;
+  }
+
+  .chatAvatar {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+    margin-right: 14px;
+    border-radius: 10px;
+  }
+
+  .chatHeader h3 {
+    font-size: 15px;
+    margin: 0 0 4px 0;
+  }
+
+  .chatStatus {
+    font-size: 12px;
+  }
+
+  .chatStatus::before {
+    width: 8px;
+    height: 8px;
+  }
+
+  .headerButton {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .messageContent {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .messageMeta {
+    font-size: 10px;
+    margin-top: 6px;
+    gap: 8px;
+  }
+
+  .imageCaption,
+  .videoCaption {
+    font-size: 12px;
+    margin: 10px 0 0 0;
+  }
+
+  .fileMessage {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .fileSize {
+    font-size: 11px;
+  }
+
+  .fileDownloadLink {
+    font-size: 11px;
+    padding: 6px 10px;
+    margin-left: 10px;
+  }
+
+  .messageInput {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-radius: 14px;
+  }
+
+  .fileButton {
+    height: 50px;
+    width: 50px;
+  }
+
+  .sendIcon {
+    font-size: 16px;
+  }
+
+  .fileItem {
+    padding: 10px 12px;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .fileIcon {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .fileName {
+    font-size: 12px;
+    margin-right: 12px;
+  }
+
+  .removeFileButton {
+    font-size: 18px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .sidebarToggle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    left: 16px;
+  }
+
+  /* Empty states and loading */
+  .loading,
+  .noConversations,
+  .noMessages {
+    padding: 40px 20px;
+  }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+    margin: 0 auto 16px;
+  }
+
+  .noConversationsIcon,
+  .noMessagesIcon,
+  .welcomeIllustration {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .noConversations p,
+  .noMessages p {
+    font-size: 14px;
+  }
+
+  .noConversationSelected {
+    padding: 30px 20px;
+  }
+
+  .noConversationSelected h2 {
+    font-size: 20px;
+    margin: 20px 0 12px;
+  }
+
+  .noConversationSelected p {
+    font-size: 14px;
+    margin: 0 0 24px;
+  }
+
+  .startChatButton {
+    padding: 12px 24px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .newChatPrompt {
+    padding: 16px 20px;
+  }
+
+  .startNewChatButton {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  /* Image modal */
+  .closeButton {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    top: 10px;
+    right: 10px;
+  }
+}
 .sidebarHeader {
   padding: 30px 24px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -62,7 +498,6 @@
   color: white;
   font-weight: 600;
   cursor: pointer;
-
   font-size: 15px;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
@@ -70,13 +505,13 @@
 .conversationList {
   padding: 16px;
   flex: 1;
-  overflow-y: auto; /* scrolling still works */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .conversationList::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .conversationItem {
@@ -200,11 +635,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+}
+
+/* Mobile Chat Header */
+@media (max-width: 768px) {
+  .chatHeader {
+    padding: 16px 20px;
+    padding-left: 70px; /* Space for toggle button */
+  }
 }
 
 .chatHeaderInfo {
   display: flex;
-  align-items: center;
+
+  margin-left: -20px;
+  width: 100%;
 }
 
 .chatAvatar {
@@ -241,6 +687,7 @@
 }
 
 .chatStatus::before {
+  content: "";
   width: 10px;
   height: 10px;
   background: #38a169;
@@ -254,19 +701,42 @@
   gap: 10px;
 }
 
-.headerButton {
-  width: 44px;
-  height: 44px;
+/* Sidebar Toggle Button */
+.sidebarToggle {
+  display: none;
+
+  top: 15%;
+  margin-left: 85%;
+  transform: translateY(-50%);
+  z-index: 1003;
+  width: 54px;
+  height: 64px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.95);
+  color: #2d3748;
+  font-size: 18px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  color: #4a5568;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .sidebarToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.sidebarToggle:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  transform: translateY(-50%) scale(1.05);
 }
 
 .imageModalOverlay {
@@ -282,6 +752,7 @@
   z-index: 9999;
   cursor: zoom-out;
 }
+
 .closeButton {
   position: absolute;
   top: 12px;
@@ -318,11 +789,12 @@
   object-fit: contain;
   border-radius: 8px;
 }
+
 /* Messages Container */
 .messagesContainer {
   flex: 1;
   padding: 30px;
-  overflow-y: auto; /* scrolling enabled */
+  overflow-y: auto;
   background: rgba(245, 247, 250, 0.7);
   background-image: radial-gradient(
       circle at 1px 1px,
@@ -336,14 +808,8 @@
     );
   background-size: 20px 20px, 40px 40px;
   background-position: 0 0, 20px 20px;
-
-  /* hide scrollbar but keep scrolling */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-
-.messagesContainer::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .messageWrapper {
@@ -392,17 +858,14 @@
   line-height: 1.5;
   font-size: 14px;
   color: inherit;
-
-  /* ✅ wrap long messages */
-  white-space: normal; /* allow line breaks */
-  word-break: break-word; /* break long words */
-  overflow-wrap: anywhere; /* modern support */
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .messageMeta {
   display: flex;
   align-items: center;
-
   justify-content: flex-end;
   margin-top: 8px;
   font-size: 12px;
@@ -422,8 +885,7 @@
 /* Input Area */
 .inputContainer {
   padding: 10px 20px;
-  background: rgba(245, 247, 250, 0.7);
-
+  background: white;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -437,8 +899,9 @@
 
 .messageInput {
   width: 100%;
+  min-height: 100%;
   padding: 18px 22px;
-  border: 2px solid rgb(189, 186, 186);
+  border: 2px solid rgb(7, 6, 6);
   border-radius: 18px;
   outline: none;
   font-size: 16px;
@@ -523,15 +986,13 @@
 .filePreview {
   padding: 4px 20px;
   background: rgba(255, 255, 255, 0.9);
-
   display: flex;
   flex-wrap: wrap;
 }
 
 .fileItem {
-  display: flex;
   align-items: center;
-  padding: 14px 18px;
+
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 14px;
@@ -541,6 +1002,8 @@
 }
 
 .fileIcon {
+  display: flex;
+
   margin-right: 14px;
   font-size: 20px;
   color: #4a5568;
@@ -551,9 +1014,8 @@
   color: #2d3748;
   margin-right: 18px;
   max-width: 200px;
-  overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* default for larger screens */
+  white-space: nowrap;
   font-weight: 500;
   width: 100%;
 }
@@ -574,11 +1036,9 @@
   color: #a0aec0;
   cursor: pointer;
   padding: 0;
-  width: 26px;
-  height: 26px;
+  display: absolute;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
   border-radius: 50%;
   transition: all 0.2s;
 }
@@ -845,100 +1305,102 @@
   transform: translateY(-1px);
 }
 
-/* Responsive Design */
-.sidebarToggle {
-  display: none;
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  z-index: 20;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.95);
-  color: #2d3748;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.sidebarToggle:hover {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
-  transform: translateY(-2px);
-}
-
-.sidebarClosed {
-  transform: translateX(-100%);
-}
-
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 320px;
-  }
-
-  .messageBubble {
-    max-width: 75%;
-  }
-}
-
-@media (max-width: 768px) {
-  .chatContainer {
-    position: relative;
-  }
-
-  .sidebarToggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sidebar {
-    position: absolute;
-    height: 100%;
-    transform: translateX(-100%);
-    width: 100%;
-    max-width: 360px;
-  }
-
-  .sidebarOpen {
-    transform: translateX(0);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
-  }
-
-  .chatHeader {
-    padding: 16px 20px;
-  }
-
-  .inputContainer {
-    padding: 20px;
-  }
-
-  .messagesContainer {
-    padding: 24px;
-  }
-
-  .messageBubble {
-    max-width: 85%;
-    padding: 14px 18px;
-  }
-
-  .filePreview {
-    padding: 16px 20px;
-  }
-}
-
+/* Responsive Design for smaller screens */
 @media (max-width: 480px) {
   .messagesContainer {
     padding: 20px 16px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    flex: 1;
+    min-height: 0; /* Important for flex scrolling */
+    height: 0; /* Allow flex to control height */
   }
+  .chatContainer {
+    width: 100%;
+    height: 89%;
 
+    position: relative;
+    font-family: "Mulish", sans-serif;
+    border-radius: 10px;
+  }
   .messageBubble {
     max-width: 90%;
     padding: 12px 16px;
+    min-height: auto;
+    height: auto;
+    border-radius: 18px;
+  }
+
+  .bubbleMe {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+  }
+
+  .bubbleThem {
+    background: rgba(255, 255, 255, 0.95);
+    color: #2d3748;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom-left-radius: 6px;
+  }
+
+  .messageContent {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 14px;
+    color: inherit;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 0;
+  }
+
+  .messageMeta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    gap: 8px;
+  }
+
+  .bubbleThem .messageMeta {
+    color: #a0aec0;
+  }
+
+  .messageTime {
+    font-weight: 500;
+  }
+
+  /* For very short messages */
+  .messageBubble:has(.messageContent:empty) {
+    display: none;
+  }
+
+  /* For single line messages */
+  .messageBubble:has(.messageContent:only-child) {
+    padding: 10px 14px;
+  }
+
+  /* For media messages (images/videos) */
+  .imageMessage .messageBubble,
+  .videoMessage .messageBubble {
+    padding: 8px;
+    background: transparent;
+    border: none;
+    max-width: 85%;
+  }
+
+  .imageMessage .messageBubble:hover,
+  .videoMessage .messageBubble:hover {
+    transform: none;
+  }
+
+  /* For file messages */
+  .fileMessage .messageBubble {
+    padding: 12px;
   }
 
   .chatAvatar,
@@ -946,6 +1408,7 @@
     width: 46px;
     height: 46px;
     font-size: 16px;
+    border-radius: 100%;
   }
 
   .fileItem {
@@ -958,11 +1421,19 @@
 
   .inputContainer {
     padding: 16px;
-    gap: 12px;
+
+    background: white;
+    margin-top: -10px;
+
+    width: 80vw;
+  }
+  .messageContent {
+    padding: 5px 5px;
   }
 
   .filePreview {
     padding: 16px;
+    flex-shrink: 0; /* Prevent file preview from shrinking */
   }
 
   .fileButton,
@@ -970,8 +1441,50 @@
     width: 48px;
     height: 48px;
   }
-}
 
+  .sidebar {
+    width: 280px !important;
+  }
+
+  /* Ensure chat main has proper flex layout */
+  .chatMain {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* Prevent main container from scrolling */
+  }
+
+  /* Ensure header stays fixed */
+  .chatHeader {
+    width: 100%;
+    background: rgb(237, 233, 233);
+    border-radius: 20px;
+  }
+
+  /* Message wrapper adjustments for better scrolling */
+  .messageWrapper {
+    margin-bottom: 4px;
+  }
+
+  /* Scrollbar styling for mobile */
+  .messagesContainer::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+  }
+
+  .messagesContainer::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
 /* Animation for messages */
 @keyframes fadeInUp {
   from {
@@ -986,29 +1499,6 @@
 
 .messageWrapper {
   animation: fadeInUp 0.4s ease;
-}
-
-/* Scrollbar styling */
-.sidebar::-webkit-scrollbar,
-.messagesContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.sidebar::-webkit-scrollbar-track,
-.messagesContainer::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 4px;
-}
-
-.sidebar::-webkit-scrollbar-thumb,
-.messagesContainer::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover,
-.messagesContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
 }
 
 /* Focus states for accessibility */

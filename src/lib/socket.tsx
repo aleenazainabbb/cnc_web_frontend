@@ -1,5 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
+// Define your event interfaces
 interface ServerToClientEvents {
   messageSent: (data: {
     messageId: number;
@@ -26,11 +27,13 @@ interface ClientToServerEvents {
   joinAdminRoom: () => void;
 }
 
+// Global socket instance and connection promise
 let socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
 let connectionPromise: Promise<
   Socket<ServerToClientEvents, ClientToServerEvents>
 > | null = null;
 
+// Token utility function
 const getToken = (): string | null => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("token");
@@ -49,13 +52,23 @@ export const getSocket = async (): Promise<
 
   connectionPromise = new Promise((resolve, reject) => {
     const token = getToken();
+
+    if (!token) {
+      reject(new Error("No authentication token available"));
+      connectionPromise = null;
+      return;
+    }
+
     console.log("Initializing new socket connection...");
 
-    const s = io("https://whatsapp.marifahsol.com", {
-      transports: ["websocket"],
-      auth: { token },
-      timeout: 10000,
-    });
+    const s: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+      "https://whatsapp.marifahsol.com",
+      {
+        transports: ["websocket"],
+        auth: { token },
+        timeout: 10000,
+      }
+    );
 
     const connectionTimeout = setTimeout(() => {
       if (!s.connected) {
@@ -72,14 +85,14 @@ export const getSocket = async (): Promise<
       resolve(s);
     });
 
-    s.on("connect_error", (err) => {
+    s.on("connect_error", (err: Error) => {
       console.error("❌ Connection error:", err.message);
       clearTimeout(connectionTimeout);
       connectionPromise = null;
       reject(err);
     });
 
-    s.on("disconnect", (reason) => {
+    s.on("disconnect", (reason: string) => {
       console.warn("⚠️ Socket disconnected:", reason);
       if (reason === "io server disconnect") {
         // Server intentionally disconnected, need to manually reconnect
@@ -87,17 +100,23 @@ export const getSocket = async (): Promise<
       }
     });
 
-    s.on("reconnect", (attemptNumber) => {
+    // NEW EVENT NAMES FOR SOCKET.IO v4+
+    s.io.on("reconnect", (attemptNumber: number) => {
       console.log("🔌 Socket reconnected after", attemptNumber, "attempts");
     });
 
-    s.on("reconnect_error", (error) => {
+    s.io.on("reconnect_error", (error: Error) => {
       console.error("❌ Reconnection error:", error);
     });
 
-    s.on("reconnect_failed", () => {
+    s.io.on("reconnect_failed", () => {
       console.error("❌ Reconnection failed");
       connectionPromise = null;
+    });
+
+    // You can also listen to the new reconnect_attempt event
+    s.io.on("reconnect_attempt", (attemptNumber: number) => {
+      console.log("🔄 Reconnection attempt:", attemptNumber);
     });
   });
 
@@ -117,18 +136,57 @@ export const disconnectSocket = (): void => {
   connectionPromise = null;
 };
 
+// Enhanced message sending with confirmation
+export const sendMessageWithConfirmation = async (messageData: {
+  conversationId: number;
+  senderId: number;
+  content: string;
+  messageType: string;
+  tempId?: string;
+  files?: File[];
+}): Promise<{ messageId: number; tempId?: string }> => {
+  try {
+    const socket = await getSocket();
 
+    // Wait a small moment to ensure socket is fully ready
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
+    socket.emit("sendMessage", messageData);
 
+    // Return a promise that resolves when messageSent is received
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        socket.off("messageSent", onSuccess);
+        socket.off("messageError", onError);
+        reject(new Error("Message send timeout"));
+      }, 5000);
 
+      const onSuccess = (data: {
+        messageId: number;
+        tempId?: string;
+        conversationId: number;
+      }) => {
+        clearTimeout(timeout);
+        socket.off("messageSent", onSuccess);
+        socket.off("messageError", onError);
+        resolve({ messageId: data.messageId, tempId: data.tempId });
+      };
 
+      const onError = (data: { error: string; tempId?: string }) => {
+        clearTimeout(timeout);
+        socket.off("messageSent", onSuccess);
+        socket.off("messageError", onError);
+        reject(new Error(data.error));
+      };
 
-
-
-
-
-
-
+      socket.on("messageSent", onSuccess);
+      socket.on("messageError", onError);
+    });
+  } catch (error) {
+    console.error("Failed to send message:", error);
+    throw error;
+  }
+};
 /*"use client";
 
 import {
