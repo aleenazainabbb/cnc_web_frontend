@@ -6,10 +6,10 @@ export const metadata = {
         title: "Care N Clean - Expert Swimming Pool Cleaning in UAE",
         description: "Book reliable pool cleaning for homes, hotels, spas, and more. Our certified experts ensure your water is safe, clean, and swim-ready.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/SwimmingPool",
+        url: "/AllServices/CleaningServices/SwimmingPool",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/SwimmingPool/1.png",
+                url: "/images/SwimmingPool/1.png",
                 width: 1200,
                 height: 630,
                 alt: "Swimming Pool Cleaning UAE",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Swimming Pool Cleaning by Care N Clean",
         description: "Keep your pool safe and sparkling with Care N Clean’s expert pool cleaning services in the UAE.",
-        images: ["http://192.168.18.13:3000/images/SwimmingPool/1.png"],
+        images: ["/images/SwimmingPool/1.png"],
     },
     viewport: {
         width: "device-width",
@@ -112,7 +112,7 @@ export default function SwimmingPoolPage() {
                         project, no matter how big or small it is.
                     </>
                 }
-                imageSrc="/images/SwimmingPool/1.png"
+                imageSrc="/images/swimmingpool/1.png"
                 imageAlt="Swimming Pool Cleaning"
             />
             <BenefitsOfDeepCleaning
@@ -122,7 +122,7 @@ export default function SwimmingPoolPage() {
                  should be clean enough to see the bottom of your pool, and it should feel good on the skin. Unclean water can leave spots on the surface of your pool and sting the eyes
                   of your swimmers."
                 imageLeft={true}
-                imageSrc="/images/SwimmingPool/2.jpg"
+                imageSrc="/images/swimmingpool/2.jpg"
                 imageAlt="Swimming Pool Problems"
                 points={[
                     "Algae Growth",
@@ -145,7 +145,7 @@ export default function SwimmingPoolPage() {
                 title="Benefits of Swimming Pool Cleaning"
                 content="Regular swimming pool cleaning improves water quality, extends the life of your pool equipment, and ensures a safe experience for swimmers. From removing algae to maintaining proper chlorine levels, our service keeps your pool in top condition. Trust Care N Clean to deliver a hygienic and stress-free pool environment all year round."
                 imageLeft={true}
-                imageSrc="/images/SwimmingPool/3.jpg"
+                imageSrc="/images/swimmingpool/3.jpg"
                 imageAlt="Swimming Pool Benefits"
                 points={[
                     "Clean & Clear Water",

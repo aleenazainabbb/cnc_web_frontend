@@ -49,8 +49,8 @@ const BestDeepClean: React.FC<BestDeepCleanProps> = ({
                   className="main-image-deepClean"
                   style={{
                     borderRadius: "20px",
-                    borderTop: "10px solid",
-                    borderRight: "10px solid",
+                    // borderTop: "10px solid",
+                    // borderRight: "10px solid",
                   }}
                 />
               </div>
@@ -89,8 +89,8 @@ const BestDeepClean: React.FC<BestDeepCleanProps> = ({
                   className="main-image-deepClean"
                   style={{
                     borderRadius: "20px",
-                    borderTop: "10px solid",
-                    borderRight: "10px solid",
+                    // borderTop: "10px solid",
+                    // borderRight: "10px solid",
                   }}
                 />
               </div>

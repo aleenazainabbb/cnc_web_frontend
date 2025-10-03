@@ -6,10 +6,10 @@ export const metadata = {
         title: "Carpentry Handyman Services in UAE - Care n Clean",
         description: "Get expert carpentry handyman services in UAE with Care n Clean. From furniture repair to custom woodwork, we ensure top-quality craftsmanship.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Carpentry",
+        url: "/AllServices/MaintenanceServices/Carpentry",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/carpentry/carpet1.png",
+                url: "/images/Maintenance/carpentry/carpet1.png",
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Carpentry Services",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Care N Clean - Expert Carpentry Services in UAE",
         description: "From crown molding to custom shelving, get reliable and skilled carpentry work done by professionals at Care N Clean.",
-        images: ["http://192.168.18.13:3000/images/Maintenance/carpentry/carpet1.png"],
+        images: ["/images/Maintenance/carpentry/carpet1.png"],
     },
     viewport: {
         width: "device-width",
@@ -86,7 +86,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Book Now"
                 buttonLink="/BookAservicePage"
-                imageSrc="/images/banners/carpenter.png"
+                imageSrc="/images/banners/Carpenter.png"
             />
             <AutoBreadcrumb />
             <BestDeepCleaning

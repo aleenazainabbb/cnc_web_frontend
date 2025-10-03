@@ -93,7 +93,7 @@ const WhyChooseUsSection: React.FC = () => {
         <div className="col-12 col-lg-6 col-md-6 whycare_images padding-images" >
           <div className="d-inline-block position-relative custom-images  ">
             <Image
-              src="/images/WhyChooseUs/WhyChooseUs-1.png"
+              src="/images/WhyChooseUs/whyChooseUs-1.png"
               alt="Main Image"
               className="main-image"
               width={365.63}
@@ -106,7 +106,7 @@ const WhyChooseUsSection: React.FC = () => {
               }}
             />
             <Image
-              src="/images/WhyChooseUs/WhyChooseUs-2.png"
+              src="/images/WhyChooseUs/whyChooseUs-2.png"
               alt="Overlay Image"
               className="overlay-image overly-right"
               width={230.76}

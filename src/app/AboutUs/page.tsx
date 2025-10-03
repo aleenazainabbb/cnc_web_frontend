@@ -32,7 +32,7 @@ export default function ServicesPage() {
                         To become the UAE’s most trusted multi‑service provider, setting the benchmark for professionalism, reliability, and eco‑friendly practices—so every home and business we serve feels safe, fresh, and worry‑free.
                     </>
                 }
-                imageSrc="/images/Vision.png"
+                imageSrc="/images/vision.png"
                 imageAlt="Vision"
             />
 

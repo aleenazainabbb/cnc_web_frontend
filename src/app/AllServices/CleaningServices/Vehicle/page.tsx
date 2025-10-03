@@ -6,10 +6,10 @@ export const metadata = {
         title: "Care N Clean - Professional Vehicle Cleaning in UAE",
         description: "Get your car cleaned inside and out by professionals. We offer interior detailing, dashboard sanitization, and full exterior wash.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/VehicleCleaning",
+        url: "/AllServices/CleaningServices/VehicleCleaning",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/vehicle/1.jpg",
+                url: "/images/vehicle/1.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Vehicle Cleaning UAE",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Vehicle Cleaning by Care N Clean",
         description: "Interior and exterior car detailing in UAE. Book your expert vehicle cleaning service today with Care N Clean.",
-        images: ["http://192.168.18.13:3000/images/vehicle/1.jpg"],
+        images: ["/images/vehicle/1.jpg"],
     },
     viewport: {
         width: "device-width",
@@ -95,7 +95,7 @@ export default function VehiclePage() {
                 showButton={true}
                 buttonText="Book Now"
                 buttonLink="/BookAservicePage"
-                imageSrc="/images/banners/vehiclecleaning.png"
+                imageSrc="/images/banners/Vehiclecleaning.png"
             />
             <AutoBreadcrumb />
             <BestDeepCleaning

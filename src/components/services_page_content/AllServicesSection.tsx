@@ -15,7 +15,7 @@ const cleaningServices = [
   },
   {
     title: "Chandelier",
-    img: "/images/Chandelier/2.jpg",
+    img: "/images/chandelier/2.jpg",
     description: "Restores sparkle with delicate and safe cleaning.",
     link: "/AllServices/CleaningServices/Chandelier",
   },

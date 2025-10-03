@@ -8,7 +8,7 @@ export const metadata = {
         description:
             "Care N Clean offers expert bees and wasps removal across the UAE. We eliminate nests, prevent future infestations, and ensure a safe, sting-free environment for your property.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/PestControl/Bees&Wasps",
+        url: "/AllServices/PestControl/Bees&Wasps",
         images: [
             {
                 url: "http://192.168.18.13:3000/images/bees.png",

@@ -8,10 +8,10 @@ export const metadata = {
         description:
             "Care N Clean offers expert pest control services to remove ants, crawling insects, and other pests. Safe and effective treatments for a hygienic, pest-free environment.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/PestControl/Ants&Insects",
+        url: "/AllServices/PestControl/Ants&Insects",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/ants3.jpg",
+                url: "/images/ants3.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Ants and Insects Pest Control UAE",
@@ -23,7 +23,7 @@ export const metadata = {
         title: "Ants & Insects Pest Control Services UAE | Care N Clean",
         description:
             "Get rid of ants and crawling insects with Care N Clean. Professional pest control services across UAE and the UAE – fast, affordable, and long-lasting.",
-        images: ["http://192.168.18.13:3000/images/ants3.jpg"],
+        images: ["/images/ants3.jpg"],
     },
     viewport: {
         width: "device-width",
@@ -114,7 +114,7 @@ export default function PestPage() {
                         analysis our professional teammates set-up a proper plan or strategy to remove them. Let the proficient and experienced members of Care n Clean do the chore.
                     </>
                 }
-                imageSrc="/images/ants3.jpg"
+                imageSrc="/images/ant1Image.png"
                 imageAlt="Ants and Insects Control"
             />
 
@@ -148,7 +148,7 @@ export default function PestPage() {
                 title="Benefits of Ants & Insects Pest Control"
                 content="Effective pest control eliminates active infestations and prevents future outbreaks. With targeted treatments and ongoing prevention, your property stays protected from health hazards, damage, and discomfort. Our expert services create a clean, pest-free environment for your family or business."
                 imageLeft={true}
-                imageSrc="/images/ants.png"
+                imageSrc="/images/antImage.png"
                 imageAlt="Benefits of Ants Control"
                 points={[
                     "Health Protection",

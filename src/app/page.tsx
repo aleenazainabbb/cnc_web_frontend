@@ -51,7 +51,7 @@ export default function Home() {
     },
     {
       title: "Chandelier",
-      img: "/images/Chandelier/2.jpg",
+      img: "/images/chandelier/2.jpg",
       description: "Restores sparkle with delicate and safe cleaning.",
       link: "/AllServices/CleaningServices/Chandelier",
     },
@@ -87,7 +87,7 @@ export default function Home() {
     },
     {
       title: "Cockroach",
-      img: "/images/Cockroach.png",
+      img: "/images/cockroach.png",
       description: "Targets breeding spots for complete roach removal.",
       link: "/AllServices/PestControl/Cockroach",
     },

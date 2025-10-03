@@ -6,10 +6,10 @@ export const metadata = {
         title: "Landscaping Services in UAE - Care N Clean",
         description: "Enhance your outdoor space with expert landscaping services in UAE. Care N Clean provides customized solutions for gardens, lawns, and patios.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/MaintenanceServices/Landscaping",
+        url: "/AllServices/MaintenanceServices/Landscaping",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg",
+                url: "/images/Maintenance/landscaping/1.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Care N Clean Landscaping Services",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Care N Clean - Expert Landscaping Services in UAE",
         description: "Reliable and affordable landscaping services for homes and businesses in the UAE. Custom garden care, lawn maintenance, and more.",
-        images: ["http://192.168.18.13:3000/images/Maintenance/landscaping/1.jpg"],
+        images: ["/images/Maintenance/landscaping/1.jpg"],
     },
     viewport: {
         width: "device-width",
@@ -86,7 +86,7 @@ export default function ServicePage() {
                 showButton={true}
                 buttonText="Book Now"
                 buttonLink="/BookAservicePage"
-                imageSrc="/images/Maintenance/landscaping/landscaping.png"
+                imageSrc="/images/Maintenance/landscaping/Landscaping.png"
             />
             <AutoBreadcrumb />
             <BestDeepCleaning

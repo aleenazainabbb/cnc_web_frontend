@@ -6,10 +6,10 @@ export const metadata = {
         title: "Chandelier Cleaning Services UAE - Care N Clean",
         description: "Restore the shine of your chandeliers with Care n Clean’s expert chandelier cleaning services in UAE. Professional and delicate cleaning solutions.",
         type: "website",
-        url: "http://192.168.18.13:3000/AllServices/CleaningServices/Chandelier", // Update to actual route
+        url: "/AllServices/CleaningServices/Chandelier",
         images: [
             {
-                url: "http://192.168.18.13:3000/images/Chandelier/1.png",
+                url: "/images/Chandelier/1.png",
                 width: 1200,
                 height: 630,
                 alt: "Chandelier Cleaning Services UAE",
@@ -20,7 +20,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "Care N Clean - Professional Chandelier Cleaning",
         description: "Make your chandeliers sparkle again. Safe, professional, and trusted chandelier cleaning services available across the UAE.",
-        images: ["http://192.168.18.13:3000/images/Chandelier/1.png"],
+        images: ["/images/Chandelier/1.png"],
     },
     viewport: {
         width: "device-width",
@@ -113,7 +113,7 @@ export default function ChandelierPage() {
                         reliable, safe, and stunning results every time.
                     </>
                 }
-                imageSrc="/images/Chandelier/1.png"
+                imageSrc="/images/chandelier/1.png"
                 imageAlt="Chandelier Cleaning"
             />
 
@@ -123,7 +123,7 @@ export default function ChandelierPage() {
                 allergens into the air, causing sneezing, coughing, or itchy eyes. If you're experiencing allergy symptoms at home, your chandelier could be part of the problem.
                  If your lighting seems dim or uneven, it’s time for a thorough cleaning."
                 imageLeft={true}
-                imageSrc="/images/Chandelier/2.jpg"
+                imageSrc="/images/chandelier/2.jpg"
                 imageAlt="Chandelier Problems"
                 points={[
                     "Dust Accumulation",
@@ -147,7 +147,7 @@ export default function ChandelierPage() {
                 title="Benefits of Chandelier Cleaning"
                 content="Regular chandelier cleaning not only enhances your interior aesthetics but also ensures safety and optimal lighting. Removing built-up dirt and grime improves brightness, prolongs fixture lifespan, and prevents wear or fire hazards. Trust Care N Clean for a meticulous clean that revives elegance and protects your valuable fixture."
                 imageLeft={true}
-                imageSrc="/images/Chandelier/3.jpg"
+                imageSrc="/images/chandelier/3.jpg"
                 imageAlt="Chandelier Benefits"
                 points={[
                     "Improved Lighting",
