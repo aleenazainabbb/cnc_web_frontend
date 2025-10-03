@@ -27,7 +27,7 @@
 .scrollContainer,
 .scrollContainerQuotes {
   margin-top: 1px;
-  max-height: 40vh;
+  /* max-height: 40vh; */
   overflow-y: auto;
   padding-right: 10px;
   scrollbar-width: thin;
@@ -75,6 +75,7 @@
   border-bottom: 2px solid #e9e7fd;
   font-weight: 500;
   width: 100%;
+  /* max-width: 110%; */
 }
 
 .row {
