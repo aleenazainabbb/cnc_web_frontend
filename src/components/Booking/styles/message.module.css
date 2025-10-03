@@ -1452,21 +1452,31 @@
     display: flex;
     flex-direction: column;
     height: 80vh;
-    width: 70vw;
-    background: #000;
+    width: 80vw;
+
     overflow: hidden; /* Prevent main container from scrolling */
   }
-
+  .inputContainer {
+    width: 100%;
+    height: 10%;
+  }
   /* Ensure header stays fixed */
   .chatHeader {
     width: 100%;
     height: 70px;
-    background: #dcd8d8;
+    background: #ffffff;
   }
-
+  .fileButton {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+  }
+  .sidebarToggle {
+    margin-top: 20px;
+  }
   /* Message wrapper adjustments for better scrolling */
   .messageWrapper {
-    margin-bottom: 2px;
+    margin-bottom: 10px;
   }
 
   /* Scrollbar styling for mobile */
@@ -1512,7 +1522,16 @@
   outline: 2px solid rgba(102, 126, 234, 0.5);
   outline-offset: 2px;
 }
-
+.sendButton {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+.messageInput {
+  height: 20px;
+  width: 100%;
+  background: none;
+}
 /* Loading animation for send button */
 .sendSpinner {
   width: 22px;
