@@ -11,7 +11,7 @@
 }
 
 .sidebarClosed {
-  width: 70px !important;
+  width: 100px !important;
 }
 
 .sidebarContent {
@@ -23,7 +23,7 @@
 /* Toggle Button - Fixed position that stays in place */
 .toggleBtn {
   position: fixed;
-  top: 1rem;
+  top: 2rem;
   left: 1rem;
   z-index: 1000;
   background: #0f60ff;
@@ -38,11 +38,6 @@
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-}
-
-.toggleBtn:hover {
-  background: #0a4ecd;
-  transform: scale(1.05);
 }
 
 /* Overlay for clicking outside */
@@ -61,7 +56,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .logoImage {
@@ -72,7 +67,7 @@
 
 .divider {
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 }
 
 .navList {
@@ -153,75 +148,67 @@
   align-items: center;
   justify-content: center;
 }
-/* Mobile Styles */
-@media screen and (max-width: 768px) {
+
+/* Mobile screens (below 768px) - Sidebar closed by default */
+@media (max-width: 768px) {
   .sidebar {
-    width: 240px; /* Slightly smaller */
-    position: fixed;
+    width: 70px !important; /* Always closed width on mobile */
+
+    position: relative;
     left: 0;
     top: 0;
     transform: translateX(-100%);
     z-index: 999;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in;
   }
 
   .sidebar:not(.sidebarClosed) {
+    width: 150px !important; /* Open width when toggled */
     transform: translateX(0);
-  }
-
-  .sidebarClosed {
-    width: 60px !important; /* Smaller closed width */
-    transform: translateX(-100%);
   }
 
   /* Push the main content when sidebar is open */
   .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(240px); /* Adjusted to match sidebar width */
+    transform: translateX(200px);
     transition: transform 0.3s ease;
   }
 
-  .sidebarClosed .navList {
-    padding: 8px; /* Smaller padding */
-    gap: 10px; /* Smaller gap */
+  .sidebarClosed .navList,
+  .sidebar:not(.sidebarClosed) .navList {
+    padding: 8px;
+    gap: 10px;
   }
 
-  .sidebarClosed .navLink {
-    padding: 6px; /* Smaller padding */
+  .sidebarClosed .navLink,
+  .sidebar:not(.sidebarClosed) .navLink {
+    padding: 6px;
     justify-content: center;
   }
 
-  .sidebarClosed .iconText {
+  .sidebarClosed .iconText,
+  .sidebar:not(.sidebarClosed) .iconText {
     justify-content: center;
   }
 
-  .sidebarClosed .logoContainer {
-    padding: 8px; /* Smaller padding */
-  }
-}
-
-@media screen and (max-width: 770px) {
-  .sidebar {
-    width: 180px; /* Smaller width */
+  .sidebarClosed .logoContainer,
+  .sidebar:not(.sidebarClosed) .logoContainer {
+    padding: 8px;
   }
 
-  .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(180px); /* Adjusted to match sidebar width */
+  /* Show full content when sidebar is open on mobile */
+  .sidebar:not(.sidebarClosed) .navLink {
+    justify-content: flex-start;
   }
 
-  .navList {
-    padding: 10px; /* Smaller padding */
-    gap: 12px; /* Smaller gap */
-  }
-
-  .navLink {
-    padding: 8px; /* Smaller padding */
+  .sidebar:not(.sidebarClosed) .iconText {
+    justify-content: flex-start;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .sidebar {
-    width: 160px; /* Smaller width */
+  .sidebar:not(.sidebarClosed) {
+    width: 180px !important;
   }
 
   .sidebar:not(.sidebarClosed) ~ * {
@@ -229,37 +216,30 @@
   }
 
   .logoImage {
-    max-width: 85%; /* Slightly smaller logo */
-  }
-
-  .navList {
-    padding: 8px; /* Even smaller padding */
-    gap: 10px; /* Even smaller gap */
+    max-width: 85%;
+    margin-top: 20px;
   }
 
   .navList li a {
-    font-size: 14px; /* Smaller font */
-  }
+    font-size: 10px;
 
-  .navLink {
-    padding: 6px; /* Even smaller padding */
+    margin-top: 10px;
   }
 
   .logoutBtnn {
-    height: 35px; /* Smaller logout button */
-    font-size: 14px; /* Smaller font */
-    margin-bottom: 15px; /* Smaller margin */
+    font-size: 14px;
+    margin-bottom: 10%;
   }
 
   .logoutBtnIcon {
-    width: 35px; /* Smaller icon button */
-    height: 35px; /* Smaller icon button */
-    margin-bottom: 15px; /* Smaller margin */
+    width: 35px;
+    height: 35px;
+    margin-bottom: 15px;
   }
 }
 
-/* Large screens - hide toggle button and overlay */
-@media screen and (min-width: 769px) {
+/* Large screens (1025px and above) - Sidebar open by default */
+@media screen and (min-width: 1025px) {
   .toggleBtn {
     display: none;
   }
@@ -271,6 +251,11 @@
   .sidebar {
     position: relative !important;
     transform: translateX(0) !important;
+    width: 260px !important; /* Always open on desktop */
+  }
+
+  .sidebarClosed {
+    width: 70px !important; /* Only if manually closed on desktop */
   }
 
   /* Reset transform on large screens */

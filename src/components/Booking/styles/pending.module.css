@@ -1,5 +1,6 @@
-.main{
-  font-family: "Roboto Flex", sans-serif;
+.main {
+  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: white;
   margin-top: 20px;
   margin-bottom: 10px !important;
@@ -40,7 +41,7 @@
   display: grid;
   gap: 1rem;
   align-items: center;
-  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  grid-template-columns: repeat(8, minmax(120px, 1fr));
 }
 
 /* Default Grid Templates */
@@ -73,6 +74,7 @@
   font-family: "Public Sans", sans-serif;
   border-bottom: 2px solid #e9e7fd;
   font-weight: 500;
+  width: 100%;
 }
 
 .row {
@@ -81,6 +83,7 @@
   font-size: 14px;
   font-family: "Roboto Flex", sans-serif;
   border-bottom: 1px solid #cfcfcf;
+  width: 100%;
 }
 
 /* Text Wrapping */
