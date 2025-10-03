@@ -89,7 +89,6 @@
   font-family: "Public Sans", sans-serif;
   border-bottom: 2px solid #e9e7fd;
   font-weight: 500;
-  width: 100%;
 }
 
 .row {
@@ -98,7 +97,6 @@
   font-size: 14px;
   font-family: "Roboto Flex", sans-serif;
   border-bottom: 1px solid #cfcfcf;
-  width: 100%;
 }
 
 /* Text Wrapping */
