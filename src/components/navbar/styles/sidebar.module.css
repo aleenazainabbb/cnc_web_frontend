@@ -212,7 +212,7 @@
   }
 
   .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(180px);
+    transform: translateX(160px); /* Adjusted to match sidebar width */
   }
 
   .logoImage {

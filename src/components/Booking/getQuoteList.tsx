@@ -37,11 +37,14 @@ const QuoteList: React.FC = () => {
   };
 
   return (
-    <div className={profile.maincontainer}>
+    <div className={styles.margin}>
+    <div className={styles.main}>
       <div className={styles.containers}>
         {/* Add Quote Button */}
         <div className={profile.quotesbuttonContainer}>
-          <button className={profile.quote_button} onClick={handleOpen}>
+          <button 
+          style={{marginBottom: '10px'}}
+          className={profile.quote_button} onClick={handleOpen}>
             Add a Quote
           </button>
         </div>
@@ -73,7 +76,6 @@ const QuoteList: React.FC = () => {
                   <div className="break-words whitespace-pre-wrap text-sm">
                     {q.name || q.customer}
                   </div>
-                  {/* <div className="break-words whitespace-pre-wrap text-sm">{q.company || '-'}</div> */}
                   <div className="break-words whitespace-pre-wrap text-sm">
                     {q.email}
                   </div>
@@ -144,6 +146,7 @@ const QuoteList: React.FC = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

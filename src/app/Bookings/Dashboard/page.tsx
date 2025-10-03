@@ -39,6 +39,7 @@ export default function RequestPage() {
   }, []);
 
   if (loading || ordersLoading) return null;
+  
 
   const pendingStatus = ["pending", "confirmed", "postponed"];
   const historyStatus = ["completed", "cancelled"];
@@ -50,7 +51,8 @@ export default function RequestPage() {
   const historyOrders = allOrders.filter((order) =>
     historyStatus.includes(order[6]?.toLowerCase())
   );
-
+console.log("👉 Pending Orders Data:", pendingOrders);
+console.log("👉 History Orders Data:", historyOrders);
   const noOrdersAvailable =
     pendingOrders.length === 0 && historyOrders.length === 0;
 
@@ -67,7 +69,7 @@ export default function RequestPage() {
             pendingOrders={pendingOrders}
             historyOrders={historyOrders}
           />
-          <div>{/* <RangeFilter range={range} setRange={setRange} /> */}</div>
+        
         </>
       )}
     </>
