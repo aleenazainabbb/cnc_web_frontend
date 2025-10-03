@@ -153,11 +153,10 @@
   align-items: center;
   justify-content: center;
 }
-
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
   .sidebar {
-    width: 260px;
+    width: 240px; /* Slightly smaller */
     position: fixed;
     left: 0;
     top: 0;
@@ -172,23 +171,23 @@
   }
 
   .sidebarClosed {
-    width: 70px !important;
+    width: 60px !important; /* Smaller closed width */
     transform: translateX(-100%);
   }
 
   /* Push the main content when sidebar is open */
   .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(260px);
+    transform: translateX(240px); /* Adjusted to match sidebar width */
     transition: transform 0.3s ease;
   }
 
   .sidebarClosed .navList {
-    padding: 10px;
-    gap: 12px;
+    padding: 8px; /* Smaller padding */
+    gap: 10px; /* Smaller gap */
   }
 
   .sidebarClosed .navLink {
-    padding: 8px;
+    padding: 6px; /* Smaller padding */
     justify-content: center;
   }
 
@@ -197,40 +196,65 @@
   }
 
   .sidebarClosed .logoContainer {
-    padding: 10px;
+    padding: 8px; /* Smaller padding */
   }
 }
 
 @media screen and (max-width: 770px) {
   .sidebar {
-    width: 200px;
+    width: 180px; /* Smaller width */
   }
 
   .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(200px);
+    transform: translateX(180px); /* Adjusted to match sidebar width */
   }
 
   .navList {
-    padding: 12px;
-    gap: 15px;
+    padding: 10px; /* Smaller padding */
+    gap: 12px; /* Smaller gap */
   }
 
   .navLink {
-    padding: 10px;
+    padding: 8px; /* Smaller padding */
   }
 }
 
 @media screen and (max-width: 600px) {
   .sidebar {
-    width: 180px;
+    width: 160px; /* Smaller width */
   }
 
   .sidebar:not(.sidebarClosed) ~ * {
-    transform: translateX(180px);
+    transform: translateX(160px); /* Adjusted to match sidebar width */
   }
 
   .logoImage {
-    max-width: 90%;
+    max-width: 85%; /* Slightly smaller logo */
+  }
+
+  .navList {
+    padding: 8px; /* Even smaller padding */
+    gap: 10px; /* Even smaller gap */
+  }
+
+  .navList li a {
+    font-size: 14px; /* Smaller font */
+  }
+
+  .navLink {
+    padding: 6px; /* Even smaller padding */
+  }
+
+  .logoutBtnn {
+    height: 35px; /* Smaller logout button */
+    font-size: 14px; /* Smaller font */
+    margin-bottom: 15px; /* Smaller margin */
+  }
+
+  .logoutBtnIcon {
+    width: 35px; /* Smaller icon button */
+    height: 35px; /* Smaller icon button */
+    margin-bottom: 15px; /* Smaller margin */
   }
 }
 

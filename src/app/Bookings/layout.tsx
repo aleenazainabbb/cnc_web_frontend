@@ -90,7 +90,7 @@ export default function BookingLayout({ children }: BookingLayoutProps) {
         <div
           style={{
             display: "flex",
-            height: "100vh", // full screen height
+            height: "100vh", 
             backgroundColor: "#fafafa",
             overflow: "hidden", // prevent global page scroll
           }}
@@ -104,8 +104,6 @@ export default function BookingLayout({ children }: BookingLayoutProps) {
           <main
             style={{
               flex: 1,
-              minWidth: 0,
-              padding: "1rem",
               overflowX: "auto",
               overflowY: "auto",
             }}
