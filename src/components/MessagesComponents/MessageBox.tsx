@@ -208,7 +208,7 @@ const MessageBox: React.FC = () => {
   const [localIsSending, setLocalIsSending] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const isSending = contextIsSending || localIsSending;
@@ -216,10 +216,6 @@ const MessageBox: React.FC = () => {
   const activeConversation =
     conversations.find((c) => c.id === conversationId) || conversations[0];
 
-  // Check if all conversations are closed
-  const allConversationsClosed = conversations.every(
-    (conversation) => conversation.status === "closed"
-  );
   const [hasSentMessage, setHasSentMessage] = useState(false);
   const [chatStatus, setChatStatus] = useState<"open" | "closed">("closed");
 
@@ -508,11 +504,7 @@ const MessageBox: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <div className={styles.chatActions}>
-                <button className={styles.headerButton}>
-                  <span className={styles.icon}>⋮</span>
-                </button>
-              </div>
+              <div className={styles.chatActions}></div>
             </div>
 
             {/* Messages */}
