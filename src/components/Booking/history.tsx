@@ -74,8 +74,8 @@ const History: React.FC<HistoryProps> = ({ range: initialRange, data }) => {
     <div className={styles.main}>
       <RangeFilter range={range} setRange={setRange} />
       <div className={styles.container}>
-        <div className={styles.tableScroll}>
-          <div className={styles.scrollContainer}>
+        <div className={styles.scrollContainer}>
+          <div className={styles.tableScroll}>
             {/* Header row */}
             <div
               className={`${styles.gridContainerHistory} ${styles.rowHeader}`}

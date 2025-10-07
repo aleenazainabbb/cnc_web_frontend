@@ -22,6 +22,7 @@ interface UpholsteryRate {
     [key: string]: number;
   };
 }
+
 const Bookings: React.FC<BookingsProps> = ({
   serviceError,
   setServiceError,
@@ -348,6 +349,33 @@ const Bookings: React.FC<BookingsProps> = ({
       const result = await applyPromoCode(discountInput);
       if (result.success) {
         setSnackbar({ type: "success", message: result.message });
+
+        // Get current appointment value
+        const currentAppointmentValue = bookingData.appointedPrice || 0;
+
+        // Calculate discount based on your business logic
+        // For example: 10% discount, or fixed amount, etc.
+        const discountPercentage = 0.1; // 10% discount - adjust as needed
+        const discountAmount = currentAppointmentValue * discountPercentage;
+
+        // Recalculate with tax preservation
+        const subTotal = Math.max(0, currentAppointmentValue - discountAmount);
+        const taxAmount = subTotal * 0.05; // Always 5% tax
+        const totalAmount = subTotal + taxAmount;
+
+        // Update both billing and booking data
+        updateBillingData({
+          discountAmount,
+          taxAmount,
+          totalAmount,
+        });
+
+        updateBookingData({
+          discountAmount,
+          subTotal,
+          taxAmount,
+          totalAmount,
+        });
       } else {
         setSnackbar({ type: "error", message: result.message });
       }
@@ -769,24 +797,6 @@ const Bookings: React.FC<BookingsProps> = ({
         </div>
         <div className={booking.group}>
           {/* Coupon */}
-          <div className={booking.formGroup}>
-            <div className={booking.couponRow}>
-              <input
-                type="text"
-                placeholder="Enter coupon"
-                value={discountInput}
-                onChange={(e) => setDiscountInput(e.target.value)}
-                className={booking.couponinput}
-              />
-              <button
-                className={booking.applybtn}
-                type="button"
-                onClick={handleApply}
-              >
-                Apply
-              </button>
-            </div>
-          </div>
 
           <div className={booking.cont}>
             {/* SERVICE */}
@@ -2250,6 +2260,48 @@ const Bookings: React.FC<BookingsProps> = ({
             </div>
           </>
         )}
+        {/* COUPON SECTION */}
+        {/* COUPON SECTION */}
+        {[
+          "Maid Services / General Services",
+          "Deep Cleaning",
+          "Upholstery Cleaning",
+          "Duct Cleaning",
+        ].includes(selectedSubService.trim()) &&
+          !(
+            selectedSubService.trim() === "Deep Cleaning" &&
+            cleaningCategory === "Commercial"
+          ) && (
+            <>
+              <div className={booking.formGroup}>
+                <div className={booking.couponRow}>
+                  <input
+                    type="text"
+                    placeholder="Enter coupon"
+                    value={discountInput}
+                    onChange={(e) => setDiscountInput(e.target.value)}
+                    className={booking.couponinput}
+                  />
+                  <button
+                    className={booking.applybtn}
+                    type="button"
+                    onClick={handleApply}
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+
+              {/* SNACKBAR FOR COUPON MESSAGES */}
+              {snackbar && (
+                <Snackbar
+                  message={snackbar.message}
+                  type={snackbar.type}
+                  onClose={() => setSnackbar(null)}
+                />
+              )}
+            </>
+          )}
         {/* FREQUENCY */}
         <div className={booking.formGroup}>
           <label className={booking.label}>
@@ -2348,7 +2400,7 @@ const Bookings: React.FC<BookingsProps> = ({
           </label>{" "}
         </div>
         <textarea
-          placeholder="Example:......."
+          placeholder="Please mention"
           className={booking.box}
           value={specialInstructions}
           onChange={(e) => setSpecialInstructions(e.target.value)}
@@ -2358,7 +2410,3 @@ const Bookings: React.FC<BookingsProps> = ({
   );
 };
 export default Bookings;
-function setSofaUnitPrice(unitPrice: any) {}
-function setSofaUnit(unit: any) {}
-function setWithSuppliesPrice(price: any) {}
-function setDuct(price: any) {}

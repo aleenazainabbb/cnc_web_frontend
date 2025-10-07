@@ -129,7 +129,6 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
 
             {/* </div> */}
             <div className={styles.directions}>
-              <span>Address: </span>
               <p>{appointmentLocation}</p>
             </div>
             <hr className={styles.lineFull} />
