@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import HeaderBar from '@/components/navbar/HeaderBar';
-import { NotificationItem } from '@/components/Notification/NotificationItem';
-import { getNotification } from '@/context/NotificationContext';
+import { useEffect, useState } from "react";
+import HeaderBar from "@/components/navbar/HeaderBar";
+import { NotificationItem } from "@/components/Notification/NotificationItem";
+import { getNotification } from "@/context/NotificationContext";
 
 import {
   CheckCircle,
@@ -11,7 +11,7 @@ import {
   Bell,
   UserCheck,
   XCircle,
-} from 'lucide-react';
+} from "lucide-react";
 
 type ApiNotification = {
   id: number;
@@ -33,20 +33,38 @@ type NotificationUI = {
 
 const getIconAndColor = (type: string) => {
   switch (type.toLowerCase()) {
-    case 'accepted':
-      return { icon: <CheckCircle size={20} color="#fff" />, iconBgColor: '#FF9800' };
-    case 'confirmed':
-      return { icon: <ShieldCheck size={20} color="#fff" />, iconBgColor: '#9C27B0' };
-    case 'assigned':
-      return { icon: <UserCheck size={20} color="#fff" />, iconBgColor: '#2196F3' };
-    case 'completed':
-      return { icon: <CheckCircle size={20} color="#fff" />, iconBgColor: '#4CAF50' };
-    case 'cancelled':
-      return { icon: <XCircle size={20} color="#fff" />, iconBgColor: '#F44336' };
-      case 'booking':
-      return { icon: <Bell size={20} color="#fff" />, iconBgColor: '#FF9800' };
-      default:
-      return { icon: <Bell size={20} color="#fff" />, iconBgColor: '#958383ff' };
+    case "accepted":
+      return {
+        icon: <CheckCircle size={20} color="#fff" />,
+        iconBgColor: "#FF9800",
+      };
+    case "confirmed":
+      return {
+        icon: <ShieldCheck size={20} color="#fff" />,
+        iconBgColor: "#9C27B0",
+      };
+    case "assigned":
+      return {
+        icon: <UserCheck size={20} color="#fff" />,
+        iconBgColor: "#2196F3",
+      };
+    case "completed":
+      return {
+        icon: <CheckCircle size={20} color="#fff" />,
+        iconBgColor: "#4CAF50",
+      };
+    case "cancelled":
+      return {
+        icon: <XCircle size={20} color="#fff" />,
+        iconBgColor: "#F44336",
+      };
+    case "booking":
+      return { icon: <Bell size={20} color="#fff" />, iconBgColor: "#FF9800" };
+    default:
+      return {
+        icon: <Bell size={20} color="#fff" />,
+        iconBgColor: "#958383ff",
+      };
   }
 };
 
@@ -66,7 +84,6 @@ function getRelativeTime(createdAt: string): string {
   return `${days} day${days > 1 ? "s" : ""} ago`;
 }
 
-
 export default function NotificationList() {
   const [notifications, setNotifications] = useState<NotificationUI[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,10 +98,9 @@ export default function NotificationList() {
 
           return {
             id: item.id,
-            
+
             title: item.type.charAt(0).toUpperCase() + item.type.slice(1),
 
-            
             description: item.message,
             time: getRelativeTime(item.createdAt),
 
@@ -96,7 +112,7 @@ export default function NotificationList() {
 
         setNotifications(mapped);
       } catch (error) {
-        console.error('Failed to load notifications:', error);
+        console.error("Failed to load notifications:", error);
       } finally {
         setLoading(false);
       }
@@ -109,7 +125,25 @@ export default function NotificationList() {
     return (
       <div>
         <HeaderBar title="Notification" />
-        <p style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</p>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <div
+            style={{
+              display: "inline-block",
+              width: "20px",
+              height: "20px",
+              border: "2px solid #f3f3f3",
+              borderTop: "2px solid #3498db",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
+          <style>{`
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  `}</style>
+        </div>
       </div>
     );
   }
@@ -118,12 +152,15 @@ export default function NotificationList() {
     return (
       <div className="notificationItem">
         <HeaderBar title="Notification" />
-        <div className="emptyState" style={{ textAlign: 'center', marginTop: '40px' }}>
+        <div
+          className="emptyState"
+          style={{ textAlign: "center", marginTop: "40px" }}
+        >
           <img
             src="/Images/no_notifications.png"
             alt="No notifications"
             className="emptyImage"
-            style={{ width: '150px', margin: '0 auto' }}
+            style={{ width: "150px", margin: "0 auto" }}
           />
           <h2>No Notifications</h2>
           <p>You’re all caught up! Check back later for updates.</p>
@@ -137,26 +174,25 @@ export default function NotificationList() {
       <HeaderBar title="Notification" />
       <div
         style={{
-          padding: '0 20px',
-          maxHeight: '88vh',
-          overflowY: 'auto',
+          padding: "0 20px",
+          maxHeight: "88vh",
+          overflowY: "auto",
         }}
       >
         {notifications.map((item) => (
           <div
             key={item.id}
             style={{
-              backgroundColor: item.read ? '#fff' : '#f3f4f6', // 👈 highlight unread
-              borderRadius: '10px',
-              marginBottom: '10px',
-              padding: '8px',
+              backgroundColor: item.read ? "#fff" : "#f3f4f6", // 👈 highlight unread
+              borderRadius: "10px",
+              marginBottom: "10px",
+              padding: "8px",
             }}
           >
             <NotificationItem {...item} />
           </div>
         ))}
       </div>
-      
     </div>
   );
 }

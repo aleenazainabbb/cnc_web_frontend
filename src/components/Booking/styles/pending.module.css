@@ -20,7 +20,7 @@
 /* pending.module.css */
 .tableScroll {
   width: 100%;
-  overflow-x: hi; /* ✅ horizontal scroll */
+
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
@@ -42,7 +42,7 @@
   display: grid;
   gap: 1rem;
   align-items: center;
-  grid-template-columns: repeat(8, minmax(120px, 1fr));
+  grid-template-columns: 1fr;
 }
 
 /* Default Grid Templates */
@@ -87,7 +87,7 @@
   padding: 8px 4px;
   font-size: 13px;
   font-family: "Public Sans", sans-serif;
-  border-bottom: 2px solid #e9e7fd;
+  border-bottom: 2px solid #9797acc3;
   font-weight: 500;
   width: 100%;
   /* max-width: 110%; */
@@ -95,7 +95,7 @@
 
 .row {
   color: #000000;
-  padding: 10px 4px;
+  padding: 10px 0px;
   font-size: 14px;
   font-family: "Roboto Flex", sans-serif;
   border-bottom: 1px solid #cfcfcf;
@@ -184,4 +184,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* if there is any issue arise remove this code*/
+
+@media (max-width: 400px) {
+  .rowHeader {
+    width: 340%;
+    border-bottom: 1px solid rgb(93, 90, 90); /* override on small screens */
+    font-size: 12px; /* optional: make text smaller for mobile */
+    padding: 6px 2px; /* tighter padding for small devices */
+  }
+
+  .row {
+    width: 340%;
+    border-bottom: 1px solid rgb(93, 90, 90); /* override on small screens */
+    font-size: 12px; /* optional: smaller font */
+    padding: 8px 2px; /* reduce padding so content fits */
+  }
+}
+
+@media (max-width: 500px) {
+  .rowHeader {
+    width: 340%;
+    border-bottom: 1px solid rgb(93, 90, 90); /* override on small screens */
+    font-size: 12px; /* optional: make text smaller for mobile */
+    padding: 6px 2px; /* tighter padding for small devices */
+  }
+
+  .row {
+    width: 340%;
+    border-bottom: 1px solid rgb(93, 90, 90); /* override on small screens */
+    font-size: 12px; /* optional: smaller font */
+    padding: 8px 2px; /* reduce padding so content fits */
+  }
 }

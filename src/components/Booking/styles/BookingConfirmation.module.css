@@ -13,10 +13,6 @@
   overflow: hidden;
 }
 
-.main {
-  position: fixed;
-  height: 800px;
-}
 .container {
   /* margin-top: 20px; */
   padding: 10px;
@@ -28,6 +24,7 @@
 
 .main {
   width: 100%;
+  height: 580px;
   max-width: 500.56px;
   max-height: 650px;
   border-top-left-radius: 30px;

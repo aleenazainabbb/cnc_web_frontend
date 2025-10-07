@@ -147,7 +147,6 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
       <div className={styles.container}>
         <div className={styles.tableScroll}>
           <div className={`${styles.gridContainer} ${styles.rowHeader}`}>
-            
             {headers.map((h, i) => (
               <div key={i}>{h}</div>
             ))}

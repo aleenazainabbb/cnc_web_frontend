@@ -693,7 +693,11 @@ const MessageBox: React.FC = () => {
             <div className={styles.welcomeIllustration}>💬</div>
             <h2>Welcome to Messages</h2>
             <p>Select a conversation or start a new one to begin chatting</p>
-            <button className={styles.startChatButton} onClick={undefined}>
+            <button
+              className={styles.startChatButton}
+              disabled={hasSentMessage && chatStatus !== "closed"}
+              onClick={() => startSupportChat("Hello, I need assistance")}
+            >
               Start a conversation
             </button>
           </div>

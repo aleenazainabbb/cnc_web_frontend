@@ -1,39 +1,48 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
-import test from './styles/test.module.css';
+import test from "./styles/test.module.css";
 import Image from "next/image";
-import LinkWithLoader from '@/components/Loader/Link';
+import LinkWithLoader from "@/components/Loader/Link";
 import { useRouter } from "next/navigation";
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../context/AuthContext";
-import Snackbar from '../popups/Snackbar';
+import Snackbar from "../popups/Snackbar";
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { loginUser } = useAuth();
   const router = useRouter();
-  const [snackbar, setSnackbar] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [snackbar, setSnackbar] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const handleLogin = async () => {
     setError(null);
     // Only check if email and password are filled
     if (!email || !password) {
-      setSnackbar({ message: 'Please fill in both email and password.', type: 'error' });
+      setSnackbar({
+        message: "Please fill in both email and password.",
+        type: "error",
+      });
       return;
     }
     setLoading(true);
     try {
       await loginUser(email, password);
-      setSnackbar({ message: 'Login successful!', type: 'success' });
-      router.push('/Bookings/Dashboard');
+      setSnackbar({ message: "Login successful!", type: "success" });
+      router.push("/Bookings/Dashboard");
     } catch (err: any) {
       // setError(err.message || 'Login failed. Please try again.');
-      setSnackbar({ message: err.message || 'Login failed. Please try again.', type: 'error' });
+      setSnackbar({
+        message: err.message || "Login failed. Please try again.",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -54,24 +63,22 @@ const Login: React.FC = () => {
       <div className={test.main}>
         <div className={test.container}>
           <div className={test.box}>
-          <div className={test.row}>
-            {/* logo */}
-            <Image
-              src="/images/carelogo.svg"
-              alt="CarenClean"
-              width={73}
-              height={57}
-            />
-            {/* button */}
-            <LinkWithLoader href="/" className={test.backButton}>
-              <span className={test.backsign}>&lt;</span> Back
-            </LinkWithLoader>
-
-          </div>
-          {/* <div className={test.box}> */}
+            <div className={test.row}>
+              {/* logo */}
+              <Image
+                src="/images/carelogo.svg"
+                alt="CarenClean"
+                width={73}
+                height={57}
+              />
+              {/* button */}
+              <LinkWithLoader href="/" className={test.backButton}>
+                <span className={test.backsign}>&lt;</span> Back
+              </LinkWithLoader>
+            </div>
+            {/* <div className={test.box}> */}
             <h1 className={test.title}>Log in with email</h1>
             <div style={{ display: "flex", flexDirection: "column" }}>
-
               {/* Email Address */}
               <label className={test.label}>Email Address</label>
               <input
@@ -96,17 +103,25 @@ const Login: React.FC = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className={test.icon}
                 >
-                  {showPassword ? <EyeIcon style={{ width: 18 }} /> : <EyeSlashIcon style={{ width: 18 }} />}
+                  {showPassword ? (
+                    <EyeIcon style={{ width: 18 }} />
+                  ) : (
+                    <EyeSlashIcon style={{ width: 18 }} />
+                  )}
                 </div>
               </div>
 
               {/* minilabel */}
               <label className={test.minilabel}>
-                <LinkWithLoader href="/ForgetPassword/forgetpassword">FORGOT PASSWORD?</LinkWithLoader>
+                <LinkWithLoader href="/ForgetPassword/forgetpassword">
+                  FORGOT PASSWORD?
+                </LinkWithLoader>
               </label>
 
               {/* Show error message */}
-              {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+              {error && (
+                <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+              )}
 
               {/* button */}
               <button
@@ -114,7 +129,7 @@ const Login: React.FC = () => {
                 onClick={handleLogin}
                 disabled={loading}
               >
-                {loading ? 'Loading...' : 'LOGIN NOW'}
+                {loading ? "Loading..." : "LOGIN NOW"}
               </button>
 
               <div>
