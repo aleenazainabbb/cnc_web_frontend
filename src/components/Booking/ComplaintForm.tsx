@@ -211,30 +211,35 @@ const ComplaintForm = () => {
                   const bookingId = e.target.value;
                   setOrderId(bookingId);
 
-                  const selectedOrder = allOrdersObject?.find(
-                    (order: any) => order.bookingId === bookingId
+                  const selectedOrder = allOrdersObject.find(
+                    (order) => order.bookingId === bookingId
                   );
+
                   console.log("complaint order id", selectedOrder);
+
                   const serviceLabel =
                     selectedOrder?.subSubService ||
+                    selectedOrder?.subService ||
                     selectedOrder?.service ||
                     "-";
+
                   setSelectedService(serviceLabel);
                 }}
                 className={styles.formInput}
                 disabled={ordersLoading}
               >
                 <option value="">-- Select Order --</option>
-                {allOrdersObject?.map((order: any, index: number) => {
+                {allOrdersObject.map((order, index) => {
                   const serviceLabel =
+                    order.subSubService ||
                     order.subService ||
-                    order.subSubService || [
-                      order.service && order.subService,
-                    ] ||
+                    order.service ||
                     "-";
+
                   const dateLabel = order.createdAt
                     ? new Date(order.createdAt).toLocaleDateString()
                     : "-";
+
                   return (
                     <option key={index} value={order.bookingId}>
                       {order.bookingId} - {serviceLabel} - {dateLabel}

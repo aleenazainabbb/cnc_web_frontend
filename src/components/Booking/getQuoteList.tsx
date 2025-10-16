@@ -38,115 +38,117 @@ const QuoteList: React.FC = () => {
 
   return (
     <div className={styles.margin}>
-    <div className={styles.main}>
-      <div className={styles.containers}>
-        {/* Add Quote Button */}
-        <div className={profile.quotesbuttonContainer}>
-          <button 
-          style={{marginBottom: '10px'}}
-          className={profile.quote_button} onClick={handleOpen}>
-            Add a Quote
-          </button>
-        </div>
+      <div className={styles.main}>
+        <div className={styles.containers}>
+          {/* Add Quote Button */}
+          <div className={profile.quotesbuttonContainer}>
+            <button
+              style={{ marginBottom: "10px" }}
+              className={profile.quote_button}
+              onClick={handleOpen}
+            >
+              Add a Quote
+            </button>
+          </div>
 
-        {/* Loading/Error */}
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-600">Error: {error}</p>}
+          {/* Loading/Error */}
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-600">Error: {error}</p>}
 
-        {/* Grid Header */}
-        {!loading && !error && quotes.length > 0 && (
-          <>
-            {" "}
-            <div className={styles.scrollContainerQuotes}>
-              <div
-                className={`${styles.gridContainerQuotes} ${styles.rowHeader}`}
-              >
-                {headers.map((h, i) => (
-                  <div key={i}>{h}</div>
+          {/* Grid Header */}
+          {!loading && !error && quotes.length > 0 && (
+            <>
+              {" "}
+              <div className={styles.scrollContainerQuotes}>
+                <div
+                  className={`${styles.gridContainerQuotes} ${styles.rowHeader}`}
+                >
+                  {headers.map((h, i) => (
+                    <div key={i}>{h}</div>
+                  ))}
+                </div>
+
+                {/* Scrollable Quote List */}
+
+                {visibleQuotes.map((q, index) => (
+                  <div
+                    key={q.id || index}
+                    className={`${styles.gridContainerQuotes} ${styles.row}`}
+                  >
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.name || q.customer}
+                    </div>
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.email}
+                    </div>
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.phone}
+                    </div>
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.service || "-"}
+                    </div>
+
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.uploadImage ? (
+                        <>
+                          <div className="text-gray-500 truncate"></div>
+                          <a
+                            href={`${server}/${q.uploadImage}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline text-xs"
+                          >
+                            View More
+                          </a>
+                        </>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+
+                    {/* File View More */}
+                    <div className="break-words whitespace-pre-wrap text-sm">
+                      {q.leadUploadFile ? (
+                        <>
+                          <div className="text-gray-500 truncate"></div>
+                          <a
+                            href={`${server}/${q.leadUploadFile}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline text-xs"
+                          >
+                            View More
+                          </a>
+                        </>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
+              {/* Pagination */}
+              <Pagination
+                totalItems={quotes.length}
+                defaultPerPage={perPage}
+                onChange={handlePaginationChange}
+              />
+            </>
+          )}
 
-              {/* Scrollable Quote List */}
-
-              {visibleQuotes.map((q, index) => (
-                <div
-                  key={q.id || index}
-                  className={`${styles.gridContainerQuotes} ${styles.row}`}
-                >
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.name || q.customer}
-                  </div>
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.email}
-                  </div>
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.phone}
-                  </div>
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.service || "-"}
-                  </div>
-
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.uploadImage ? (
-                      <>
-                        <div className="text-gray-500 truncate"></div>
-                        <a
-                          href={`${server}/${q.uploadImage}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline text-xs"
-                        >
-                          View More
-                        </a>
-                      </>
-                    ) : (
-                      "-"
-                    )}
-                  </div>
-
-                  {/* File View More */}
-                  <div className="break-words whitespace-pre-wrap text-sm">
-                    {q.leadUploadFile ? (
-                      <>
-                        <div className="text-gray-500 truncate"></div>
-                        <a
-                          href={`${server}/${q.leadUploadFile}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline text-xs"
-                        >
-                          View More
-                        </a>
-                      </>
-                    ) : (
-                      "-"
-                    )}
-                  </div>
-                </div>
-              ))}
+          {/* Quote Popup Form */}
+          {showPopup && (
+            <div className={profile.popupOverlay}>
+              <div className={profile.popupContent}>
+                <button className={profile.popupClose} onClick={handleClose}>
+                  ×
+                </button>
+                <MyQuotes />
+              </div>
             </div>
-            {/* Pagination */}
-            <Pagination
-              totalItems={quotes.length}
-              defaultPerPage={perPage}
-              onChange={handlePaginationChange}
-            />
-          </>
-        )}
-
-        {/* Quote Popup Form */}
-        {showPopup && (
-          <div className={profile.popupOverlay}>
-            <div className={profile.popupContent}>
-              <button className={profile.popupClose} onClick={handleClose}>
-                ×
-              </button>
-              <MyQuotes />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

@@ -69,11 +69,11 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-      const date = new Date(row[5]);
-      const start = range[0].startDate!;
-      const end = range[0].endDate!;
-      return date >= start && date <= end;
-    })
+        const date = new Date(row[5]);
+        const start = range[0].startDate!;
+        const end = range[0].endDate!;
+        return date >= start && date <= end;
+      })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -146,9 +146,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
       <RangeFilter range={range} setRange={setRange} />
       <div className={styles.container}>
         <div className={styles.tableScroll}>
-          {/* Header Row */}
           <div className={`${styles.gridContainer} ${styles.rowHeader}`}>
-            
             {headers.map((h, i) => (
               <div key={i}>{h}</div>
             ))}
@@ -212,8 +210,6 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
           defaultPerPage={perPage}
           onChange={handlePaginationChange}
         />
-
-
       </div>
 
       {/* Payment Modal */}
@@ -258,10 +254,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
           </div>
         </div>
       )}
-
     </div>
-
-
   );
 };
 

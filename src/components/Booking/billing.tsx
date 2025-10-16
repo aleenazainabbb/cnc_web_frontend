@@ -13,6 +13,7 @@ type BillingSummaryProps = {
   selectedService?: string;
   buttonLabel?: string;
   bookingId?: string;
+  resetTrigger?: boolean;
 };
 
 const BillingSummary: React.FC<BillingSummaryProps> = ({
@@ -20,8 +21,8 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   onNext,
   setServiceError,
   buttonLabel = "Next",
+  resetTrigger = false,
 }) => {
-  // const { billingData, updateBookingData, validateBooking,submitBookingQuote, updateBookingOrder,formErrors } = useBooking();
   const {
     billingData,
     updateBookingData,
@@ -42,26 +43,44 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
   const [discountInput, setDiscountInput] = useState(discountAmount);
   const [showLocationList, setShowLocationList] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState<string>("");
 
   const handleNextClick = async () => {
-    // if (!validateBooking()) {
-    //   setServiceError?.(true);
-    //   return;
-    // }
-    // setServiceError?.(false);
-
     try {
-      //  call API only when the button label is "Pay Now"
       if (buttonLabel === "Pay Now") {
-        // await updateBookingOrder(bookingId!);
         console.log("Booking quote submitted successfully");
       }
-
-      onNext?.(); // let parent handle the next popup or step
+      onNext?.();
     } catch (err: any) {
       console.error("Booking submission failed:", err.message);
     }
   };
+
+  // Update current date time when component mounts or resetTrigger changes
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+
+      // If appointmentTime exists from DateTime component, use it directly
+      if (appointmentTime) {
+        setCurrentDateTime(appointmentTime);
+      } else {
+        // Otherwise format as regular date time
+        const formatted = now.toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+        setCurrentDateTime(formatted);
+      }
+    };
+
+    updateDateTime();
+  }, [resetTrigger, appointmentTime]); // Re-run when appointmentTime changes
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -117,19 +136,9 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     billingData.discountCode,
   ]);
 
-  const formattedNow = useMemo(() => {
-    return new Date().toLocaleString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-  }, []);
+  // Use appointmentTime directly if it exists, otherwise use currentDateTime
+  const displayAppointmentTime = appointmentTime || currentDateTime;
 
-  const displayAppointmentTime = appointmentTime?.trim() || formattedNow;
   const subtotal = Math.max(0, appointmentValue - discountAmount);
 
   return (
@@ -138,7 +147,20 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
       <div className={styles.appointmentcard}>
         <div className={styles.appointmentrow}>
-          <p className={styles.appointmentfrequency}>{appointmentFrequency}</p>
+          <p className={styles.appointmentfrequency}>
+            {appointmentFrequency}
+            {appointmentFrequency === "Once" && displayAppointmentTime && (
+              <span
+                style={{
+                  color: "#007bff",
+                  fontWeight: "bold",
+                  marginLeft: "8px",
+                }}
+              >
+                • {displayAppointmentTime}
+              </span>
+            )}
+          </p>
         </div>
         <div className={styles.divider}></div>
         <div className={styles.locationRow}>
@@ -147,42 +169,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
         <div className={styles.divider}></div>
       </div>
-      {/* 
-      <div className={styles.pricingbox}>
-        <div className={styles.pricingrow}>
-          <span>
-            Appointment Value{" "}
-            <span className={styles.detailslink}>- Details</span>
-          </span>
-          <span className={styles.totalvalue}>
-            AED {appointmentValue.toFixed(2)}
-          </span>
-        </div>
-        <div className={styles.pricingrow}>
-          <span>
-            Discounts <span className={styles.detailslink}>- Details</span>
-          </span>
-          <span className={styles.totalvalue}>
-            - AED {discountAmount.toFixed(2)}
-          </span>
-        </div>
-        <div className={styles.divider} style={{ marginTop: "10px" }}></div>
-        <div className={styles.subtotalrow}>
-          <span>Subtotal</span>
-          <span className={styles.totalvalue}>AED {subtotal.toFixed(2)}</span>
-        </div>
-        <div className={styles.taxrow}>
-          <span>Tax</span>
-          <span className={styles.totalvalue}>
-            + AED {taxAmount.toFixed(2)}
-          </span>
-        </div>
-        <div className={styles.divider} style={{ marginTop: "17px" }}></div>
-        <div className={styles.totalrow}>
-          <span>Total</span>
-          <span>AED {totalAmount.toFixed(2)}</span>
-        </div>
-      </div> */}
+
       <BillingPricesBox />
       <div className={styles.buttoncontainer}>
         <button onClick={handleNextClick} className={styles.nextbutton}>

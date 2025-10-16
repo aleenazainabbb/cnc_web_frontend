@@ -163,9 +163,24 @@
     transition: transform 0.3s ease-in;
   }
 
+  .sidebarContent {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0px;
+    gap: 0px;
+  }
   .sidebar:not(.sidebarClosed) {
     width: 150px !important; /* Open width when toggled */
     transform: translateX(0);
+  }
+  .iconText {
+    display: flex; /* or grid */
+    align-items: center;
+    gap: 0px;
+    font-size: 14px;
+    margin-top: 2px;
   }
 
   /* Push the main content when sidebar is open */

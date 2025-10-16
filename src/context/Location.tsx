@@ -137,9 +137,10 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err: any) {
       console.error("Fetch saved locations failed:", err.message);
+      // Show "Server is down" in Snackbar
+      setSnackbar({ type: "error", message: "Server is down" });
     }
   };
-
   const deleteLocation = async (id: number): Promise<SaveLocationResponse> => {
     try {
       const token = localStorage.getItem("token");
@@ -196,3 +197,6 @@ export const useLocation = () => {
     throw new Error("useLocation must be used inside LocationProvider");
   return context;
 };
+function setSnackbar(arg0: { type: string; message: string }) {
+  throw new Error("Function not implemented.");
+}

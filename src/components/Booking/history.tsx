@@ -14,7 +14,7 @@ interface HistoryProps {
   data: string[][];
 }
 
-const History: React.FC<HistoryProps> = ({ range:initialRange, data }) => {
+const History: React.FC<HistoryProps> = ({ range: initialRange, data }) => {
   const [range, setRange] = useState<Range[]>(initialRange);
 
   const headers = [
@@ -33,33 +33,32 @@ const History: React.FC<HistoryProps> = ({ range:initialRange, data }) => {
 
   // filter rows by date
   const filteredRows = React.useMemo(() => {
-  const startDate = range?.[0]?.startDate;
-  const endDate = range?.[0]?.endDate;
+    const startDate = range?.[0]?.startDate;
+    const endDate = range?.[0]?.endDate;
 
-  if (!startDate || !endDate) {
-    return data;
-  }
+    if (!startDate || !endDate) {
+      return data;
+    }
 
-// ✅ also: if start == end (only one day), widen it
-if (startDate.getTime() === endDate.getTime()) {
-  return data;
-}
-  return data.filter((row) => {
-    // Try parsing row[5] safely
-    const rowDate = new Date(row[5]);
+    // ✅ also: if start == end (only one day), widen it
+    if (startDate.getTime() === endDate.getTime()) {
+      return data;
+    }
+    return data.filter((row) => {
+      // Try parsing row[5] safely
+      const rowDate = new Date(row[5]);
 
-    // If invalid, skip
-    if (isNaN(rowDate.getTime())) return false;
+      // If invalid, skip
+      if (isNaN(rowDate.getTime())) return false;
 
-    // Normalize all dates to YYYY-MM-DD (ignore time)
-    const rowDay = rowDate.setHours(0, 0, 0, 0);
-    const startDay = startDate.setHours(0, 0, 0, 0);
-    const endDay = endDate.setHours(0, 0, 0, 0);
+      // Normalize all dates to YYYY-MM-DD (ignore time)
+      const rowDay = rowDate.setHours(0, 0, 0, 0);
+      const startDay = startDate.setHours(0, 0, 0, 0);
+      const endDay = endDate.setHours(0, 0, 0, 0);
 
-    return rowDay >= startDay && rowDay <= endDay;
-  });
-}, [range, data]);
-
+      return rowDay >= startDay && rowDay <= endDay;
+    });
+  }, [range, data]);
 
   // pagination
   const start = (currentPage - 1) * perPage;
@@ -73,59 +72,60 @@ if (startDate.getTime() === endDate.getTime()) {
 
   return (
     <div className={styles.main}>
-     <RangeFilter range={range} setRange={setRange} />  
+      <RangeFilter range={range} setRange={setRange} />
       <div className={styles.container}>
-        <div className={styles.tableScroll}>
-        {/* Header row */}
-        <div className={`${styles.gridContainerHistory} ${styles.rowHeader}`}>
-          {headers.map((h, i) => (
-            <div key={i}>{h}</div>
-          ))}
-        </div>
-
-        {/*  Scrollable rows */}
         <div className={styles.scrollContainer}>
-          {rows.map((row, ri) => (
+          <div className={styles.tableScroll}>
+            {/* Header row */}
             <div
-              key={ri}
-              className={`${styles.gridContainerHistory} ${styles.row}`}
+              className={`${styles.gridContainerHistory} ${styles.rowHeader}`}
             >
-              {row.map((cell, ci) => {
-                if (ci === 7) return null; // Skip the last column here (bookingPaymentStatus)
-                if (ci === 6) {
-                  // STATUS button
-                  const status = cell.trim().toLowerCase();
-                  return (
-                    <div key={ci}>
-                      <button
-                        className={styles.statusButton}
-                        style={{
-                          borderColor: getStatusColor(status),
-                          color: getStatusColor(status),
-                        }}
-                      >
-                        {cell}
-                      </button>
-                    </div>
-                  );
-                } else {
-                  return <div key={ci}>{cell}</div>;
-                }
-              })}
-
-              {/* Last column: Reschedule button */}
-              <div>
-                <LinkWithLoader
-                  className={styles.rescheduleButton}
-                  href="/BookAservicePage"
-                >
-                  Reschedule
-                </LinkWithLoader>
-              </div>
+              {headers.map((h, i) => (
+                <div key={i}>{h}</div>
+              ))}
             </div>
-          ))}
+
+            {rows.map((row, ri) => (
+              <div
+                key={ri}
+                className={`${styles.gridContainerHistory} ${styles.row}`}
+              >
+                {row.map((cell, ci) => {
+                  if (ci === 7) return null; // Skip the last column here (bookingPaymentStatus)
+                  if (ci === 6) {
+                    // STATUS button
+                    const status = cell.trim().toLowerCase();
+                    return (
+                      <div key={ci}>
+                        <button
+                          className={styles.statusButton}
+                          style={{
+                            borderColor: getStatusColor(status),
+                            color: getStatusColor(status),
+                          }}
+                        >
+                          {cell}
+                        </button>
+                      </div>
+                    );
+                  } else {
+                    return <div key={ci}>{cell}</div>;
+                  }
+                })}
+
+                {/* Last column: Reschedule button */}
+                <div>
+                  <LinkWithLoader
+                    className={styles.rescheduleButton}
+                    href="/BookAservicePage"
+                  >
+                    Reschedule
+                  </LinkWithLoader>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-         </div>
         {/* Pagination */}
         <Pagination
           totalItems={filteredRows.length}

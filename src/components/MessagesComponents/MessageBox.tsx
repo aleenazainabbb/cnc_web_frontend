@@ -210,6 +210,8 @@ const MessageBox: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
   const isSending = contextIsSending || localIsSending;
 
@@ -228,15 +230,77 @@ const MessageBox: React.FC = () => {
     }
   };
 
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  }, [activeConversation?.messages]);
+  // Check if user is near the bottom of the chat
+  const isNearBottom = (element: HTMLElement, threshold = 100) => {
+    const { scrollTop, scrollHeight, clientHeight } = element;
+    return scrollTop + clientHeight >= scrollHeight - threshold;
+  };
 
-  // Deduplicate messages - prevent showing the same message twice
+  // Smart scroll function
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior,
+      });
+    }
+  };
+
+  // Handle scroll events to detect user interaction
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return;
+
+    const container = messagesContainerRef.current;
+
+    if (isNearBottom(container)) {
+      // User is near bottom, enable auto-scroll
+      setIsUserScrolling(false);
+      setShouldAutoScroll(true);
+    } else {
+      // User is scrolling up, disable auto-scroll
+      setIsUserScrolling(true);
+      setShouldAutoScroll(false);
+    }
+  };
+
+  // Scroll to bottom when appropriate
+  useEffect(() => {
+    if (!messagesContainerRef.current || !activeConversation?.messages) return;
+
+    const container = messagesContainerRef.current;
+    const messages = activeConversation.messages;
+
+    // Always scroll to bottom on initial load or when switching conversations
+    if (messages.length > 0 && shouldAutoScroll) {
+      const lastMessage = messages[messages.length - 1];
+      const isNewMessage =
+        lastMessage.direction === "incoming" || lastMessage.isSent === false;
+
+      if (isNewMessage || !isUserScrolling) {
+        // Use immediate scroll for initial load, smooth for new messages
+        const behavior = container.scrollHeight === 0 ? "auto" : "smooth";
+        scrollToBottom(behavior);
+      }
+    }
+  }, [
+    activeConversation?.messages,
+    conversationId,
+    shouldAutoScroll,
+    isUserScrolling,
+  ]);
+
+  // Reset auto-scroll when conversation changes
+  useEffect(() => {
+    setShouldAutoScroll(true);
+    setIsUserScrolling(false);
+  }, [conversationId]);
+
+  // Auto-enable scroll when user sends a message
+  useEffect(() => {
+    if (messageText.trim() || selectedFiles.length > 0) {
+      setShouldAutoScroll(true);
+    }
+  }, [messageText, selectedFiles]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -279,6 +343,9 @@ const MessageBox: React.FC = () => {
       setMessageText("");
       setSelectedFiles([]);
       if (fileInputRef.current) fileInputRef.current.value = "";
+
+      // Enable auto-scroll after sending
+      setShouldAutoScroll(true);
     } catch (err) {
       console.error("Failed to send message:", err);
     } finally {
@@ -511,6 +578,7 @@ const MessageBox: React.FC = () => {
             <div
               className={styles.messagesContainer}
               ref={messagesContainerRef}
+              onScroll={handleScroll}
             >
               {activeConversation.messages?.length ? (
                 getUniqueMessages(activeConversation.messages).map(
@@ -625,7 +693,11 @@ const MessageBox: React.FC = () => {
             <div className={styles.welcomeIllustration}>💬</div>
             <h2>Welcome to Messages</h2>
             <p>Select a conversation or start a new one to begin chatting</p>
-            <button className={styles.startChatButton} onClick={undefined}>
+            <button
+              className={styles.startChatButton}
+              disabled={hasSentMessage && chatStatus !== "closed"}
+              onClick={() => startSupportChat("Hello, I need assistance")}
+            >
               Start a conversation
             </button>
           </div>
