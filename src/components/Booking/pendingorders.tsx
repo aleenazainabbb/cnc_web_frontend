@@ -199,7 +199,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
                     </button>
                   ) : (
                     <button className={styles.payNowButton} disabled>
-                      {paymentStatus === "none" ? "Pay Now" : "Paid"}
+                      {paymentStatus === "none" ? "Paid" : "Paid"}
                     </button>
                   )}
                 </div>

@@ -108,6 +108,12 @@ export default function Sidebar() {
       color: "#06B6D4",
       text: "Message",
       path: "/Bookings/Message",
+    },{
+      href: "/Bookings/COPYandPAYPayment",
+      icon: "fa-envelope",
+      color: "#88d406ff",
+      text: "COPYandPAYPayment",
+      path: "/Bookings/COPYandPAYPayment",
     },
   ];
 

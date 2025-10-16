@@ -405,13 +405,6 @@ export const BookingProvider = ({
 
       formData.append("cleaningCategory", bookingData.cleaningCategory || "");
       formData.append("cleaningType", bookingData.cleaningType || "");
-
-      // formData.append("totalPrice", billingData.appointmentValue.toString());
-      // formData.append("discountPrice", billingData.discountAmount.toString());
-      // formData.append("cncChargesExclVat", billingData.subTotal.toString());
-      // formData.append("VAT", billingData.taxAmount.toString());
-      // formData.append("promoCode", billingData.discountCode || "");
-      // formData.append("cncChargesInclVat", billingData.totalAmount.toString());
       formData.append("payment", bookingData.payment || "");
 
       bookingData.uploadedMedia?.forEach((fileObj) => {
@@ -498,21 +491,6 @@ export const BookingProvider = ({
           if (isVideo) formData.append("videos", fileObj.file);
         }
       });
-
-      // formData.append("anyPets",latestLocation?.pets === "yes" ? "true" : "false" );
-      // formData.append("petsInfo", latestLocation?.petDetails || "");
-      // formData.append("petsAdditionalNotes",latestLocation?.additionalNotes || "");
-      // formData.append("preferredCleaner", selected?.preferredCleaner || "");
-      // formData.append("cleaningFrequency", bookingData.frequency || "");
-      // formData.append("cleaningMaterial",bookingData.cleaningMaterials === "yes" ? "true" : "false");
-      // formData.append("additionalNotes", bookingData.specialInstructions || "");
-      // formData.append("numberOfWindows", bookingData.numberOfWindows || "");
-      // formData.append("squareFeet", bookingData.squareFootage || "");
-      // formData.append("numberOfItems", bookingData.numberOfItems || "");
-      // formData.append("make", bookingData.make || "");
-      // formData.append("model", bookingData.model || "");
-      // formData.append("variant", bookingData.variant || "");
-      // formData.append("cleaningCategory", bookingData.cleaningCategory || "");
 
       const response = await fetch(`${apiUrl}/bookingOrder/create`, {
         method: "POST",
@@ -642,58 +620,17 @@ export const BookingProvider = ({
         order.BookingStatus || "Completed",
         order.bookingPaymentStatus || "none",
       ]);
-// console.log("All statuses:", allOrders.map(o => o[6]));
-console.log("API raw response:", result);        // full response
-console.log("Orders from API:", result.data);    // check data array
-console.log("Mapped order rows:", orderRows);
-console.log("All statuses:", orderRows.map(o => o[6]));
-
 
       // Save both in state
       setAllOrders(orderRows); // for UI table
       setAllOrdersObject(sortedOrders); // original objects for detail view or API logic
-      
+
     } catch (error: any) {
       console.error("Order fetch failed:", error.message);
     } finally {
       setOrdersLoading(false);
-      
-
     }
   };
-
-  // // Update custom booking order
-  // const updateBookingOrder = async (id: string) => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) throw new Error("No token found");
-
-  //     const formData = new FormData();
-  //     formData.append("totalPrice", billingData.appointmentValue.toString());
-  //     formData.append("discountPrice", billingData.discountAmount.toString());
-  //     formData.append("cncChargesExclVat", billingData.subTotal.toString());
-  //     formData.append("VAT", billingData.taxAmount.toString());
-  //     formData.append("promoCode", billingData.discountCode || "");
-  //     formData.append("cncChargesInclVat", billingData.totalAmount.toString());
-  //     formData.append("payment", bookingData.payment || "");
-  //     formData.append("bookingPaymentStatus" , bookingData.bookingPaymentStatus || "complete");
-
-  //     const response = await fetch(`${apiUrl}/booking/edit/${id}`, {
-  //       method: "PUT",
-  //       headers: { Authorization: `Bearer ${token}` },
-  //       body: formData,
-  //     });
-
-  //     const result = await response.json();
-  //     if (!response.ok) throw new Error(result.message || "Update failed");
-  //     return result;
-  //   } catch (e) {
-  //     console.error("Update booking error:", e);
-  //     throw e;
-  //   }
-  // };
-
-  // --- Enhanced Deep Cleaning API call ---
 
   // Update custom booking order as JSON
   const updateBookingOrder = async (id: string) => {
