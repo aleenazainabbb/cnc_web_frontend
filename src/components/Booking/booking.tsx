@@ -2261,12 +2261,12 @@ const Bookings: React.FC<BookingsProps> = ({
           </>
         )}
         {/* COUPON SECTION */}
-        {/* COUPON SECTION */}
         {[
           "Maid Services / General Services",
           "Deep Cleaning",
           "Upholstery Cleaning",
           "Duct Cleaning",
+          "Grease Trap Cleaning",
         ].includes(selectedSubService.trim()) &&
           !(
             selectedSubService.trim() === "Deep Cleaning" &&
