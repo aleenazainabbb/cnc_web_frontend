@@ -25,7 +25,7 @@ type UploadedMediaItem = {
   file: File; // File object included
 };
 
-type BookingData = {
+export type BookingData = {
   id?: string;
   service?: string;
   subService?: string;

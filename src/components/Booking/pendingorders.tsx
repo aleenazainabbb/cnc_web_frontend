@@ -51,6 +51,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<string[] | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
+  const [showBilling, setShowBilling] = useState(false);
 
   const {
     updateBookingData,
@@ -69,11 +70,11 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-        const date = new Date(row[5]);
-        const start = range[0].startDate!;
-        const end = range[0].endDate!;
-        return date >= start && date <= end;
-      })
+      const date = new Date(row[5]);
+      const start = range[0].startDate!;
+      const end = range[0].endDate!;
+      return date >= start && date <= end;
+    })
     : allRows;
 
   const start = (currentPage - 1) * perPage;
@@ -196,8 +197,8 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
                       Pay Now
                     </button>
                   ) : (
-                    <button className={styles.payNowButton} disabled>
-                      {paymentStatus === "none" ? "Paid" : "Paid"}
+                    <button className={styles.payNowButton} disabled >
+                      {paymentStatus === "none" ? "unpaid" : "paid"}
                     </button>
                   )}
                 </div>
@@ -216,31 +217,42 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
       {showModal && (
         <div className={wallet.modalOverlay}>
           <div className={wallet.modal}>
-            <button
-              className={wallet.close}
-              onClick={() => setShowModal(false)}
-            >
+            <button className={wallet.close} onClick={() => setShowModal(false)}>
               ×
             </button>
+
             <div className={styles.componentRow}>
-              <PaymentDetails />
-              <div className={styles.billingCenter}>
-                <BillingSummary
-                  buttonLabel="Pay Now"
-                  onNext={async () => {
-                    try {
-                      // ORDER ID is at index 0
-                      const id = selectedOrder?.id || selectedOrder?.bookingId;
-                      if (!id) throw new Error("No booking selected");
-                      await updateBookingOrder(id);
-                      setShowModal(false);
-                      setShowConfirm(true);
-                    } catch (err) {
-                      console.error("Pay Now failed:", err);
-                    }
-                  }}
-                />
-              </div>
+              {!showBilling ? (
+                <>
+                  <PaymentDetails />
+                  <div className={styles.billingCenter}>
+                    <button
+                      className={styles.button}
+                      onClick={() => setShowBilling(true)}
+                    >
+                      Show Billing Summary
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.billingCenter}>
+                  <BillingSummary
+                    // buttonLabel="Next"
+                    onNext={async () => {
+                      try {
+                        const id = selectedOrder?.id || selectedOrder?.bookingId;
+                        if (!id) throw new Error("No booking selected");
+                        await updateBookingOrder(id);
+                        setShowModal(false);
+                        setShowConfirm(true);
+                      } catch (err) {
+                        console.error("Pay Now failed:", err);
+                      }
+                    }}
+                  />
+
+                </div>
+              )}
             </div>
           </div>
         </div>

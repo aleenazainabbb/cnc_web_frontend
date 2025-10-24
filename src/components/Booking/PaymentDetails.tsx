@@ -85,12 +85,12 @@ const PaymentDetails: React.FC = () => {
         </div>
       </div>
 
-      <h2 className={payment.title}>Payment Details</h2>
+      {/* <h2 className={payment.title}>Payment Details</h2>
       <p className={payment.paymentSubtext}>
         Add in your payment details through our secure gateway
-      </p>
+      </p> */}
 
-      <form className={payment.form}>
+      {/* <form className={payment.form}>
         <div>
           <label className={payment.formlabel}>
             CREDIT CARD
@@ -165,7 +165,7 @@ const PaymentDetails: React.FC = () => {
             </div>
           </label>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };

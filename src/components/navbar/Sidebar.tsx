@@ -112,7 +112,7 @@ export default function Sidebar() {
       href: "/Bookings/COPYandPAYPayment",
       icon: "fa-envelope",
       color: "#88d406ff",
-      text: "COPYandPAYPayment",
+      text: "Add Payment",
       path: "/Bookings/COPYandPAYPayment",
     },
   ];

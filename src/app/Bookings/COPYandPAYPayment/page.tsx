@@ -1,13 +1,13 @@
 "use client";
 
-// import HeaderBar from "@/components/navbar/HeaderBar";
-import COPYandPAYPayment from "@/components/Booking/COPYandPAYPayment/COPYandPAYP";
+import PaymentPage from "@/components/Booking/COPYandPAYPayment/COPYandPAYP";
+import HeaderBar from "@/components/navbar/HeaderBar";
 
 export default function RequestPage() {
   return (
     <>
-      {/* <HeaderBar title="COPY and PAYMENT" /> */}
-      <COPYandPAYPayment/>
+       <HeaderBar title="Add Payment" />
+      <PaymentPage/>
     </>
   );
 }
