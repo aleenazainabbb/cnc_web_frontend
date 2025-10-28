@@ -13,7 +13,7 @@ import type { BookingData } from "@/context/BookingContext";
 interface BookingConfirmationProps {
   onClose: () => void;
 }
- interface BookingContextType {
+interface BookingContextType {
   BookingData: BookingData;
   // billingData: BillingData;
 }
@@ -26,12 +26,12 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const { bookingData, billingData } = useBooking();
 
- 
-const value = {
-  bookingData,
-  billingData,
-  // ...
-};
+
+  const value = {
+    bookingData,
+    billingData,
+    // ...
+  };
 
 
   const {
@@ -148,35 +148,35 @@ const value = {
   //   }
   // };
   const downloadPDF = async () => {
-  const input = pdfRef.current;
-  if (!input) return;
+    const input = pdfRef.current;
+    if (!input) return;
 
-  try {
-    const canvas = await html2canvas(input, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff",
-    });
+    try {
+      const canvas = await html2canvas(input, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const imgHeight = (canvas.height * pageWidth) / canvas.width;
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
-    pdf.save(`Booking_Confirmation_${Date.now()}.pdf`);
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
+      pdf.save(`Booking_Confirmation_${Date.now()}.pdf`);
 
-    // ✅ Conditional navigation logic
-    if (bookingData.payment === "cash") {
-      router.push("/Bookings/Dashboard");
-      onClose();
+      // ✅ Conditional navigation logic
+      if (bookingData.payment === "cash") {
+        router.push("/Bookings/Dashboard");
+        onClose();
+      }
+
+    } catch (err) {
+      console.error("Error generating PDF:", err);
+      alert("Failed to generate PDF. Please try again.");
     }
-
-  } catch (err) {
-    console.error("Error generating PDF:", err);
-    alert("Failed to generate PDF. Please try again.");
-  }
-};
+  };
 
   return (
     <div className={styles.overlay}>
@@ -313,38 +313,43 @@ const value = {
       </button>
     )}
   </div> */}
-{/* )} */}
-{billingData.totalAmount > 0 && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      marginTop: "10px",
-      gap: "10px",
-    }}
-  >
-    {/* PDF button always visible when totalAmount > 0 */}
-    <button
-      className={`${styles.button} no-print`}
-      onClick={downloadPDF}
-    >
-      <i className="fa-solid fa-download"></i>
-      Get PDF Receipt
-    </button>
+          {/* )} */}
+          {billingData.totalAmount > 0 && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "10px",
+                gap: "10px",
+              }}
+            >
+              {/* PDF button always visible when totalAmount > 0 */}
+              <button
+                className={`${styles.button} no-print`}
+                onClick={downloadPDF}
+              >
+                <i className="fa-solid fa-download"></i>
+                Get PDF Receipt
+              </button>
 
-    {/* Pay Now button only visible when payment type is "card" */}
-    
-    {bookingData.payment === "card" && (
-      <button
-        className={`${styles.button} no-print`}
-        onClick={() => router.push("/Bookings/COPYandPAYPayment")}
-      >
-        <i className="fa-solid fa-credit-card"></i>
-        Pay Now
-      </button>
-    )}
-  </div>
-)}
+              {/* Pay Now button only visible when payment type is "card" */}
+
+              {bookingData.payment === "card" && (
+                <button
+                  className={`${styles.button} no-print`}
+                  onClick={() => {
+                    const id = bookingData.id;
+                    router.push(`/Bookings/COPYandPAYPayment?id=${id}`);
+                  }}
+                >
+                  <i className="fa-solid fa-credit-card"></i>
+                  Pay Now
+                </button>
+
+              )}
+
+            </div>
+          )}
 
 
         </div>
