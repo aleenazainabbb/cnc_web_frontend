@@ -18,6 +18,7 @@ export default function BookingLayout({
     submitBookingQuote,
     bookingData,
     createBookingOrder,
+    updateBookingData,
     formErrors,
     setFormErrors,
     latestLocation,
@@ -41,19 +42,16 @@ export default function BookingLayout({
       newErrors.service = "Please select a service.";
     }
 
-    if (
-      pathname === "/BookAservicePage/Location" &&
-      !latestLocation?.fullAddress
-    ) {
+    if (pathname === "/BookAservicePage/Location" && !latestLocation?.fullAddress) {
       newErrors.fullAddress = "Please select a location.";
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setFormErrors(newErrors); // Save all errors
-      return; // Prevent step navigation
+      setFormErrors(newErrors);
+      return;
     }
 
-    setFormErrors({}); // Clear errors if all good
+    setFormErrors({});
 
     const hasPricing =
       !!bookingData?.detail || (bookingData?.appointedPrice ?? 0) > 0;
@@ -71,27 +69,41 @@ export default function BookingLayout({
       }
     } else if (pathname === "/BookAservicePage/PaymentDetails") {
       try {
-        await createBookingOrder();
+        const result = await createBookingOrder();
+
+        //  Extract bookingId from API response
+        const id =
+          result?.data?.id || result?.id || result?._id;
+
+        if (id) {
+          //  Save bookingId in context so confirmation can access it
+          updateBookingData({ id: id });
+          console.log(" Booking ID saved in context:", id);
+        } else {
+          console.warn("No bookingId found in booking API response");
+        }
+
+        // Show confirmation popup only after saving bookingId
         setShowConfirmationPopup(true);
       } catch (error) {
-        console.error(" Booking order failed:", error);
+        console.error("Booking order failed:", error);
       }
-    } else if (nextStep) {
+    } 
+    
+    else if (nextStep) {
       router.push(nextStep);
     }
-    // else if(nextStep){
-    //   redirect("./Bookings/Dashboard")
-    // }
   };
+
 
   return (
     <div className="grid-container layoutWrapper">
       <div className="left-column">
         {isValidElement(children)
           ? React.cloneElement(children as ReactElement<any>, {
-              serviceError,
-              setServiceError, //  pass the setter function to children
-            })
+            serviceError,
+            setServiceError, //  pass the setter function to children
+          })
           : children}
       </div>
 

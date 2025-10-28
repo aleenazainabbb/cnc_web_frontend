@@ -27,6 +27,7 @@ type UploadedMediaItem = {
 
 export type BookingData = {
   id?: string;
+  bookingId?: string;
   service?: string;
   subService?: string;
   type?: string;
@@ -511,6 +512,13 @@ export const BookingProvider = ({
           taxAmount: result.billing.taxAmount ?? 0,
         });
       }
+
+      if (result?.data?.id || result?.id) {
+        const id = result.data?.id || result.id; // ← include .data.id too
+        updateBookingData({ id });
+        console.log("✅ Booking numeric ID stored:", id);
+      }
+
       return result;
     } catch (error: any) {
       console.error("Booking order error:", error.message);
