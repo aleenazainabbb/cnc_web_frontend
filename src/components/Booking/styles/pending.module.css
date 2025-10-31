@@ -1,6 +1,5 @@
 .main {
   font-family: "Inter", sans-serif;
-  font-family: "Inter", sans-serif;
   background-color: white;
   /* margin: 100px 0px 0 auto; */
   margin-top: 20px;
@@ -9,8 +8,8 @@
   box-sizing: border-box;
   border-radius: 2px;
   /* max-width: calc(100% - 40px); */
-  max-height: 100vh;
-  height: 100%;
+  min-height: 100vh;
+  /* height: 100%; */
 }
 
 .container {
@@ -20,7 +19,6 @@
 /* pending.module.css */
 .tableScroll {
   width: 100%;
-
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }

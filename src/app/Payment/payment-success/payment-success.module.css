@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f3f4f6;
+  padding: 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 2rem 3rem;
+  max-width: 400px;
+}
+
+.icon {
+  color: #16a34a;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.message {
+  color: #4b5563;
+  margin: 1rem 0 2rem;
+}
+
+.button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #1e40af;
+}
+
+.noteBlock {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.lockIcon {
+  color: #16a34a;
+  font-size: 25px;
+  margin-top: 0.25rem;
+}
+
+.note {
+  color: #4b5563;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
