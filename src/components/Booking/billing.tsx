@@ -48,7 +48,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const handleNextClick = async () => {
     try {
       if (buttonLabel === "Pay Now") {
-        console.log("Booking quote submitted successfully");
+        // console.log("Booking quote submitted successfully");
       }
       onNext?.();
     } catch (err: any) {

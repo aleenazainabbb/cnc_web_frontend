@@ -245,6 +245,8 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
                         await updateBookingOrder(id);
                         setShowModal(false);
                         setShowConfirm(true);
+                         // ✅ Navigate to Payment Page and pass the booking ID
+      window.location.href = `/Payment?id=${encodeURIComponent(id)}`;
                       } catch (err) {
                         console.error("Pay Now failed:", err);
                       }

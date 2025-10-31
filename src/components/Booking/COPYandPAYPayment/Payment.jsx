@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaCreditCard, FaLock, FaCheckCircle, FaTimesCircle, FaSpinner, FaMapMarkerAlt } from 'react-icons/fa';
-import styles from './PaymentPage.module.css';
+import styles from './Payment.module.css';
 
 const PaymentPage = () => {
   const router = useRouter();
@@ -20,14 +20,14 @@ const PaymentPage = () => {
 
   const id = searchParams.get('id');
   console.log("📦 Booking ID received in PaymentPage:", id);
-
+  
   const [paymentForm, setPaymentForm] = useState({
     id: id || '',
     billingDetails: {
       street: '',
       city: '',
       state: '',
-      country: 'AE',
+      country: '',
       postcode: ''
     }
   });
@@ -128,7 +128,7 @@ const PaymentPage = () => {
 
         if (event.data.status === 'success') {
           const successUrl = `/payment-success?paymentData=${encodeURIComponent(JSON.stringify(event.data))}&bookingDetails=${encodeURIComponent(JSON.stringify(bookingDetails || {}))}`;
-          router.push(successUrl);
+          router.push('/Payment/payment-success' + successUrl);
         } else if (event.data.status === 'pending') {
           const pendingUrl = `/payment-pending?paymentData=${encodeURIComponent(JSON.stringify(event.data))}&bookingDetails=${encodeURIComponent(JSON.stringify(bookingDetails || {}))}`;
           router.push(pendingUrl);
@@ -275,13 +275,13 @@ const PaymentPage = () => {
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        {/* <div className={styles.header}>
           <div className={styles.lockIcon}>
             <FaLock />
           </div>
           <h1>Secure Payment</h1>
           <p>Complete your booking payment securely with HyperPay</p>
-        </div>
+        </div> */}
 
         {error && (
           <div className={styles.errorBox}>
@@ -439,7 +439,7 @@ const PaymentPage = () => {
             ) : (
               <div className={styles.widgetSection}>
                 <div className={styles.widgetHeader}>
-                  <h3>Enter Payment Details</h3>
+                  {/* <h4>Enter Card Details</h4> */}
 
                   {/* Change Billing Info button */}
                   <button
@@ -460,8 +460,9 @@ const PaymentPage = () => {
                   </div>
                 )}
                 {/* HyperPay widget form (will be injected by Oppwa script) */}
+                {/* <div className={styles.widgetBox}> */}
                 <form
-                  action={`${window.location.origin}/HyperPay/payment/result`}
+                  action={`${window.location.origin}/Payment/payment-success`}
                   className="paymentWidgets"
                   data-brands="VISA MASTER MADA"
                 ></form>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styles from "./styles/BookingConfirmation.module.css";
 import { useRouter } from "next/navigation";
 import { useBooking } from "@/context/BookingContext";
@@ -15,7 +15,6 @@ interface BookingConfirmationProps {
 }
 interface BookingContextType {
   BookingData: BookingData;
-  // billingData: BillingData;
 }
 
 const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
@@ -25,12 +24,11 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   const pdfRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const { bookingData, billingData } = useBooking();
-
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
 
   const value = {
     bookingData,
     billingData,
-    // ...
   };
 
 
@@ -64,89 +62,7 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
     };
   }, []);
 
-  //  const downloadPDF = async () => {
-  //   const input = pdfRef.current;
-  //   if (!input) {
-  //     console.error("No PDF source element found.");
-  //     return;
-  //   }
 
-  //   // Clone the node to avoid capturing hidden/modally styled version
-  //   const clone = input.cloneNode(true) as HTMLElement;
-
-  //   // Create a temporary container in body
-  //   const tempContainer = document.createElement("div");
-  //   tempContainer.style.position = "fixed";
-  //   tempContainer.style.left = "0";
-  //   tempContainer.style.top = "0";
-  //   tempContainer.style.width = "100%";
-  //   tempContainer.style.background = "#fff";
-  //   tempContainer.style.zIndex = "9999";
-  //   tempContainer.style.padding = "20px";
-  //   tempContainer.style.visibility = "visible";
-  //   tempContainer.appendChild(clone);
-
-  //   document.body.appendChild(tempContainer);
-
-  //   try {
-  //     // Force reflow and delay to ensure dimensions are computed
-  //     await new Promise((resolve) => setTimeout(resolve, 300));
-
-  //     const rect = clone.getBoundingClientRect();
-  //     if (rect.width === 0 || rect.height === 0) {
-  //       console.error("Cloned element still has no size — aborting PDF generation.");
-  //       document.body.removeChild(tempContainer);
-  //       return;
-  //     }
-
-  //     const canvas = await html2canvas(clone, {
-  //       scale: 2,
-  //       useCORS: true,
-  //       backgroundColor: "#ffffff",
-  //       scrollY: -window.scrollY,
-  //     });
-
-  //     if (canvas.width === 0 || canvas.height === 0) {
-  //       console.error("Canvas is zero-sized, aborting PDF generation.");
-  //       document.body.removeChild(tempContainer);
-  //       return;
-  //     }
-
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF("p", "mm", "a4");
-
-  //     const pageWidth = pdf.internal.pageSize.getWidth();
-  //     const pageHeight = pdf.internal.pageSize.getHeight();
-  //     const imgWidth = pageWidth;
-  //     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //     let heightLeft = imgHeight;
-  //     let position = 0;
-
-  //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //     heightLeft -= pageHeight;
-
-  //     while (heightLeft > 0) {
-  //       position = heightLeft - imgHeight;
-  //       pdf.addPage();
-  //       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //       heightLeft -= pageHeight;
-  //     }
-
-  //     pdf.save(`Booking_Confirmation_${Date.now()}.pdf`);
-
-  //     router.push("/Bookings/Dashboard");
-  //     onClose();
-  //   } catch (err) {
-  //     console.error("Error generating PDF:", err);
-  //     alert("Failed to generate PDF. Please try again.");
-  //   } finally {
-  //     // Always remove temp container
-  //     if (tempContainer.parentNode) {
-  //       document.body.removeChild(tempContainer);
-  //     }
-  //   }
-  // };
   const downloadPDF = async () => {
     const input = pdfRef.current;
     if (!input) return;
@@ -162,7 +78,6 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
       const pdf = new jsPDF("p", "mm", "a4");
       const pageWidth = pdf.internal.pageSize.getWidth();
       const imgHeight = (canvas.height * pageWidth) / canvas.width;
-
       pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
       pdf.save(`Booking_Confirmation_${Date.now()}.pdf`);
 
@@ -282,37 +197,6 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
               details.
             </div>
           )}
-
-
-          {/* {totalAmount > 0 && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      marginTop: "10px",
-      gap: "10px",
-    }}
-  >
-  
-    <button
-      className={`${styles.button} no-print`}
-      onClick={downloadPDF}
-    >
-      <i className="fa-solid fa-download"></i>
-      Get PDF Receipt
-    </button>
-
-  
-    {BookingData.payment === "card" && (
-      <button
-        className={`${styles.button} no-print`}
-        onClick={() => router.push("/Bookings/COPYandPAYPayment")}
-      >
-        <i className="fa-solid fa-credit-card"></i>
-        Pay Now
-      </button>
-    )}
-  </div> */}
           {/* )} */}
           {billingData.totalAmount > 0 && (
             <div
@@ -339,19 +223,15 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
                   className={`${styles.button} no-print`}
                   onClick={() => {
                     const id = bookingData.id;
-                    router.push(`/Bookings/COPYandPAYPayment?id=${id}`);
+                    router.push(`/Payment?id=${id}`);
                   }}
                 >
                   <i className="fa-solid fa-credit-card"></i>
                   Pay Now
                 </button>
-
               )}
-
             </div>
           )}
-
-
         </div>
       </div>
     </div>
