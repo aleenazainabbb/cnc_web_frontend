@@ -223,7 +223,8 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
                   className={`${styles.button} no-print`}
                   onClick={() => {
                     const id = bookingData.id;
-                    router.push(`/Payment?id=${id}`);
+                    // router.push(`/Payment?id=${id}`);
+                    router.push(`/Payment?id=${id}&autoCheckout=true`);
                   }}
                 >
                   <i className="fa-solid fa-credit-card"></i>

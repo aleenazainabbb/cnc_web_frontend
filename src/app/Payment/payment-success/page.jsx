@@ -21,11 +21,6 @@ const PaymentSuccess = () => {
         <p className={styles.message}>
           Your payment has been received successfully. Thank you for your purchase.
         </p>
-        {/* <p className={styles.note}>
-          Your card details are not saved anywhere. All transactions are processed securely.
-        </p> */}
-
-         {/* ✅ Added soft block for reassurance note */}
         <div className={styles.noteBlock}>
           <FaLock className={styles.lockIcon} />
           <p className={styles.note}>

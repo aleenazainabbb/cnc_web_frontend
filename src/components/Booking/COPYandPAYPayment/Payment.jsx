@@ -20,7 +20,7 @@ const PaymentPage = () => {
 
   const id = searchParams.get('id');
   console.log("📦 Booking ID received in PaymentPage:", id);
-  
+
   const [paymentForm, setPaymentForm] = useState({
     id: id || '',
     billingDetails: {
@@ -56,6 +56,8 @@ const PaymentPage = () => {
   useEffect(() => {
     const bookingParam = searchParams.get('booking');
     const paramId = searchParams.get('id');
+    const autoCheckout = searchParams.get('autoCheckout') === 'true';
+
 
     if (bookingParam) {
       try {
@@ -158,6 +160,43 @@ const PaymentPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const autoCheckout = searchParams.get('autoCheckout') === 'true';
+    if (autoCheckout && paymentForm.id && !checkoutData) {
+      console.log('⚡ Auto checkout triggered from BookingConfirmation');
+      const autoTriggerCheckout = async () => {
+        try {
+          setLoading(true);
+          const requestData = {
+            bookingId: paymentForm.id,
+            billingDetails: {
+              street: paymentForm.billingDetails.street || 'Auto Street',
+              city: paymentForm.billingDetails.city || 'Auto City',
+              state: paymentForm.billingDetails.state || 'Auto State',
+              country: paymentForm.billingDetails.country || 'AE',
+              postcode: paymentForm.billingDetails.postcode || '00000'
+            }
+          };
+          const response = await prepareCheckout(requestData);
+          if (response.success) {
+            setCheckoutData(response.data);
+            loadPaymentWidget(response.data.checkoutId);
+          } else {
+            setError(response.message || 'Failed to prepare checkout');
+          }
+        } catch (err) {
+          console.error('Auto checkout error:', err);
+          setError(err.message || 'Failed to prepare checkout');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      autoTriggerCheckout();
+    }
+  }, [paymentForm.id, searchParams, checkoutData]);
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('billing.')) {
@@ -179,17 +218,17 @@ const PaymentPage = () => {
     }
 
     const billing = paymentForm.billingDetails || {};
-    const required = ['street', 'city', 'country', 'postcode'];
-    const missing = required.filter(f => !String(billing[f] || '').trim());
-    if (missing.length) {
-      setError(`Missing billing details: ${missing.join(', ')}`);
-      return false;
-    }
+    // const required = ['street', 'city', 'country', 'postcode'];
+    // const missing = required.filter(f => !String(billing[f] || '').trim());
+    // if (missing.length) {
+    //   setError(`Missing billing details: ${missing.join(', ')}`);
+    //   return false;
+    // }
 
-    if ((billing.country || '').length !== 2) {
-      setError('Country code must be 2 characters (e.g., AE for UAE)');
-      return false;
-    }
+    // if ((billing.country || '').length !== 2) {
+    //   setError('Country code must be 2 characters (e.g., AE for UAE)');
+    //   return false;
+    // }
 
     return true;
   };
@@ -274,8 +313,8 @@ const PaymentPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.container}>
-        {/* <div className={styles.header}>
+      {/* <div className={styles.container}> */}
+      {/* <div className={styles.header}>
           <div className={styles.lockIcon}>
             <FaLock />
           </div>
@@ -283,59 +322,59 @@ const PaymentPage = () => {
           <p>Complete your booking payment securely with HyperPay</p>
         </div> */}
 
-        {error && (
-          <div className={styles.errorBox}>
-            <FaTimesCircle className={styles.errorIcon} />
-            <div>
-              <p className={styles.errorTitle}>Error</p>
-              <p className={styles.errorMessage}>{error}</p>
+      {error && (
+        <div className={styles.errorBox}>
+          <FaTimesCircle className={styles.errorIcon} />
+          <div>
+            <p className={styles.errorTitle}>Error</p>
+            <p className={styles.errorMessage}>{error}</p>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.card}>
+        {/* Booking summary (added) */}
+        {bookingDetails && (
+          <div className={styles.bookingSummary}>
+            <h2 className={styles.bookingTitle}>Booking Summary</h2>
+            <div className={styles.bookingDetails}>
+              <div className={styles.bookingRow}>
+                <span className={styles.bookingLabel}>Booking ID:</span>
+                <span className={styles.bookingValue}>
+                  {bookingDetails.bookingId || `B-${String(bookingDetails.id).padStart(3, '0')}`}
+                </span>
+              </div>
+              <div className={styles.bookingRow}>
+                <span className={styles.bookingLabel}>Service:</span>
+                <span className={styles.bookingValue}>
+                  {bookingDetails.serviceName || 'Cleaning Service'}
+                </span>
+              </div>
+              <div className={styles.bookingRow}>
+                <span className={styles.bookingLabel}>Amount:</span>
+                <span className={styles.bookingValue}>
+                  AED {parseFloat(bookingDetails.cncChargesInclVat || bookingDetails.totalPrice || 0).toFixed(2)}
+                </span>
+              </div>
             </div>
           </div>
         )}
 
-        <div className={styles.card}>
-          {/* Booking summary (added) */}
-          {bookingDetails && (
-            <div className={styles.bookingSummary}>
-              <h2 className={styles.bookingTitle}>Booking Summary</h2>
-              <div className={styles.bookingDetails}>
-                <div className={styles.bookingRow}>
-                  <span className={styles.bookingLabel}>Booking ID:</span>
-                  <span className={styles.bookingValue}>
-                    {bookingDetails.bookingId || `B-${String(bookingDetails.id).padStart(3, '0')}`}
-                  </span>
-                </div>
-                <div className={styles.bookingRow}>
-                  <span className={styles.bookingLabel}>Service:</span>
-                  <span className={styles.bookingValue}>
-                    {bookingDetails.serviceName || 'Cleaning Service'}
-                  </span>
-                </div>
-                <div className={styles.bookingRow}>
-                  <span className={styles.bookingLabel}>Amount:</span>
-                  <span className={styles.bookingValue}>
-                    AED {parseFloat(bookingDetails.cncChargesInclVat || bookingDetails.totalPrice || 0).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
+        {/* Hidden Booking ID Field (still functional) */}
+        <div style={{ display: 'none' }}>
+          <input
+            type="text"
+            name="id"
+            value={paymentForm.id}
+            onChange={handleInputChange}
+            readOnly
+          />
+        </div>
 
-          {/* Hidden Booking ID Field (still functional) */}
-          <div style={{ display: 'none' }}>
-            <input
-              type="text"
-              name="id"
-              value={paymentForm.id}
-              onChange={handleInputChange}
-              readOnly
-            />
-          </div>
-
-          <div className={styles.formContainer}>
-            {!checkoutData ? (
-              <form onSubmit={handlePrepareCheckout}>
-                {/* <div className={styles.section}>
+        {/* <div className={styles.formContainer}> */}
+        {!checkoutData && searchParams.get('autoCheckout') !== 'true' ? (
+          <form onSubmit={handlePrepareCheckout}>
+            {/* <div className={styles.section}>
                   <h4><FaMapMarkerAlt /> Billing Address</h4>
                   <div className={styles.grid}>
                     <div className={styles.full}>
@@ -360,116 +399,116 @@ const PaymentPage = () => {
                     </div>
                   </div>
                 </div> */}
-                <div className={styles.section}>
-                  <div className={styles.sectionHeader}>
-                    <div className={styles.iconCircle}>
-                      <FaMapMarkerAlt className={styles.sectionIcon} />
-                    </div>
-                    <h4>Billing Address</h4>
-                  </div>
+            <div className={styles.section}>
+              <div className={styles.sectionHeader}>
+                <div className={styles.iconCircle}>
+                  <FaMapMarkerAlt className={styles.sectionIcon} />
+                </div>
+                <h4>Billing Address</h4>
+              </div>
 
-                  <div className={styles.grid}>
-                    <div className={styles.full}>
-                      <label className={styles.label}>Street Address *</label>
-                      <input
-                        className={styles.input}
-                        name="billing.street"
-                        value={paymentForm.billingDetails.street}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="e.g., Al Nahda Street, Building 5"
-                      />
-                    </div>
-
-                    <div>
-                      <label className={styles.label}>City *</label>
-                      <input
-                        className={styles.input}
-                        name="billing.city"
-                        value={paymentForm.billingDetails.city}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="e.g., Dubai"
-                      />
-                    </div>
-
-                    <div>
-                      <label className={styles.label}>State</label>
-                      <input
-                        className={styles.input}
-                        name="billing.state"
-                        value={paymentForm.billingDetails.state}
-                        onChange={handleInputChange}
-                        placeholder="e.g., Deira"
-                      />
-                    </div>
-
-                    <div>
-                      <label className={styles.label}>Country Code *</label>
-                      <input
-                        className={`${styles.input} ${styles.uppercase}`}
-                        name="billing.country"
-                        value={paymentForm.billingDetails.country}
-                        onChange={handleInputChange}
-                        maxLength="2"
-                        required
-                        placeholder="AE"
-                      />
-                    </div>
-
-                    <div>
-                      <label className={styles.label}>Postcode *</label>
-                      <input
-                        className={styles.input}
-                        name="billing.postcode"
-                        value={paymentForm.billingDetails.postcode}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="00000"
-                      />
-                    </div>
-                  </div>
+              <div className={styles.grid}>
+                <div className={styles.full}>
+                  <label className={styles.label}>Street Address *</label>
+                  <input
+                    className={styles.input}
+                    name="billing.street"
+                    value={paymentForm.billingDetails.street}
+                    onChange={handleInputChange}
+                    // required
+                    placeholder="e.g., Al Nahda Street, Building 5"
+                  />
                 </div>
 
+                <div>
+                  <label className={styles.label}>City *</label>
+                  <input
+                    className={styles.input}
+                    name="billing.city"
+                    value={paymentForm.billingDetails.city}
+                    onChange={handleInputChange}
+                    // required
+                    placeholder="e.g., Dubai"
+                  />
+                </div>
 
-                <button type="submit" disabled={loading || !paymentForm.id || isRefreshed} className={styles.submitBtn}>
-                  {loading ? <><FaSpinner className={styles.spin} /> Processing...</> : <><FaCreditCard /> Proceed to Payment</>}
-                </button>
-              </form>
-            ) : (
-              <div className={styles.widgetSection}>
-                <div className={styles.widgetHeader}>
-                  {/* <h4>Enter Card Details</h4> */}
+                <div>
+                  <label className={styles.label}>State</label>
+                  <input
+                    className={styles.input}
+                    name="billing.state"
+                    value={paymentForm.billingDetails.state}
+                    onChange={handleInputChange}
+                    placeholder="e.g., Deira"
+                  />
+                </div>
 
-                  {/* Change Billing Info button */}
-                  <button
+                <div>
+                  <label className={styles.label}>Country Code *</label>
+                  <input
+                    className={`${styles.input} ${styles.uppercase}`}
+                    name="billing.country"
+                    value={paymentForm.billingDetails.country}
+                    onChange={handleInputChange}
+                    maxLength="2"
+                    // required
+                    placeholder="AE"
+                  />
+                </div>
+
+                <div>
+                  <label className={styles.label}>Postcode *</label>
+                  <input
+                    className={styles.input}
+                    name="billing.postcode"
+                    value={paymentForm.billingDetails.postcode}
+                    onChange={handleInputChange}
+                    // required
+                    placeholder="00000"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" disabled={loading || !paymentForm.id || isRefreshed} className={styles.submitBtn}>
+              {loading ? <><FaSpinner className={styles.spin} /> Processing...</> : <><FaCreditCard /> Proceed to Payment</>}
+            </button>
+          </form>
+        ) : (
+          <div className={styles.widgetSection}>
+            {/* <div className={styles.widgetHeader}> */}
+            {/* <h4>Enter Card Details</h4> */}
+
+            {/* Change Billing Info button */}
+            {/* <button
                     onClick={handleReset}
                     className={styles.resetBtn}
                     type="button"
                     disabled={loading}
                   >
                     ← Change Billing Info
-                  </button>
-                </div>
+                  </button> */}
+            {/* </div> */}
 
-                {/* <div className={styles.widgetBox}> */}
-                {!scriptLoaded && (
-                  <div className={styles.loadingBox}>
-                    <FaSpinner className={styles.spinLarge} />
-                    <p>Loading secure payment form...</p>
-                  </div>
-                )}
-                {/* HyperPay widget form (will be injected by Oppwa script) */}
-                {/* <div className={styles.widgetBox}> */}
-                <form
-                  action={`${window.location.origin}/Payment/payment-success`}
-                  className="paymentWidgets"
-                  data-brands="VISA MASTER MADA"
-                ></form>
-                {/* </div> */}
+            {/* <div className={styles.widgetBox}> */}
+            {!scriptLoaded && (
+              <div className={styles.loadingBox}>
+                <FaSpinner className={styles.spinLarge} />
+                <p>Loading secure payment form...</p>
+              </div>
+            )}
+            {/* HyperPay widget form (will be injected by Oppwa script) */}
+            {/* <div className={styles.widgetBox}> */}
+            <div className={styles.formContainer}>
+              <form
+                action={`${window.location.origin}/Payment/payment-success`}
+                className="paymentWidgets"
+                data-brands="VISA MASTER MADA"
+              ></form>
+            </div>
 
-                {/* Transaction Details (added) */}
-                {/* {checkoutData && (
+            {/* Transaction Details (added) */}
+            {/* {checkoutData && (
                   <div className={styles.transactionDetails}>
                     <h4 className={styles.transactionTitle}>
                       <FaCheckCircle className={styles.transactionIcon} />
@@ -498,16 +537,16 @@ const PaymentPage = () => {
                   </div>
                 )} */}
 
-                {/* Security Info */}
-                {/* <div className={styles.securityInfo}>
+            {/* Security Info */}
+            {/* <div className={styles.securityInfo}>
                   <FaLock className={styles.securityIcon} />
                   <span>Your payment is secured with 256-bit SSL encryption</span>
                 </div> */}
-              </div>
-            )}
           </div>
-        </div>
+        )}
       </div>
+      {/* </div> */}
+      {/* </div> */}
     </div>
   );
 };
