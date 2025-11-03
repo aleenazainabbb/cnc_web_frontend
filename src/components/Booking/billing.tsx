@@ -151,11 +151,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
             {appointmentFrequency}
             {appointmentFrequency === "Once" && displayAppointmentTime && (
               <span
-                style={{
-                  color: "#007bff",
-                  fontWeight: "bold",
-                  marginLeft: "8px",
-                }}
+                className={styles.dateAndTime}
               >
                 • {displayAppointmentTime}
               </span>

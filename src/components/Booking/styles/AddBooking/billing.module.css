@@ -89,18 +89,26 @@
   flex-shrink: 0;
   font-family: Poppins;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 23px;
   letter-spacing: 0.003em;
   color: #2b3641;
   margin-bottom: 4px;
   height: 20px;
   width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
   white-space: normal;
   /* ✅ allows wrapping */
   flex: 1 1 auto;
   /* ✅ allows shrinking and growing */
   min-width: 0;
+}
+
+.dateAndTime {
+  color: #007bff;
+  font-weight: bold;
+  margin-left: 8px;
 }
 
 .appointmenttime,
@@ -141,7 +149,6 @@
   letter-spacing: 0.003em;
   color: #2b3641;
   margin-top: 10px;
-  word-break: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
   white-space: normal;
@@ -303,6 +310,7 @@
 }
 
 @media (max-width: 470px) {
+
   .appointmentrow,
   .locationRow {
     flex-direction: column;
