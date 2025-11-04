@@ -6,12 +6,13 @@ import profile from "./styles/profile.module.css";
 import { useQuoteList } from "@/context/QuoteList";
 import MyQuotes from "@/components/Booking/myQuote";
 import Pagination from "@/components/Booking/pagination";
+import NoOrders from "@/components/Booking/noOrders";
 
 const QuoteList: React.FC = () => {
   const { quotes, fetchQuotes, loading, error } = useQuoteList();
   const [showPopup, setShowPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
     fetchQuotes();
@@ -53,7 +54,22 @@ const QuoteList: React.FC = () => {
 
           {/* Loading/Error */}
           {loading && <p>Loading...</p>}
-          {error && <p className="text-red-600">Error: {error}</p>}
+
+          {/* ✅ Show NoOrders when backend error occurs */}
+          {error && (
+            <NoOrders
+              title="No Quotes Found"
+              subtitle="We couldn’t load your quotes. Please try again later or check your connection."
+            />
+          )}
+
+          {/* ✅ No Quotes Available */}
+          {!loading && !error && quotes.length === 0 && (
+            <NoOrders
+              title="No Quotes Found"
+              subtitle="You haven’t created any quotes yet. Click 'Add a Quote' to get started."
+            />
+          )}
 
           {/* Grid Header */}
           {!loading && !error && quotes.length > 0 && (

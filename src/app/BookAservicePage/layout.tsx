@@ -95,7 +95,6 @@ export default function BookingLayout({
     }
   };
 
-
   return (
     <div className="grid-container layoutWrapper">
       <div className="left-column">

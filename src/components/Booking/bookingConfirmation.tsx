@@ -12,13 +12,16 @@ import type { BookingData } from "@/context/BookingContext";
 
 interface BookingConfirmationProps {
   onClose: () => void;
+  id?: string;
 }
+
 interface BookingContextType {
   BookingData: BookingData;
 }
 
 const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   onClose,
+  id,
 }) => {
   const router = useRouter();
   const pdfRef = useRef<HTMLDivElement>(null);

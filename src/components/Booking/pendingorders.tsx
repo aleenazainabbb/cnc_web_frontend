@@ -11,6 +11,7 @@ import BillingSummary from "@/components/Booking/billing";
 import { useBooking } from "@/context/BookingContext";
 import BookingConfirmation from "@/components/Booking/bookingConfirmation";
 import RangeFilter from "@/components/Booking/daterange";
+import { useRouter } from "next/navigation";
 
 interface PendingProps {
   range: Range[];
@@ -47,11 +48,12 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
   const allRows = data;
   const [showConfirm, setShowConfirm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<string[] | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [showBilling, setShowBilling] = useState(false);
+  const router = useRouter();
 
   const {
     updateBookingData,
@@ -70,7 +72,7 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
   const filteredRows = isRangeSelected
     ? allRows.filter((row) => {
-      const date = new Date(row[5]);
+      const date = new Date(row[10]);
       const start = range[0].startDate!;
       const end = range[0].endDate!;
       return date >= start && date <= end;
@@ -90,7 +92,6 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
 
     const fullOrder = allOrdersObject.find((o: any) => o.bookingId === orderId);
     if (!fullOrder) return;
-
     const parsedPrice = Number(String(price).replace(/[^0-9.-]+/g, "")) || 0;
 
     updateBookingData({
@@ -245,8 +246,11 @@ const Pending: React.FC<PendingProps> = ({ range: initialRange, data }) => {
                         await updateBookingOrder(id);
                         setShowModal(false);
                         setShowConfirm(true);
-                         // ✅ Navigate to Payment Page and pass the booking ID
-      window.location.href = `/Payment?id=${encodeURIComponent(id)}`;
+                        // ✅ Navigate to Payment Page and pass the booking ID
+                        // window.location.href = `/Payment?id=${encodeURIComponent(id)}`;
+
+                        // ✅ Navigate to Payment page with autoCheckout
+                        router.push(`/Payment?id=${encodeURIComponent(id)}&autoCheckout=true`);
                       } catch (err) {
                         console.error("Pay Now failed:", err);
                       }

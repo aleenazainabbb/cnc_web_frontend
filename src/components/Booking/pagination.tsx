@@ -9,14 +9,14 @@ interface PaginationProps {
     onChange?: (page: number, perPage: number) => void;
 }
 
-function Pagination({ totalItems, defaultPerPage = 5, onChange }: PaginationProps) {
+function Pagination({ totalItems, defaultPerPage = 10, onChange }: PaginationProps) {
     const [perPage, setPerPage] = useState<number>(defaultPerPage);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const totalPages = Math.ceil(totalItems / perPage);
 
     // Calculate start and end page of the window
-    // Show max 5 pages per block
+    // Show max 3 pages per block
     const maxVisiblePages = 3
     const currentBlock = Math.floor((currentPage - 1) / maxVisiblePages);
     const startPage = currentBlock * maxVisiblePages + 1;
@@ -45,7 +45,7 @@ function Pagination({ totalItems, defaultPerPage = 5, onChange }: PaginationProp
             <span className={styles.inlineText}>
                 Showing
                 <select className={styles.selectBox} value={perPage} onChange={handlePerPageChange}>
-                    {[1,2,3,4,5,6,7,8,9,10].map((num) => (
+                    {[5,10,15,20,25,30,45,50].map((num) => (
                         <option key={num} value={num}>{num}</option>
                     ))}
                 </select>

@@ -8,7 +8,7 @@
   box-sizing: border-box;
   border-radius: 2px;
   /* max-width: calc(100% - 40px); */
-  min-height: 100vh;
+  min-height: 90vh;
   /* height: 100%; */
 }
 
@@ -22,7 +22,9 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
-
+.margin{
+  margin:20px;
+}
 .scrollContainer,
 .scrollContainerQuotes {
   margin-top: 1px;

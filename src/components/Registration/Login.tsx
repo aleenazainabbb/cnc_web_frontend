@@ -65,12 +65,16 @@ const Login: React.FC = () => {
           <div className={test.box}>
             <div className={test.row}>
               {/* logo */}
-              <Image
-                src="/images/carelogo.svg"
-                alt="CarenClean"
-                width={73}
-                height={57}
-              />
+
+              <LinkWithLoader href="/" >
+                <Image
+                  src="/images/carelogo.svg"
+                  alt="CarenClean"
+                  width={73}
+                  height={57}
+                />
+              </LinkWithLoader>
+
               {/* button */}
               <LinkWithLoader href="/" className={test.backButton}>
                 <span className={test.backsign}>&lt;</span> Back
