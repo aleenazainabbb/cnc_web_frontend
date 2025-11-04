@@ -1,30 +1,34 @@
 'use client';
 import React from 'react';
-import orders from './styles/noorders.module.css';
-import styles from '@/components/navbar/styles/HeaderBar.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
+import styles from './styles/noorders.module.css';
 
-export default function NoOrders() {
-    return (
-        <div className={orders.wrapper}>
-            {/* <div className={orders.topRightbutton}>
-                <Link href="/GetAquote">
-                    <div className={styles.getaQuoteBtn}>Get a quote</div>
-                </Link>
-            </div> */}
+interface NoOrdersProps {
+  title?: string;
+  subtitle?: string;
+}
 
-            <div className={orders.container}>
-                <Image
-                    src="/images/noorders.png"
-                    alt="No Orders"
-                    width={194}
-                    height={194}
-                    className={orders.image}
-                />
-                <h2 className={orders.title}>No Orders Yet</h2>
-                <p className={orders.paragraph}>You have no active order right now.</p>
-            </div>
+export default function NoOrders({
+  title = 'No Orders Yet',
+  subtitle = 'You have no active orders right now.',
+}: NoOrdersProps) {
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.card}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/images/noorders.png"
+            alt="No Orders"
+            width={200}
+            height={200}
+            className={styles.image}
+          />
         </div>
-    );
+
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.subtitle}>{subtitle}</p>
+
+      </div>
+    </div>
+  );
 }

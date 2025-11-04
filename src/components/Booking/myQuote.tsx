@@ -72,6 +72,16 @@ const MyQuotes: React.FC = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setFormData((prev) => ({
+        ...prev,
+        email: user.email || "",
+      }));
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -124,9 +134,8 @@ const MyQuotes: React.FC = () => {
             <label className={styles.label}>Full Name *</label>
             <input
               type="text"
-              className={`${styles.input} ${
-                formErrors.customer ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${formErrors.customer ? styles.errorInput : ""
+                }`}
               name="customer"
               value={formData.customer}
               onChange={handleChange}
@@ -139,16 +148,11 @@ const MyQuotes: React.FC = () => {
             <label className={styles.label}>Email Address </label>
             <input
               type="email"
-              className={`${styles.input} ${
-                formErrors.email ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${styles.readonlyInput}`}
               name="email"
               value={formData.email}
-              onChange={handleChange}
+              readOnly
             />
-            {formErrors.email && (
-              <span className={styles.errorText}>{formErrors.email}</span>
-            )}
           </div>
         </div>
 
@@ -157,9 +161,8 @@ const MyQuotes: React.FC = () => {
             <label className={styles.label}>Phone </label>
             <input
               type="text"
-              className={`${styles.input} ${
-                formErrors.phone ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${formErrors.phone ? styles.errorInput : ""
+                }`}
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -172,9 +175,8 @@ const MyQuotes: React.FC = () => {
             <label className={styles.label}>Address </label>
             <input
               type="text"
-              className={`${styles.input} ${
-                formErrors.address ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${formErrors.address ? styles.errorInput : ""
+                }`}
               name="address"
               value={formData.address}
               onChange={handleChange}
@@ -189,9 +191,8 @@ const MyQuotes: React.FC = () => {
           <div className={styles.inputGroup}>
             <label className={styles.label}>Area </label>
             <select
-              className={`${styles.input} ${
-                formErrors.area ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${formErrors.area ? styles.errorInput : ""
+                }`}
               name="area"
               value={formData.area}
               onChange={handleChange}
@@ -215,9 +216,8 @@ const MyQuotes: React.FC = () => {
           <div className={styles.inputGroup}>
             <label className={styles.label}>Lead Sources </label>
             <select
-              className={`${styles.input} ${
-                formErrors.leadType ? styles.errorInput : ""
-              }`}
+              className={`${styles.input} ${formErrors.leadType ? styles.errorInput : ""
+                }`}
               name="leadType"
               value={formData.leadType}
               onChange={handleChange}
@@ -239,9 +239,8 @@ const MyQuotes: React.FC = () => {
         <div className={styles.fullWidthInputGroup}>
           <label className={styles.label}>Instructions </label>
           <textarea
-            className={`${styles.input} ${
-              formErrors.description ? styles.errorInput : ""
-            }`}
+            className={`${styles.input} ${formErrors.description ? styles.errorInput : ""
+              }`}
             name="description"
             value={formData.description}
             onChange={handleChange}

@@ -87,21 +87,24 @@ const Signup: React.FC = () => {
 
             <div className={test.main}>
                 <div className={test.container}>
-                      <div className={test.box}>
-                    <div className={test.row}>
-                        {/* logo */}
-                        <Image
-                            src="/images/carelogo.svg"
-                            alt="CarenClean"
-                            width={73}
-                            height={57}
-                        />
-                        {/* button */}
-                        <LinkWithLoader href="/" className={test.backButton}>
-                            <span className={test.backsign}>&lt;</span> Back
-                        </LinkWithLoader>
-                    </div>
-                    {/* <div className={test.box}> */}
+                    <div className={test.box}>
+                        <div className={test.row}>
+                            {/* logo */}
+                            <LinkWithLoader href="/" >
+                                <Image
+                                    src="/images/carelogo.svg"
+                                    alt="CarenClean"
+                                    width={73}
+                                    height={57}
+                                />
+                            </LinkWithLoader>
+
+                            {/* button */}
+                            <LinkWithLoader href="/" className={test.backButton}>
+                                <span className={test.backsign}>&lt;</span> Back
+                            </LinkWithLoader>
+                        </div>
+                        {/* <div className={test.box}> */}
                         <h1 className={test.title}>Create a New Account</h1>
                         <div style={{ display: "flex", flexDirection: "column" }}>
 

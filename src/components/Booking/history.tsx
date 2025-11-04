@@ -29,7 +29,7 @@ const History: React.FC<HistoryProps> = ({ range: initialRange, data }) => {
   ];
 
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [perPage, setPerPage] = React.useState(5);
+  const [perPage, setPerPage] = React.useState(10);
 
   // filter rows by date
   const filteredRows = React.useMemo(() => {
@@ -45,8 +45,8 @@ const History: React.FC<HistoryProps> = ({ range: initialRange, data }) => {
       return data;
     }
     return data.filter((row) => {
-      // Try parsing row[5] safely
-      const rowDate = new Date(row[5]);
+      // Try parsing row[10] safely
+      const rowDate = new Date(row[10]);
 
       // If invalid, skip
       if (isNaN(rowDate.getTime())) return false;

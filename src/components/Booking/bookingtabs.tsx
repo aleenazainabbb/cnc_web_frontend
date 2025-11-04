@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import tabs from './styles/bookingtabs.module.css';
 import Pending from '@/components/Booking/pendingorders';
 import History from '@/components/Booking/history';
+import NoOrders from '@/components/Booking/noOrders';
 import { Range } from 'react-date-range';
 
 interface BookingTabsProps {
@@ -16,6 +17,7 @@ const BookingTabs: React.FC<BookingTabsProps> = ({ range, pendingOrders, history
 
   return (
     <div className={tabs.main}>
+      {/* --- Tabs Header --- */}
       <div className={tabs.tabWrapper}>
         <div className={tabs.tabs}>
           <button
@@ -33,13 +35,34 @@ const BookingTabs: React.FC<BookingTabsProps> = ({ range, pendingOrders, history
         </div>
       </div>
 
+      {/* --- Tab Content --- */}
       <div>
-        {activeTab === 'pending' && <Pending range={range} data={pendingOrders} />}
-        {activeTab === 'history' && <History range={range} data={historyOrders} />}
+        {activeTab === 'pending' && (
+          pendingOrders.length > 0 ? (
+            <Pending range={range} data={pendingOrders} />
+          ) : (
+            <NoOrders
+              title="No Pending Orders"
+              subtitle="You have no pending bookings right now."
+            />
+          )
+        )}
+
+        {activeTab === 'history' && (
+          historyOrders.length > 0 ? (
+            <History range={range} data={historyOrders} />
+          ) : (
+            <NoOrders
+              title="No Past Orders"
+              subtitle="You have no past bookings yet."
+            />
+          )
+        )}
       </div>
     </div>
   );
 };
 
 export default BookingTabs;
+
 

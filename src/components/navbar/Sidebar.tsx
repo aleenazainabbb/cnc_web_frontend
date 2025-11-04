@@ -109,13 +109,13 @@ export default function Sidebar() {
       text: "Message",
       path: "/Bookings/Message",
     },
-    // {
-    //   href: "/Bookings/COPYandPAYPayment",
-    //   icon: "fa-envelope",
-    //   color: "#88d406ff",
-    //   text: "Add Payment",
-    //   path: "/Bookings/COPYandPAYPayment",
-    // },
+    {
+      href: "/Bookings/COPYandPAYPayment",
+      icon: "fa-envelope",
+      color: "#88d406ff",
+      text: "Add Payment",
+      path: "/Bookings/COPYandPAYPayment",
+    },
   ];
 
   return (

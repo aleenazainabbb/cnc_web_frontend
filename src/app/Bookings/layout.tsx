@@ -37,13 +37,18 @@ export default function BookingLayout({ children }: BookingLayoutProps) {
         <div
           style={{
             display: "flex",
-            height: "100vh", 
+            height: "100vh",
             backgroundColor: "#fafafa",
             overflow: "hidden", // prevent global page scroll
           }}
         >
           {/* Sidebar on left */}
-          <aside style={{ flex: "0 0 10%", borderRight: "1px solid #ddd" }}>
+          <aside style={{
+            flex: "0 0 10%", borderRight: "1px solid #ddd",
+            // overflowY: "auto",
+            // overflowX: "hidden",
+            // maxHeight: "100vh",
+          }}>
             <Sidebar />
           </aside>
 
