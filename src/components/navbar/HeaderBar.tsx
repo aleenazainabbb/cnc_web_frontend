@@ -1,9 +1,11 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import styles from './styles/HeaderBar.module.css';
-import LinkWithLoader from '@/components/Loader/Link';
-import { useProfileImage } from '@/context/imageUpload'; // ✅ Import your image context
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./styles/HeaderBar.module.css";
+import LinkWithLoader from "@/components/Loader/Link";
+import { useProfileImage } from "@/context/imageUpload";
+import { usePathname } from "next/navigation";
 
 export default function HeaderBar({
   title,
@@ -16,11 +18,14 @@ export default function HeaderBar({
   customAvatar?: React.ReactNode;
   showAddButton?: boolean;
 }) {
-  const { uploadedImage } = useProfileImage(); // ✅ Get image from context
+  const pathname = usePathname();
+  const isDashboard = pathname === "/Bookings/Dashboard";
+
+  const { uploadedImage } = useProfileImage();
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
@@ -28,25 +33,48 @@ export default function HeaderBar({
           setProfileImage(user.profileImage);
         }
       } catch (error) {
-        console.error('Failed to parse user from localStorage:', error);
+        console.error("Failed to parse user from localStorage:", error);
       }
     }
   }, []);
 
-  const finalImage = uploadedImage || profileImage || '/images/profile.png';
+  const finalImage = uploadedImage || profileImage || "/images/profile.png";
 
   return (
     <div className={styles.header}>
-      <div className={styles.title}>{title}</div>
+      <div className={styles.titleSection}>
+        {/* ✅ First line: "Go to home" (only on dashboard) */}
+        {/* {isDashboard && ( */}
+        <Link href="/" className={styles.goHome}>
+          <i
+            className="fa-solid fa-arrow-left"
+            style={{ marginRight: "8px" }}
+          ></i>
+          Go to home
+        </Link>
+        {/* )} */}
+
+        {/* ✅ Second line: Title */}
+        <div className={styles.title}>{title}</div>
+      </div>
+
       <div className={styles.right}>
         {showAddButton && (
-          <LinkWithLoader href="/BookAservicePage" className={styles.addBookingBtn}>
-            Add Booking
-          </LinkWithLoader>
+          <div>
+            <LinkWithLoader
+              href="/BookAservicePage"
+              className={styles.addBookingBtn}
+            >
+              Add Booking
+            </LinkWithLoader>
+          </div>
         )}
 
-        <LinkWithLoader href="/Bookings/Notifications" className={styles.iconBtn}>
-          {customIcon || <i className="fa-regular fa-bell" aria-hidden="true"></i>}
+        <LinkWithLoader
+          href="/Bookings/Notifications"
+          className={styles.iconBtn}
+        >
+          {customIcon || <i className="fa-regular fa-bell"></i>}
         </LinkWithLoader>
 
         <LinkWithLoader href="/Bookings/Profile" className={styles.avatarBtn}>

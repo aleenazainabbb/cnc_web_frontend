@@ -10,14 +10,39 @@
   position: relative;
 }
 
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.goHome {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #666;
+  cursor: pointer;
+  line-height: 20px;
+  text-decoration: underline;
+  font-family: "Public Sans", sans-serif;
+}
+
+/* Default title style (no margin-top) */
 .title {
   font-family: "Public Sans", sans-serif;
   font-weight: 700;
   font-size: 24px;
   line-height: 22px;
   color: #23272e;
-  margin: 0;
+  margin: 0; /* Remove margin-top by default */
   white-space: nowrap;
+}
+
+/* Only apply margin-top when on dashboard (when goHome is present) */
+.titleSection .goHome + .title {
+  margin-top: 10px;
 }
 
 .right {
@@ -26,12 +51,13 @@
   gap: 10px;
   flex-shrink: 0;
 }
+
 .button {
   display: inline-block;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   background-color: white;
-  color: #36B864;
+  color: #36b864;
   padding: 0.25rem 0.5rem;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -41,7 +67,7 @@
 }
 
 .button:hover {
-  background-color: #36B864;
+  background-color: #36b864;
   color: white;
   border-color: white;
   transform: translateY(-1px);
@@ -116,6 +142,13 @@
   .title {
     font-size: 15px !important;
   }
+  .goHome {
+    font-size: 14px;
+  }
+  /* Only apply margin-top when on dashboard for tablet */
+  .titleSection .goHome + .title {
+    margin-top: 8px; /* Slightly reduced for tablet */
+  }
   .addBookingBtn,
   .getaQuoteBtn {
     font-size: 12px;
@@ -131,6 +164,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 120px; /* prevents overlap */
+  }
+
+  .goHome {
+    font-size: 12px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Only apply margin-top when on dashboard for mobile */
+  .titleSection .goHome + .title {
+    margin-top: 6px; /* Slightly reduced for mobile */
   }
 
   .addBookingBtn,

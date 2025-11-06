@@ -1,18 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LinkWithLoader from "@/components/Loader/Link";
 import styles from "./styles/HeaderBar.module.css";
 
 const TopBar: React.FC = () => {
-  const scrollToSection = () => {
-    const section = document.getElementById("contact_us_main");
-    if (section) {
-      window.scrollTo({
-        top: section.offsetTop,
-        behavior: "smooth",
-      });
-    }
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check token in localStorage (modify if using cookies)
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Clear session
+    setIsLoggedIn(false);
+    window.location.reload(); // refresh to update UI
   };
+
   return (
     <div className="bg_green text-white py-2">
       <div className="container d-flex justify-content-between align-items-center flex-wrap">
@@ -21,6 +26,7 @@ const TopBar: React.FC = () => {
           <i className="fa-solid fa-clock me-2 fs-24"></i>
           <span>Sat - Thu: 08.00am - 07.00pm </span>
         </div>
+
         <div className="d-flex align-items-center justify-content-between emergency_contact mt-lg-0 mg-md-0">
           <span className="text-danger fw-bold me-2 d-none d-lg-inline-block d-md-inline-block">
             24H
@@ -32,19 +38,23 @@ const TopBar: React.FC = () => {
             <i className="fa-solid fa-phone me-1"></i> 052 528 0307 |
           </a>
 
-          <LinkWithLoader
-            href="/Login"
-            className={styles.button}
-          >
-            Login
-          </LinkWithLoader>
-
-           <LinkWithLoader
-            href="/Login"
-            className={styles.button}
-          >
-            Go to Dashboard
-          </LinkWithLoader>
+          {isLoggedIn ? (
+            <>
+              <button onClick={handleLogout} className={styles.button}>
+                Logout
+              </button>
+              <LinkWithLoader
+                href="/Bookings/Dashboard"
+                className={styles.button}
+              >
+                Go to Dashboard
+              </LinkWithLoader>
+            </>
+          ) : (
+            <LinkWithLoader href="/Login" className={styles.button}>
+              Login
+            </LinkWithLoader>
+          )}
         </div>
       </div>
     </div>
