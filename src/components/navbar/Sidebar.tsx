@@ -14,6 +14,7 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const sidebarRef = useRef(null);
+  const navListRef = useRef(null);
 
   // Check screen size on mount and resize
   useEffect(() => {
@@ -109,13 +110,6 @@ export default function Sidebar() {
       text: "Message",
       path: "/Bookings/Message",
     },
-    {
-      href: "/Bookings/COPYandPAYPayment",
-      icon: "fa-envelope",
-      color: "#88d406ff",
-      text: "Add Payment",
-      path: "/Bookings/COPYandPAYPayment",
-    },
   ];
 
   return (
@@ -159,61 +153,67 @@ export default function Sidebar() {
 
           {isOpen && <div className={side.divider} />}
 
-          <ul className={side.navList}>
-            {navItems.map((item, index) => (
-              <li key={index}>
-                <LinkWithLoader
-                  href={item.href}
-                  className={`${side.navLink} ${
-                    pathname.includes(item.path) ? side.active : ""
-                  }`}
-                  onClick={() => isMobile && setIsOpen(false)}
-                >
-                  <span className={side.iconText}>
-                    <i
-                      className={`fa-${
-                        item.icon.includes("table-list") ||
-                        item.icon.includes("money-check") ||
-                        item.icon.includes("wallet") ||
-                        item.icon.includes("triangle-exclamation")
-                          ? "solid"
-                          : "regular"
-                      } ${item.icon}`}
-                      style={{
-                        color: item.color,
-                        marginRight: isOpen ? "12px" : "0",
-                        fontSize: isMobile ? "1.2rem" : "1rem",
-                      }}
-                    ></i>
-                    {isOpen && (
-                      <span className={side.navText}>{item.text}</span>
-                    )}
-                  </span>
-                </LinkWithLoader>
-              </li>
-            ))}
-          </ul>
+          {/* Scrollable Navigation Area */}
+          <div className={side.navScrollContainer}>
+            <ul ref={navListRef} className={side.navList}>
+              {navItems.map((item, index) => (
+                <li key={index}>
+                  <LinkWithLoader
+                    href={item.href}
+                    className={`${side.navLink} ${
+                      pathname.includes(item.path) ? side.active : ""
+                    }`}
+                    onClick={() => isMobile && setIsOpen(false)}
+                  >
+                    <span className={side.iconText}>
+                      <i
+                        className={`fa-${
+                          item.icon.includes("table-list") ||
+                          item.icon.includes("money-check") ||
+                          item.icon.includes("wallet") ||
+                          item.icon.includes("triangle-exclamation")
+                            ? "solid"
+                            : "regular"
+                        } ${item.icon}`}
+                        style={{
+                          color: item.color,
+                          marginRight: isOpen ? "12px" : "0",
+                          fontSize: isMobile ? "1.2rem" : "1rem",
+                        }}
+                      ></i>
+                      {isOpen && (
+                        <span className={side.navText}>{item.text}</span>
+                      )}
+                    </span>
+                  </LinkWithLoader>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {isOpen ? (
-            <button className={side.logoutBtnn} onClick={handleLogout}>
-              <i
-                className="fa-solid fa-arrow-right-from-bracket"
-                style={{
-                  color: "#6B7280",
-                  marginRight: "12px",
-                  fontSize: "1.1rem",
-                }}
-              ></i>
-              <span className={side.navText}>Logout</span>
-            </button>
-          ) : (
-            <button className={side.logoutBtnIcon} onClick={handleLogout}>
-              <i
-                className="fa-solid fa-arrow-right-from-bracket"
-                style={{ color: "#6B7280", fontSize: "1.1rem" }}
-              ></i>
-            </button>
-          )}
+          {/* Fixed Logout Button */}
+          <div className={side.logoutContainer}>
+            {isOpen ? (
+              <button className={side.logoutBtnn} onClick={handleLogout}>
+                <i
+                  className="fa-solid fa-arrow-right-from-bracket"
+                  style={{
+                    color: "#6B7280",
+                    marginRight: "12px",
+                    fontSize: "1.1rem",
+                  }}
+                ></i>
+                <span className={side.navText}>Logout</span>
+              </button>
+            ) : (
+              <button className={side.logoutBtnIcon} onClick={handleLogout}>
+                <i
+                  className="fa-solid fa-arrow-right-from-bracket"
+                  style={{ color: "#6B7280", fontSize: "1.1rem" }}
+                ></i>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

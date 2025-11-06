@@ -6,7 +6,7 @@
   font-weight: 300;
   margin: 12px;
   height: 88.5vh;
-  margin-top: -10px;
+  margin-top: 10px;
   border-radius: 10px;
 }
 
@@ -24,7 +24,7 @@
 /* ----------------- Select Box ----------------- */
 .selectBox {
   font-size: 14px;
-  background: #000;
+  background: #2563eb;
   transition: all 0.3s ease;
   cursor: pointer;
   background-position: right 16px center;
@@ -32,8 +32,8 @@
 }
 
 .selectBox:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   background-color: #ffffff;
 }
 
@@ -59,13 +59,21 @@
   flex-shrink: 0;
 }
 
+/* ✅ Force row layout on small screen */
+@media (max-width: 640px) {
+  .complaintTabs {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+
 .tabButton:hover {
-  color: #334155;
+  color: #2563eb;
   background-color: #f8fafc;
 }
 
 .tabButton.active {
-  color: #4f46e5;
+  color: #2563eb;
   font-weight: 600;
 }
 
@@ -76,7 +84,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #4f46e5, #1565d8);
+  background: #2563eb;
   border-radius: 3px 3px 0 0;
 }
 
@@ -84,7 +92,7 @@
 .complaintTitle {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #0f172a;
+  color: #1e293b;
   margin-bottom: 1rem;
   text-align: left;
   position: relative;
@@ -97,7 +105,7 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #4f46e5, #1565d8);
+  background: #2563eb;
   border-radius: 3px;
 }
 
@@ -117,7 +125,7 @@
 .formLabel {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #374151;
+  color: #1e293b;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -125,39 +133,40 @@
 
 .formLabel::after {
   content: "*";
-  color: #ef4444;
+  color: #2563eb;
 }
 
 .formInput,
 .formTextarea {
   width: 100%;
   padding: 14px 16px;
-  border: 1.5px solid #e2e8f0;
+  border: 1.5px solid #cbd5e1;
   border-radius: 10px;
   font-size: 0.95rem;
   transition: all 0.3s ease;
   background-color: #f8fafc;
   font-family: "Inter", sans-serif;
   resize: vertical;
+  color: #1e293b;
 }
 
 .formInput::placeholder,
 .formTextarea::placeholder {
-  color: #9ca3af;
+  color: #64748b;
 }
 
 .formInput:focus,
 .formTextarea:focus {
   outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   background-color: #ffffff;
   transform: translateY(-1px);
 }
 
 .formInput:hover,
 .formTextarea:hover {
-  border-color: #cbd5e1;
+  border-color: #2563eb;
   background-color: #f1f5f9;
 }
 
@@ -178,17 +187,17 @@
   align-items: center;
   justify-content: center;
   background-color: #f8fafc;
-  border: 2px dashed #d1d5db;
+  border: 2px dashed #2563eb;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #64748b;
+  color: #2563eb;
   flex-direction: column;
   text-align: center;
 }
 
 .imageuploadlabel:hover {
-  border-color: #4f46e5;
+  border-color: #1d4ed8;
   background-color: #f0f4ff;
   transform: translateY(-1px);
 }
@@ -199,7 +208,7 @@
 
 .uploadIcon {
   font-size: 1.5rem;
-  color: #4f46e5;
+  color: #2563eb;
 }
 
 .imageInput {
@@ -208,16 +217,16 @@
 
 .imageInfo {
   justify-content: space-between;
-  background-color: #f0f4ff;
+  background-color: rgba(37, 99, 235, 0.1);
   border-radius: 8px;
   font-size: 0.85rem;
-  color: #374151;
+  color: #1e293b;
 }
 
 .textremoveBtn {
   background: none;
   border: none;
-  color: #64748b;
+  color: #2563eb;
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -225,15 +234,15 @@
 }
 
 .textremoveBtn:hover {
-  color: #dc2626;
-  background-color: #fef2f2;
+  color: #1d4ed8;
+  background-color: rgba(37, 99, 235, 0.1);
 }
 
 /* ----------------- Button ----------------- */
 .submitBtn {
   width: auto;
   min-width: 100px;
-  background: linear-gradient(135deg, #4f46e5, #1565d8);
+  background: #2563eb;
   color: white;
   font-size: 1rem;
   font-weight: 600;
@@ -242,7 +251,7 @@
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   margin: 1rem 0 0 auto;
   display: block;
   position: relative;
@@ -270,13 +279,14 @@
 }
 
 .submitBtn:hover {
+  background: #1d4ed8;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
 .submitBtn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 /* ----------------- Complaints ----------------- */
@@ -288,69 +298,90 @@
   text-align: center;
   font-style: italic;
   border-radius: 12px;
+  color: #64748b;
 }
 
 /* ----------------- Complaints Container ----------------- */
 .complaintsContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.8rem;
   height: auto;
+  width: 100%;
 }
 
 .complaintItem {
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-  border-radius: 20px;
-  padding: 1rem;
-  border-left: 2px solid #10b981;
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  border-left: 4px solid #2563eb;
   position: relative;
   overflow: hidden;
-  height: 110px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.complaintItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .complaintHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.25rem;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
 }
 
 .complaintOrder {
   font-weight: 700;
   color: #1e293b;
   font-size: 1rem;
+  flex: 1;
 }
 
 .complaintDate {
   font-size: 0.85rem;
   color: #64748b;
-  background-color: #e2e8f0;
-  padding: 0.25rem 0.75rem;
+  background-color: rgba(37, 99, 235, 0.1);
+  padding: 0.4rem 0.8rem;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 .complaintMessage {
-  color: #000000;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
   font-size: 0.95rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .complaintStatus {
   font-size: 0.9rem;
-  color: #000000;
+  color: #475569;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: auto;
 }
 
 .statusIndicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #f59e0b;
+  background-color: #2563eb;
   animation: pulse 2s infinite;
 }
 
@@ -374,7 +405,7 @@
   padding: 3rem;
   background-color: #f8fafc;
   border-radius: 12px;
-  border: 2px dashed #e2e8f0;
+  border: 2px dashed #cbd5e1;
   margin: 1rem 0;
 }
 
@@ -389,31 +420,19 @@
 }
 
 .complaintsContainer::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #2563eb;
   border-radius: 3px;
 }
 
 .complaintsContainer::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #1d4ed8;
 }
 
 /* ----------------- Utilities ----------------- */
 .ticket {
   font-size: 14px;
   font-weight: 800;
-  background: linear-gradient(
-    135deg,
-    #4f46e5 0%,
-    #7c3aed 25%,
-    #2563eb 50%,
-    #1d4ed8 75%,
-    #0d00ff 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 4px rgba(79, 70, 229, 0.3),
-    0 4px 12px rgba(13, 0, 255, 0.2);
+  color: #2563eb;
   letter-spacing: 0.5px;
   position: relative;
   display: inline-block;
@@ -427,8 +446,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
 
 /* ================== Responsive Design ================== */
@@ -475,75 +495,44 @@
     margin-top: -10px;
     border-radius: 10px;
   }
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
-  .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
-  }
-
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
-  .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
-  }
-  .complaintStatus {
-    margin-top: -10px;
-  }
-  .complaintDate {
-    padding: 10px 4px;
-    width: 100%;
-    background: #000;
-    display: flex;
-
-    margin-top: -32px;
-    background: none;
-    font-size: 0.8rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
-  }
 
   .complaintItem {
     padding: 1rem;
-    height: 110px;
+    min-height: 110px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .complaintHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .complaintOrder {
+    font-size: 0.9rem;
+    color: #1e293b;
+  }
+
+  .complaintDate {
+    font-size: 0.8rem;
+    align-self: flex-start;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.85rem;
+    -webkit-line-clamp: 2;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.8rem;
+    color: #475569;
+  }
+
+  .ticket {
+    font-size: 12px;
+    color: #2563eb;
   }
 }
 
@@ -552,7 +541,6 @@
   .main {
     margin: 1vh;
     height: 82vh;
-
     border-radius: 8px;
   }
 
@@ -563,6 +551,7 @@
 
   .complaintTitle {
     font-size: 1.4rem;
+    color: #1e293b;
   }
 
   .tabButton {
@@ -580,6 +569,45 @@
     width: 100%;
     min-width: auto;
     margin: 1rem auto 0 auto;
+    background: #2563eb;
+  }
+
+  .submitBtn:hover {
+    background: #1d4ed8;
+  }
+
+  .complaintItem {
+    padding: 1rem;
+    min-height: 100px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .complaintHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .complaintOrder {
+    font-size: 0.85rem;
+    color: #1e293b;
+  }
+
+  .complaintDate {
+    font-size: 0.75rem;
+    align-self: flex-start;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.75rem;
+    color: #475569;
   }
 }
 
@@ -600,6 +628,7 @@
     font-size: 1.3rem;
     text-align: center;
     margin-bottom: 0.75rem;
+    color: #1e293b;
   }
 
   .complaintTabs {
@@ -617,16 +646,21 @@
   .formTextarea {
     padding: 12px 14px;
     font-size: 0.9rem;
+    border-color: #cbd5e1;
+    color: #1e293b;
   }
 
   .imageuploadlabel {
     padding: 1rem;
     flex-direction: row;
     text-align: left;
+    border-color: #2563eb;
+    color: #2563eb;
   }
 
   .uploadIcon {
     font-size: 1.25rem;
+    color: #2563eb;
   }
 
   .submitBtn {
@@ -634,11 +668,17 @@
     font-size: 0.95rem;
     width: 100%;
     border-radius: 10px;
+    background: #2563eb;
+  }
+
+  .submitBtn:hover {
+    background: #1d4ed8;
   }
 
   .complaintItem {
-    padding: 1.25rem;
-    border-radius: 12px;
+    padding: 1rem;
+    min-height: 90px;
+    border: 1px solid #e2e8f0;
   }
 
   .complaintHeader {
@@ -647,8 +687,39 @@
     gap: 0.5rem;
   }
 
+  .complaintOrder {
+    font-size: 0.8rem;
+    color: #1e293b;
+  }
+
   .complaintDate {
-    align-self: flex-end;
+    font-size: 0.7rem;
+    align-self: flex-start;
+    padding: 0.3rem 0.6rem;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.4;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.7rem;
+    color: #475569;
+  }
+
+  .set {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ticket {
+    font-size: 11px;
+    color: #2563eb;
   }
 }
 
@@ -670,6 +741,7 @@
 
   .complaintTitle {
     font-size: 1.25rem;
+    color: #1e293b;
   }
 
   .tabButton {
@@ -680,176 +752,214 @@
   .formInput,
   .formTextarea {
     padding: 11px 13px;
+    border-color: #cbd5e1;
+    color: #1e293b;
   }
 
   .submitBtn {
     padding: 13px 22px;
+    background: #2563eb;
+  }
+
+  .submitBtn:hover {
+    background: #1d4ed8;
+  }
+
+  .complaintItem {
+    padding: 0.8rem;
+    min-height: 85px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .complaintHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .complaintOrder {
+    font-size: 0.75rem;
+    color: #1e293b;
+  }
+
+  .complaintDate {
+    font-size: 0.65rem;
+    align-self: flex-start;
+    padding: 0.25rem 0.5rem;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.7rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.65rem;
+    color: #475569;
+  }
+
+  .set {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .ticket {
+    font-size: 10px;
+    padding: 2px 6px;
+    color: #2563eb;
   }
 }
 
 /* Very small mobile devices (361px - 420px) */
 @media (max-width: 420px) and (min-width: 361px) {
   .container {
-    padding: 30px;
+    padding: 15px;
     width: 100%;
-    gap: 20px;
+    gap: 10px;
   }
+
   .main {
-    width: 90%;
-    border-radius: 10px;
-  }
-
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
     width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
-  .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
-  }
-
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
-  .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
-  }
-  .complaintStatus {
-    margin-top: -10px;
-  }
-  .complaintDate {
-    padding: 10px 4px;
-    width: 60%;
-    display: flex;
-    margin-left: 120px;
-    margin-top: -32px;
-    background: none;
-    font-size: 0.4rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
+    border-radius: 0;
+    margin: 0;
+    height: 100vh;
   }
 
   .complaintItem {
-    padding: 1rem;
-    height: 110px;
+    padding: 0.8rem;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .complaintHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .complaintOrder {
+    font-size: 0.7rem;
+    color: #1e293b;
+  }
+
+  .complaintDate {
+    font-size: 0.6rem;
+    align-self: flex-start;
+    padding: 0.2rem 0.4rem;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.65rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.6rem;
+    gap: 0.3rem;
+    color: #475569;
+  }
+
+  .set {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .ticket {
+    font-size: 9px;
+    padding: 2px 4px;
+    color: #2563eb;
+  }
+
+  .statusIndicator {
+    width: 6px;
+    height: 6px;
+    background-color: #2563eb;
   }
 }
 
 /* Extra small mobile devices (320px - 360px) */
 @media (max-width: 360px) {
   .container {
-    padding: 30px;
+    padding: 12px;
     width: 100%;
-    gap: 20px;
+    gap: 8px;
   }
+
   .main {
-    width: 90%;
-    border-radius: 10px;
-  }
-
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
     width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
-  .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
-  }
-
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
-  .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
-  }
-  .complaintStatus {
-    margin-top: -10px;
-  }
-  .complaintDate {
-    padding: 10px 4px;
-    width: 60%;
-    display: flex;
-    margin-left: 120px;
-    margin-top: -32px;
-    background: none;
-    font-size: 0.4rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
+    border-radius: 0;
+    margin: 0;
+    height: 100vh;
   }
 
   .complaintItem {
-    padding: 1rem;
-    height: 110px;
+    padding: 0.7rem;
+    min-height: 75px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .complaintHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .complaintOrder {
+    font-size: 0.65rem;
+    color: #1e293b;
+  }
+
+  .complaintDate {
+    font-size: 0.55rem;
+    align-self: flex-start;
+    padding: 0.15rem 0.3rem;
+    color: #64748b;
+  }
+
+  .complaintMessage {
+    font-size: 0.6rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    color: #475569;
+  }
+
+  .complaintStatus {
+    font-size: 0.55rem;
+    gap: 0.2rem;
+    color: #475569;
+  }
+
+  .set {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .ticket {
+    font-size: 8px;
+    padding: 1px 3px;
+    color: #2563eb;
+  }
+
+  .statusIndicator {
+    width: 5px;
+    height: 5px;
+    background-color: #2563eb;
   }
 }
 
@@ -868,477 +978,70 @@
   }
 
   .complaintTitle {
-    color: #ffffff;
+    color: white;
   }
 
   .formInput,
   .formTextarea {
     background-color: #2d2d2d;
-    border-color: #404040;
-    color: #ffffff;
+    border-color: #374151;
+    color: white;
   }
 
   .formInput:focus,
   .formTextarea:focus {
     background-color: #333333;
-  }
-}
-/* ================== Ultra Small Screen Support ================== */
-
-/* Extra small devices (280px - 319px) - Small feature phones */
-@media (max-width: 319px) and (min-width: 280px) {
-  .container {
-    padding: 30px;
-    width: 100%;
-    gap: 20px;
-  }
-  .main {
-    width: 90%;
-    border-radius: 10px;
-  }
-
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
-  .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
-  }
-
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
-  .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
-  }
-  .complaintStatus {
-    margin-top: -10px;
-  }
-  .complaintDate {
-    padding: 10px 4px;
-    width: 60%;
-    display: flex;
-    margin-left: 120px;
-    margin-top: -32px;
-    background: none;
-    font-size: 0.4rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
+    border-color: #2563eb;
   }
 
   .complaintItem {
-    padding: 1rem;
-    height: 110px;
-  }
-}
-
-/* Ultra small devices (240px - 279px) - Very small phones */
-@media (max-width: 279px) and (min-width: 240px) {
-  .container {
-    padding: 30px;
-    width: 100%;
-    gap: 20px;
-  }
-  .main {
-    width: 90%;
-    border-radius: 10px;
+    background: #2d2d2d;
+    border-color: #374151;
   }
 
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
   .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
+    color: white;
   }
 
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
   .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
+    color: #d1d5db;
   }
+
   .complaintStatus {
-    margin-top: -10px;
+    color: #d1d5db;
   }
+
   .complaintDate {
-    padding: 10px 4px;
-    width: 60%;
-    display: flex;
-    margin-left: 120px;
-    margin-top: -32px;
-    background: none;
-    font-size: 0.4rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
-  }
-
-  .complaintItem {
-    padding: 1rem;
-    height: 110px;
-  }
-}
-
-/* Extreme small devices (below 240px) - Watches and tiny screens */
-@media (max-width: 239px) {
-  .main {
-    min-width: 200px;
-    height: 100vh;
-    margin: 0;
-  }
-
-  .container {
-    padding: 4px;
-    gap: 4px;
-    min-width: 192px;
-  }
-
-  .complaintTitle {
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-  }
-
-  .complaintTitle::after {
-    width: 30px;
-    height: 1.5px;
-  }
-
-  .tabButton {
-    padding: 0.4rem 0.45rem;
-    font-size: 0.65rem;
-    min-width: 65px;
-  }
-
-  .complaintForm {
-    gap: 0.4rem;
-  }
-
-  .formGroup {
-    gap: 0.2rem;
+    background-color: rgba(37, 99, 235, 0.2);
+    color: #d1d5db;
   }
 
   .formLabel {
-    font-size: 0.75rem;
+    color: white;
   }
 
-  .formInput,
-  .formTextarea {
-    padding: 6px 8px;
-    font-size: 0.7rem;
-    border-radius: 6px;
+  .tabButton {
+    color: #d1d5db;
   }
 
-  .formTextarea {
-    min-height: 60px;
+  .tabButton.active {
+    color: #2563eb;
   }
 
   .imageuploadlabel {
-    padding: 0.5rem;
-    font-size: 0.7rem;
-    gap: 0.3rem;
-  }
-
-  .uploadIcon {
-    font-size: 0.9rem;
-  }
-
-  .submitBtn {
-    padding: 8px 12px;
-    font-size: 0.7rem;
-    border-radius: 6px;
-  }
-
-  .complaintItem {
-    padding: 0.5rem;
-    height: 100px;
-    border-radius: 6px;
-  }
-
-  .complaintHeader {
-    margin-bottom: 0.4rem;
-    gap: 0.2rem;
-  }
-
-  .complaintOrder {
-    font-size: 0.8rem;
-  }
-
-  .complaintDate {
-    font-size: 0.65rem;
-    padding: 0.1rem 0.3rem;
-  }
-
-  .complaintMessage {
-    font-size: 0.7rem;
-    line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-
-  .complaintStatus {
-    font-size: 0.65rem;
-    gap: 0.3rem;
-  }
-
-  .statusIndicator {
-    width: 5px;
-    height: 5px;
-  }
-
-  .set {
-    gap: 6px;
-  }
-
-  .ticket {
-    font-size: 14px;
-  }
-
-  /* Hide less important elements on very small screens */
-  .complaintTitle::after {
-    display: none;
-  }
-
-  .tabButton.active::after {
-    height: 2px;
-  }
-}
-
-/* Ultra-wide mobile landscape support */
-@media (max-height: 400px) and (orientation: landscape) and (max-width: 800px) {
-  .main {
-    height: 95vh;
-    margin: 0.5vh;
-  }
-
-  .container {
-    padding: 10px;
-    gap: 6px;
-  }
-
-  .complaintForm {
-    gap: 0.4rem;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 8px 10px;
-  }
-
-  .formTextarea {
-    min-height: 60px;
-  }
-
-  .complaintsContainer {
-    max-height: 150px;
-  }
-
-  .complaintItem {
-    height: 100px;
-    padding: 0.8rem;
-  }
-}
-
-/* Foldable devices support */
-@media (max-width: 319px) and (max-height: 600px) {
-  .container {
-    padding: 30px;
-    width: 100%;
-    gap: 20px;
-  }
-  .main {
-    width: 90%;
-    border-radius: 10px;
-  }
-
-  .tabButton {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.5rem;
-    min-width: 10px;
-    flex-direction: column;
-    display: flex;
-  }
-  .formLabel {
-    font-size: 10px;
-  }
-  .complaintsContainer {
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-  }
-
-  .formInput,
-  .formTextarea {
-    padding: 10px 12px;
-    font-size: 0.7rem;
-  }
-  .complaintOrder {
-    font-size: 8px;
-  }
-  .complaintStatus {
-    font-size: 10px;
-  }
-
-  .ticket {
-    text-align: center;
-    font-size: 7px;
-    margin-bottom: -10px;
-    margin-left: -2px;
-    white-space: normal; /* ✅ allows breaking */
-  }
-  .complaintMessage {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* Safari/Chrome */
-    line-clamp: 1; /* Standard property */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40%;
-
-    width: 100%;
-  }
-  .complaintStatus {
-    margin-top: -10px;
-  }
-  .complaintDate {
-    padding: 10px 4px;
-    width: 60%;
-    display: flex;
-    margin-left: 120px;
-    margin-top: -32px;
-    background: none;
-    font-size: 0.4rem;
-  }
-  .submitBtn {
-    padding: 10px 4px;
-    width: 100%;
-
-    font-size: 0.4rem;
-  }
-
-  .complaintItem {
-    padding: 1rem;
-    height: 110px;
-  }
-}
-
-/* High DPI small screens */
-@media (-webkit-min-device-pixel-ratio: 2) and (max-width: 320px),
-  (min-resolution: 192dpi) and (max-width: 320px) {
-  .main {
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .formInput,
-  .formTextarea {
-    border-width: 1px;
-  }
-
-  .tabButton.active::after {
-    height: 2px;
-  }
-}
-
-/* Touch device optimizations for small screens */
-@media (max-width: 319px) and (pointer: coarse) {
-  .tabButton {
-    padding: 0.6rem 0.7rem; /* Larger touch targets */
-  }
-
-  .submitBtn {
-    padding: 11px 18px; /* Larger touch target */
+    border-color: #2563eb;
+    color: #2563eb;
   }
 
   .textremoveBtn {
-    padding: 6px; /* Larger touch target */
-    min-height: 24px;
-    min-width: 24px;
-  }
-}
-
-/* Print styles for very small screens */
-@media (max-width: 319px) and (print) {
-  .main {
-    box-shadow: none;
-    margin: 0;
-    height: auto;
+    color: #2563eb;
   }
 
-  .container {
-    padding: 0;
+  .textremoveBtn:hover {
+    color: #60a5fa;
   }
 
-  .submitBtn {
-    display: none;
+  .ticket {
+    color: #2563eb;
   }
 }
