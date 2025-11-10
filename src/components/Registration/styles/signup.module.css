@@ -1,5 +1,6 @@
 .main {
-    max-width: 1440px;
+    /* max-width: 1440px; */
+    width: 100%;
     height: auto;
     padding-top: 5%;
     font-family: 'Inter', sans-serif;
@@ -7,7 +8,7 @@
 
 .container {
     padding-left: 50px;
-    padding-right: 190px;
+    padding-right: 60px;
     padding-bottom: 50px;
 }
 
@@ -68,9 +69,11 @@
   position: relative;
 }
 .title {
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bold;
     color: black;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
 }
 
 .label {
@@ -84,7 +87,7 @@
 .input {
     width: 100%;
     /* max-width: 426px !important; */
-    height: 64px;
+    max-height: 64px;
     font-weight: 500;
     font-size: 14px;
     color: #8692A6;
@@ -193,11 +196,11 @@
     }
 
     .title {
-        font-size: 27px !important;
+        font-size: 25px !important;
     }
 
     .input {
-        height: 53px;
+        max-height: 53px;
     }
 
     .footerlabel {
@@ -220,7 +223,7 @@
     .container {
      
         padding-left: 30px;
-        padding-right: 93px;
+        padding-right: 60px;
     }
 }
 @media (max-width: 655px) {

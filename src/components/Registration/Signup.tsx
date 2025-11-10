@@ -105,7 +105,7 @@ const Signup: React.FC = () => {
                             </LinkWithLoader>
                         </div>
                         {/* <div className={test.box}> */}
-                        <h1 className={test.title}>Create a New Account</h1>
+                        <p className={test.title}>Create a New Account</p>
                         <div style={{ display: "flex", flexDirection: "column" }}>
 
                             <div className={test.nameRow}>
