@@ -325,7 +325,7 @@
 
   /* Desktop scrollable area */
   .navScrollContainer {
-    max-height: calc(100vh - 200px);
+    /* max-height: calc(100vh - 200px); */
   }
 }
 

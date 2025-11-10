@@ -316,6 +316,13 @@ ul {
 .form-select:focus {
     box-shadow: none;
 }
+/* Fix DatePicker hover and input behavior */
+.react-datepicker-wrapper , 
+.form-select {
+  cursor: pointer !important;
+  /* appearance: textfield !important; */
+}
+
 
 /* Remove number input arrows */
 input[type="number"]::-webkit-outer-spin-button,
@@ -394,6 +401,17 @@ input[type="number"]::-webkit-inner-spin-button {
     max-width: 513px;
     max-height: 385px;
     width: 100%;
+}
+/* make the select scrollable horizontally */
+.form-select, .date {
+  white-space: nowrap;      /* prevent text from wrapping */
+  overflow-x: auto;         /* allow horizontal scrolling */
+  text-overflow: ellipsis;  /* show ... if text is too long */
+}
+
+/* for options inside select, keep nowrap (some browsers) */
+.form-select option ,.date{
+  white-space: nowrap;
 }
 
 .getAquote-form {

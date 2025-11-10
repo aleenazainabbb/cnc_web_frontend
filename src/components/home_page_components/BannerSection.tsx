@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import LinkWithLoader from "@/components/Loader/Link";
+import { useService } from "@/context/allservices";
 
 const banners = [
   {
@@ -81,15 +82,14 @@ const BannerSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const [formData, setFormData] = useState({
-    cleaningType: "",
-    noOfStaff: "",
+    serviceId: "",
+    subServiceId: "",
     time: "",
     date: "",
-    noOfHours: "",
-    coupon: "",
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { services, subServices, fetchSubServices, loading, error } = useService();
 
   const generateTimeOptions = () => {
     const times: string[] = [];
@@ -125,7 +125,7 @@ const BannerSection: React.FC = () => {
     swipe: true,
     arrows: false,
     beforeChange: (_: any, next: number) => setActiveIndex(next),
-    
+
   };
 
   return (
@@ -177,41 +177,51 @@ const BannerSection: React.FC = () => {
                 ))}
               </Slider>
             </div>
+
             {/* Right Form */}
             <div className="col-12 col-lg-6 col-md-6">
               <div className="booking-form bg_green rounded mt-4 mt-lg-0 mt-md-0">
                 <div className="row custom_gutter poppins text-[14px]">
-                  {/* Service Selection */}
+
+                  {/* Service */}
                   <div className="col-md-6">
                     <select
-                      name="cleaningType"
+                      name="serviceId"
                       className="form-select"
-                      value={formData.cleaningType}
-                      onChange={handleChange}
+                      value={formData.serviceId}
+                      onChange={(e) => {
+                        handleChange(e);
+                        fetchSubServices(Number(e.target.value)); // fetch subservices dynamically
+                        setFormData(prev => ({ ...prev, subServiceId: "" })); // reset subservice
+                      }}
                     >
                       <option value="" disabled>
                         Choose Service
                       </option>
-                      <option value="Cleaning">Cleaning</option>
-                      <option value="Plumbing">Plumbing</option>
-                      <option value="Electrician">Electrician</option>
+                      {services.map((service) => (
+                        <option key={service.id} value={service.id}>
+                          {service.name}
+                        </option>
+                      ))}
+
                     </select>
                   </div>
 
-                  {/* Staff Selection */}
+                  {/* Sub-Service  */}
                   <div className="col-md-6">
                     <select
-                      name="noOfStaff"
+                      name="subServiceId"
                       className="form-select"
-                      value={formData.noOfStaff}
+                      value={formData.subServiceId}
                       onChange={handleChange}
+                      disabled={!formData.serviceId} // disable until a service is selected
                     >
                       <option value="" disabled>
-                        No of Staff
+                        Choose Sub-Service
                       </option>
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
+                      {subServices.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.name}
                         </option>
                       ))}
                     </select>
@@ -255,41 +265,9 @@ const BannerSection: React.FC = () => {
                         className="form-select"
                         calendarClassName="custom-calendar"
                         popperPlacement="bottom"
+                         wrapperClassName="date-picker-wrapper"
                       />
                     </div>
-                  </div>
-
-                  {/* Hours Selection */}
-                  <div className="col-md-6">
-                    <select
-                      name="noOfHours"
-                      className="form-select"
-                      value={formData.noOfHours}
-                      onChange={handleChange}
-                    >
-                      <option value="" disabled>
-                        No of Hour
-                      </option>
-                      {Array.from({ length: 12 }, (_, i) => i + 1).map(
-                        (hour) => (
-                          <option key={hour} value={hour}>
-                            {hour}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-
-                  {/* Coupon Field */}
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      name="coupon"
-                      className="form-control"
-                      placeholder="Enter Coupon*"
-                      value={formData.coupon}
-                      onChange={handleChange}
-                    />
                   </div>
 
                   {/* Submit Button */}
