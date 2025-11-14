@@ -5,6 +5,7 @@ import { useService } from "@/context/allservices";
 import { useBooking } from "@/context/BookingContext";
 import Snackbar from "@/components/popups/Snackbar";
 import { set } from "nprogress";
+import { useSearchParams } from "next/navigation";
 
 type BookingsProps = {
   serviceError?: boolean;
@@ -685,7 +686,7 @@ const Bookings: React.FC<BookingsProps> = ({
     const isMaid =
       selectedService.trim().toLowerCase() === "cleaning services" &&
       selectedSubService.trim().toLowerCase() ===
-        "maid services / general services";
+      "maid services / general services";
 
     if (isMaid && selectedType) {
       let pricePerHour = 0;
@@ -789,6 +790,39 @@ const Bookings: React.FC<BookingsProps> = ({
     }));
   }, [selectedSubService, cleaningCategory]);
 
+// services and subservices from query params
+const searchParams = useSearchParams();
+const serviceNameFromQuery = searchParams.get("service");
+const subServiceNameFromQuery = searchParams.get("subService");
+
+useEffect(() => {
+  if (services.length > 0 && serviceNameFromQuery) {
+    const matchedService = services.find(
+      (s) => s.name.trim().toLowerCase() === serviceNameFromQuery.trim().toLowerCase()
+    );
+
+    if (matchedService) {
+      setSelectedService(matchedService.name);
+      setSelectedServiceId(matchedService.id);
+      updateBookingData({ service: matchedService.name });
+      fetchSubServices(matchedService.id);
+    }
+  }
+}, [services, serviceNameFromQuery]);
+
+useEffect(() => {
+  if (subServices.length > 0 && subServiceNameFromQuery) {
+    const matchedSub = subServices.find(
+      (s) => s.name.trim().toLowerCase() === subServiceNameFromQuery.trim().toLowerCase()
+    );
+
+    if (matchedSub) {
+      setSelectedSubService(matchedSub.name);
+      updateBookingData({ subService: matchedSub.name });
+    }
+  }
+}, [subServices, subServiceNameFromQuery]);
+
   return (
     <div className={booking.container}>
       <div className={booking.sectionSpacing}>
@@ -807,9 +841,8 @@ const Bookings: React.FC<BookingsProps> = ({
                 ref={serviceDropdownRef}
               >
                 <div
-                  className={`${booking.input} ${
-                    selectedService ? booking.selectedDropdown : ""
-                  }`}
+                  className={`${booking.input} ${selectedService ? booking.selectedDropdown : ""
+                    }`}
                   onClick={() => setIsServiceOpen(!isServiceOpen)}
                 >
                   {selectedService || "Select a service"}
@@ -852,9 +885,8 @@ const Bookings: React.FC<BookingsProps> = ({
                 ref={subServiceDropdownRef}
               >
                 <div
-                  className={`${booking.input} ${
-                    selectedSubService ? booking.selectedDropdown : ""
-                  }`}
+                  className={`${booking.input} ${selectedSubService ? booking.selectedDropdown : ""
+                    }`}
                   onClick={() => setIsSubServiceOpen(!isSubServiceOpen)}
                 >
                   {selectedSubService || "Select a sub service"}
@@ -907,9 +939,8 @@ const Bookings: React.FC<BookingsProps> = ({
                 ref={categoryDropdownRef}
               >
                 <div
-                  className={`${booking.input} ${
-                    cleaningCategory ? booking.selectedDropdown : ""
-                  }`}
+                  className={`${booking.input} ${cleaningCategory ? booking.selectedDropdown : ""
+                    }`}
                   onClick={() => setIsCategoryOpen((prev) => !prev)}
                 >
                   {cleaningCategory || "Select Category"}
@@ -955,9 +986,8 @@ const Bookings: React.FC<BookingsProps> = ({
                   ref={typeDropdownRef}
                 >
                   <div
-                    className={`${booking.input} ${
-                      selectedType ? booking.selectedDropdown : ""
-                    }`}
+                    className={`${booking.input} ${selectedType ? booking.selectedDropdown : ""
+                      }`}
                     onClick={() => setIsTypeOpen(!isTypeOpen)}
                   >
                     {selectedType || "Select the Type"}
@@ -1105,18 +1135,16 @@ const Bookings: React.FC<BookingsProps> = ({
               <div className={booking.buttonGroup}>
                 <button
                   type="button"
-                  className={`${booking.yesnobuttons} ${
-                    siteVisit === "yes" ? booking.selected : ""
-                  }`}
+                  className={`${booking.yesnobuttons} ${siteVisit === "yes" ? booking.selected : ""
+                    }`}
                   onClick={() => setSiteVisit("yes")}
                 >
                   Yes
                 </button>
                 <button
                   type="button"
-                  className={`${booking.yesnobuttons} ${
-                    siteVisit === "no" ? booking.selected : ""
-                  }`}
+                  className={`${booking.yesnobuttons} ${siteVisit === "no" ? booking.selected : ""
+                    }`}
                   onClick={() => setSiteVisit("no")}
                 >
                   No
@@ -1142,85 +1170,85 @@ const Bookings: React.FC<BookingsProps> = ({
             <>
               {selectedSubService.trim().toLowerCase() ===
                 "windows cleaning" && (
-                <>
-                  {/* SERVICE */}
-                  <div className={booking.fieldGroup}>
-                    <label
-                      className={booking.label}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      NO OF WINDOWS
-                    </label>
+                  <>
+                    {/* SERVICE */}
+                    <div className={booking.fieldGroup}>
+                      <label
+                        className={booking.label}
+                        style={{ marginBottom: "10px" }}
+                      >
+                        NO OF WINDOWS
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        placeholder="Enter number of windows"
+                        value={numberOfWindows}
+                        onChange={(e) => {
+                          setNumberOfWindows(e.target.value);
+                          setFormErrors((prev) => ({
+                            ...prev,
+                            numberOfWindows: "",
+                          }));
+                        }}
+                        className={booking.input}
+                        style={{ backgroundImage: "none" }}
+                      />
+
+                      {formErrors.numberOfWindows && (
+                        <p className="errorText">{formErrors.numberOfWindows}</p>
+                      )}
+                    </div>
+                  </>
+                )}
+              {selectedSubService.trim().toLowerCase() ===
+                "swimming pool cleaning" && (
+                  <>
+                    <label className={booking.label}>AREA (SQ. FT.)</label>
                     <input
                       type="number"
                       min="1"
-                      placeholder="Enter number of windows"
-                      value={numberOfWindows}
+                      placeholder="Enter area in square feet"
+                      value={squareFootage}
                       onChange={(e) => {
-                        setNumberOfWindows(e.target.value);
-                        setFormErrors((prev) => ({
-                          ...prev,
-                          numberOfWindows: "",
-                        }));
+                        setSquareFootage(e.target.value);
+                        setFormErrors((prev) => ({ ...prev, squareFootage: "" }));
                       }}
                       className={booking.input}
                       style={{ backgroundImage: "none" }}
                     />
 
-                    {formErrors.numberOfWindows && (
-                      <p className="errorText">{formErrors.numberOfWindows}</p>
+                    {formErrors.squareFootage && (
+                      <p className="errorText">{formErrors.squareFootage}</p>
                     )}
-                  </div>
-                </>
-              )}
-              {selectedSubService.trim().toLowerCase() ===
-                "swimming pool cleaning" && (
-                <>
-                  <label className={booking.label}>AREA (SQ. FT.)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Enter area in square feet"
-                    value={squareFootage}
-                    onChange={(e) => {
-                      setSquareFootage(e.target.value);
-                      setFormErrors((prev) => ({ ...prev, squareFootage: "" }));
-                    }}
-                    className={booking.input}
-                    style={{ backgroundImage: "none" }}
-                  />
-
-                  {formErrors.squareFootage && (
-                    <p className="errorText">{formErrors.squareFootage}</p>
-                  )}
-                </>
-              )}
+                  </>
+                )}
               {selectedSubService.trim().toLowerCase() ===
                 "chandelier cleaning services" && (
-                <>
-                  <label
-                    className={booking.label}
-                    style={{ marginBottom: "10px" }}
-                  >
-                    NUMBER OF ITEMS
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Enter no of items"
-                    value={numberOfItems}
-                    onChange={(e) => {
-                      setNumberOfItems(e.target.value);
-                      setFormErrors((prev) => ({ ...prev, numberOfItems: "" }));
-                    }}
-                    className={booking.input}
-                    style={{ backgroundImage: "none" }}
-                  />
-                  {formErrors.numberOfItems && (
-                    <p className="errorText">{formErrors.numberOfItems}</p>
-                  )}
-                </>
-              )}
+                  <>
+                    <label
+                      className={booking.label}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      NUMBER OF ITEMS
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder="Enter no of items"
+                      value={numberOfItems}
+                      onChange={(e) => {
+                        setNumberOfItems(e.target.value);
+                        setFormErrors((prev) => ({ ...prev, numberOfItems: "" }));
+                      }}
+                      className={booking.input}
+                      style={{ backgroundImage: "none" }}
+                    />
+                    {formErrors.numberOfItems && (
+                      <p className="errorText">{formErrors.numberOfItems}</p>
+                    )}
+                  </>
+                )}
 
               {/* Image/Video Upload Field */}
               <label className={booking.label}>Upload Images/Videos</label>
@@ -1255,9 +1283,8 @@ const Bookings: React.FC<BookingsProps> = ({
                       setSelectedStaff(num),
                         updateBookingData({ staffCount: num });
                     }}
-                    className={`${booking.optionButton} ${
-                      selectedStaff === num ? booking.selected : ""
-                    } ${booking.fixedSizeBtn}`}
+                    className={`${booking.optionButton} ${selectedStaff === num ? booking.selected : ""
+                      } ${booking.fixedSizeBtn}`}
                     type="button"
                   >
                     {num}
@@ -1282,9 +1309,8 @@ const Bookings: React.FC<BookingsProps> = ({
                         setSelectedHours(hour),
                           updateBookingData({ hoursCount: hour });
                       }}
-                      className={`${booking.optionButton} ${
-                        selectedHours === hour ? booking.selected : ""
-                      }`}
+                      className={`${booking.optionButton} ${selectedHours === hour ? booking.selected : ""
+                        }`}
                       type="button"
                     >
                       {hour}
@@ -1302,7 +1328,7 @@ const Bookings: React.FC<BookingsProps> = ({
               <>
                 {/* SPECIFICS or UNITS Input */}
                 {selectedService.trim().toLowerCase() === "cleaning services" &&
-                selectedSubService.trim().toLowerCase() === "duct cleaning" ? (
+                  selectedSubService.trim().toLowerCase() === "duct cleaning" ? (
                   <>
                     <label className={booking.label}>UNITS</label>
                     <input
@@ -1324,9 +1350,8 @@ const Bookings: React.FC<BookingsProps> = ({
                           ref={specificDropdownRef}
                         >
                           <div
-                            className={`${booking.input} ${
-                              selectedSpecific ? booking.selectedDropdown : ""
-                            }`}
+                            className={`${booking.input} ${selectedSpecific ? booking.selectedDropdown : ""
+                              }`}
                             onClick={() => setIsSpecificOpen(!isSpecificOpen)}
                           >
                             <p className={booking.place}>
@@ -1340,201 +1365,201 @@ const Bookings: React.FC<BookingsProps> = ({
                             <div className={booking.customdropdown}>
                               {selectedSubService.trim().toLowerCase() ===
                                 "upholstery cleaning" && (
-                                <>
-                                  {selectedType.trim().toLowerCase() ===
-                                    "dining chair / sofa" &&
-                                    Array.from(
-                                      { length: 10 },
-                                      (_, i) => i + 1
-                                    ).map((count) => (
-                                      <div
-                                        key={count}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(`${count}`);
-                                          setFormErrors((prev) => ({
-                                            ...prev,
-                                            specific: "",
-                                          }));
-                                          setIsSpecificOpen(false);
-                                        }}
-                                      >
-                                        {count}
-                                      </div>
-                                    ))}
-                                  {selectedType === "Mattress" &&
-                                    [
-                                      "Single",
-                                      "Double King",
-                                      "Double Queen",
-                                    ].map((price) => (
-                                      <div
-                                        key={price}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(price);
-                                          setFormErrors((prev) => ({
-                                            ...prev,
-                                            specific: "",
-                                          }));
-                                          setIsSpecificOpen(false);
-                                        }}
-                                      >
-                                        {price}
-                                      </div>
-                                    ))}
-                                  {selectedType.trim().toLowerCase() ===
-                                    "rugs" &&
-                                    ["Small", "medium", "large"].map((size) => {
-                                      // Find the corresponding price from your upholstery data
-                                      const rugItem = upholsteryRates.find(
-                                        (item) =>
-                                          item.category === "upholstery" &&
-                                          item.type === "rugs" &&
-                                          item.specification?.toLowerCase() ===
-                                            size.toLowerCase()
-                                      );
-
-                                      return (
+                                  <>
+                                    {selectedType.trim().toLowerCase() ===
+                                      "dining chair / sofa" &&
+                                      Array.from(
+                                        { length: 10 },
+                                        (_, i) => i + 1
+                                      ).map((count) => (
                                         <div
-                                          key={size}
+                                          key={count}
                                           className={booking.dropdownitem}
                                           onClick={() => {
-                                            setSelectedSpecific(size);
+                                            setSelectedSpecific(`${count}`);
                                             setFormErrors((prev) => ({
                                               ...prev,
                                               specific: "",
                                             }));
                                             setIsSpecificOpen(false);
-                                            // Optionally, you can also set the price somewhere
-                                            if (rugItem)
-                                              setSelectedDetail(
-                                                `${size} - ${rugItem.price} AED`
-                                              );
                                           }}
                                         >
-                                          {size}{" "}
-                                          {rugItem
-                                            ? `- ${rugItem.price} AED`
-                                            : ""}
-                                        </div>
-                                      );
-                                    })}
-
-                                  {selectedType === "Carpet" &&
-                                    Array.from(
-                                      { length: 10 },
-                                      (_, i) => i + 1
-                                    ).map((count) => (
-                                      <div
-                                        key={count}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(count.toString());
-                                          setCarpetCount(count);
-                                          setCarpetAreas(Array(count).fill(""));
-                                          setFormErrors((prev) => ({
-                                            ...prev,
-                                            specific: "",
-                                          }));
-                                          setIsSpecificOpen(false);
-                                        }}
-                                      >
-                                        {count}
-                                      </div>
-                                    ))}
-                                  {formErrors.carpetAreas && (
-                                    <p className="errorText">
-                                      {formErrors.carpetAreas}
-                                    </p>
-                                  )}
-
-                                  {selectedType === "Rugs" &&
-                                    serviceOptions
-                                      .filter(
-                                        (item: any) =>
-                                          item.type.toLowerCase() === "rugs" &&
-                                          item.category.toLowerCase() === "deep"
-                                      )
-                                      .map((option: any) => (
-                                        <div
-                                          key={option.id}
-                                          className={booking.dropdownitem}
-                                          onClick={() => {
-                                            setSelectedSpecific(
-                                              option.specification
-                                            ); // e.g., Small / Medium / Large
-                                            setIsSpecificOpen(false);
-                                            setFormErrors((prev) => ({
-                                              ...prev,
-                                              specific: "",
-                                            }));
-
-                                            // Dynamically calculate and set price
-                                            calculatePrice(
-                                              "Rugs",
-                                              option.specification,
-                                              itemCount, // number of rugs selected
-                                              serviceOptions
-                                            );
-
-                                            // Also set the selected detail text
-                                            setSelectedDetail(
-                                              `${option.specification} - ${option.price} AED`
-                                            );
-                                          }}
-                                        >
-                                          {option.specification} – AED{" "}
-                                          {option.price}
+                                          {count}
                                         </div>
                                       ))}
-                                </>
-                              )}
+                                    {selectedType === "Mattress" &&
+                                      [
+                                        "Single",
+                                        "Double King",
+                                        "Double Queen",
+                                      ].map((price) => (
+                                        <div
+                                          key={price}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(price);
+                                            setFormErrors((prev) => ({
+                                              ...prev,
+                                              specific: "",
+                                            }));
+                                            setIsSpecificOpen(false);
+                                          }}
+                                        >
+                                          {price}
+                                        </div>
+                                      ))}
+                                    {selectedType.trim().toLowerCase() ===
+                                      "rugs" &&
+                                      ["Small", "medium", "large"].map((size) => {
+                                        // Find the corresponding price from your upholstery data
+                                        const rugItem = upholsteryRates.find(
+                                          (item) =>
+                                            item.category === "upholstery" &&
+                                            item.type === "rugs" &&
+                                            item.specification?.toLowerCase() ===
+                                            size.toLowerCase()
+                                        );
+
+                                        return (
+                                          <div
+                                            key={size}
+                                            className={booking.dropdownitem}
+                                            onClick={() => {
+                                              setSelectedSpecific(size);
+                                              setFormErrors((prev) => ({
+                                                ...prev,
+                                                specific: "",
+                                              }));
+                                              setIsSpecificOpen(false);
+                                              // Optionally, you can also set the price somewhere
+                                              if (rugItem)
+                                                setSelectedDetail(
+                                                  `${size} - ${rugItem.price} AED`
+                                                );
+                                            }}
+                                          >
+                                            {size}{" "}
+                                            {rugItem
+                                              ? `- ${rugItem.price} AED`
+                                              : ""}
+                                          </div>
+                                        );
+                                      })}
+
+                                    {selectedType === "Carpet" &&
+                                      Array.from(
+                                        { length: 10 },
+                                        (_, i) => i + 1
+                                      ).map((count) => (
+                                        <div
+                                          key={count}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(count.toString());
+                                            setCarpetCount(count);
+                                            setCarpetAreas(Array(count).fill(""));
+                                            setFormErrors((prev) => ({
+                                              ...prev,
+                                              specific: "",
+                                            }));
+                                            setIsSpecificOpen(false);
+                                          }}
+                                        >
+                                          {count}
+                                        </div>
+                                      ))}
+                                    {formErrors.carpetAreas && (
+                                      <p className="errorText">
+                                        {formErrors.carpetAreas}
+                                      </p>
+                                    )}
+
+                                    {selectedType === "Rugs" &&
+                                      serviceOptions
+                                        .filter(
+                                          (item: any) =>
+                                            item.type.toLowerCase() === "rugs" &&
+                                            item.category.toLowerCase() === "deep"
+                                        )
+                                        .map((option: any) => (
+                                          <div
+                                            key={option.id}
+                                            className={booking.dropdownitem}
+                                            onClick={() => {
+                                              setSelectedSpecific(
+                                                option.specification
+                                              ); // e.g., Small / Medium / Large
+                                              setIsSpecificOpen(false);
+                                              setFormErrors((prev) => ({
+                                                ...prev,
+                                                specific: "",
+                                              }));
+
+                                              // Dynamically calculate and set price
+                                              calculatePrice(
+                                                "Rugs",
+                                                option.specification,
+                                                itemCount, // number of rugs selected
+                                                serviceOptions
+                                              );
+
+                                              // Also set the selected detail text
+                                              setSelectedDetail(
+                                                `${option.specification} - ${option.price} AED`
+                                              );
+                                            }}
+                                          >
+                                            {option.specification} – AED{" "}
+                                            {option.price}
+                                          </div>
+                                        ))}
+                                  </>
+                                )}
                               {/* ✅ Regular logic for Apartment, Townhouse, Villa */}
                               {selectedSubService.trim().toLowerCase() !==
                                 "upholstery cleaning" && (
-                                <>
-                                  {selectedType === "Apartment" &&
-                                    [
-                                      "Studio",
-                                      "1BHK Apartment",
-                                      "2BHK Apartment",
-                                      "3BHK Apartment",
-                                    ].map((option) => (
-                                      <div
-                                        key={option}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(option); // ✅ save the chosen option
-                                          setIsSpecificOpen(false); // ✅ close dropdown
-                                          setFormErrors((prev) => ({
-                                            // ✅ clear error if any
-                                            ...prev,
-                                            specific: "",
-                                          }));
-                                        }}
-                                      >
-                                        {option}
-                                      </div>
-                                    ))}
-                                  {selectedType === "Townhouse" &&
-                                    ["2BHK", "3BHK", "4BHK"].map((option) => (
-                                      <div
-                                        key={option}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(option);
-                                          setIsSpecificOpen(false);
-                                          // setFormErrors(prev => ({ ...prev, specific: "" }));
-                                        }}
-                                      >
-                                        {option}
-                                      </div>
-                                    ))}
-                                  {selectedType === "Villa" &&
-                                    (selectedService.trim().toLowerCase() ===
-                                    "cleaning services"
-                                      ? [
+                                  <>
+                                    {selectedType === "Apartment" &&
+                                      [
+                                        "Studio",
+                                        "1BHK Apartment",
+                                        "2BHK Apartment",
+                                        "3BHK Apartment",
+                                      ].map((option) => (
+                                        <div
+                                          key={option}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(option); // ✅ save the chosen option
+                                            setIsSpecificOpen(false); // ✅ close dropdown
+                                            setFormErrors((prev) => ({
+                                              // ✅ clear error if any
+                                              ...prev,
+                                              specific: "",
+                                            }));
+                                          }}
+                                        >
+                                          {option}
+                                        </div>
+                                      ))}
+                                    {selectedType === "Townhouse" &&
+                                      ["2BHK", "3BHK", "4BHK"].map((option) => (
+                                        <div
+                                          key={option}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(option);
+                                            setIsSpecificOpen(false);
+                                            // setFormErrors(prev => ({ ...prev, specific: "" }));
+                                          }}
+                                        >
+                                          {option}
+                                        </div>
+                                      ))}
+                                    {selectedType === "Villa" &&
+                                      (selectedService.trim().toLowerCase() ===
+                                        "cleaning services"
+                                        ? [
                                           "2BHK",
                                           "3BHK",
                                           "4BHK",
@@ -1542,31 +1567,31 @@ const Bookings: React.FC<BookingsProps> = ({
                                           "6BHK",
                                           "7BHK",
                                         ]
-                                      : ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK"]
-                                    ).map((option) => (
-                                      <div
-                                        key={option}
-                                        className={booking.dropdownitem}
-                                        onClick={() => {
-                                          setSelectedSpecific(option);
-                                          setIsSpecificOpen(false);
-                                          // setFormErrors(prev => ({ ...prev, specific: "" }));
-                                        }}
-                                      >
-                                        {option}
-                                      </div>
-                                    ))}
-                                  {![
-                                    "Apartment",
-                                    "Townhouse",
-                                    "Villa",
-                                  ].includes(selectedType) && (
-                                    <div className={booking.dropdownitem}>
-                                      Please select a type first
-                                    </div>
-                                  )}
-                                </>
-                              )}
+                                        : ["2BHK", "3BHK", "4BHK", "5BHK", "6BHK"]
+                                      ).map((option) => (
+                                        <div
+                                          key={option}
+                                          className={booking.dropdownitem}
+                                          onClick={() => {
+                                            setSelectedSpecific(option);
+                                            setIsSpecificOpen(false);
+                                            // setFormErrors(prev => ({ ...prev, specific: "" }));
+                                          }}
+                                        >
+                                          {option}
+                                        </div>
+                                      ))}
+                                    {![
+                                      "Apartment",
+                                      "Townhouse",
+                                      "Villa",
+                                    ].includes(selectedType) && (
+                                        <div className={booking.dropdownitem}>
+                                          Please select a type first
+                                        </div>
+                                      )}
+                                  </>
+                                )}
                             </div>
                           )}
                         </div>
@@ -1574,7 +1599,7 @@ const Bookings: React.FC<BookingsProps> = ({
                         {selectedService.toLowerCase() ===
                           "cleaning services" &&
                           selectedSubService.toLowerCase() ===
-                            "deep cleaning" &&
+                          "deep cleaning" &&
                           cleaningCategory === "Residential" &&
                           selectedType === "Apartment" && (
                             <div className={booking.formGroup}>
@@ -1583,11 +1608,10 @@ const Bookings: React.FC<BookingsProps> = ({
                               </label>
                               <div className={booking.customselectwrapper}>
                                 <div
-                                  className={`${booking.input} ${
-                                    residentialCleanType
+                                  className={`${booking.input} ${residentialCleanType
                                       ? booking.selectedDropdown
                                       : ""
-                                  }`}
+                                    }`}
                                   onClick={() =>
                                     setIsResidentialTypeOpen(
                                       !isResidentialTypeOpen
@@ -1642,16 +1666,14 @@ const Bookings: React.FC<BookingsProps> = ({
                           Carpet Sizes (in sq ft)
                         </label>
                         <div
-                          className={`${booking.carpetWrap} ${
-                            carpetCount === 1 ? booking.singleCarpetWrap : ""
-                          }`}
+                          className={`${booking.carpetWrap} ${carpetCount === 1 ? booking.singleCarpetWrap : ""
+                            }`}
                         >
                           {Array.from({ length: carpetCount }).map((_, i) => (
                             <div
                               key={i}
-                              className={`${booking.carpetInputCard} ${
-                                carpetCount === 1 ? booking.fullWidth : ""
-                              }`}
+                              className={`${booking.carpetInputCard} ${carpetCount === 1 ? booking.fullWidth : ""
+                                }`}
                             >
                               <label className={booking.carpetLabel}>
                                 Carpet {i + 1}
@@ -1740,9 +1762,8 @@ const Bookings: React.FC<BookingsProps> = ({
                         ref={detailDropdownRef}
                       >
                         <div
-                          className={`${booking.input} ${
-                            selectedDetail ? booking.selectedDropdown : ""
-                          }`}
+                          className={`${booking.input} ${selectedDetail ? booking.selectedDropdown : ""
+                            }`}
                           onClick={() => setIsDetailOpen(!isDetailOpen)}
                         >
                           {selectedDetail || "Select Detail"}
@@ -1750,7 +1771,7 @@ const Bookings: React.FC<BookingsProps> = ({
                         {isDetailOpen && (
                           <div className={booking.customdropdown}>
                             {selectedService.trim().toLowerCase() ===
-                            "pest control" ? (
+                              "pest control" ? (
                               selectedDetail ? (
                                 <div
                                   className={booking.dropdownitem}
@@ -1764,7 +1785,7 @@ const Bookings: React.FC<BookingsProps> = ({
                                 </div>
                               )
                             ) : selectedSubService.trim().toLowerCase() ===
-                                "upholstery cleaning" && selectedSpecific ? (
+                              "upholstery cleaning" && selectedSpecific ? (
                               selectedType === "Rugs" ? (
                                 <div
                                   className={booking.dropdownitem}
@@ -2106,7 +2127,7 @@ const Bookings: React.FC<BookingsProps> = ({
                                           (item) =>
                                             item.type === "Villa" &&
                                             item.specification ===
-                                              selectedSpecific
+                                            selectedSpecific
                                         )
                                         .map((item, index) => (
                                           <div
@@ -2129,23 +2150,22 @@ const Bookings: React.FC<BookingsProps> = ({
                             {/* Default fallback */}
                             {selectedSubService?.trim().toLowerCase() ===
                               "duct cleaning" && (
-                              <div
-                                className={booking.dropdownitem}
-                                onClick={() => {
-                                  const units = Number(selectedSpecific) || 0;
-                                  const total = ductPrice * units;
-                                  setSelectedDetail(`AED ${total}`);
-                                  setIsDetailOpen(false);
-                                }}
-                              >
-                                {selectedSpecific
-                                  ? `Total: AED ${
-                                      ductPrice *
-                                      (Number(selectedSpecific) || 0)
+                                <div
+                                  className={booking.dropdownitem}
+                                  onClick={() => {
+                                    const units = Number(selectedSpecific) || 0;
+                                    const total = ductPrice * units;
+                                    setSelectedDetail(`AED ${total}`);
+                                    setIsDetailOpen(false);
+                                  }}
+                                >
+                                  {selectedSpecific
+                                    ? `Total: AED ${ductPrice *
+                                    (Number(selectedSpecific) || 0)
                                     }`
-                                  : `Please enter units`}
-                              </div>
-                            )}
+                                    : `Please enter units`}
+                                </div>
+                              )}
                           </div>
                         )}
                       </div>
@@ -2315,9 +2335,8 @@ const Bookings: React.FC<BookingsProps> = ({
                 setSelectedFreq(freq);
                 updateBookingData({ frequency: freq });
               }}
-              className={`${booking.daysoption} ${
-                selectedFreq === freq ? booking.selected : ""
-              }`}
+              className={`${booking.daysoption} ${selectedFreq === freq ? booking.selected : ""
+                }`}
             >
               {freq === "Weekly" ? (
                 <div className={booking.labelRow}>
@@ -2366,9 +2385,8 @@ const Bookings: React.FC<BookingsProps> = ({
         </div>
         <div className={booking.buttonGroup}>
           <button
-            className={`${booking.yesnobuttons} ${
-              selected === "no" ? booking.selected : ""
-            }`}
+            className={`${booking.yesnobuttons} ${selected === "no" ? booking.selected : ""
+              }`}
             onClick={() => {
               setSelected("no");
               updateBookingData({ cleaningMaterials: "no" });
@@ -2378,9 +2396,8 @@ const Bookings: React.FC<BookingsProps> = ({
             No{" "}
           </button>
           <button
-            className={`${booking.yesnobuttons} ${
-              selected === "yes" ? booking.selected : ""
-            }`}
+            className={`${booking.yesnobuttons} ${selected === "yes" ? booking.selected : ""
+              }`}
             onClick={() => {
               setSelected("yes"); // or "no"
               updateBookingData({ cleaningMaterials: "yes" });

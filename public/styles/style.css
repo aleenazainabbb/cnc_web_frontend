@@ -316,11 +316,12 @@ ul {
 .form-select:focus {
     box-shadow: none;
 }
+
 /* Fix DatePicker hover and input behavior */
-.react-datepicker-wrapper , 
+.react-datepicker-wrapper,
 .form-select {
-  cursor: pointer !important;
-  /* appearance: textfield !important; */
+    cursor: pointer !important;
+    /* appearance: textfield !important; */
 }
 
 
@@ -331,18 +332,23 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-
+.disabled-button {
+    cursor: url('/red-disabled-cursor.cur'), not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
 
 /* End Utilities */
 
 /* Main Header */
 
-.emergency_contact{
+.emergency_contact {
     font-size: 13px;
 }
+
 .emergency_contact span {
     font-size: 13px;
-    
+
 }
 
 .navbar-nav .nav-item .nav-link {
@@ -402,16 +408,22 @@ input[type="number"]::-webkit-inner-spin-button {
     max-height: 385px;
     width: 100%;
 }
+
 /* make the select scrollable horizontally */
-.form-select, .date {
-  white-space: nowrap;      /* prevent text from wrapping */
-  overflow-x: auto;         /* allow horizontal scrolling */
-  text-overflow: ellipsis;  /* show ... if text is too long */
+.form-select,
+.date {
+    white-space: nowrap;
+    /* prevent text from wrapping */
+    overflow-x: auto;
+    /* allow horizontal scrolling */
+    text-overflow: ellipsis;
+    /* show ... if text is too long */
 }
 
 /* for options inside select, keep nowrap (some browsers) */
-.form-select option ,.date{
-  white-space: nowrap;
+.form-select option,
+.date {
+    white-space: nowrap;
 }
 
 .getAquote-form {
@@ -443,6 +455,12 @@ input[type="number"]::-webkit-inner-spin-button {
     border: 1px solid #12153a;
     color: #12153a !important;
     background-color: transparent !important;
+}
+
+.banner-booking-btn:disabled {
+    background-color: gray !important;
+    border: 1px solid white !important;
+    color: white !important;
 }
 
 .round-icon {
@@ -1180,14 +1198,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* savedlocationcss */
 
-  .input-wrapper {
+.input-wrapper {
     position: relative;
-  } 
+}
 
 .errorText {
-  color: red;
-  font-size: 13px;
-  margin-top: 5px;
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
 }
 
 .feature_box {

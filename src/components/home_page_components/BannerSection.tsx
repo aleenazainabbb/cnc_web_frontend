@@ -9,6 +9,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import LinkWithLoader from "@/components/Loader/Link";
 import { useService } from "@/context/allservices";
+import ButtonLoader from "@/components/Loader/buttonLoader";
+import { useBooking } from "@/context/BookingContext";
 
 const banners = [
   {
@@ -80,7 +82,8 @@ const banners = [
 const BannerSection: React.FC = () => {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { updateBookingData } = useBooking();
   const [formData, setFormData] = useState({
     serviceId: "",
     subServiceId: "",
@@ -110,8 +113,47 @@ const BannerSection: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    router.push("/BookAservicePage");
+
+    //  Validate all fields
+    if (!formData.serviceId) {
+      alert("Please select a Service.");
+      return;
+    }
+    if (!formData.subServiceId) {
+      alert("Please select a Sub-Service.");
+      return;
+    }
+    if (!formData.time) {
+      alert("Please select a Time.");
+      return;
+    }
+    if (!formData.date) {
+      alert("Please select a Date.");
+      return;
+    }
+
+    // Get selected service and subservice objects
+    const selectedService = services.find((s) => s.id === Number(formData.serviceId));
+    const selectedSubService = subServices.find((sub) => sub.id === Number(formData.subServiceId));
+
+    if (!selectedService || !selectedSubService) {
+      alert("Invalid selection. Please try again.");
+      return;
+    }
+    setIsSubmitting(true); // ✅ START LOADER
+
+    //  Build URL with names (not IDs)
+    const queryParams = new URLSearchParams({
+      service: selectedService.name,
+      subService: selectedSubService.name,
+      time: formData.time,
+      date: formData.date,
+    }).toString();
+
+     // small timeout to allow loader to render
+  setTimeout(() => {
+    router.push(`/BookAservicePage?${queryParams}`);
+  }, 100); // 100ms is enough
   };
 
   const sliderSettings = {
@@ -265,21 +307,29 @@ const BannerSection: React.FC = () => {
                         className="form-select"
                         calendarClassName="custom-calendar"
                         popperPlacement="bottom"
-                         wrapperClassName="date-picker-wrapper"
+                        wrapperClassName="date-picker-wrapper"
                       />
                     </div>
                   </div>
 
                   {/* Submit Button */}
                   <div className="col-12 mt-4">
-                    <LinkWithLoader href="/BookAservicePage">
-                      <button
+
+                    {/* Submit Button */}
+                    <div className="col-12 mt-2">
+                      <ButtonLoader
                         type="submit"
+                        isLoading={isSubmitting}
+                        disabled={
+                          !formData.serviceId || !formData.subServiceId || !formData.time || !selectedDate
+                        }
                         className="be-vietnam-pro-semibold btn banner-booking-btn text-white"
                       >
                         Book A Service
-                      </button>
-                    </LinkWithLoader>
+                      </ButtonLoader>
+
+                    </div>
+
                   </div>
                 </div>
               </div>

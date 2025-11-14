@@ -44,9 +44,11 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
   const [discountInput, setDiscountInput] = useState(discountAmount);
   const [showLocationList, setShowLocationList] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNextClick = async () => {
     try {
+      setIsSubmitting(true); // ✅ start loader
       if (buttonLabel === "Pay Now") {
         // console.log("Booking quote submitted successfully");
       }
@@ -54,6 +56,10 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
     } catch (err: any) {
       console.error("Booking submission failed:", err.message);
     }
+    finally {
+      setIsSubmitting(false); // ✅ stop loader
+    }
+
   };
 
   // Update current date time when component mounts or resetTrigger changes
@@ -168,9 +174,36 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({
 
       <BillingPricesBox />
       <div className={styles.buttoncontainer}>
-        <button onClick={handleNextClick} className={styles.nextbutton}>
+        <button
+          onClick={handleNextClick}
+          className={styles.nextbutton}
+          disabled={isSubmitting}
+          style={{
+            cursor: isSubmitting ? "not-allowed" : "pointer",
+            position: "relative",
+          }}
+        >
           {buttonLabel}
+
+          {isSubmitting && (
+            <span
+              style={{
+                width: "16px",
+                height: "16px",
+                border: "2px solid #fff",
+                borderTop: "2px solid transparent",
+                borderRadius: "50%",
+                animation: "spin 0.8s linear infinite",
+                display: "inline-block",
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            />
+          )}
         </button>
+
       </div>
     </div>
   );
